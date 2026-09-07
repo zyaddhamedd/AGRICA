@@ -1,0 +1,40 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build output
+/.next/
+/out/
+
+# Build & distribution output
+/build
+/dist
+
+# TypeScript
+*.tsbuildinfo
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local environment files
+.env*.local
+.env
+
+# Scratch & temporary development scripts
+scratch/
+scratch_*.js
+
+# OS metadata
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE metadata
+.vscode/
+.idea/

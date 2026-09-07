@@ -1,0 +1,260 @@
+.three-worlds-section {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  background-color: #F3F1E8;
+  background-image: none;
+  box-sizing: border-box;
+  padding: clamp(54px, 8vh, 76px) clamp(22px, 6vw, 34px) clamp(54px, 8vh, 76px);
+  overflow: hidden;
+  color: #002050;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.three-worlds-section--preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  padding: clamp(14px, 2.5vh, 20px) clamp(14px, 4vw, 20px);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.three-worlds-section--preview .three-worlds-inner {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+.three-worlds-section--preview .three-worlds-header {
+  width: 100%;
+  margin-bottom: 2px;
+  justify-content: flex-start;
+}
+
+.three-worlds-section--preview .three-worlds-kicker {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.three-worlds-section--preview .three-worlds-wheel-wrap {
+  width: 100%;
+}
+
+.three-worlds-section--preview .three-worlds-wheel-wrap .option-wheel {
+  height: 140px;
+  --ow-font-size: clamp(30px, 8.5vw, 36px) !important;
+}
+
+.three-worlds-section--preview .three-worlds-stack-wrap {
+  margin-top: 8px;
+}
+
+.three-worlds-section--preview .stack-container {
+  width: 130px;
+  height: 130px;
+  max-width: 130px;
+  aspect-ratio: 1 / 1;
+}
+
+.three-worlds-section--preview .card {
+  border-radius: 10px;
+}
+
+.three-worlds-section--preview .three-worlds-action-zone {
+  margin-top: 8px;
+  width: 100%;
+  justify-content: center;
+}
+
+.three-worlds-section--preview .three-worlds-action-content {
+  width: auto;
+  align-items: center;
+  text-align: center;
+}
+
+.three-worlds-section--preview .three-worlds-micro-label {
+  font-size: 10px;
+  margin-bottom: 0;
+  letter-spacing: 0.14em;
+}
+
+.three-worlds-section--preview .three-worlds-action-link {
+  display: none;
+}
+
+.three-worlds-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+/* Header with kicker: 01 — 03 in AGRICA green */
+.three-worlds-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: clamp(4px, 1vh, 8px);
+}
+
+.three-worlds-kicker {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #50A010;
+  line-height: 1;
+}
+
+/* OptionWheel container area: occupies majority of upper/middle */
+.three-worlds-wheel-wrap {
+  width: 100%;
+  position: relative;
+  margin-bottom: 0;
+}
+
+/* Visual Stack area: sits with a clean, compact gap below the selector without overlapping */
+.three-worlds-stack-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: clamp(14px, 2.2vh, 20px);
+  padding-bottom: 0;
+}
+
+.three-worlds-stack-motion-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card inner visual styling */
+.three-worlds-card-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.three-worlds-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.three-worlds-card-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.02) 0%,
+    transparent 50%,
+    rgba(0, 32, 80, 0.22) 100%
+  );
+}
+
+/* 4. Active World Micro-label & Action Area */
+.three-worlds-action-zone {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(14px, 2.2vh, 20px);
+}
+
+.three-worlds-action-content {
+  width: clamp(175px, 48vw, 205px);
+  max-width: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.three-worlds-micro-label {
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+/* Editorial Action Link */
+.three-worlds-action-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2px 0 10px;
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.three-worlds-action-text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: 0.04em;
+  color: #002050;
+  line-height: 1;
+}
+
+.three-worlds-action-arrow {
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1);
+  margin-left: auto;
+}
+
+.three-worlds-action-rule {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  opacity: 0.4;
+  transition: opacity 0.22s ease, transform 0.22s ease, background-color 0.3s ease;
+}
+
+/* Tap / Hover interaction */
+.three-worlds-action-link:active .three-worlds-action-arrow,
+.three-worlds-action-link:hover .three-worlds-action-arrow {
+  transform: translate(4px, -4px);
+}
+
+.three-worlds-action-link:active .three-worlds-action-rule,
+.three-worlds-action-link:hover .three-worlds-action-rule {
+  opacity: 0.9;
+}
