@@ -20,8 +20,7 @@
   cursor: grabbing;
 }
 
-/* Each option is absolutely centered, then offset along the curve by the
-   rAF loop through transform/opacity/filter, so everything stays in step. */
+/* Vertical Wheel Mode (Desktop / default) */
 .option-wheel__item {
   position: absolute;
   top: 50%;
@@ -53,4 +52,42 @@
 .option-wheel__item--selected {
   font-weight: 400;
   color: #002050;
+}
+
+/* =========================================================================
+   Horizontal Wheel Mode (Mobile Editorial Cylindrical Selector)
+   ========================================================================= */
+.option-wheel--horizontal {
+  width: 100%;
+  height: clamp(155px, 20vh, 185px);
+  overflow: visible;
+  touch-action: pan-y;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.option-wheel--horizontal .option-wheel__item {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  transform-origin: center center;
+  text-align: center;
+  padding: 4px 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--ow-font-size, clamp(60px, 16vw, 74px));
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+  cursor: pointer;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform, opacity, filter;
+  color: color-mix(in srgb, var(--ow-active-color, #002050) calc(var(--ow-p, 0) * 100%), var(--ow-text-color, rgba(0, 32, 80, 0.44)));
+  transition: color 0.22s ease;
+}
+
+.option-wheel--horizontal .option-wheel__item--selected {
+  color: var(--ow-active-color, #002050);
 }

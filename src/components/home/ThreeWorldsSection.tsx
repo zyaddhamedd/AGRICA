@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { OptionWheel } from "./OptionWheel";
 import { Stack } from "./Stack";
+import { ThreeWorldsThemeLayer } from "./ThreeWorldsThemeLayer";
+import { WORLD_THEMES } from "./ThreeWorldsThemeConfig";
 import {
   THREE_WORLDS_DATA,
   THREE_WORLDS_LIST,
@@ -26,6 +28,7 @@ export interface ThreeWorldsSectionProps {
   autoDemoWorld?: boolean;
   isDemoFrozen?: boolean;
   stackAutoplayDelay?: number;
+  orientation?: "vertical" | "horizontal";
 }
 
 export function ThreeWorldsSection({
@@ -36,8 +39,22 @@ export function ThreeWorldsSection({
   autoDemoWorld = false,
   isDemoFrozen = false,
   stackAutoplayDelay,
+  orientation,
 }: ThreeWorldsSectionProps): React.JSX.Element {
   const [selectedWorld, setSelectedWorld] = useSharedWorld();
+  const [isMobile, setIsMobile] = useState(true);
+
+  React.useEffect(() => {
+    const mql = window.matchMedia("(max-width: 960px)");
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(e.matches);
+    };
+    handler(mql);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  const effectiveOrientation = orientation ?? (isMobile ? "horizontal" : "vertical");
 
   // Auto-demo world cycling for preview mode (~5.5 seconds per world).
   // User interaction always has priority over automatic behavior.
@@ -96,6 +113,8 @@ export function ThreeWorldsSection({
     ));
   }, [currentWorldConfig]);
 
+  const currentTheme = WORLD_THEMES[selectedWorld];
+
   return (
     <section
       id={id}
@@ -104,10 +123,14 @@ export function ThreeWorldsSection({
       style={
         {
           "--tw-accent": currentWorldConfig.accentColor,
+          "--tw-theme-base-bg": currentTheme.baseBg,
           pointerEvents: "auto",
         } as React.CSSProperties
       }
     >
+      {/* 3-Theme Background & Organic World Sweep System */}
+      <ThreeWorldsThemeLayer activeWorld={selectedWorld} />
+
       <div className="three-worlds-inner">
         {/* Minimal Kicker with world-specific accent */}
         <header className="three-worlds-header">
@@ -126,19 +149,27 @@ export function ThreeWorldsSection({
             defaultSelected={0}
             selectedIndex={selectedIndex}
             onChange={handleWheelChange}
+            orientation={effectiveOrientation}
             draggable={true}
-            textColor="rgba(0, 32, 80, 0.38)"
+            textColor={effectiveOrientation === "horizontal" ? "rgba(0, 32, 80, 0.44)" : "rgba(0, 32, 80, 0.38)"}
             activeColor="#002050"
-            fontSize={isPreview ? 2.3 : 3.5}
+            fontSize={
+              effectiveOrientation === "horizontal"
+                ? isPreview
+                  ? "clamp(44px, 13vw, 54px)"
+                  : "clamp(60px, 16vw, 74px)"
+                : isPreview
+                ? 2.3
+                : 3.5
+            }
             spacing={isPreview ? 1.15 : 1.25}
             curve={isPreview ? 0.75 : 0.85}
             tilt={isPreview ? 5.5 : 7.5}
             blur={0.6}
             fade={0.42}
             minOpacity={0.28}
-            smoothing={180}
+            smoothing={effectiveOrientation === "horizontal" ? 240 : 180}
             loop={false}
-            soundUrl=""
           />
         </div>
 
@@ -147,9 +178,13 @@ export function ThreeWorldsSection({
           <motion.div
             key={selectedWorld}
             className="three-worlds-stack-motion-stage"
-            initial={{ opacity: 0, y: 10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0.35, y: 6, scale: 0.96, rotate: -0.5 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+            transition={{
+              duration: 0.44,
+              delay: 0.28,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
             <Stack
               key={selectedWorld}
@@ -171,9 +206,9 @@ export function ThreeWorldsSection({
           <motion.div
             key={selectedWorld}
             className="three-worlds-action-content"
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0.4, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
+            transition={{ duration: 0.32, delay: 0.48, ease: "easeOut" }}
           >
             <span
               className="three-worlds-micro-label"

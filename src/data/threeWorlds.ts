@@ -119,7 +119,7 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     microLabel: '02 / IQF FROZEN',
     actionText: 'Explore Frozen',
     actionHref: '/products?world=frozen',
-    accentColor: '#287B9C',
+    accentColor: '#68AFC7',
     cards: [
       {
         id: 'frozen-1',
@@ -148,7 +148,7 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     microLabel: '03 / DRIED RANGE',
     actionText: 'Explore Dried',
     actionHref: '/products?world=dried',
-    accentColor: '#B66E28',
+    accentColor: '#B76A2B',
     cards: [
       {
         id: 'dried-1',

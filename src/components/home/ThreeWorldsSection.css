@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   min-height: 100svh;
-  background-color: #F3F1E8;
+  background-color: var(--tw-theme-base-bg, #F4F2E9);
   background-image: none;
   box-sizing: border-box;
   padding: clamp(54px, 8vh, 76px) clamp(22px, 6vw, 34px) clamp(54px, 8vh, 76px);
@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .three-worlds-section--preview {
@@ -18,7 +19,103 @@
   -webkit-user-select: none;
 }
 
+/* =========================================================================
+   3-Theme Background Layer & Organic World Sweep System
+   ========================================================================= */
+.three-worlds-theme-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.three-worlds-theme-layer {
+  position: absolute;
+  inset: 0;
+  transition: background-color 0.55s cubic-bezier(0.22, 1, 0.36, 1), background-image 0.55s ease;
+}
+
+.three-worlds-decor-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.three-worlds-decor-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Fluid Organic World Sweep Overlay */
+.three-worlds-sweep-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+/* Ambient Subtle Motion (4px–8px over long cycles) */
+.tw-fresh-ambient {
+  animation: twFreshDrift 14s ease-in-out infinite alternate;
+  transform-origin: 200px 300px;
+}
+@keyframes twFreshDrift {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(5px, -6px) rotate(0.8deg);
+  }
+}
+
+.tw-frozen-ambient {
+  animation: twFrozenDrift 16s ease-in-out infinite alternate;
+  transform-origin: 200px 200px;
+}
+@keyframes twFrozenDrift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-5px, 5px);
+  }
+}
+
+.tw-dried-ambient {
+  animation: twDriedDrift 15s ease-in-out infinite alternate;
+  transform-origin: 300px 300px;
+}
+@keyframes twDriedDrift {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(6px, -4px) rotate(-0.6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tw-fresh-ambient,
+  .tw-frozen-ambient,
+  .tw-dried-ambient {
+    animation: none !important;
+  }
+  .three-worlds-sweep-svg {
+    display: none !important;
+  }
+}
+
 .three-worlds-inner {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -53,6 +150,15 @@
   margin-bottom: 0;
   pointer-events: auto;
   z-index: 10;
+  overflow: visible;
+}
+
+@media (max-width: 960px) {
+  .three-worlds-wheel-wrap {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
 }
 
 /* Visual Stack area: sits with a clean, compact gap below the selector without overlapping */
