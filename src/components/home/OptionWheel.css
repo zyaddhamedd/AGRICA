@@ -10,7 +10,9 @@
   overflow: hidden;
   cursor: grab;
   user-select: none;
-  touch-action: pan-y;
+  -webkit-user-select: none;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
   outline: none;
 }
 
@@ -32,6 +34,9 @@
   letter-spacing: -0.035em;
   transform-origin: left center;
   cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  padding: 8px 48px 8px 0;
   will-change: transform, opacity, filter;
   /* --ow-p goes 0 -> 1 as an option approaches the middle of the wheel */
   color: color-mix(in srgb, var(--ow-active-color) calc(var(--ow-p, 0) * 100%), var(--ow-text-color));
@@ -42,6 +47,7 @@
   left: auto;
   right: var(--ow-inset);
   transform-origin: right center;
+  padding: 8px 0 8px 48px;
 }
 
 .option-wheel__item--selected {

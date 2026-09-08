@@ -1,36 +1,61 @@
-import { useState, useEffect, useCallback } from "react";
+import { useSyncExternalStore, useCallback } from "react";
 
 export type WorldKey = 'fresh' | 'frozen' | 'dried';
 
-let sharedWorldState: WorldKey = 'fresh';
-const sharedWorldListeners = new Set<(world: WorldKey) => void>();
+type SharedWorldStore = {
+  world: WorldKey;
+  interacted: boolean;
+  listeners: Set<() => void>;
+};
 
-export function getSharedWorld(): WorldKey {
-  return sharedWorldState;
+const g = (typeof window !== "undefined" ? window : globalThis) as unknown as {
+  __agricaSharedWorldStore?: SharedWorldStore;
+};
+
+if (!g.__agricaSharedWorldStore) {
+  g.__agricaSharedWorldStore = {
+    world: 'fresh',
+    interacted: false,
+    listeners: new Set<() => void>(),
+  };
 }
 
-export function setSharedWorld(world: WorldKey): void {
-  if (sharedWorldState !== world) {
-    sharedWorldState = world;
-    sharedWorldListeners.forEach((listener) => listener(world));
+const store = g.__agricaSharedWorldStore;
+
+export function getSharedWorld(): WorldKey {
+  return store.world;
+}
+
+export function hasUserInteracted(): boolean {
+  return store.interacted;
+}
+
+export function setUserInteracted(val: boolean = true): void {
+  store.interacted = val;
+}
+
+export function setSharedWorld(world: WorldKey, isManual: boolean = false): void {
+  if (isManual) {
+    store.interacted = true;
+  }
+  if (store.world !== world) {
+    store.world = world;
+    store.listeners.forEach((listener) => listener());
   }
 }
 
-export function useSharedWorld(): [WorldKey, (world: WorldKey) => void] {
-  const [world, setWorld] = useState<WorldKey>(sharedWorldState);
+function subscribe(callback: () => void) {
+  store.listeners.add(callback);
+  return () => {
+    store.listeners.delete(callback);
+  };
+}
 
-  useEffect(() => {
-    const handleUpdate = (newWorld: WorldKey) => {
-      setWorld(newWorld);
-    };
-    sharedWorldListeners.add(handleUpdate);
-    return () => {
-      sharedWorldListeners.delete(handleUpdate);
-    };
-  }, []);
+export function useSharedWorld(): [WorldKey, (world: WorldKey, isManual?: boolean) => void] {
+  const world = useSyncExternalStore(subscribe, getSharedWorld, () => 'fresh' as WorldKey);
 
-  const update = useCallback((newWorld: WorldKey) => {
-    setSharedWorld(newWorld);
+  const update = useCallback((newWorld: WorldKey, isManual: boolean = false) => {
+    setSharedWorld(newWorld, isManual);
   }, []);
 
   return [world, update];

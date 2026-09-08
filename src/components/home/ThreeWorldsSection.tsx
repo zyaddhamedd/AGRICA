@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { OptionWheel } from "./OptionWheel";
 import { Stack } from "./Stack";
 import {
@@ -10,6 +10,8 @@ import {
   THREE_WORLDS_LIST,
   useSharedWorld,
   getSharedWorld,
+  hasUserInteracted,
+  setUserInteracted,
   type WorldKey,
 } from "@/data/threeWorlds";
 import "./ThreeWorldsSection.css";
@@ -37,15 +39,21 @@ export function ThreeWorldsSection({
 }: ThreeWorldsSectionProps): React.JSX.Element {
   const [selectedWorld, setSelectedWorld] = useSharedWorld();
 
-  // Auto-demo world cycling for preview mode (~5.5 seconds per world)
+  // Auto-demo world cycling for preview mode (~5.5 seconds per world).
+  // User interaction always has priority over automatic behavior.
   React.useEffect(() => {
-    if (!isPreview || !autoDemoWorld || isDemoFrozen) return;
+    if (!isPreview || !autoDemoWorld || isDemoFrozen || hasUserInteracted()) return;
 
     const interval = setInterval(() => {
+      if (hasUserInteracted()) {
+        clearInterval(interval);
+        return;
+      }
       const current = getSharedWorld();
       const idx = THREE_WORLDS_LIST.indexOf(current);
       const nextIdx = (idx + 1) % THREE_WORLDS_LIST.length;
-      setSelectedWorld(THREE_WORLDS_LIST[nextIdx]);
+      const nextWorld = THREE_WORLDS_LIST[nextIdx];
+      setSelectedWorld(nextWorld, false);
     }, 5500);
 
     return () => clearInterval(interval);
@@ -62,13 +70,13 @@ export function ThreeWorldsSection({
 
   const handleWheelChange = useCallback(
     (index: number) => {
-      if (!interactive) return;
       const key = THREE_WORLDS_LIST[index];
       if (key) {
-        setSelectedWorld(key);
+        setUserInteracted(true);
+        setSelectedWorld(key, true);
       }
     },
-    [interactive, setSelectedWorld]
+    [setSelectedWorld]
   );
 
   const effectiveStackDelay = stackAutoplayDelay ?? (isPreview ? 2100 : 4000);
@@ -96,7 +104,7 @@ export function ThreeWorldsSection({
       style={
         {
           "--tw-accent": currentWorldConfig.accentColor,
-          pointerEvents: interactive ? "auto" : "none",
+          pointerEvents: "auto",
         } as React.CSSProperties
       }
     >
@@ -118,7 +126,7 @@ export function ThreeWorldsSection({
             defaultSelected={0}
             selectedIndex={selectedIndex}
             onChange={handleWheelChange}
-            draggable={interactive}
+            draggable={true}
             textColor="rgba(0, 32, 80, 0.38)"
             activeColor="#002050"
             fontSize={isPreview ? 2.3 : 3.5}
@@ -136,71 +144,65 @@ export function ThreeWorldsSection({
 
         {/* Visual Stack driven by OptionWheel selection */}
         <div className="three-worlds-stack-wrap">
-          <AnimatePresence mode="wait">
-            <motion.div
+          <motion.div
+            key={selectedWorld}
+            className="three-worlds-stack-motion-stage"
+            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Stack
               key={selectedWorld}
-              className="three-worlds-stack-motion-stage"
-              initial={{ opacity: 0, y: 10, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.98 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Stack
-                key={selectedWorld}
-                cards={currentCards}
-                autoplay={true}
-                autoplayDelay={effectiveStackDelay}
-                pauseOnHover={true}
-                randomRotation={false}
-                mobileClickOnly={true}
-                sendToBackOnClick={interactive}
-                sensitivity={140}
-                animationConfig={{ stiffness: 220, damping: 26 }}
-              />
-            </motion.div>
-          </AnimatePresence>
+              cards={currentCards}
+              autoplay={true}
+              autoplayDelay={effectiveStackDelay}
+              pauseOnHover={true}
+              randomRotation={false}
+              mobileClickOnly={true}
+              sendToBackOnClick={true}
+              sensitivity={140}
+              animationConfig={{ stiffness: 220, damping: 26 }}
+            />
+          </motion.div>
         </div>
 
         {/* Active World Micro-label & Editorial Category Action */}
         <div className="three-worlds-action-zone">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedWorld}
-              className="three-worlds-action-content"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
+          <motion.div
+            key={selectedWorld}
+            className="three-worlds-action-content"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+          >
+            <span
+              className="three-worlds-micro-label"
+              style={{ color: currentWorldConfig.accentColor }}
             >
-              <span
-                className="three-worlds-micro-label"
-                style={{ color: currentWorldConfig.accentColor }}
-              >
-                {currentWorldConfig.microLabel}
-              </span>
+              {currentWorldConfig.microLabel}
+            </span>
 
-              <Link
-                href={currentWorldConfig.actionHref}
-                className="three-worlds-action-link"
+            <Link
+              href={currentWorldConfig.actionHref}
+              className="three-worlds-action-link"
+            >
+              <span className="three-worlds-action-text">
+                {currentWorldConfig.actionText}
+              </span>
+              <span
+                className="three-worlds-action-arrow"
+                style={{ color: currentWorldConfig.accentColor }}
+                aria-hidden="true"
               >
-                <span className="three-worlds-action-text">
-                  {currentWorldConfig.actionText}
-                </span>
-                <span
-                  className="three-worlds-action-arrow"
-                  style={{ color: currentWorldConfig.accentColor }}
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
-                <span
-                  className="three-worlds-action-rule"
-                  style={{ backgroundColor: currentWorldConfig.accentColor }}
-                  aria-hidden="true"
-                />
-              </Link>
-            </motion.div>
-          </AnimatePresence>
+                ↗
+              </span>
+              <span
+                className="three-worlds-action-rule"
+                style={{ backgroundColor: currentWorldConfig.accentColor }}
+                aria-hidden="true"
+              />
+            </Link>
+          </motion.div>
         </div>
       </div>
     </section>

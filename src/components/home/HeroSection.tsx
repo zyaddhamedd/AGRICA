@@ -186,14 +186,14 @@ export function HeroSection(): React.JSX.Element {
 
         const initial = measureSlot();
 
-        // Initial preview position matching Row 2 exactly (5 / 6 aspect ratio)
+        // Initial preview position matching Row 2 exactly (small teaser promo)
         gsap.set(win, {
           top: initial.top,
           left: initial.left,
           width: initial.width,
           height: initial.height,
           borderRadius: 11,
-          boxShadow: "0 12px 28px rgba(0, 10, 24, 0.45)",
+          boxShadow: "0 10px 24px rgba(0, 10, 24, 0.42)",
         });
 
         gsap.set(canvas, {
@@ -239,7 +239,7 @@ export function HeroSection(): React.JSX.Element {
           .to(
             canvas,
             {
-              scale: 1.38,
+              scale: 1,
               duration: 0.78,
               ease: "power1.inOut",
             },
@@ -464,7 +464,7 @@ export function HeroSection(): React.JSX.Element {
             <ThreeWorldsSection
               id="three-worlds-preview"
               isPreview={true}
-              interactive={false}
+              interactive={true}
               autoDemoWorld={true}
               isDemoFrozen={isDemoFrozen}
               stackAutoplayDelay={2100}

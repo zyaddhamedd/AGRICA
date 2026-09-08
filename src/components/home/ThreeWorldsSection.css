@@ -14,87 +14,8 @@
 }
 
 .three-worlds-section--preview {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  padding: clamp(14px, 2.5vh, 20px) clamp(14px, 4vw, 20px);
-  pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.three-worlds-section--preview .three-worlds-inner {
-  width: 100%;
-  max-width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
-}
-
-.three-worlds-section--preview .three-worlds-header {
-  width: 100%;
-  margin-bottom: 2px;
-  justify-content: flex-start;
-}
-
-.three-worlds-section--preview .three-worlds-kicker {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-}
-
-.three-worlds-section--preview .three-worlds-wheel-wrap {
-  width: 100%;
-}
-
-.three-worlds-section--preview .three-worlds-wheel-wrap .option-wheel {
-  height: 140px;
-  --ow-font-size: clamp(30px, 8.5vw, 36px) !important;
-}
-
-.three-worlds-section--preview .three-worlds-stack-wrap {
-  margin-top: 8px;
-}
-
-.three-worlds-section--preview .stack-container {
-  width: 130px;
-  height: 130px;
-  max-width: 130px;
-  aspect-ratio: 1 / 1;
-}
-
-.three-worlds-section--preview .card {
-  border-radius: 10px;
-}
-
-.three-worlds-section--preview .three-worlds-action-zone {
-  margin-top: 8px;
-  width: 100%;
-  justify-content: center;
-}
-
-.three-worlds-section--preview .three-worlds-action-content {
-  width: auto;
-  align-items: center;
-  text-align: center;
-}
-
-.three-worlds-section--preview .three-worlds-micro-label {
-  font-size: 10px;
-  margin-bottom: 0;
-  letter-spacing: 0.14em;
-}
-
-.three-worlds-section--preview .three-worlds-action-link {
-  display: none;
 }
 
 .three-worlds-inner {
@@ -130,6 +51,8 @@
   width: 100%;
   position: relative;
   margin-bottom: 0;
+  pointer-events: auto;
+  z-index: 10;
 }
 
 /* Visual Stack area: sits with a clean, compact gap below the selector without overlapping */

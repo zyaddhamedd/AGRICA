@@ -88,8 +88,18 @@ export function OptionWheel({
   const onChangeRef = useRef(onChange);
   const selectedRef = useRef(initialIndex);
   const wheelTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dragRef = useRef<{ y: number; start: number; id: number } | null>(null);
-  const dragMovedRef = useRef(false);
+  interface DragSession {
+    startY: number;
+    startX: number;
+    startTime: number;
+    startTarget: number;
+    pointerId: number;
+    lastY: number;
+    lastTime: number;
+    velocityY: number;
+    moved: boolean;
+  }
+  const dragRef = useRef<DragSession | null>(null);
   const [internalSelected, setInternalSelected] = useState(initialIndex);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -221,57 +231,154 @@ export function OptionWheel({
 
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!cfgRef.current.draggable) return;
-    dragRef.current = { y: e.clientY, start: targetRef.current, id: e.pointerId };
-    dragMovedRef.current = false;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+
+    dragRef.current = {
+      startY: e.clientY,
+      startX: e.clientX,
+      startTime: performance.now(),
+      startTarget: targetRef.current,
+      pointerId: e.pointerId,
+      lastY: e.clientY,
+      lastTime: performance.now(),
+      velocityY: 0,
+      moved: false,
+    };
     setIsDragging(true);
   }, []);
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       const drag = dragRef.current;
-      if (!drag) return;
-      const dy = e.clientY - drag.y;
-      if (!dragMovedRef.current && Math.abs(dy) > 4) {
-        dragMovedRef.current = true;
-        rootRef.current?.setPointerCapture(drag.id);
+      if (!drag || drag.pointerId !== e.pointerId) return;
+
+      const dy = e.clientY - drag.startY;
+      const dx = e.clientX - drag.startX;
+      const now = performance.now();
+      const dt = now - drag.lastTime;
+
+      if (dt > 12) {
+        drag.velocityY = (e.clientY - drag.lastY) / dt;
+        drag.lastY = e.clientY;
+        drag.lastTime = now;
       }
-      if (dragMovedRef.current) {
-        applyTarget(drag.start - dy / cfgRef.current.rowH, false);
+
+      if (!drag.moved && (Math.abs(dy) > 6 || Math.abs(dx) > 6)) {
+        drag.moved = true;
+        try {
+          rootRef.current?.setPointerCapture(drag.pointerId);
+        } catch {}
+      }
+
+      if (drag.moved) {
+        applyTarget(drag.startTarget - dy / cfgRef.current.rowH, false);
       }
     },
     [applyTarget]
   );
 
-  const handlePointerEnd = useCallback(() => {
-    if (!dragRef.current) return;
-    dragRef.current = null;
-    setIsDragging(false);
-    if (dragMovedRef.current) applyTarget(targetRef.current, true);
-  }, [applyTarget]);
+  const handlePointerEnd = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      const drag = dragRef.current;
+      if (!drag || drag.pointerId !== e.pointerId) return;
+      dragRef.current = null;
+      setIsDragging(false);
+
+      try {
+        if (rootRef.current?.hasPointerCapture(drag.pointerId)) {
+          rootRef.current.releasePointerCapture(drag.pointerId);
+        }
+      } catch {}
+
+      const cfg = cfgRef.current;
+      const curTarget = targetRef.current;
+
+      if (drag.moved) {
+        const v = drag.velocityY;
+        const totalDy = e.clientY - drag.startY;
+        let targetIndex = Math.round(curTarget);
+
+        // Vertical swipe / flick:
+        // Swiping up (negative totalDy / velocity) advances forward (Fresh -> Frozen -> Dried)
+        // Swiping down (positive totalDy / velocity) advances backward (Dried -> Frozen -> Fresh)
+        if (v < -0.22 || totalDy < -30) {
+          targetIndex = Math.min(cfg.count - 1, Math.max(Math.floor(curTarget) + 1, Math.round(drag.startTarget) + 1));
+        } else if (v > 0.22 || totalDy > 30) {
+          targetIndex = Math.max(0, Math.min(Math.ceil(curTarget) - 1, Math.round(drag.startTarget) - 1));
+        }
+
+        applyTarget(targetIndex, true);
+      } else {
+        // Direct tap on category or relative area
+        const targetEl = document.elementFromPoint(e.clientX, e.clientY);
+        const itemEl = targetEl?.closest?.("[data-index]");
+        if (itemEl) {
+          const idxStr = itemEl.getAttribute("data-index");
+          if (idxStr != null) {
+            const idx = parseInt(idxStr, 10);
+            if (!isNaN(idx) && idx >= 0 && idx < cfg.count) {
+              applyTarget(idx, true);
+              return;
+            }
+          }
+        }
+
+        if (rootRef.current) {
+          const rect = rootRef.current.getBoundingClientRect();
+          const relY = e.clientY - (rect.top + rect.height / 2);
+          const clickedDelta = Math.round(relY / cfg.rowH);
+          const newIdx = Math.min(cfg.count - 1, Math.max(0, Math.round(curTarget) + clickedDelta));
+          applyTarget(newIdx, true);
+        }
+      }
+    },
+    [applyTarget]
+  );
+
+  const handlePointerCancel = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!dragRef.current || dragRef.current.pointerId !== e.pointerId) return;
+      dragRef.current = null;
+      setIsDragging(false);
+      try {
+        if (rootRef.current?.hasPointerCapture(e.pointerId)) {
+          rootRef.current.releasePointerCapture(e.pointerId);
+        }
+      } catch {}
+      applyTarget(Math.round(targetRef.current), true);
+    },
+    [applyTarget]
+  );
 
   const handleItemClick = useCallback(
     (index: number) => {
-      if (dragMovedRef.current) return;
-      const cfg = cfgRef.current;
-      const cur = targetRef.current;
-      let d = index - (((cur % cfg.count) + cfg.count) % cfg.count);
-      if (cfg.loop && cfg.count > 1) {
-        if (d > cfg.count / 2) d -= cfg.count;
-        else if (d < -cfg.count / 2) d += cfg.count;
-      }
-      applyTarget(cur + d, true);
+      applyTarget(index, true);
     },
     [applyTarget]
   );
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
-      let delta: number | null = null;
-      if (e.key === "ArrowUp" || e.key === "ArrowLeft") delta = -1;
-      else if (e.key === "ArrowDown" || e.key === "ArrowRight") delta = 1;
-      if (delta == null) return;
-      e.preventDefault();
-      applyTarget(Math.round(targetRef.current) + delta, true);
+      const cfg = cfgRef.current;
+      let newIndex: number | null = null;
+      const cur = Math.round(targetRef.current);
+
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        newIndex = cfg.loop ? (cur - 1 + cfg.count) % cfg.count : Math.max(0, cur - 1);
+      } else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        newIndex = cfg.loop ? (cur + 1) % cfg.count : Math.min(cfg.count - 1, cur + 1);
+      } else if (e.key === "Home") {
+        newIndex = 0;
+      } else if (e.key === "End") {
+        newIndex = cfg.count - 1;
+      } else if (e.key === "Enter" || e.key === " ") {
+        newIndex = cur;
+      }
+
+      if (newIndex !== null) {
+        e.preventDefault();
+        applyTarget(newIndex, true);
+      }
     },
     [applyTarget]
   );
@@ -305,7 +412,7 @@ export function OptionWheel({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerEnd}
-      onPointerCancel={handlePointerEnd}
+      onPointerCancel={handlePointerCancel}
       onKeyDown={handleKeyDown}
     >
       {items.map((label, index) => (
@@ -314,7 +421,9 @@ export function OptionWheel({
           ref={(el) => {
             itemRefs.current[index] = el;
           }}
+          data-index={index}
           role="option"
+          tabIndex={-1}
           aria-selected={activeIndex === index}
           className={`option-wheel__item${activeIndex === index ? " option-wheel__item--selected" : ""}`}
           onClick={() => handleItemClick(index)}
