@@ -157,7 +157,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
   will-change: transform, opacity;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vertical-chapter:active .vertical-chapter-media {
+  transform: scale(0.988);
+  transition: transform 0.2s ease;
 }
 
 .vertical-chapter-media {
@@ -168,6 +177,7 @@
   overflow: hidden;
   box-shadow: 0 16px 36px rgba(0, 20, 48, 0.14);
   background: #000000;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .vertical-chapter-img-mask {
@@ -189,7 +199,7 @@
   will-change: transform;
 }
 
-/* Matching Wordmark Graphic directly beneath media */
+/* Matching Wordmark Graphic directly beneath media with subtle breathing pulse */
 .vertical-chapter-wordmark-zone {
   position: relative;
   width: 100%;
@@ -202,6 +212,21 @@
   will-change: transform, opacity;
 }
 
+@keyframes twWordmarkPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.94;
+  }
+  50% {
+    transform: scale(1.018);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.94;
+  }
+}
+
 .vertical-chapter-wordmark-img {
   width: clamp(200px, 58vw, 290px);
   height: auto;
@@ -209,6 +234,8 @@
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 4px 14px rgba(0, 32, 80, 0.10));
+  animation: twWordmarkPulse 4.5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 /* Action & Editorial Metadata Zone */
@@ -235,14 +262,12 @@
   transition: color 0.35s ease;
 }
 
-.vertical-chapter-action-link {
+.vertical-chapter-action-cta {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 2px 0 6px;
-  text-decoration: none;
-  cursor: pointer;
   background: transparent;
   border: none;
 }
@@ -256,10 +281,11 @@
   line-height: 1;
 }
 
-.vertical-chapter-action-arrow {
-  font-size: 14px;
-  line-height: 1;
-  transition: transform 0.22s ease, color 0.35s ease;
+.vertical-chapter-action-svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), color 0.35s ease;
 }
 
 .vertical-chapter-action-rule {
@@ -270,12 +296,18 @@
   width: 100%;
   height: 1px;
   opacity: 0.4;
-  transition: opacity 0.22s ease, background-color 0.35s ease;
+  transition: opacity 0.28s ease, background-color 0.35s ease;
 }
 
-.vertical-chapter-action-link:active .vertical-chapter-action-arrow,
-.vertical-chapter-action-link:hover .vertical-chapter-action-arrow {
+.vertical-chapter:active .vertical-chapter-action-svg,
+.vertical-chapter:hover .vertical-chapter-action-svg {
   transform: translate(3px, -3px);
 }
+
+.vertical-chapter:active .vertical-chapter-action-rule,
+.vertical-chapter:hover .vertical-chapter-action-rule {
+  opacity: 0.85;
+}
+
 
 

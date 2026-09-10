@@ -1,0 +1,322 @@
+/* =========================================================================
+   Mobile Season Section (< 960px) — Light Atmospheric Identity
+   ========================================================================= */
+
+@media (min-width: 961px) {
+  .season-mobile-section {
+    display: none !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .season-desktop-stage {
+    display: none !important;
+  }
+}
+
+.season-mobile-section {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(36px, 5vh, 52px) 0 clamp(48px, 6vh, 64px);
+  color: #002050;
+  transition: background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: visible;
+}
+
+.season-mobile-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 clamp(20px, 5.5vw, 28px);
+}
+
+/* Header & Kicker */
+.season-mobile-header {
+  width: 100%;
+  margin-bottom: clamp(24px, 3.5vh, 32px);
+}
+
+.section-kicker--mobile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 32, 80, 0.5);
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 32, 80, 0.12);
+  margin-bottom: 20px;
+}
+
+.season-kicker-num {
+  color: #50A010;
+}
+
+.season-mobile-headline {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 8.5vw, 42px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #002050;
+  margin: 0 0 10px 0;
+}
+
+.season-mobile-subline {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(0, 32, 80, 0.65);
+  margin: 0;
+  max-width: 320px;
+}
+
+/* Native Touch-Safe Month Ribbon */
+.season-ribbon-viewport {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-1 * clamp(20px, 5.5vw, 28px));
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+  scrollbar-width: none;
+  margin-bottom: clamp(24px, 3.5vh, 32px);
+  padding: 12px 0 16px;
+}
+
+.season-ribbon-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.season-ribbon-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 6vw, 36px);
+  padding: 0 clamp(20px, 5.5vw, 28px);
+  width: max-content;
+}
+
+.season-ribbon-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-snap-align: center;
+  background: transparent;
+  border: none;
+  padding: 4px 6px 12px;
+  cursor: pointer;
+  opacity: 0.38;
+  transform: scale(0.88);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.season-ribbon-item.is-active {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+.season-ribbon-num {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  color: #50A010;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.season-ribbon-code {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #002050;
+  line-height: 1;
+}
+
+.season-ribbon-active-bar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 2px;
+  background-color: #50A010;
+  border-radius: 1px;
+}
+
+/* Active Month Readout */
+.season-active-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: clamp(20px, 3vh, 28px);
+}
+
+.season-readout-season-tag {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #50A010;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.season-readout-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 6.5vw, 30px);
+  font-weight: 400;
+  color: #002050;
+  margin: 0;
+}
+
+/* Editorial Floating Harvest Stage */
+.season-floating-stage {
+  position: relative;
+  width: 100%;
+  min-height: clamp(340px, 52vh, 420px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: clamp(24px, 3.5vh, 32px);
+  box-sizing: border-box;
+}
+
+.season-floating-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(10px, 3vw, 16px);
+  will-change: transform, opacity;
+  animation: twFloatingBreathing 5s ease-in-out infinite alternate;
+  animation-delay: calc(var(--item-idx, 0) * 0.7s);
+}
+
+@keyframes twFloatingBreathing {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-3px); }
+}
+
+/* Positioning & Layout Variations */
+.season-floating-pos--left {
+  align-self: flex-start;
+  margin-left: 2%;
+}
+
+.season-floating-pos--right {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  text-align: right;
+  margin-right: 2%;
+}
+
+.season-floating-pos--center {
+  align-self: center;
+  margin-top: -10px;
+}
+
+/* Visual Scale Hierarchy */
+.season-floating-role--hero .season-floating-asset-img {
+  width: clamp(140px, 38vw, 175px);
+}
+
+.season-floating-role--secondary .season-floating-asset-img {
+  width: clamp(115px, 30vw, 140px);
+}
+
+.season-floating-role--tertiary .season-floating-asset-img {
+  width: clamp(95px, 24vw, 115px);
+}
+
+.season-floating-asset-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.season-floating-asset-img {
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 14px 28px rgba(0, 32, 80, 0.12));
+}
+
+.season-floating-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.season-floating-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(14px, 3.8vw, 17px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #002050;
+  line-height: 1.15;
+}
+
+.season-floating-status {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Secondary Crops Line */
+.season-secondary-crops {
+  width: 100%;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(0, 32, 80, 0.15);
+  margin-bottom: 20px;
+}
+
+.season-secondary-label {
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(0, 32, 80, 0.45);
+  margin-bottom: 4px;
+}
+
+.season-secondary-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(0, 32, 80, 0.75);
+  margin: 0;
+}
+
+/* Disclaimer Notice */
+.season-disclaimer-notice {
+  width: 100%;
+}
+
+.season-disclaimer-notice p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgba(0, 32, 80, 0.4);
+  margin: 0;
+}
+

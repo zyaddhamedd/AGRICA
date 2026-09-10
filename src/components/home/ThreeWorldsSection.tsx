@@ -18,7 +18,10 @@ if (typeof window !== "undefined") {
 }
 
 // Dedicated world-specific visual imagery and transparent wordmark mapping
-const DEDICATED_WORLD_ASSETS: Record<WorldKey, { src: string; textSrc: string; alt: string; textAlt: string; objectPosition: string }> = {
+const DEDICATED_WORLD_ASSETS: Record<
+  WorldKey,
+  { src: string; textSrc: string; alt: string; textAlt: string; objectPosition: string }
+> = {
   fresh: {
     src: "/assets/fresh_img.png",
     textSrc: "/assets/fresh_text.png",
@@ -42,14 +45,38 @@ const DEDICATED_WORLD_ASSETS: Record<WorldKey, { src: string; textSrc: string; a
   },
 };
 
+// Refined vector arrow component for premium CTA rendering
+function RefinedArrowIcon({ color }: { color: string }): React.JSX.Element {
+  return (
+    <svg
+      className="vertical-chapter-action-svg"
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      style={{ color }}
+    >
+      <path
+        d="M3.5 10.5L10.5 3.5M10.5 3.5H4.66667M10.5 3.5V9.33333"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function ThreeWorldsSection(): React.JSX.Element {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
-  // Chapter Card Refs
-  const cardFreshRef = useRef<HTMLElement>(null);
-  const cardFrozenRef = useRef<HTMLElement>(null);
-  const cardDriedRef = useRef<HTMLElement>(null);
+  // Chapter Card Refs (attached to full Link elements)
+  const cardFreshRef = useRef<HTMLAnchorElement>(null);
+  const cardFrozenRef = useRef<HTMLAnchorElement>(null);
+  const cardDriedRef = useRef<HTMLAnchorElement>(null);
 
   // Image Mask Refs
   const maskFreshRef = useRef<HTMLDivElement>(null);
@@ -254,8 +281,13 @@ export function ThreeWorldsSection(): React.JSX.Element {
 
         {/* Vertical Chapter List */}
         <div className="vertical-chapters-list">
-          {/* 01 Fresh Chapter */}
-          <article ref={cardFreshRef} className="vertical-chapter vertical-chapter--fresh">
+          {/* 01 Fresh Chapter - Entire Card is Clickable */}
+          <Link
+            ref={cardFreshRef}
+            href={THREE_WORLDS_DATA.fresh.actionHref}
+            className="vertical-chapter vertical-chapter--fresh"
+            aria-label={`Explore Fresh Produce - ${THREE_WORLDS_DATA.fresh.microLabel}`}
+          >
             <div className="vertical-chapter-media">
               <div ref={maskFreshRef} className="vertical-chapter-img-mask">
                 <img
@@ -281,28 +313,27 @@ export function ThreeWorldsSection(): React.JSX.Element {
               >
                 {THREE_WORLDS_DATA.fresh.microLabel}
               </span>
-              <Link href={THREE_WORLDS_DATA.fresh.actionHref} className="vertical-chapter-action-link">
+              <div className="vertical-chapter-action-cta">
                 <span className="vertical-chapter-action-text">
                   {THREE_WORLDS_DATA.fresh.actionText}
                 </span>
-                <span
-                  className="vertical-chapter-action-arrow"
-                  style={{ color: THREE_WORLDS_DATA.fresh.accentColor }}
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
+                <RefinedArrowIcon color={THREE_WORLDS_DATA.fresh.accentColor} />
                 <span
                   className="vertical-chapter-action-rule"
                   style={{ backgroundColor: THREE_WORLDS_DATA.fresh.accentColor }}
                   aria-hidden="true"
                 />
-              </Link>
+              </div>
             </div>
-          </article>
+          </Link>
 
-          {/* 02 Frozen Chapter */}
-          <article ref={cardFrozenRef} className="vertical-chapter vertical-chapter--frozen">
+          {/* 02 Frozen Chapter - Entire Card is Clickable */}
+          <Link
+            ref={cardFrozenRef}
+            href={THREE_WORLDS_DATA.frozen.actionHref}
+            className="vertical-chapter vertical-chapter--frozen"
+            aria-label={`Explore IQF Frozen - ${THREE_WORLDS_DATA.frozen.microLabel}`}
+          >
             <div className="vertical-chapter-media">
               <div ref={maskFrozenRef} className="vertical-chapter-img-mask">
                 <img
@@ -328,28 +359,27 @@ export function ThreeWorldsSection(): React.JSX.Element {
               >
                 {THREE_WORLDS_DATA.frozen.microLabel}
               </span>
-              <Link href={THREE_WORLDS_DATA.frozen.actionHref} className="vertical-chapter-action-link">
+              <div className="vertical-chapter-action-cta">
                 <span className="vertical-chapter-action-text">
                   {THREE_WORLDS_DATA.frozen.actionText}
                 </span>
-                <span
-                  className="vertical-chapter-action-arrow"
-                  style={{ color: THREE_WORLDS_DATA.frozen.accentColor }}
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
+                <RefinedArrowIcon color={THREE_WORLDS_DATA.frozen.accentColor} />
                 <span
                   className="vertical-chapter-action-rule"
                   style={{ backgroundColor: THREE_WORLDS_DATA.frozen.accentColor }}
                   aria-hidden="true"
                 />
-              </Link>
+              </div>
             </div>
-          </article>
+          </Link>
 
-          {/* 03 Dried Chapter */}
-          <article ref={cardDriedRef} className="vertical-chapter vertical-chapter--dried">
+          {/* 03 Dried Chapter - Entire Card is Clickable */}
+          <Link
+            ref={cardDriedRef}
+            href={THREE_WORLDS_DATA.dried.actionHref}
+            className="vertical-chapter vertical-chapter--dried"
+            aria-label={`Explore Dried Range - ${THREE_WORLDS_DATA.dried.microLabel}`}
+          >
             <div className="vertical-chapter-media">
               <div ref={maskDriedRef} className="vertical-chapter-img-mask">
                 <img
@@ -375,25 +405,19 @@ export function ThreeWorldsSection(): React.JSX.Element {
               >
                 {THREE_WORLDS_DATA.dried.microLabel}
               </span>
-              <Link href={THREE_WORLDS_DATA.dried.actionHref} className="vertical-chapter-action-link">
+              <div className="vertical-chapter-action-cta">
                 <span className="vertical-chapter-action-text">
                   {THREE_WORLDS_DATA.dried.actionText}
                 </span>
-                <span
-                  className="vertical-chapter-action-arrow"
-                  style={{ color: THREE_WORLDS_DATA.dried.accentColor }}
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
+                <RefinedArrowIcon color={THREE_WORLDS_DATA.dried.accentColor} />
                 <span
                   className="vertical-chapter-action-rule"
                   style={{ backgroundColor: THREE_WORLDS_DATA.dried.accentColor }}
                   aria-hidden="true"
                 />
-              </Link>
+              </div>
             </div>
-          </article>
+          </Link>
         </div>
       </div>
     </section>
@@ -401,6 +425,7 @@ export function ThreeWorldsSection(): React.JSX.Element {
 }
 
 export default ThreeWorldsSection;
+
 
 
 
