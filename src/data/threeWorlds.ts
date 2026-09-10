@@ -77,6 +77,8 @@ export interface WorldConfig {
   actionText: string;
   actionHref: string;
   accentColor: string;
+  imgSrc: string;
+  textSrc: string;
   cards: WorldCardItem[];
 }
 
@@ -91,23 +93,13 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     actionText: 'Explore Fresh',
     actionHref: '/products?world=fresh',
     accentColor: '#50A010',
+    imgSrc: '/assets/fresh_img.png',
+    textSrc: '/assets/fresh_text.png',
     cards: [
       {
         id: 'fresh-1',
-        src: '/assets/three-worlds.png',
-        alt: 'AGRICA Fresh Produce - Egyptian Soil Harvest',
-        objectPosition: '0% 50%',
-      },
-      {
-        id: 'fresh-2',
-        src: '/assets/product-atlas.png',
-        alt: 'AGRICA Fresh Citrus and Field Yield',
-        objectPosition: '15% 35%',
-      },
-      {
-        id: 'fresh-3',
-        src: '/assets/video_hero_thumb.jpg',
-        alt: 'AGRICA Agricultural Origin',
+        src: '/assets/fresh_img.png',
+        alt: 'AGRICA Fresh Produce',
         objectPosition: '50% 50%',
       },
     ],
@@ -120,24 +112,14 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     actionText: 'Explore Frozen',
     actionHref: '/products?world=frozen',
     accentColor: '#68AFC7',
+    imgSrc: '/assets/frozen_img.png',
+    textSrc: '/assets/frozen_text.png',
     cards: [
       {
         id: 'frozen-1',
-        src: '/assets/three-worlds.png',
-        alt: 'AGRICA IQF Frozen Cold-Chain Produce',
+        src: '/assets/frozen_img.png',
+        alt: 'AGRICA IQF Frozen Produce',
         objectPosition: '50% 50%',
-      },
-      {
-        id: 'frozen-2',
-        src: '/assets/product-atlas.png',
-        alt: 'AGRICA IQF Berries & Greens Selection',
-        objectPosition: '50% 70%',
-      },
-      {
-        id: 'frozen-3',
-        src: '/assets/three-worlds.png',
-        alt: 'AGRICA Frozen Preservation Discipline',
-        objectPosition: '48% 30%',
       },
     ],
   },
@@ -149,24 +131,14 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     actionText: 'Explore Dried',
     actionHref: '/products?world=dried',
     accentColor: '#B76A2B',
+    imgSrc: '/assets/dried_img.png',
+    textSrc: '/assets/dried_text.png',
     cards: [
       {
         id: 'dried-1',
-        src: '/assets/three-worlds.png',
+        src: '/assets/dried_img.png',
         alt: 'AGRICA Dried Botanicals & Herbs',
-        objectPosition: '100% 50%',
-      },
-      {
-        id: 'dried-2',
-        src: '/assets/product-atlas.png',
-        alt: 'AGRICA Sun-dried Textures & Stability',
-        objectPosition: '85% 65%',
-      },
-      {
-        id: 'dried-3',
-        src: '/assets/three-worlds.png',
-        alt: 'AGRICA Measured Drying Craft',
-        objectPosition: '98% 25%',
+        objectPosition: '50% 50%',
       },
     ],
   },

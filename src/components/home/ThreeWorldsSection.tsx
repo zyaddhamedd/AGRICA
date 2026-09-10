@@ -1,247 +1,328 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import { motion } from "motion/react";
-import { OptionWheel } from "./OptionWheel";
-import { Stack } from "./Stack";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ThreeWorldsThemeLayer } from "./ThreeWorldsThemeLayer";
 import { WORLD_THEMES } from "./ThreeWorldsThemeConfig";
 import {
   THREE_WORLDS_DATA,
-  THREE_WORLDS_LIST,
   useSharedWorld,
-  getSharedWorld,
-  hasUserInteracted,
-  setUserInteracted,
   type WorldKey,
 } from "@/data/threeWorlds";
 import "./ThreeWorldsSection.css";
 
-const WHEEL_ITEMS = ["Fresh", "Frozen", "Dried"];
-
-export interface ThreeWorldsSectionProps {
-  className?: string;
-  id?: string;
-  isPreview?: boolean;
-  interactive?: boolean;
-  autoDemoWorld?: boolean;
-  isDemoFrozen?: boolean;
-  stackAutoplayDelay?: number;
-  orientation?: "vertical" | "horizontal";
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
 }
 
-export function ThreeWorldsSection({
-  className = "",
-  id = "three-worlds-interactive",
-  isPreview = false,
-  interactive = true,
-  autoDemoWorld = false,
-  isDemoFrozen = false,
-  stackAutoplayDelay,
-  orientation,
-}: ThreeWorldsSectionProps): React.JSX.Element {
-  const [selectedWorld, setSelectedWorld] = useSharedWorld();
-  const [isMobile, setIsMobile] = useState(true);
+// Dedicated world-specific visual imagery mapping
+const DEDICATED_WORLD_ASSETS: Record<WorldKey, { src: string; textSrc: string; alt: string; objectPosition: string }> = {
+  fresh: {
+    src: "/assets/fresh_img.png",
+    textSrc: "/assets/fresh_text.png",
+    alt: "AGRICA Fresh Produce",
+    objectPosition: "50% 50%",
+  },
+  frozen: {
+    src: "/assets/frozen_img.png",
+    textSrc: "/assets/frozen_text.png",
+    alt: "AGRICA IQF Frozen Produce",
+    objectPosition: "50% 50%",
+  },
+  dried: {
+    src: "/assets/dried_img.png",
+    textSrc: "/assets/dried_text.png",
+    alt: "AGRICA Sun-Dried Herbs and Botanicals",
+    objectPosition: "50% 50%",
+  },
+};
 
-  React.useEffect(() => {
-    const mql = window.matchMedia("(max-width: 960px)");
-    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
-      setIsMobile(e.matches);
-    };
-    handler(mql);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
+export function ThreeWorldsSection(): React.JSX.Element {
+  const sectionRef = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const ghostTrackRef = useRef<HTMLDivElement>(null);
 
-  const effectiveOrientation = orientation ?? (isMobile ? "horizontal" : "vertical");
+  const cardFreshRef = useRef<HTMLDivElement>(null);
+  const cardFrozenRef = useRef<HTMLDivElement>(null);
+  const cardDriedRef = useRef<HTMLDivElement>(null);
 
-  // Auto-demo world cycling for preview mode (~5.5 seconds per world).
-  // User interaction always has priority over automatic behavior.
-  React.useEffect(() => {
-    if (!isPreview || !autoDemoWorld || isDemoFrozen || hasUserInteracted()) return;
+  const imgFreshRef = useRef<HTMLImageElement>(null);
+  const imgFrozenRef = useRef<HTMLImageElement>(null);
+  const imgDriedRef = useRef<HTMLImageElement>(null);
 
-    const interval = setInterval(() => {
-      if (hasUserInteracted()) {
-        clearInterval(interval);
-        return;
+  const [, setSelectedWorld] = useSharedWorld();
+  const [activeWorldKey, setActiveWorldKey] = useState<WorldKey>("fresh");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(max-width: 960px)", () => {
+      const section = sectionRef.current;
+      const viewport = viewportRef.current;
+      const track = trackRef.current;
+      const ghostTrack = ghostTrackRef.current;
+
+      const cardFresh = cardFreshRef.current;
+      const cardFrozen = cardFrozenRef.current;
+      const cardDried = cardDriedRef.current;
+
+      const imgFresh = imgFreshRef.current;
+      const imgFrozen = imgFrozenRef.current;
+      const imgDried = imgDriedRef.current;
+
+      if (!section || !viewport || !track || !cardFresh || !cardFrozen || !cardDried) return;
+
+      // Calculate exact DOM geometries for centering Fresh (0%), Frozen (50%), Dried (100%)
+      const calcOffsets = () => {
+        const vpCenter = viewport.clientWidth / 2;
+
+        const freshCenter = cardFresh.offsetLeft + cardFresh.offsetWidth / 2;
+        const frozenCenter = cardFrozen.offsetLeft + cardFrozen.offsetWidth / 2;
+        const driedCenter = cardDried.offsetLeft + cardDried.offsetWidth / 2;
+
+        const startX = vpCenter - freshCenter;
+        const midX = vpCenter - frozenCenter;
+        const endX = vpCenter - driedCenter;
+
+        return { startX, midX, endX };
+      };
+
+      let offsets = calcOffsets();
+
+      // Initial placement & focus states
+      gsap.set(track, { x: offsets.startX });
+      if (ghostTrack) gsap.set(ghostTrack, { x: 0 });
+
+      gsap.set(cardFresh, { scale: 1.0, opacity: 1.0 });
+      gsap.set(cardFrozen, { scale: 0.95, opacity: 0.72 });
+      gsap.set(cardDried, { scale: 0.95, opacity: 0.72 });
+
+      // GSAP Master Timeline pinned for tight + intentional 160vh distance
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=160vh",
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const p = self.progress;
+            let currentKey: WorldKey = "fresh";
+            if (p < 0.28) {
+              currentKey = "fresh";
+            } else if (p < 0.72) {
+              currentKey = "frozen";
+            } else {
+              currentKey = "dried";
+            }
+            setActiveWorldKey(currentKey);
+            setSelectedWorld(currentKey, false);
+          },
+          onRefresh: () => {
+            offsets = calcOffsets();
+            gsap.set(track, { x: offsets.startX });
+          },
+        },
+      });
+
+      // 1. Horizontal Track Scrubbing
+      tl.to(track, {
+        x: offsets.endX,
+        ease: "none",
+        duration: 1,
+      }, 0);
+
+      // 2. Active-Card Focus Hierarchy (Scale 0.95 -> 1.0 -> 0.95 & Opacity 0.72 -> 1.0 -> 0.72)
+      tl.to(cardFresh, { scale: 0.95, opacity: 0.72, ease: "sine.inOut", duration: 0.5 }, 0)
+        .to(cardFresh, { scale: 0.95, opacity: 0.72, ease: "sine.inOut", duration: 0.5 }, 0.5);
+
+      tl.to(cardFrozen, { scale: 1.0, opacity: 1.0, ease: "sine.inOut", duration: 0.5 }, 0)
+        .to(cardFrozen, { scale: 0.95, opacity: 0.72, ease: "sine.inOut", duration: 0.5 }, 0.5);
+
+      tl.to(cardDried, { scale: 1.0, opacity: 1.0, ease: "sine.inOut", duration: 0.5 }, 0.5);
+
+      // 3. Ghost Typography Parallax (slower rate behind media)
+      if (ghostTrack) {
+        tl.to(ghostTrack, {
+          x: -180,
+          ease: "none",
+          duration: 1,
+        }, 0);
       }
-      const current = getSharedWorld();
-      const idx = THREE_WORLDS_LIST.indexOf(current);
-      const nextIdx = (idx + 1) % THREE_WORLDS_LIST.length;
-      const nextWorld = THREE_WORLDS_LIST[nextIdx];
-      setSelectedWorld(nextWorld, false);
-    }, 5500);
 
-    return () => clearInterval(interval);
-  }, [isPreview, autoDemoWorld, isDemoFrozen, setSelectedWorld]);
-
-  const currentWorldConfig = useMemo(() => {
-    return THREE_WORLDS_DATA[selectedWorld];
-  }, [selectedWorld]);
-
-  const selectedIndex = useMemo(() => {
-    const idx = THREE_WORLDS_LIST.indexOf(selectedWorld);
-    return idx >= 0 ? idx : 0;
-  }, [selectedWorld]);
-
-  const handleWheelChange = useCallback(
-    (index: number) => {
-      const key = THREE_WORLDS_LIST[index];
-      if (key) {
-        setUserInteracted(true);
-        setSelectedWorld(key, true);
+      // 4. Subtle Image Counter-Parallax (-8% to +8% shift overscale)
+      if (imgFresh && imgFrozen && imgDried) {
+        tl.fromTo(imgFresh, { xPercent: 0 }, { xPercent: 8, ease: "none", duration: 1 }, 0);
+        tl.fromTo(imgFrozen, { xPercent: -8 }, { xPercent: 8, ease: "none", duration: 1 }, 0);
+        tl.fromTo(imgDried, { xPercent: -8 }, { xPercent: 0, ease: "none", duration: 1 }, 0);
       }
-    },
-    [setSelectedWorld]
-  );
 
-  const effectiveStackDelay = stackAutoplayDelay ?? (isPreview ? 2100 : 4000);
+      // 5. Atmosphere Background Color Interpolation
+      tl.to(section, { backgroundColor: "#EEF3F4", duration: 0.45, ease: "sine.inOut" }, 0.15)
+        .to(section, { backgroundColor: "#F2EADF", duration: 0.45, ease: "sine.inOut" }, 0.60);
 
-  // Prepare visual card nodes for the currently selected world
-  const currentCards = useMemo(() => {
-    return currentWorldConfig.cards.map((card) => (
-      <div key={card.id} className="three-worlds-card-content">
-        <img
-          src={card.src}
-          alt={card.alt}
-          className="three-worlds-card-img"
-          style={{ objectPosition: card.objectPosition || "center center" }}
-        />
-        <div className="three-worlds-card-overlay" aria-hidden="true" />
-      </div>
-    ));
-  }, [currentWorldConfig]);
+      return () => {
+        tl.kill();
+      };
+    });
 
-  const currentTheme = WORLD_THEMES[selectedWorld];
+    return () => mm.revert();
+  }, [setSelectedWorld]);
+
+  const currentWorldConfig = THREE_WORLDS_DATA[activeWorldKey];
+  const currentTheme = WORLD_THEMES[activeWorldKey];
 
   return (
     <section
-      id={id}
-      className={`three-worlds-section ${isPreview ? "three-worlds-section--preview" : ""} ${className}`}
+      ref={sectionRef}
+      id="three-worlds-interactive"
+      className="three-worlds-section"
       aria-label="AGRICA Three Worlds: Fresh, Frozen, Dried"
       style={
         {
           "--tw-accent": currentWorldConfig.accentColor,
           "--tw-theme-base-bg": currentTheme.baseBg,
-          pointerEvents: "auto",
         } as React.CSSProperties
       }
     >
-      {/* 3-Theme Background & Organic World Sweep System */}
-      <ThreeWorldsThemeLayer activeWorld={selectedWorld} />
+      {/* 3-Theme Background & Organic World Sweep Layer */}
+      <ThreeWorldsThemeLayer activeWorld={activeWorldKey} />
 
-      <div className="three-worlds-inner">
-        {/* Minimal Kicker with world-specific accent */}
-        <header className="three-worlds-header">
+      <div ref={stageRef} className="triptych-stage">
+        {/* Top Header Kicker */}
+        <header className="triptych-header">
           <span
-            className="three-worlds-kicker"
+            className="triptych-kicker-number"
             style={{ color: currentWorldConfig.accentColor }}
           >
-            01 — 03
+            01 ───────── 03
           </span>
+          <span className="triptych-kicker-title">THREE WORLDS</span>
         </header>
 
-        {/* OptionWheel Category Selector */}
-        <div className="three-worlds-wheel-wrap">
-          <OptionWheel
-            items={WHEEL_ITEMS}
-            defaultSelected={0}
-            selectedIndex={selectedIndex}
-            onChange={handleWheelChange}
-            orientation={effectiveOrientation}
-            draggable={true}
-            textColor={effectiveOrientation === "horizontal" ? "rgba(0, 32, 80, 0.44)" : "rgba(0, 32, 80, 0.38)"}
-            activeColor="#002050"
-            fontSize={
-              effectiveOrientation === "horizontal"
-                ? isPreview
-                  ? "clamp(44px, 13vw, 54px)"
-                  : "clamp(60px, 16vw, 74px)"
-                : isPreview
-                ? 2.3
-                : 3.5
-            }
-            spacing={isPreview ? 1.15 : 1.25}
-            curve={isPreview ? 0.75 : 0.85}
-            tilt={isPreview ? 5.5 : 7.5}
-            blur={0.6}
-            fade={0.42}
-            minOpacity={0.28}
-            smoothing={effectiveOrientation === "horizontal" ? 240 : 180}
-            loop={false}
-          />
+        {/* Oversized Ghost Serif Parallax Layer (Positioned behind media cluster) */}
+        <div className="triptych-ghost-viewport" aria-hidden="true">
+          <div ref={ghostTrackRef} className="triptych-ghost-track">
+            <span className="triptych-ghost-word">Fresh</span>
+            <span className="triptych-ghost-word">Frozen</span>
+            <span className="triptych-ghost-word">Dried</span>
+          </div>
         </div>
 
-        {/* Visual Stack driven by OptionWheel selection */}
-        <div className="three-worlds-stack-wrap">
-          <motion.div
-            key={selectedWorld}
-            className="three-worlds-stack-motion-stage"
-            initial={{ opacity: 0.35, y: 6, scale: 0.96, rotate: -0.5 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-            transition={{
-              duration: 0.44,
-              delay: 0.28,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <Stack
-              key={selectedWorld}
-              cards={currentCards}
-              autoplay={true}
-              autoplayDelay={effectiveStackDelay}
-              pauseOnHover={true}
-              randomRotation={false}
-              mobileClickOnly={true}
-              sendToBackOnClick={true}
-              sensitivity={140}
-              animationConfig={{ stiffness: 220, damping: 26 }}
-            />
-          </motion.div>
+        {/* Central Viewport & Moving Media Track */}
+        <div ref={viewportRef} className="triptych-viewport">
+          <div ref={trackRef} className="triptych-track">
+            {/* 01 Fresh Card (Main image on top, fresh_text below) */}
+            <div ref={cardFreshRef} className="triptych-card triptych-card--fresh">
+              <div className="triptych-card-media">
+                <div className="triptych-card-inner">
+                  <img
+                    ref={imgFreshRef}
+                    src={DEDICATED_WORLD_ASSETS.fresh.src}
+                    alt={DEDICATED_WORLD_ASSETS.fresh.alt}
+                    className="triptych-card-img"
+                    style={{ objectPosition: DEDICATED_WORLD_ASSETS.fresh.objectPosition }}
+                  />
+                  <div className="triptych-card-overlay" aria-hidden="true" />
+                </div>
+              </div>
+              <div className="triptych-card-text-zone">
+                <img
+                  src={DEDICATED_WORLD_ASSETS.fresh.textSrc}
+                  alt="Fresh World"
+                  className="triptych-card-text-img"
+                />
+              </div>
+            </div>
+
+            {/* 02 Frozen Card (Main image on top, frozen_text below) */}
+            <div ref={cardFrozenRef} className="triptych-card triptych-card--frozen">
+              <div className="triptych-card-media">
+                <div className="triptych-card-inner">
+                  <img
+                    ref={imgFrozenRef}
+                    src={DEDICATED_WORLD_ASSETS.frozen.src}
+                    alt={DEDICATED_WORLD_ASSETS.frozen.alt}
+                    className="triptych-card-img"
+                    style={{ objectPosition: DEDICATED_WORLD_ASSETS.frozen.objectPosition }}
+                  />
+                  <div className="triptych-card-overlay" aria-hidden="true" />
+                </div>
+              </div>
+              <div className="triptych-card-text-zone">
+                <img
+                  src={DEDICATED_WORLD_ASSETS.frozen.textSrc}
+                  alt="Frozen World"
+                  className="triptych-card-text-img"
+                />
+              </div>
+            </div>
+
+            {/* 03 Dried Card (Main image on top, dried_text below) */}
+            <div ref={cardDriedRef} className="triptych-card triptych-card--dried">
+              <div className="triptych-card-media">
+                <div className="triptych-card-inner">
+                  <img
+                    ref={imgDriedRef}
+                    src={DEDICATED_WORLD_ASSETS.dried.src}
+                    alt={DEDICATED_WORLD_ASSETS.dried.alt}
+                    className="triptych-card-img"
+                    style={{ objectPosition: DEDICATED_WORLD_ASSETS.dried.objectPosition }}
+                  />
+                  <div className="triptych-card-overlay" aria-hidden="true" />
+                </div>
+              </div>
+              <div className="triptych-card-text-zone">
+                <img
+                  src={DEDICATED_WORLD_ASSETS.dried.textSrc}
+                  alt="Dried World"
+                  className="triptych-card-text-img"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Active World Micro-label & Editorial Category Action */}
-        <div className="three-worlds-action-zone">
-          <motion.div
-            key={selectedWorld}
-            className="three-worlds-action-content"
-            initial={{ opacity: 0.4, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.32, delay: 0.48, ease: "easeOut" }}
+        {/* Lower Editorial Action Area (Positioned tightly below text zone) */}
+        <footer className="triptych-action-zone">
+          <span
+            className="triptych-micro-label"
+            style={{ color: currentWorldConfig.accentColor }}
           >
-            <span
-              className="three-worlds-micro-label"
-              style={{ color: currentWorldConfig.accentColor }}
-            >
-              {currentWorldConfig.microLabel}
+            {currentWorldConfig.microLabel}
+          </span>
+
+          <Link href={currentWorldConfig.actionHref} className="triptych-action-link">
+            <span className="triptych-action-text">
+              {currentWorldConfig.actionText}
             </span>
-
-            <Link
-              href={currentWorldConfig.actionHref}
-              className="three-worlds-action-link"
+            <span
+              className="triptych-action-arrow"
+              style={{ color: currentWorldConfig.accentColor }}
+              aria-hidden="true"
             >
-              <span className="three-worlds-action-text">
-                {currentWorldConfig.actionText}
-              </span>
-              <span
-                className="three-worlds-action-arrow"
-                style={{ color: currentWorldConfig.accentColor }}
-                aria-hidden="true"
-              >
-                ↗
-              </span>
-              <span
-                className="three-worlds-action-rule"
-                style={{ backgroundColor: currentWorldConfig.accentColor }}
-                aria-hidden="true"
-              />
-            </Link>
-          </motion.div>
-        </div>
+              ↗
+            </span>
+            <span
+              className="triptych-action-rule"
+              style={{ backgroundColor: currentWorldConfig.accentColor }}
+              aria-hidden="true"
+            />
+          </Link>
+        </footer>
       </div>
     </section>
   );
 }
 
 export default ThreeWorldsSection;
+
+

@@ -680,8 +680,7 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
     justify-content: flex-start;
     width: 100%;
     min-height: 100svh;
-    min-height: 100vh;
-    height: 100svh;
+    height: auto;
     background:
       radial-gradient(ellipse 90% 48% at 50% 46%, rgba(3, 40, 52, 0.45) 0%, rgba(0, 26, 56, 0.35) 45%, transparent 75%),
       linear-gradient(180deg, #010a18 0%, #00152e 28%, #001a38 52%, #001228 78%, #000c1a 100%) !important;
@@ -843,15 +842,15 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
     opacity: 0.7;
   }
 
-  /* 2. Mobile Hero Video Area (Row 1 Marquee + Row 2 Live Preview) */
+  /* 2. Mobile Hero Video Area (Dual Opposite Marquee Strips centered vertically) */
   .mobile-hero-marquee-container {
     position: relative;
     z-index: 5;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: clamp(14px, 2vh, 18px);
     width: 100%;
-    margin-top: clamp(124px, 15.5vh, 142px);
+    margin-top: clamp(80px, 13svh, 140px);
     overflow: hidden;
     pointer-events: none;
   }
@@ -879,7 +878,7 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
   .mobile-video-card {
     position: relative;
     width: auto;
-    height: clamp(148px, 17.5vh, 156px);
+    height: clamp(138px, 16.5vh, 150px);
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: #000000;
@@ -889,54 +888,6 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-  }
-
-  /* Row 2: Live Three Worlds Preview Slot & Expanding Camera Window */
-  .mobile-hero-row-static {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-  }
-
-  .mobile-hero-preview-slot {
-    width: clamp(195px, 52vw, 210px);
-    max-width: 210px;
-    height: clamp(138px, 16.8vh, 148px);
-    border-radius: 11px;
-    pointer-events: none;
-    visibility: hidden;
-  }
-
-  .mobile-hero-preview-window {
-    position: absolute;
-    z-index: 35;
-    overflow: hidden;
-    background-color: #F3F1E8;
-    border-radius: 11px;
-    box-shadow: 0 10px 24px rgba(0, 10, 24, 0.42);
-    pointer-events: auto;
-    will-change: transform, width, height, top, left, border-radius;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .mobile-hero-preview-canvas {
-    width: 100vw;
-    min-width: 100vw;
-    max-width: 480px;
-    height: 100svh;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    will-change: transform;
-    pointer-events: auto;
     flex-shrink: 0;
   }
 
@@ -951,6 +902,10 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
     object-position: 50% 48%;
   }
 
+  .mobile-video-elem--2 {
+    object-position: 50% 50%;
+  }
+
   .mobile-video-overlay {
     position: absolute;
     inset: 0;
@@ -958,16 +913,15 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
     background: rgba(0, 0, 0, 0.16);
   }
 
-  /* 3. Single Editorial Brand Sentence */
+  /* 3. Single Editorial Brand Sentence (pinned near bottom edge) */
   .mobile-hero-sentence {
-    position: absolute;
+    position: relative;
     z-index: 5;
     width: 100%;
-    bottom: clamp(40px, 5.2vh, 48px);
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 0 16px;
+    margin-top: auto;
+    padding-bottom: clamp(28px, 5svh, 56px);
+    padding-left: 20px;
+    padding-right: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -1063,7 +1017,7 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
     line-height: 1.12;
   }
 
-  /* 4. New Green Three Worlds Editorial Section (< 960px) */
+  /* 4. Green Three Worlds Editorial Section (< 960px) */
   .worlds-desktop-stage {
     display: none !important;
   }
@@ -1074,12 +1028,12 @@ footer > div { justify-self: end; display: flex; gap: 2rem; font-size: .62rem; t
     justify-content: flex-start;
     width: 100%;
     min-height: 100svh;
-    margin-top: -100svh;
-    background-color: #F3F1E8;
+    margin-top: 0 !important;
+    background-color: #F4F2E9;
     box-sizing: border-box;
     padding: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 }
 
