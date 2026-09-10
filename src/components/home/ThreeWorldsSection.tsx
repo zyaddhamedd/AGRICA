@@ -17,24 +17,27 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Dedicated world-specific visual imagery mapping
-const DEDICATED_WORLD_ASSETS: Record<WorldKey, { src: string; textSrc: string; alt: string; objectPosition: string }> = {
+// Dedicated world-specific visual imagery and transparent wordmark mapping
+const DEDICATED_WORLD_ASSETS: Record<WorldKey, { src: string; textSrc: string; alt: string; textAlt: string; objectPosition: string }> = {
   fresh: {
     src: "/assets/fresh_img.png",
     textSrc: "/assets/fresh_text.png",
     alt: "AGRICA Fresh Produce",
+    textAlt: "Fresh Produce Wordmark",
     objectPosition: "50% 50%",
   },
   frozen: {
     src: "/assets/frozen_img.png",
     textSrc: "/assets/frozen_text.png",
     alt: "AGRICA IQF Frozen Produce",
+    textAlt: "IQF Frozen Wordmark",
     objectPosition: "50% 50%",
   },
   dried: {
     src: "/assets/dried_img.png",
     textSrc: "/assets/dried_text.png",
     alt: "AGRICA Sun-Dried Herbs and Botanicals",
+    textAlt: "Dried Range Wordmark",
     objectPosition: "50% 50%",
   },
 };
@@ -42,17 +45,26 @@ const DEDICATED_WORLD_ASSETS: Record<WorldKey, { src: string; textSrc: string; a
 export function ThreeWorldsSection(): React.JSX.Element {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const ghostTrackRef = useRef<HTMLDivElement>(null);
 
-  const cardFreshRef = useRef<HTMLDivElement>(null);
-  const cardFrozenRef = useRef<HTMLDivElement>(null);
-  const cardDriedRef = useRef<HTMLDivElement>(null);
+  // Chapter Card Refs
+  const cardFreshRef = useRef<HTMLElement>(null);
+  const cardFrozenRef = useRef<HTMLElement>(null);
+  const cardDriedRef = useRef<HTMLElement>(null);
 
+  // Image Mask Refs
+  const maskFreshRef = useRef<HTMLDivElement>(null);
+  const maskFrozenRef = useRef<HTMLDivElement>(null);
+  const maskDriedRef = useRef<HTMLDivElement>(null);
+
+  // Image Element Refs
   const imgFreshRef = useRef<HTMLImageElement>(null);
   const imgFrozenRef = useRef<HTMLImageElement>(null);
   const imgDriedRef = useRef<HTMLImageElement>(null);
+
+  // Wordmark Zone Refs
+  const wmFreshRef = useRef<HTMLDivElement>(null);
+  const wmFrozenRef = useRef<HTMLDivElement>(null);
+  const wmDriedRef = useRef<HTMLDivElement>(null);
 
   const [, setSelectedWorld] = useSharedWorld();
   const [activeWorldKey, setActiveWorldKey] = useState<WorldKey>("fresh");
@@ -64,114 +76,146 @@ export function ThreeWorldsSection(): React.JSX.Element {
 
     mm.add("(max-width: 960px)", () => {
       const section = sectionRef.current;
-      const viewport = viewportRef.current;
-      const track = trackRef.current;
-      const ghostTrack = ghostTrackRef.current;
-
       const cardFresh = cardFreshRef.current;
       const cardFrozen = cardFrozenRef.current;
       const cardDried = cardDriedRef.current;
+
+      const maskFresh = maskFreshRef.current;
+      const maskFrozen = maskFrozenRef.current;
+      const maskDried = maskDriedRef.current;
 
       const imgFresh = imgFreshRef.current;
       const imgFrozen = imgFrozenRef.current;
       const imgDried = imgDriedRef.current;
 
-      if (!section || !viewport || !track || !cardFresh || !cardFrozen || !cardDried) return;
+      const wmFresh = wmFreshRef.current;
+      const wmFrozen = wmFrozenRef.current;
+      const wmDried = wmDriedRef.current;
 
-      // Calculate exact DOM geometries for centering Fresh (0%), Frozen (50%), Dried (100%)
-      const calcOffsets = () => {
-        const vpCenter = viewport.clientWidth / 2;
+      if (!section || !cardFresh || !cardFrozen || !cardDried) return;
 
-        const freshCenter = cardFresh.offsetLeft + cardFresh.offsetWidth / 2;
-        const frozenCenter = cardFrozen.offsetLeft + cardFrozen.offsetWidth / 2;
-        const driedCenter = cardDried.offsetLeft + cardDried.offsetWidth / 2;
-
-        const startX = vpCenter - freshCenter;
-        const midX = vpCenter - frozenCenter;
-        const endX = vpCenter - driedCenter;
-
-        return { startX, midX, endX };
-      };
-
-      let offsets = calcOffsets();
-
-      // Initial placement & focus states
-      gsap.set(track, { x: offsets.startX });
-      if (ghostTrack) gsap.set(ghostTrack, { x: 0 });
-
-      gsap.set(cardFresh, { scale: 1.0, opacity: 1.0 });
-      gsap.set(cardFrozen, { scale: 0.95, opacity: 0.72 });
-      gsap.set(cardDried, { scale: 0.95, opacity: 0.72 });
-
-      // GSAP Master Timeline pinned for tight + intentional 160vh distance
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=160vh",
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const p = self.progress;
-            let currentKey: WorldKey = "fresh";
-            if (p < 0.28) {
-              currentKey = "fresh";
-            } else if (p < 0.72) {
-              currentKey = "frozen";
-            } else {
-              currentKey = "dried";
-            }
-            setActiveWorldKey(currentKey);
-            setSelectedWorld(currentKey, false);
-          },
-          onRefresh: () => {
-            offsets = calcOffsets();
-            gsap.set(track, { x: offsets.startX });
-          },
+      const chapterList = [
+        {
+          key: "fresh" as WorldKey,
+          card: cardFresh,
+          mask: maskFresh,
+          img: imgFresh,
+          wm: wmFresh,
+          bg: "#F4F2E9",
         },
+        {
+          key: "frozen" as WorldKey,
+          card: cardFrozen,
+          mask: maskFrozen,
+          img: imgFrozen,
+          wm: wmFrozen,
+          bg: "#EEF3F4",
+        },
+        {
+          key: "dried" as WorldKey,
+          card: cardDried,
+          mask: maskDried,
+          img: imgDried,
+          wm: wmDried,
+          bg: "#F2EADF",
+        },
+      ];
+
+      // 1. Initial GSAP set for controlled starting states
+      chapterList.forEach(({ card, mask, img, wm }) => {
+        if (card) gsap.set(card, { scale: 1.0, opacity: 1.0, y: 0 });
+        if (mask) gsap.set(mask, { clipPath: "inset(7% 0% 7% 0%)" });
+        if (img) gsap.set(img, { scale: 1.04, yPercent: -4 });
+        if (wm) gsap.set(wm, { y: 30, opacity: 0 });
       });
 
-      // 1. Horizontal Track Scrubbing
-      tl.to(track, {
-        x: offsets.endX,
-        ease: "none",
-        duration: 1,
-      }, 0);
+      // 2. Independent Active-World Focus & Background Atmosphere Switches
+      chapterList.forEach(({ key, card, bg }) => {
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 60%",
+          end: "bottom 40%",
+          onToggle: (self) => {
+            if (self.isActive) {
+              setActiveWorldKey(key);
+              setSelectedWorld(key, false);
+              gsap.to(section, {
+                backgroundColor: bg,
+                duration: 0.6,
+                ease: "power2.out",
+                overwrite: "auto",
+              });
+            }
+          },
+        });
+      });
 
-      // 2. Active-Card Focus Hierarchy (Scale 0.95 -> 1.0 -> 0.95 & Opacity 0.72 -> 1.0 -> 0.72)
-      tl.to(cardFresh, { scale: 0.95, opacity: 0.72, ease: "sine.inOut", duration: 0.5 }, 0)
-        .to(cardFresh, { scale: 0.95, opacity: 0.72, ease: "sine.inOut", duration: 0.5 }, 0.5);
+      // 3. Entry Reveals per Chapter (Masked Image Open + Wordmark Rise + Image Parallax)
+      chapterList.forEach(({ card, mask, img, wm }) => {
+        const entryTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            end: "top 42%",
+            scrub: 0.6,
+          },
+        });
 
-      tl.to(cardFrozen, { scale: 1.0, opacity: 1.0, ease: "sine.inOut", duration: 0.5 }, 0)
-        .to(cardFrozen, { scale: 0.95, opacity: 0.72, ease: "sine.inOut", duration: 0.5 }, 0.5);
+        if (mask) {
+          entryTl.to(mask, { clipPath: "inset(0% 0% 0% 0%)", ease: "sine.out" }, 0);
+        }
+        if (img) {
+          entryTl.to(img, { scale: 1.0, ease: "sine.out" }, 0);
+        }
+        if (wm) {
+          entryTl.to(wm, { y: 0, opacity: 1, ease: "power2.out" }, 0.08);
+        }
 
-      tl.to(cardDried, { scale: 1.0, opacity: 1.0, ease: "sine.inOut", duration: 0.5 }, 0.5);
+        // Subtle image counter-parallax on vertical scroll
+        if (img) {
+          gsap.to(img, {
+            yPercent: 4,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }
+      });
 
-      // 3. Ghost Typography Parallax (slower rate behind media)
-      if (ghostTrack) {
-        tl.to(ghostTrack, {
-          x: -180,
-          ease: "none",
-          duration: 1,
-        }, 0);
-      }
+      // 4. Cinematic Handoff (Subtle Retreat of Outgoing Chapter when Next Chapter Enters)
+      // Fresh retreats when Frozen approaches
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: cardFrozen,
+          start: "top 80%",
+          end: "top 35%",
+          scrub: 0.6,
+        },
+      }).to(cardFresh, {
+        scale: 0.96,
+        opacity: 0.55,
+        y: -15,
+        ease: "sine.out",
+      });
 
-      // 4. Subtle Image Counter-Parallax (-8% to +8% shift overscale)
-      if (imgFresh && imgFrozen && imgDried) {
-        tl.fromTo(imgFresh, { xPercent: 0 }, { xPercent: 8, ease: "none", duration: 1 }, 0);
-        tl.fromTo(imgFrozen, { xPercent: -8 }, { xPercent: 8, ease: "none", duration: 1 }, 0);
-        tl.fromTo(imgDried, { xPercent: -8 }, { xPercent: 0, ease: "none", duration: 1 }, 0);
-      }
-
-      // 5. Atmosphere Background Color Interpolation
-      tl.to(section, { backgroundColor: "#EEF3F4", duration: 0.45, ease: "sine.inOut" }, 0.15)
-        .to(section, { backgroundColor: "#F2EADF", duration: 0.45, ease: "sine.inOut" }, 0.60);
-
-      return () => {
-        tl.kill();
-      };
+      // Frozen retreats when Dried approaches
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: cardDried,
+          start: "top 80%",
+          end: "top 35%",
+          scrub: 0.6,
+        },
+      }).to(cardFrozen, {
+        scale: 0.96,
+        opacity: 0.55,
+        y: -15,
+        ease: "sine.out",
+      });
     });
 
     return () => mm.revert();
@@ -196,133 +240,167 @@ export function ThreeWorldsSection(): React.JSX.Element {
       {/* 3-Theme Background & Organic World Sweep Layer */}
       <ThreeWorldsThemeLayer activeWorld={activeWorldKey} />
 
-      <div ref={stageRef} className="triptych-stage">
-        {/* Top Header Kicker */}
-        <header className="triptych-header">
+      <div ref={stageRef} className="vertical-triptych-stage">
+        {/* Top Header Kicker (Rendered ONCE at the beginning of Section 2) */}
+        <header className="vertical-triptych-header">
           <span
-            className="triptych-kicker-number"
+            className="vertical-triptych-kicker-number"
             style={{ color: currentWorldConfig.accentColor }}
           >
             01 ───────── 03
           </span>
-          <span className="triptych-kicker-title">THREE WORLDS</span>
+          <span className="vertical-triptych-kicker-title">THREE WORLDS</span>
         </header>
 
-        {/* Oversized Ghost Serif Parallax Layer (Positioned behind media cluster) */}
-        <div className="triptych-ghost-viewport" aria-hidden="true">
-          <div ref={ghostTrackRef} className="triptych-ghost-track">
-            <span className="triptych-ghost-word">Fresh</span>
-            <span className="triptych-ghost-word">Frozen</span>
-            <span className="triptych-ghost-word">Dried</span>
-          </div>
+        {/* Vertical Chapter List */}
+        <div className="vertical-chapters-list">
+          {/* 01 Fresh Chapter */}
+          <article ref={cardFreshRef} className="vertical-chapter vertical-chapter--fresh">
+            <div className="vertical-chapter-media">
+              <div ref={maskFreshRef} className="vertical-chapter-img-mask">
+                <img
+                  ref={imgFreshRef}
+                  src={DEDICATED_WORLD_ASSETS.fresh.src}
+                  alt={DEDICATED_WORLD_ASSETS.fresh.alt}
+                  className="vertical-chapter-img"
+                  style={{ objectPosition: DEDICATED_WORLD_ASSETS.fresh.objectPosition }}
+                />
+              </div>
+            </div>
+            <div ref={wmFreshRef} className="vertical-chapter-wordmark-zone">
+              <img
+                src={DEDICATED_WORLD_ASSETS.fresh.textSrc}
+                alt={DEDICATED_WORLD_ASSETS.fresh.textAlt}
+                className="vertical-chapter-wordmark-img"
+              />
+            </div>
+            <div className="vertical-chapter-action-zone">
+              <span
+                className="vertical-chapter-micro-label"
+                style={{ color: THREE_WORLDS_DATA.fresh.accentColor }}
+              >
+                {THREE_WORLDS_DATA.fresh.microLabel}
+              </span>
+              <Link href={THREE_WORLDS_DATA.fresh.actionHref} className="vertical-chapter-action-link">
+                <span className="vertical-chapter-action-text">
+                  {THREE_WORLDS_DATA.fresh.actionText}
+                </span>
+                <span
+                  className="vertical-chapter-action-arrow"
+                  style={{ color: THREE_WORLDS_DATA.fresh.accentColor }}
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+                <span
+                  className="vertical-chapter-action-rule"
+                  style={{ backgroundColor: THREE_WORLDS_DATA.fresh.accentColor }}
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
+          </article>
+
+          {/* 02 Frozen Chapter */}
+          <article ref={cardFrozenRef} className="vertical-chapter vertical-chapter--frozen">
+            <div className="vertical-chapter-media">
+              <div ref={maskFrozenRef} className="vertical-chapter-img-mask">
+                <img
+                  ref={imgFrozenRef}
+                  src={DEDICATED_WORLD_ASSETS.frozen.src}
+                  alt={DEDICATED_WORLD_ASSETS.frozen.alt}
+                  className="vertical-chapter-img"
+                  style={{ objectPosition: DEDICATED_WORLD_ASSETS.frozen.objectPosition }}
+                />
+              </div>
+            </div>
+            <div ref={wmFrozenRef} className="vertical-chapter-wordmark-zone">
+              <img
+                src={DEDICATED_WORLD_ASSETS.frozen.textSrc}
+                alt={DEDICATED_WORLD_ASSETS.frozen.textAlt}
+                className="vertical-chapter-wordmark-img"
+              />
+            </div>
+            <div className="vertical-chapter-action-zone">
+              <span
+                className="vertical-chapter-micro-label"
+                style={{ color: THREE_WORLDS_DATA.frozen.accentColor }}
+              >
+                {THREE_WORLDS_DATA.frozen.microLabel}
+              </span>
+              <Link href={THREE_WORLDS_DATA.frozen.actionHref} className="vertical-chapter-action-link">
+                <span className="vertical-chapter-action-text">
+                  {THREE_WORLDS_DATA.frozen.actionText}
+                </span>
+                <span
+                  className="vertical-chapter-action-arrow"
+                  style={{ color: THREE_WORLDS_DATA.frozen.accentColor }}
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+                <span
+                  className="vertical-chapter-action-rule"
+                  style={{ backgroundColor: THREE_WORLDS_DATA.frozen.accentColor }}
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
+          </article>
+
+          {/* 03 Dried Chapter */}
+          <article ref={cardDriedRef} className="vertical-chapter vertical-chapter--dried">
+            <div className="vertical-chapter-media">
+              <div ref={maskDriedRef} className="vertical-chapter-img-mask">
+                <img
+                  ref={imgDriedRef}
+                  src={DEDICATED_WORLD_ASSETS.dried.src}
+                  alt={DEDICATED_WORLD_ASSETS.dried.alt}
+                  className="vertical-chapter-img"
+                  style={{ objectPosition: DEDICATED_WORLD_ASSETS.dried.objectPosition }}
+                />
+              </div>
+            </div>
+            <div ref={wmDriedRef} className="vertical-chapter-wordmark-zone">
+              <img
+                src={DEDICATED_WORLD_ASSETS.dried.textSrc}
+                alt={DEDICATED_WORLD_ASSETS.dried.textAlt}
+                className="vertical-chapter-wordmark-img"
+              />
+            </div>
+            <div className="vertical-chapter-action-zone">
+              <span
+                className="vertical-chapter-micro-label"
+                style={{ color: THREE_WORLDS_DATA.dried.accentColor }}
+              >
+                {THREE_WORLDS_DATA.dried.microLabel}
+              </span>
+              <Link href={THREE_WORLDS_DATA.dried.actionHref} className="vertical-chapter-action-link">
+                <span className="vertical-chapter-action-text">
+                  {THREE_WORLDS_DATA.dried.actionText}
+                </span>
+                <span
+                  className="vertical-chapter-action-arrow"
+                  style={{ color: THREE_WORLDS_DATA.dried.accentColor }}
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+                <span
+                  className="vertical-chapter-action-rule"
+                  style={{ backgroundColor: THREE_WORLDS_DATA.dried.accentColor }}
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
+          </article>
         </div>
-
-        {/* Central Viewport & Moving Media Track */}
-        <div ref={viewportRef} className="triptych-viewport">
-          <div ref={trackRef} className="triptych-track">
-            {/* 01 Fresh Card (Main image on top, fresh_text below) */}
-            <div ref={cardFreshRef} className="triptych-card triptych-card--fresh">
-              <div className="triptych-card-media">
-                <div className="triptych-card-inner">
-                  <img
-                    ref={imgFreshRef}
-                    src={DEDICATED_WORLD_ASSETS.fresh.src}
-                    alt={DEDICATED_WORLD_ASSETS.fresh.alt}
-                    className="triptych-card-img"
-                    style={{ objectPosition: DEDICATED_WORLD_ASSETS.fresh.objectPosition }}
-                  />
-                  <div className="triptych-card-overlay" aria-hidden="true" />
-                </div>
-              </div>
-              <div className="triptych-card-text-zone">
-                <img
-                  src={DEDICATED_WORLD_ASSETS.fresh.textSrc}
-                  alt="Fresh World"
-                  className="triptych-card-text-img"
-                />
-              </div>
-            </div>
-
-            {/* 02 Frozen Card (Main image on top, frozen_text below) */}
-            <div ref={cardFrozenRef} className="triptych-card triptych-card--frozen">
-              <div className="triptych-card-media">
-                <div className="triptych-card-inner">
-                  <img
-                    ref={imgFrozenRef}
-                    src={DEDICATED_WORLD_ASSETS.frozen.src}
-                    alt={DEDICATED_WORLD_ASSETS.frozen.alt}
-                    className="triptych-card-img"
-                    style={{ objectPosition: DEDICATED_WORLD_ASSETS.frozen.objectPosition }}
-                  />
-                  <div className="triptych-card-overlay" aria-hidden="true" />
-                </div>
-              </div>
-              <div className="triptych-card-text-zone">
-                <img
-                  src={DEDICATED_WORLD_ASSETS.frozen.textSrc}
-                  alt="Frozen World"
-                  className="triptych-card-text-img"
-                />
-              </div>
-            </div>
-
-            {/* 03 Dried Card (Main image on top, dried_text below) */}
-            <div ref={cardDriedRef} className="triptych-card triptych-card--dried">
-              <div className="triptych-card-media">
-                <div className="triptych-card-inner">
-                  <img
-                    ref={imgDriedRef}
-                    src={DEDICATED_WORLD_ASSETS.dried.src}
-                    alt={DEDICATED_WORLD_ASSETS.dried.alt}
-                    className="triptych-card-img"
-                    style={{ objectPosition: DEDICATED_WORLD_ASSETS.dried.objectPosition }}
-                  />
-                  <div className="triptych-card-overlay" aria-hidden="true" />
-                </div>
-              </div>
-              <div className="triptych-card-text-zone">
-                <img
-                  src={DEDICATED_WORLD_ASSETS.dried.textSrc}
-                  alt="Dried World"
-                  className="triptych-card-text-img"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Lower Editorial Action Area (Positioned tightly below text zone) */}
-        <footer className="triptych-action-zone">
-          <span
-            className="triptych-micro-label"
-            style={{ color: currentWorldConfig.accentColor }}
-          >
-            {currentWorldConfig.microLabel}
-          </span>
-
-          <Link href={currentWorldConfig.actionHref} className="triptych-action-link">
-            <span className="triptych-action-text">
-              {currentWorldConfig.actionText}
-            </span>
-            <span
-              className="triptych-action-arrow"
-              style={{ color: currentWorldConfig.accentColor }}
-              aria-hidden="true"
-            >
-              ↗
-            </span>
-            <span
-              className="triptych-action-rule"
-              style={{ backgroundColor: currentWorldConfig.accentColor }}
-              aria-hidden="true"
-            />
-          </Link>
-        </footer>
       </div>
     </section>
   );
 }
 
 export default ThreeWorldsSection;
+
 
 
