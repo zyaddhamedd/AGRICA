@@ -3,48 +3,47 @@ import type { ProductFamily } from "@/types/agrica";
 
 export interface FamilyPanelProps {
   readonly families: readonly ProductFamily[];
-  readonly activeFamilyIndex: number;
-  readonly activeConditionLabel: string;
-  readonly onSelectFamily: (index: number) => void;
+  readonly activeFamilyCode: string | null;
+  readonly onSelectFamily: (code: string | null) => void;
+  readonly totalWorldCount: number;
 }
 
 export function FamilyPanel({
   families,
-  activeFamilyIndex,
-  activeConditionLabel,
+  activeFamilyCode,
   onSelectFamily,
+  totalWorldCount,
 }: FamilyPanelProps): React.JSX.Element {
-  const countStr = String(families.length).padStart(2, "0");
-
   return (
-    <aside className="family-panel" aria-label="Product families">
-      <div className="panel-label">
-        <span>Families</span>
-        <span id="family-count">{countStr}</span>
-      </div>
-      <div className="family-list" id="family-list" role="tablist">
-        {families.map((family, index) => {
-          const isActive = index === activeFamilyIndex;
-          const numStr = `0${index + 1}`;
+    <div className="taxonomy-ribbon-shell">
+      <div className="taxonomy-ribbon-inner" role="tablist" aria-label="Filter by product family">
+        <button
+          type="button"
+          className={`taxonomy-item${activeFamilyCode === null ? " is-active" : ""}`}
+          role="tab"
+          aria-selected={activeFamilyCode === null}
+          onClick={() => onSelectFamily(null)}
+        >
+          <span className="taxonomy-name">All Families</span>
+        </button>
+
+        {families.map((family) => {
+          const isActive = activeFamilyCode === family.code;
           return (
             <button
               key={family.code}
               type="button"
-              className={`family-button${isActive ? " is-active" : ""}`}
+              className={`taxonomy-item${isActive ? " is-active" : ""}`}
               role="tab"
               aria-selected={isActive}
-              onClick={() => onSelectFamily(index)}
+              onClick={() => onSelectFamily(family.code)}
             >
-              <span>{numStr}</span>
-              <strong>{family.name}</strong>
+              <span className="taxonomy-code">{family.code}</span>
+              <span className="taxonomy-name">{family.name}</span>
             </button>
           );
         })}
       </div>
-      <div className="panel-note">
-        <span>Active condition</span>
-        <strong id="active-condition">{activeConditionLabel}</strong>
-      </div>
-    </aside>
+    </div>
   );
 }

@@ -1,130 +1,174 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { GlobalMenu } from "./GlobalMenu";
 
-export type HeaderVariant = "home" | "products" | "standard";
+export type HeaderVariant = "home" | "products" | "standard" | "internal";
+export type NavbarTheme = "navy" | "paper" | "light" | "transparent";
 
 export interface SiteHeaderProps {
   readonly variant?: HeaderVariant;
+  readonly theme?: NavbarTheme;
   readonly quoteCount?: number;
   readonly onOpenQuote?: () => void;
 }
 
 export function SiteHeader({
   variant,
+  theme,
   quoteCount = 0,
   onOpenQuote,
 }: SiteHeaderProps): React.JSX.Element {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Resolve route variant if not explicitly passed
+  // Reusable global scroll state logic for smart Navbar behavior
+  const [scrollState, setScrollState] = useState<{
+    isAtTop: boolean;
+    isHidden: boolean;
+    isFloating: boolean;
+  }>({
+    isAtTop: true,
+    isHidden: false,
+    isFloating: false,
+  });
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const deltaY = currentScrollY - lastScrollY;
+          const topThreshold = 20;
+          const hideThreshold = 80;
+
+          if (currentScrollY <= topThreshold) {
+            setScrollState({
+              isAtTop: true,
+              isHidden: false,
+              isFloating: false,
+            });
+          } else {
+            // Require > 6px scroll movement to prevent jitter/flicker
+            if (Math.abs(deltaY) > 6) {
+              const isScrollingDown = deltaY > 0;
+              setScrollState({
+                isAtTop: false,
+                isHidden: isScrollingDown && currentScrollY > hideThreshold,
+                isFloating: true,
+              });
+            }
+          }
+
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Determine theme mode: "home" vs "internal"
+  // Homepage (`/`) -> Home theme ("paper" light surface, dark logo)
+  // All internal pages (`/products`, `/standard`, etc.) -> Internal theme ("navy" surface #002050, white logo)
+  const isHomePage =
+    variant === "home" ||
+    (pathname === "/" && variant !== "products" && variant !== "standard" && variant !== "internal");
+
+  const activeThemeMode: "home" | "internal" = isHomePage ? "home" : "internal";
+
   const activeVariant: HeaderVariant =
     variant ??
     (pathname === "/products"
       ? "products"
       : pathname === "/standard"
       ? "standard"
-      : "home");
+      : isHomePage
+      ? "home"
+      : "internal");
+
+  const activeTheme: NavbarTheme =
+    theme ?? (activeThemeMode === "internal" ? "navy" : "paper");
+
+  const isWhiteLogo = activeTheme === "navy";
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
 
-
   return (
     <>
-      <header
-        className={`site-header${
-          activeVariant === "products"
-            ? " product-header"
-            : activeVariant === "standard"
-            ? " standard-header"
-            : " home-header"
+      <div
+        className={`global-navbar-wrapper${
+          activeVariant === "home" ? " home-navbar" : ""
         }`}
-        {...(activeVariant === "home" ? { "data-motion": "header" } : {})}
+        data-variant={activeVariant}
+        data-theme={activeTheme}
+        data-top={scrollState.isAtTop ? "true" : "false"}
+        data-scrolled={scrollState.isFloating ? "true" : "false"}
+        data-hidden={!isMenuOpen && scrollState.isHidden ? "true" : "false"}
       >
-        <nav className="nav-shell" aria-label="Primary navigation">
-          {/* Brand mark: on Products & Standard visible in header; on Homepage quiet/minimal */}
-          <div className="nav-left-anchor">
-            {activeVariant !== "home" && (
-              <Link className="brand" href="/" aria-label="AGRICA home">
-                <strong>AGRĪCA</strong>
-                <small>Agriculture Cairo</small>
-              </Link>
-            )}
-            {/* Preserved navigation anchors for semantic accessibility and test parity */}
-            <div className="nav-semantic-links visually-hidden" aria-hidden="true">
-              {activeVariant === "home" && (
-                <Link className="nav-index nav-index--left" href="/products">
-                  <span>01</span> Products
-                </Link>
-              )}
-              {activeVariant === "products" && (
-                <>
-                  <a className="nav-index nav-index--left" href="#product-explorer">
-                    <span>01</span> Products
-                  </a>
-                  <a className="nav-index" href="#seasons">
-                    <span>02</span> Seasons
-                  </a>
-                  <Link className="nav-index" href="/standard">
-                    <span>03</span> Standard
-                  </Link>
-                </>
-              )}
-              {activeVariant === "standard" && (
-                <>
-                  <Link className="nav-index nav-index--left" href="/products">
-                    <span>01</span> Products
-                  </Link>
-                  <a className="nav-index is-current" href="#standard-journey">
-                    <span>02</span> Our standard
-                  </a>
-                  <Link className="trade-link" href="/products">
-                    Build a quote <b aria-hidden="true">↗</b>
-                  </Link>
-                </>
-              )}
-            </div>
+        <header className="global-navbar-capsule" aria-label="Primary navigation">
+          {/* Brand Logo */}
+          <Link href="/" className="global-navbar-brand" aria-label="AGRICA Home">
+            <img
+              src={isWhiteLogo ? "/assets/agrica-logo.png" : "/assets/agrica-logo-brand.png"}
+              alt="AGRICA"
+              className="global-navbar-logo"
+            />
+          </Link>
+
+          {/* Semantic Navigation Anchors for Accessibility & Test Parity */}
+          <div className="visually-hidden" aria-hidden="true">
+            <Link href="/products">Products</Link>
+            <Link href="/standard">Standard</Link>
           </div>
 
-          {/* Top-Right Control Cluster */}
-          <div className="nav-right">
-            {/* On Products page, preserve dedicated quote counter button */}
+          {/* Right Action Cluster */}
+          <div className="global-navbar-actions">
+            {/* Dedicated Quote Counter Trigger for Products */}
             {activeVariant === "products" && (
               <button
-                className="header-quote quote-trigger"
+                className="global-navbar-quote-btn"
                 type="button"
                 aria-expanded="false"
                 aria-controls="quote-drawer"
                 onClick={onOpenQuote}
               >
-                Build a quote <b className="quote-count">{quoteCount}</b>
+                <span>Build a quote</span>
+                <b className="quote-count">{quoteCount}</b>
               </button>
             )}
 
-            {/* Global Navigation V2: Minimal, elegant MENU + button */}
+            {/* Menu Trigger Button */}
             <button
-              className={`menu-btn-v2${isMenuOpen ? " is-active" : ""}`}
               type="button"
+              className={`global-navbar-menu-btn${isMenuOpen ? " is-active" : ""}`}
+              onClick={toggleMenu}
               aria-expanded={isMenuOpen}
               aria-controls="global-menu-panel"
               aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              onClick={toggleMenu}
             >
-              <span className="menu-btn-text">{isMenuOpen ? "CLOSE" : "MENU"}</span>
-              <span className="menu-btn-plus" aria-hidden="true">+</span>
+              <span>{isMenuOpen ? "Close" : "Menu"}</span>
             </button>
           </div>
-        </nav>
-      </header>
+        </header>
+      </div>
 
-      {/* Global Navigation V2 Staggered Architectural Side-Panel Drawer */}
+      {/* Shared Global Navigation Side-Panel Drawer */}
       <GlobalMenu isOpen={isMenuOpen} onClose={closeMenu} />
     </>
   );
 }
+
+
 

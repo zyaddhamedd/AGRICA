@@ -1,26 +1,27 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react";
+import React, { useState, useEffect, useMemo, useTransition } from "react";
 import Link from "next/link";
-import type { WorldId, QuoteItem } from "@/types/agrica";
-import { PRODUCT_LIBRARY, visualFor } from "@/data/products";
+import type { WorldId, QuoteItem, ProductAtlasItem } from "@/types/agrica";
+import { PRODUCT_LIBRARY, visualFor, countProductsInWorld, totalCatalogueCount } from "@/data/products";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { WorldSwitch } from "./WorldSwitch";
 import { FamilyPanel } from "./FamilyPanel";
-import { ProductStage } from "./ProductStage";
-import { LivingShelf } from "./LivingShelf";
-import { SeasonStrip } from "./SeasonStrip";
+import { LiveSearchInput } from "./LiveSearchInput";
+import { AtlasGrid } from "./AtlasGrid";
+import { ProductDetailSheet } from "./ProductDetailSheet";
+import { FloatingEnquiryDock } from "./FloatingEnquiryDock";
+import { SeasonSection } from "@/components/home/SeasonSection";
 import { QuoteDrawer } from "./QuoteDrawer";
-import { MobileQuoteBar } from "./MobileQuoteBar";
 
 export function ProductsExplorer(): React.JSX.Element {
   const [activeWorld, setActiveWorld] = useState<WorldId>("fresh");
-  const [activeFamilyIndex, setActiveFamilyIndex] = useState<number>(0);
-  const [activeProductIndex, setActiveProductIndex] = useState<number>(0);
+  const [activeFamilyCode, setActiveFamilyCode] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedItemDetail, setSelectedItemDetail] = useState<ProductAtlasItem | null>(null);
+
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isChangingMedia, setIsChangingMedia] = useState<boolean>(false);
-  const [addFeedback, setAddFeedback] = useState<string>("");
   const [, startTransition] = useTransition();
 
   // Read initial world query parameter on mount
@@ -34,7 +35,7 @@ export function ProductsExplorer(): React.JSX.Element {
     }
   }, []);
 
-  // Sync body dataset and class for CSS theme variables
+  // Sync body dataset for CSS theme styling
   useEffect(() => {
     document.body.dataset.world = activeWorld;
     document.body.classList.add("products-page");
@@ -44,152 +45,164 @@ export function ProductsExplorer(): React.JSX.Element {
     };
   }, [activeWorld]);
 
-  // Derived current library, family, and product
-  const currentWorld = PRODUCT_LIBRARY[activeWorld];
-  const currentFamily = currentWorld.families[activeFamilyIndex] || currentWorld.families[0];
-  const currentProduct = currentFamily.products[activeProductIndex] || currentFamily.products[0];
-  const worldFormat = currentWorld.label.replace(" produce", "");
+  // Construct full flat list of all atlas items in current library
+  const allAtlasItems = useMemo(() => {
+    const items: ProductAtlasItem[] = [];
+    const worldKeys: WorldId[] = ["fresh", "frozen", "dried"];
 
-  const visual = visualFor(currentProduct, activeWorld, currentFamily.code);
-  const stageCode = `${activeWorld.slice(0, 2).toUpperCase()} / ${currentFamily.code} / ${String(
-    activeProductIndex + 1
-  ).padStart(2, "0")}`;
-  const currentKey = `${activeWorld}::${currentFamily.name}::${currentProduct}`;
-  const isAddedToQuote = quoteItems.some((item) => item.key === currentKey);
+    for (const wId of worldKeys) {
+      const worldObj = PRODUCT_LIBRARY[wId];
+      for (const fam of worldObj.families) {
+        for (const prodName of fam.products) {
+          const visual = visualFor(prodName, wId, fam.code);
+          const key = `${wId}::${fam.name}::${prodName}`;
+          items.push({
+            id: key,
+            key,
+            name: prodName,
+            worldId: wId,
+            worldLabel: worldObj.label,
+            familyCode: fam.code,
+            familyName: fam.name,
+            visual,
+            origin: "Egypt",
+          });
+        }
+      }
+    }
+    return items;
+  }, []);
 
-  // Switch world without page reload
+  // Filter items based on searchQuery, activeWorld, and activeFamilyCode
+  const filteredItems = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    return allAtlasItems.filter((item) => {
+      // If search query is entered, search across name, world, family, variety
+      if (query) {
+        const matchesName = item.name.toLowerCase().includes(query);
+        const matchesWorld = item.worldLabel.toLowerCase().includes(query) || item.worldId.includes(query);
+        const matchesFamily = item.familyName.toLowerCase().includes(query) || item.familyCode.toLowerCase().includes(query);
+        const matchesVariety = item.variety ? item.variety.toLowerCase().includes(query) : false;
+        return matchesName || matchesWorld || matchesFamily || matchesVariety;
+      }
+
+      // Otherwise filter by active world and active family code
+      if (item.worldId !== activeWorld) return false;
+      if (activeFamilyCode !== null && item.familyCode !== activeFamilyCode) return false;
+
+      return true;
+    });
+  }, [allAtlasItems, searchQuery, activeWorld, activeFamilyCode]);
+
+  // World switcher
   const handleSelectWorld = (world: WorldId) => {
-    if (world === activeWorld) return;
-    setIsChangingMedia(true);
+    if (world === activeWorld && !searchQuery) return;
     setActiveWorld(world);
-    setActiveFamilyIndex(0);
-    setActiveProductIndex(0);
-    setAddFeedback("");
+    setActiveFamilyCode(null);
 
     startTransition(() => {
       if (typeof window !== "undefined") {
-        window.history.replaceState(null, "", `?world=${world}`);
+        const url = new URL(window.location.href);
+        url.searchParams.set("world", world);
+        window.history.replaceState(null, "", url.toString());
       }
     });
-
-    window.setTimeout(() => {
-      setIsChangingMedia(false);
-    }, 120);
   };
 
-  // Switch family
-  const handleSelectFamily = (index: number) => {
-    if (index === activeFamilyIndex) return;
-    setIsChangingMedia(true);
-    setActiveFamilyIndex(index);
-    setActiveProductIndex(0);
-    setAddFeedback("");
-
-    window.setTimeout(() => {
-      setIsChangingMedia(false);
-    }, 120);
+  // Family switcher
+  const handleSelectFamily = (code: string | null) => {
+    setActiveFamilyCode(code);
   };
 
-  // Switch product
-  const handleSelectProduct = (index: number, _reveal: boolean) => {
-    if (index === activeProductIndex) return;
-    setIsChangingMedia(true);
-    setActiveProductIndex(index);
-    setAddFeedback("");
-
-    window.setTimeout(() => {
-      setIsChangingMedia(false);
-    }, 120);
+  // Quote item toggle
+  const handleToggleQuote = (item: ProductAtlasItem) => {
+    setQuoteItems((prev) => {
+      const exists = prev.some((q) => q.key === item.key);
+      if (exists) {
+        return prev.filter((q) => q.key !== item.key);
+      } else {
+        return [
+          ...prev,
+          {
+            key: item.key,
+            name: item.name,
+            world: item.worldLabel,
+            family: item.familyName,
+          },
+        ];
+      }
+    });
   };
 
-  // Add product to quotation
-  const handleAddToQuote = () => {
-    if (!isAddedToQuote) {
-      setQuoteItems((prev) => [
-        ...prev,
-        {
-          key: currentKey,
-          name: currentProduct,
-          world: currentWorld.label,
-          family: currentFamily.name,
-        },
-      ]);
-      setAddFeedback("Added. Continue browsing or open your quotation.");
-    } else {
-      setAddFeedback("This product is already in your quotation.");
-    }
-  };
-
-  // Remove product from quotation
   const handleRemoveQuoteItem = (key: string) => {
     setQuoteItems((prev) => prev.filter((item) => item.key !== key));
   };
 
+  const currentWorldObj = PRODUCT_LIBRARY[activeWorld];
+  const totalWorldCount = countProductsInWorld(activeWorld);
+  const catalogueCount = totalCatalogueCount();
+
   return (
     <div className="products-page" data-world={activeWorld}>
-      <a className="skip-link" href="#product-explorer">
-        Skip to product explorer
+      <a className="skip-link" href="#product-atlas-main">
+        Skip to product atlas
       </a>
 
       <SiteHeader
         variant="products"
+        theme="navy"
         quoteCount={quoteItems.length}
         onOpenQuote={() => setIsDrawerOpen(true)}
       />
 
-      <main>
-        <section className="explorer" id="product-explorer" aria-labelledby="explorer-title">
-          <div className="explorer-head">
-            <div>
-              <p className="eyebrow">AGRICA product library</p>
-              <h1 id="explorer-title">
-                Produce,
-                <br />
-                <em>organised.</em>
-              </h1>
+      <main id="product-atlas-main">
+        {/* Unified Hero Surface Canvas */}
+        <section className="products-hero-canvas">
+          <div className="hero-compact-content">
+            <h1 className="hero-compact-title">
+              Egyptian produce. <em>Prepared for export.</em>
+            </h1>
+
+            {/* Editorial World Selector */}
+            <WorldSwitch activeWorld={activeWorld} onSelectWorld={handleSelectWorld} />
+          </div>
+        </section>
+
+        {/* Seamless Catalogue Handoff Bar */}
+        <section className="catalogue-handoff-bar">
+          <div className="handoff-inner">
+            <div className="handoff-meta">
+              <span className="handoff-world-name">{currentWorldObj.label}</span>
             </div>
-            <p>
-              Browse by condition and family. Select any product to inspect it here, then add it
-              directly to one export enquiry.
-            </p>
+            <div className="handoff-search-wrap">
+              <LiveSearchInput
+                query={searchQuery}
+                onChange={setSearchQuery}
+                totalMatches={filteredItems.length}
+              />
+            </div>
           </div>
-
-          <WorldSwitch activeWorld={activeWorld} onSelectWorld={handleSelectWorld} />
-
-          <div className="explorer-workspace">
-            <FamilyPanel
-              families={currentWorld.families}
-              activeFamilyIndex={activeFamilyIndex}
-              activeConditionLabel={currentWorld.label}
-              onSelectFamily={handleSelectFamily}
-            />
-
-            <ProductStage
-              visual={visual}
-              isChanging={isChangingMedia}
-              stageCode={stageCode}
-              familyName={currentFamily.name}
-              worldFormat={worldFormat}
-              productName={currentProduct}
-              isAddedToQuote={isAddedToQuote}
-              addFeedback={addFeedback}
-              onAddToQuote={handleAddToQuote}
-            />
-          </div>
-
-          <LivingShelf
-            shelfLabel={`${currentWorld.label} / ${currentFamily.name}`}
-            familyName={currentFamily.name}
-            products={currentFamily.products}
-            activeProductIndex={activeProductIndex}
-            onSelectProduct={handleSelectProduct}
+          <FamilyPanel
+            families={currentWorldObj.families}
+            activeFamilyCode={activeFamilyCode}
+            onSelectFamily={handleSelectFamily}
+            totalWorldCount={totalWorldCount}
           />
         </section>
 
-        <SeasonStrip
-          seasonFamily={`${currentWorld.label} · ${currentFamily.name}`}
-          seasonProducts={currentFamily.products.join(" · ")}
-        />
+        {/* Asymmetric Product Atlas Grid */}
+        <section className="atlas-content">
+          <AtlasGrid
+            items={filteredItems}
+            quoteItems={quoteItems}
+            onOpenDetail={(item) => setSelectedItemDetail(item)}
+            onToggleQuote={handleToggleQuote}
+          />
+        </section>
+
+        {/* Homepage Season Section (Copied / Reused Directly) */}
+        <SeasonSection />
       </main>
 
       <footer className="products-footer">
@@ -204,6 +217,15 @@ export function ProductsExplorer(): React.JSX.Element {
         </div>
       </footer>
 
+      {/* Mobile Editorial Bottom Sheet Detail Drawer */}
+      <ProductDetailSheet
+        item={selectedItemDetail}
+        isAddedToQuote={Boolean(selectedItemDetail && quoteItems.some((q) => q.key === selectedItemDetail.key))}
+        onClose={() => setSelectedItemDetail(null)}
+        onToggleQuote={handleToggleQuote}
+      />
+
+      {/* Quote Drawer */}
       <QuoteDrawer
         isOpen={isDrawerOpen}
         items={quoteItems}
@@ -211,7 +233,11 @@ export function ProductsExplorer(): React.JSX.Element {
         onRemoveItem={handleRemoveQuoteItem}
       />
 
-      <MobileQuoteBar count={quoteItems.length} onOpen={() => setIsDrawerOpen(true)} />
+      {/* Floating Enquiry Dock (Replaces MobileQuoteBar) */}
+      <FloatingEnquiryDock
+        count={quoteItems.length}
+        onOpenQuote={() => setIsDrawerOpen(true)}
+      />
     </div>
   );
 }
