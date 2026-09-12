@@ -97,7 +97,7 @@ export function StandardStageBlock({
     return () => ctx.revert();
   }, []);
 
-  const themeClass = index === 2 || isCulmination ? " bg-navy" : index % 2 === 1 ? " bg-tint" : " bg-paper";
+  const stageIdentity = `${numStr} / ${stage.name.toUpperCase() === "HANDOVER" ? "EXPORT HANDOVER" : stage.name.toUpperCase()}`;
 
   return (
     <section
@@ -117,9 +117,8 @@ export function StandardStageBlock({
       <div className="stage-block-inner">
         {/* Stage Content Column */}
         <div className="stage-content-col">
-          <div className="stage-meta-bar">
-            <span className="stage-code-badge">{stage.code}</span>
-            <span className="stage-kicker">{stage.kicker}</span>
+          <div className="stage-identity">
+            <span className="identity-tag">{stageIdentity}</span>
           </div>
 
           <h2 ref={headlineRef} className="stage-headline">
@@ -128,11 +127,11 @@ export function StandardStageBlock({
 
           <p className="stage-copy">{stage.copy}</p>
 
-          {/* Single Concise Proof Output Line */}
+          {/* Refined Proof Statement (Without "OUTPUT" badge) */}
           {stage.proofOutput && (
             <div className="stage-proof-output">
-              <span className="proof-label">OUTPUT</span>
-              <strong className="proof-val">{stage.proofOutput}</strong>
+              <span className="proof-line-accent" aria-hidden="true" />
+              <p className="proof-val">{stage.proofOutput}</p>
             </div>
           )}
 

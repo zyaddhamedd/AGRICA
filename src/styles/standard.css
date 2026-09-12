@@ -13,7 +13,7 @@
    CINEMATIC COMPACT MONOLITH HERO
    ========================================== */
 .standard-monolith-hero {
-  padding: clamp(6rem, 12vh, 10rem) var(--gutter) clamp(3rem, 6vw, 5rem);
+  padding: clamp(3.5rem, 6vh, 5.5rem) var(--gutter) clamp(1.25rem, 2.5vw, 2rem);
   background: var(--paper);
   border-bottom: 1px solid rgba(0, 32, 80, 0.08);
 }
@@ -27,26 +27,22 @@
   font-size: 0.62rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #50A010;
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-}
-
-.hero-kicker-dot {
-  color: #50A010;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
 }
 
 .hero-headline {
-  margin: 0 0 1.25rem;
-  font-size: clamp(3.2rem, 7vw, 6.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.05em;
+  margin: 0 0 0.75rem;
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
   font-weight: 540;
   color: var(--navy);
-  max-width: 58rem;
+  max-width: 52rem;
 }
 
 .hero-headline em {
@@ -58,15 +54,15 @@
 
 .hero-subline {
   max-width: 36rem;
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
   color: #5c6874;
-  line-height: 1.6;
-  margin: 0 0 2.5rem;
+  line-height: 1.55;
+  margin: 0 0 1.25rem;
 }
 
 .hero-scroll-line {
   width: 1px;
-  height: 48px;
+  height: 28px;
   background: rgba(0, 32, 80, 0.15);
   position: relative;
   overflow: hidden;
@@ -178,7 +174,7 @@
    ========================================== */
 .standard-stage-block {
   position: relative;
-  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
+  padding: clamp(3rem, 5.5vw, 5.5rem) var(--gutter);
   border-bottom: 1px solid rgba(0, 32, 80, 0.08);
   overflow: hidden;
   background: var(--paper);
@@ -206,7 +202,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(2.5rem, 6vw, 6rem);
+  gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
 }
 
@@ -215,44 +211,31 @@
 .layout-odd .stage-content-col { order: 2; }
 .layout-odd .stage-visual-col { order: 1; }
 
-.stage-meta-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+.stage-identity {
+  margin-bottom: 0.65rem;
 }
 
-.stage-code-badge {
-  font-size: 0.62rem;
+.identity-tag {
+  font-size: 0.65rem;
   letter-spacing: 0.14em;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   color: #50A010;
-  background: rgba(80, 160, 16, 0.1);
-  padding: 0.25rem 0.55rem;
-  border-radius: 2px;
-}
-
-.stage-kicker {
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
 }
 
 .stage-headline {
-  margin: 0 0 1rem;
-  font-size: clamp(2.2rem, 4vw, 3.8rem);
-  line-height: 0.95;
+  margin: 0 0 0.85rem;
+  font-size: clamp(2rem, 3.5vw, 3.4rem);
+  line-height: 0.96;
   letter-spacing: -0.045em;
   font-weight: 520;
   color: var(--navy);
 }
 
 .stage-copy {
-  margin: 0 0 2rem;
-  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-  line-height: 1.6;
+  margin: 0 0 1.25rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  line-height: 1.55;
   color: #5c6874;
   max-width: 32rem;
 }
@@ -344,53 +327,42 @@
   color: rgba(255, 255, 255, 0.78);
 }
 
-.standard-stage-block.bg-navy .stage-kicker {
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.standard-stage-block.bg-navy .stage-watermark-num {
-  color: #fff;
-  opacity: 0.05;
-}
-
-.standard-stage-block.bg-navy .stage-code-badge {
-  background: rgba(80, 160, 16, 0.2);
+.standard-stage-block.bg-navy .identity-tag {
   color: #6BC21A;
 }
 
-/* Single Proof Output line */
+/* Refined Proof Statement (Without "OUTPUT" heading) */
 .stage-proof-output {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.6rem 1rem;
-  background: rgba(80, 160, 16, 0.08);
-  border: 1px solid rgba(80, 160, 16, 0.2);
-  border-radius: 4px;
-  margin-top: 0.5rem;
+  padding-top: 1rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid rgba(0, 32, 80, 0.1);
 }
 
-.stage-proof-output .proof-label {
-  font-size: 0.58rem;
-  letter-spacing: 0.14em;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #50A010;
+.proof-line-accent {
+  width: 3px;
+  height: 16px;
+  background: #50A010;
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .stage-proof-output .proof-val {
-  font-size: 0.85rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+  font-weight: 550;
   color: var(--navy);
+  letter-spacing: -0.01em;
 }
 
 .standard-stage-block.bg-navy .stage-proof-output {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.18);
+  border-top-color: rgba(255, 255, 255, 0.15);
 }
 
 .standard-stage-block.bg-navy .stage-proof-output .proof-val {
-  color: #fff;
+  color: #ffffff;
 }
 
 /* ==========================================
@@ -557,32 +529,46 @@
   .progress-thread-mobile {
     display: block;
     position: sticky;
-    top: 72px;
+    top: 76px;
     z-index: 50;
-    background: rgba(0, 32, 80, 0.94);
-    backdrop-filter: blur(12px);
-    color: #fff;
-    padding: 0.65rem var(--gutter);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    padding: 0 var(--gutter);
+    margin-bottom: -36px;
   }
 
-  .mobile-thread-inner {
-    display: flex;
-    justify-content: space-between;
+  .mobile-pill-inner {
+    display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    font-weight: 600;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 32, 80, 0.12);
+    border-radius: 20px;
+    padding: 0.35rem 0.85rem;
+    box-shadow: 0 4px 14px rgba(0, 32, 80, 0.08);
+    pointer-events: auto;
   }
 
-  .mobile-thread-badge {
-    color: #50A010;
+  .mobile-pill-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
   }
 
-  .mobile-thread-bar {
+  .mobile-pill-bar-track {
+    width: 100%;
     height: 2px;
+    background: rgba(0, 32, 80, 0.1);
+    border-radius: 1px;
+    margin-top: 0.25rem;
+    overflow: hidden;
+  }
+
+  .mobile-pill-bar-fill {
+    height: 100%;
     background: #50A010;
-    margin-top: 0.4rem;
     transition: width 300ms ease;
   }
 

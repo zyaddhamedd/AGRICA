@@ -33,6 +33,7 @@ export function StandardProgressThread(): React.JSX.Element {
 
   const activeStage = JOURNEY_STAGES[activeStageIndex] ?? JOURNEY_STAGES[0];
   const numStr = activeStageIndex < 9 ? `0${activeStageIndex + 1}` : `${activeStageIndex + 1}`;
+  const stageNameUpper = activeStageIndex === 5 ? "EXPORT HANDOVER" : activeStage.name.toUpperCase();
 
   return (
     <>
@@ -49,11 +50,12 @@ export function StandardProgressThread(): React.JSX.Element {
           {JOURNEY_STAGES.map((stage, idx) => {
             const isActive = idx === activeStageIndex;
             const nodeNum = idx < 9 ? `0${idx + 1}` : `${idx + 1}`;
+            const labelUpper = idx === 5 ? "HANDOVER" : stage.name.toUpperCase();
             return (
               <li key={stage.id} className={`thread-node-item${isActive ? " is-active" : ""}`}>
                 <a href={`#stage-${stage.id}`} className="thread-node-link">
                   <span className="thread-node-dot" />
-                  <span className="thread-node-code">{nodeNum} {stage.code}</span>
+                  <span className="thread-node-code">{nodeNum} {labelUpper}</span>
                 </a>
               </li>
             );
@@ -61,16 +63,17 @@ export function StandardProgressThread(): React.JSX.Element {
         </ul>
       </aside>
 
-      {/* Mobile Micro-Reader Bar */}
+      {/* Mobile Lightweight Floating Micro Reader Pill */}
       <div className="progress-thread-mobile" aria-live="polite">
-        <div className="mobile-thread-inner">
-          <span className="mobile-thread-badge">{numStr} / {activeStage.code.replace("LOT / ", "")}</span>
-          <span className="mobile-thread-name">{activeStage.name.toUpperCase()}</span>
+        <div className="mobile-pill-inner">
+          <span className="mobile-pill-text">{numStr} / {stageNameUpper}</span>
+          <div className="mobile-pill-bar-track">
+            <div
+              className="mobile-pill-bar-fill"
+              style={{ width: `${((activeStageIndex + 1) / JOURNEY_STAGES.length) * 100}%` }}
+            />
+          </div>
         </div>
-        <div
-          className="mobile-thread-bar"
-          style={{ width: `${((activeStageIndex + 1) / JOURNEY_STAGES.length) * 100}%` }}
-        />
       </div>
     </>
   );
