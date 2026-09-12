@@ -66,7 +66,7 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     headline: "Packed for the journey ahead.",
     copy: "Unitized, labeled, and presentation-checked for destination market compliance and transit stability.",
     proofOutput: "Export packaging approved.",
-    imageSrc: "/assets/dried_img.png",
+    imageSrc: "/assets/standard_stage_04_pack.jpg",
     facts: [
       ["Control", "Packing Format"],
       ["Aligned to", "Destination Brief"],
@@ -84,7 +84,7 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     headline: "Condition maintained through handling.",
     copy: "Continuous cold chain, humidity, and atmospheric management secured until dispatch clearance.",
     proofOutput: "Climate chain secured.",
-    imageSrc: "/assets/season_crop_3.png",
+    imageSrc: "/assets/standard_stage_05_control.jpg",
     facts: [
       ["Control", "Storage Handling"],
       ["Aligned to", "Product Condition"],
@@ -102,7 +102,7 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     headline: "Cleared. Accounted for. Ready to move.",
     copy: "Documentation, handling and export handover complete the controlled lot journey.",
     proofOutput: "Cleared for global dispatch.",
-    imageSrc: "/assets/season_crop_4.png",
+    imageSrc: "/assets/standard_stage_06_export_handover.jpg",
     facts: [
       ["Control", "Export Clearance"],
       ["Aligned to", "Global Dispatch"],
