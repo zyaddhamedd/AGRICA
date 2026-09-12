@@ -13,7 +13,7 @@
    CINEMATIC COMPACT MONOLITH HERO
    ========================================== */
 .standard-monolith-hero {
-  padding: clamp(3.5rem, 6vh, 5.5rem) var(--gutter) clamp(1.25rem, 2.5vw, 2rem);
+  padding: clamp(5.5rem, 9vh, 7.5rem) var(--gutter) clamp(1.5rem, 2.5vw, 2.5rem);
   background: var(--paper);
   border-bottom: 1px solid rgba(0, 32, 80, 0.08);
 }

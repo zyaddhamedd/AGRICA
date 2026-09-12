@@ -4,10 +4,6 @@ export function StandardMonolithHero(): React.JSX.Element {
   return (
     <section className="standard-monolith-hero" aria-labelledby="standard-hero-title">
       <div className="hero-inner">
-        <div className="hero-kicker">
-          <span>OUR STANDARD</span>
-        </div>
-
         <h1 id="standard-hero-title" className="hero-headline">
           One lot. <em>Every step</em> controlled.
         </h1>
