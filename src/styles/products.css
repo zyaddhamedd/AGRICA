@@ -49,11 +49,12 @@
 
 .hero-compact-title {
   margin: 0;
-  font-size: clamp(2.2rem, 5vw, 4.4rem);
-  line-height: 0.95;
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+  line-height: 0.94;
   letter-spacing: -0.045em;
-  font-weight: 550;
+  font-weight: 540;
   color: var(--world-ink);
+  -webkit-font-smoothing: antialiased;
 }
 
 .hero-compact-title em {
@@ -61,7 +62,6 @@
   font-style: italic;
   font-weight: 400;
   color: #50A010;
-  letter-spacing: -0.02em;
 }
 
 /* ==========================================
