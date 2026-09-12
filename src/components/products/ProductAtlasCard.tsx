@@ -47,34 +47,37 @@ export function ProductAtlasCard({
       }}
       aria-label={`View details for ${item.name}`}
     >
-      {/* Large Editorial Image Frame */}
-      <div className="atlas-card-media" data-visual={item.visual}>
+      {/* Top Editorial Bar: Code Caption + Micro Action */}
+      <div className="atlas-card-header-bar">
         <span className="atlas-card-code">{codeStr}</span>
+        <button
+          type="button"
+          className={`atlas-card-micro-action${isAddedToQuote ? " is-selected" : ""}`}
+          onClick={handleQuoteClick}
+          aria-label={
+            isAddedToQuote
+              ? `Remove ${item.name} from enquiry`
+              : `Add ${item.name} to enquiry`
+          }
+        >
+          <span>{isAddedToQuote ? "✓" : "+"}</span>
+        </button>
+      </div>
+
+      {/* Massive Magazine Cover Headline Title */}
+      <h3 className="atlas-card-title">{item.name}</h3>
+
+      {/* Asymmetric Editorial Image Frame */}
+      <div className="atlas-card-media" data-visual={item.visual}>
         <div className="atlas-card-art" />
       </div>
 
-      {/* Editorial Card Anatomy */}
+      {/* Quiet Editorial Footer */}
       <div className="atlas-card-body">
         <div className="atlas-card-meta">
           <span className="atlas-card-category">
             {item.worldLabel.toUpperCase()} · {item.familyName.toUpperCase()}
           </span>
-        </div>
-
-        <div className="atlas-card-title-row">
-          <h3 className="atlas-card-title">{item.name}</h3>
-          <button
-            type="button"
-            className={`atlas-card-micro-action${isAddedToQuote ? " is-selected" : ""}`}
-            onClick={handleQuoteClick}
-            aria-label={
-              isAddedToQuote
-                ? `Remove ${item.name} from enquiry`
-                : `Add ${item.name} to enquiry`
-            }
-          >
-            <span>{isAddedToQuote ? "✓" : "+"}</span>
-          </button>
         </div>
 
         <p className="atlas-card-variety-summary" title={varietyLineText || undefined}>
