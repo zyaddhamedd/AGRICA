@@ -47,11 +47,13 @@ export function ProductAtlasCard({
       }}
       aria-label={`View details for ${item.name}`}
     >
+      {/* Large Editorial Image Frame */}
       <div className="atlas-card-media" data-visual={item.visual}>
         <span className="atlas-card-code">{codeStr}</span>
         <div className="atlas-card-art" />
       </div>
 
+      {/* Editorial Card Anatomy */}
       <div className="atlas-card-body">
         <div className="atlas-card-meta">
           <span className="atlas-card-category">
@@ -75,7 +77,7 @@ export function ProductAtlasCard({
           </button>
         </div>
 
-        <p className="atlas-card-variety-summary">
+        <p className="atlas-card-variety-summary" title={varietyLineText || undefined}>
           {varietyLineText || "\u00A0"}
         </p>
       </div>
