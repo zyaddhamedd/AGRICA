@@ -99,8 +99,8 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     stamp: "Cleared to Ship",
     code: "LOT / EXP",
     coordinate: "HANDOVER / DESTINATION",
-    headline: "Ready for export. Fully accounted for.",
-    copy: "Documentation, port clearance, and container handover complete the controlled lot journey.",
+    headline: "Cleared. Accounted for. Ready to move.",
+    copy: "Documentation, handling and export handover complete the controlled lot journey.",
     proofOutput: "Cleared for global dispatch.",
     imageSrc: "/assets/season_crop_4.png",
     facts: [

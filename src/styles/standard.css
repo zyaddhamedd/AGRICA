@@ -430,92 +430,139 @@
 }
 
 /* ==========================================
-   STAGE 06 CULMINATION PAYOFF VARIANT
+   STAGE 06 EXPORT CLEARANCE FINAL PAYOFF SCENE
    ========================================== */
-.standard-stage-block.is-culmination {
+.final-payoff-stage {
   background: #002050;
   color: #fff;
   border-bottom: 0;
+  padding: clamp(4rem, 7vw, 7rem) var(--gutter);
 }
 
-.standard-stage-block.is-culmination .stage-headline {
-  color: #fff;
+.final-payoff-stage .final-watermark {
+  color: #ffffff;
+  opacity: 0.05;
 }
 
-.standard-stage-block.is-culmination .stage-copy {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.standard-stage-block.is-culmination .stage-watermark-num {
-  color: #fff;
-  opacity: 0.06;
-}
-
-.standard-stage-block.is-culmination .stage-fact-term {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.standard-stage-block.is-culmination .stage-fact-val {
-  color: #fff;
-}
-
-.standard-stage-block.is-culmination .stage-facts-list {
-  border-top-color: rgba(255, 255, 255, 0.15);
-}
-
-.culmination-payoff-wrap {
-  margin-top: 2rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.culmination-seal {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.seal-tag {
+.final-tag {
   color: #50A010;
-  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+}
+
+.final-headline {
+  color: #ffffff;
+  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  line-height: 0.95;
+  margin-bottom: 1.25rem;
+}
+
+.final-copy {
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 2rem;
+  max-width: 34rem;
+}
+
+/* Journey Completion Indicator Line */
+.completion-ticker-wrap {
+  margin-bottom: 1.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.completion-ticker-wrap .ticker-label {
+  font-size: 0.55rem;
   letter-spacing: 0.14em;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.culmination-seal strong {
-  font-size: 1.05rem;
-  letter-spacing: 0.08em;
-  font-weight: 600;
-  color: #fff;
+.completion-steps-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
 }
 
-.culmination-cta-btn {
+.completion-step-item.is-muted {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.completion-step-item.is-cleared {
+  color: #50A010;
+  background: rgba(80, 160, 16, 0.15);
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+}
+
+.step-sep {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* AGRICA Export Clearance Seal */
+.export-clearance-seal {
+  margin-bottom: 2rem;
+}
+
+.seal-border-box {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.4rem;
-  background: #50A010;
-  color: #fff;
-  text-decoration: none;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  font-weight: 600;
+  gap: 0.85rem;
+  padding: 0.65rem 1.1rem;
+  border: 1.5px solid #50A010;
   border-radius: 4px;
-  transition: background-color 180ms ease;
-  width: 100%;
-  max-width: 320px;
+  background: rgba(80, 160, 16, 0.06);
 }
 
-.culmination-cta-btn:hover {
-  background: #42850d;
+.seal-brand {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-weight: 800;
+  color: #ffffff;
 }
 
-.cta-arrow {
-  font-size: 0.85rem;
+.seal-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(80, 160, 16, 0.4);
+}
+
+.seal-status-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.seal-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: #50A010;
+}
+
+.seal-sub {
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Final CTA */
+.final-cta-btn {
+  max-width: 340px;
+}
+
+.final-status-tag {
+  background: #50A010;
+  color: #ffffff;
 }
 
 /* ==========================================

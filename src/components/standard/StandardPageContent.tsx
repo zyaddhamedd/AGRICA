@@ -7,6 +7,7 @@ import { JOURNEY_STAGES } from "@/data/stages";
 import { StandardMonolithHero } from "./StandardMonolithHero";
 import { StandardProgressThread } from "./StandardProgressThread";
 import { StandardStageBlock } from "./StandardStageBlock";
+import { StandardFinalStageBlock } from "./StandardFinalStageBlock";
 import { StandardProofInterlude } from "./StandardProofInterlude";
 
 export function StandardPageContent(): React.JSX.Element {
@@ -21,15 +22,15 @@ export function StandardPageContent(): React.JSX.Element {
         {/* Minimalist Progress Thread Indicator */}
         <StandardProgressThread />
 
-        {/* 6 Layered Stage Blocks with Mid-Page Interlude */}
+        {/* 6 Layered Stage Blocks with Mid-Page Interlude & Stage 06 Final Payoff */}
         <div className="standard-stages-container">
           {JOURNEY_STAGES.map((stage, idx) => (
             <React.Fragment key={stage.id}>
-              <StandardStageBlock
-                stage={stage}
-                index={idx}
-                isCulmination={idx === JOURNEY_STAGES.length - 1}
-              />
+              {idx === JOURNEY_STAGES.length - 1 ? (
+                <StandardFinalStageBlock stage={stage} index={idx} />
+              ) : (
+                <StandardStageBlock stage={stage} index={idx} />
+              )}
               {idx === 2 && <StandardProofInterlude />}
             </React.Fragment>
           ))}
