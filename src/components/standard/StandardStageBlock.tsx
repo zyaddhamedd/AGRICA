@@ -97,7 +97,7 @@ export function StandardStageBlock({
     return () => ctx.revert();
   }, []);
 
-  const themeClass = index === 2 || isCulmination ? " bg-navy" : index % 2 === 1 ? " bg-tint" : " bg-paper";
+  const themeClass = isCulmination ? " bg-navy" : index % 2 === 1 ? " bg-tint" : " bg-paper";
   const stageIdentity = `${numStr} / ${stage.name.toUpperCase() === "HANDOVER" ? "EXPORT HANDOVER" : stage.name.toUpperCase()}`;
 
   return (
