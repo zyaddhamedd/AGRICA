@@ -5,17 +5,15 @@ export function StandardMonolithHero(): React.JSX.Element {
     <section className="standard-monolith-hero" aria-labelledby="standard-hero-title">
       <div className="hero-inner">
         <div className="hero-kicker">
-          <span>AGR / OPERATING STANDARD</span>
-          <span className="hero-kicker-dot">·</span>
-          <span>01—06 CONTROLLED JOURNEY</span>
+          <span>OUR STANDARD</span>
         </div>
 
         <h1 id="standard-hero-title" className="hero-headline">
-          One lot. <em>Every step</em> accounted for.
+          One lot. <em>Every step</em> controlled.
         </h1>
 
         <p className="hero-subline">
-          From Egyptian field selection to destination container release, every shipment moves through one unified, transparent control process.
+          From Egyptian field selection to export handover, every AGRICA shipment follows one controlled process.
         </p>
 
         <div className="hero-scroll-line" aria-hidden="true">

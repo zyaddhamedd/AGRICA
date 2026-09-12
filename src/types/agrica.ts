@@ -72,6 +72,7 @@ export interface JourneyStage {
   readonly copy: string;
   readonly headline?: string;
   readonly imageSrc?: string;
+  readonly proofOutput?: string;
   readonly facts: readonly StageFact[];
 }
 

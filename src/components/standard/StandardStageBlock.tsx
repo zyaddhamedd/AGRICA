@@ -97,11 +97,13 @@ export function StandardStageBlock({
     return () => ctx.revert();
   }, []);
 
+  const themeClass = index === 2 || isCulmination ? " bg-navy" : index % 2 === 1 ? " bg-tint" : " bg-paper";
+
   return (
     <section
       ref={blockRef}
       id={`stage-${stage.id}`}
-      className={`standard-stage-block${isEven ? " layout-even" : " layout-odd"}${
+      className={`standard-stage-block${isEven ? " layout-even" : " layout-odd"}${themeClass}${
         isCulmination ? " is-culmination" : ""
       }`}
       data-stage-code={stage.code}
@@ -126,26 +128,24 @@ export function StandardStageBlock({
 
           <p className="stage-copy">{stage.copy}</p>
 
-          {/* Facts Metric List */}
-          <dl className="stage-facts-list">
-            {stage.facts.map(([term, val]) => (
-              <div key={term} className="stage-fact-row">
-                <dt className="stage-fact-term">{term}</dt>
-                <dd className="stage-fact-val">{val}</dd>
-              </div>
-            ))}
-          </dl>
+          {/* Single Concise Proof Output Line */}
+          {stage.proofOutput && (
+            <div className="stage-proof-output">
+              <span className="proof-label">OUTPUT</span>
+              <strong className="proof-val">{stage.proofOutput}</strong>
+            </div>
+          )}
 
           {/* Stage 06 Culmination Payoff CTA */}
           {isCulmination && (
             <div className="culmination-payoff-wrap">
               <div className="culmination-seal">
-                <span className="seal-tag">EGYPTIAN PRODUCE</span>
-                <strong>CLEARED FOR EXPORT DISPATCH</strong>
+                <span className="seal-tag">ONE SHIPMENT · SIX CONTROLLED STAGES</span>
+                <strong>Ready to discuss your next export programme?</strong>
               </div>
               <Link href="/products" className="culmination-cta-btn">
-                <span>BROWSE EXPORT CATALOGUE</span>
-                <span className="cta-arrow">↗</span>
+                <span>BUILD AN EXPORT ENQUIRY</span>
+                <span className="cta-arrow">→</span>
               </Link>
             </div>
           )}

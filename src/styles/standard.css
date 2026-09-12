@@ -321,6 +321,143 @@
 }
 
 /* ==========================================
+   STAGE BACKGROUND VARIATIONS & PROOF OUTPUT
+   ========================================== */
+.standard-stage-block.bg-paper {
+  background: var(--paper);
+}
+
+.standard-stage-block.bg-tint {
+  background: #EAECE4;
+}
+
+.standard-stage-block.bg-navy {
+  background: #002050;
+  color: #fff;
+}
+
+.standard-stage-block.bg-navy .stage-headline {
+  color: #fff;
+}
+
+.standard-stage-block.bg-navy .stage-copy {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.standard-stage-block.bg-navy .stage-kicker {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.standard-stage-block.bg-navy .stage-watermark-num {
+  color: #fff;
+  opacity: 0.05;
+}
+
+.standard-stage-block.bg-navy .stage-code-badge {
+  background: rgba(80, 160, 16, 0.2);
+  color: #6BC21A;
+}
+
+/* Single Proof Output line */
+.stage-proof-output {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: rgba(80, 160, 16, 0.08);
+  border: 1px solid rgba(80, 160, 16, 0.2);
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+
+.stage-proof-output .proof-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #50A010;
+}
+
+.stage-proof-output .proof-val {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.standard-stage-block.bg-navy .stage-proof-output {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.standard-stage-block.bg-navy .stage-proof-output .proof-val {
+  color: #fff;
+}
+
+/* ==========================================
+   MID-PAGE PROOF INTERLUDE
+   ========================================== */
+.standard-proof-interlude {
+  padding: clamp(4rem, 8vw, 6rem) var(--gutter);
+  background: var(--paper);
+  border-bottom: 1px solid rgba(0, 32, 80, 0.08);
+  text-align: center;
+}
+
+.proof-interlude-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.proof-interlude-kicker {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #50A010;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.proof-interlude-title {
+  margin: 0 0 3rem;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  line-height: 1;
+  font-weight: 520;
+  color: var(--navy);
+  letter-spacing: -0.04em;
+}
+
+.proof-interlude-pillars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.proof-pillar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pillar-num {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: #50A010;
+}
+
+.pillar-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  text-transform: uppercase;
+}
+
+/* ==========================================
    STAGE 06 CULMINATION PAYOFF VARIANT
    ========================================== */
 .standard-stage-block.is-culmination {
