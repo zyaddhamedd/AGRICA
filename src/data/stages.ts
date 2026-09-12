@@ -12,7 +12,7 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     headline: "Selected for the buyer, not the warehouse.",
     copy: "Grower, field and crop are matched to destination requirements before the lot enters the export programme.",
     proofOutput: "Buyer specification matched before harvest.",
-    imageSrc: "/assets/season_crop_1.png",
+    imageSrc: "/assets/standard_stage_01_source.jpg",
     facts: [
       ["Control", "Origin Selection"],
       ["Aligned to", "Buyer Specification"],
@@ -30,7 +30,7 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     headline: "Quality checked before it moves.",
     copy: "Physical condition, calibre, and grade parameters are verified on-site before processing.",
     proofOutput: "Grade and condition verified.",
-    imageSrc: "/assets/fresh_img.png",
+    imageSrc: "/assets/standard_stage_02_inspect.jpg",
     facts: [
       ["Control", "Quality Inspection"],
       ["Aligned to", "Grade Criteria"],
@@ -48,7 +48,7 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     headline: "Prepared to destination specification.",
     copy: "Formatted precisely for fresh, frozen, or dried export briefs around agreed buyer tolerances.",
     proofOutput: "Format and brief aligned.",
-    imageSrc: "/assets/frozen_img.png",
+    imageSrc: "/assets/standard_stage_03_prepare.jpg",
     facts: [
       ["Control", "Process Handling"],
       ["Aligned to", "Required Format"],
