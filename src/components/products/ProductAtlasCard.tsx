@@ -5,6 +5,7 @@ import { getProductSpecData } from "@/data/productSpecs";
 export interface ProductAtlasCardProps {
   readonly item: ProductAtlasItem;
   readonly isAddedToQuote: boolean;
+  readonly index?: number;
   readonly onOpenDetail: (item: ProductAtlasItem) => void;
   readonly onToggleQuote: (item: ProductAtlasItem) => void;
 }
@@ -12,6 +13,7 @@ export interface ProductAtlasCardProps {
 export function ProductAtlasCard({
   item,
   isAddedToQuote,
+  index = 0,
   onOpenDetail,
   onToggleQuote,
 }: ProductAtlasCardProps): React.JSX.Element {
@@ -23,6 +25,10 @@ export function ProductAtlasCard({
     specEntry.varieties && specEntry.varieties.length > 0
       ? specEntry.varieties.map((v) => v.name).join(" · ")
       : item.variety;
+
+  // Alternate between user's 2 temporary high-res images (Lemons & Grapes)
+  const cardImgSrc =
+    index % 2 === 0 ? "/assets/lemon_card.png" : "/assets/grapes_card.png";
 
   const handleCardClick = () => {
     onOpenDetail(item);
@@ -69,7 +75,12 @@ export function ProductAtlasCard({
 
       {/* Asymmetric Editorial Image Frame */}
       <div className="atlas-card-media" data-visual={item.visual}>
-        <div className="atlas-card-art" />
+        <img
+          src={cardImgSrc}
+          alt={item.name}
+          className="atlas-card-img"
+          loading="lazy"
+        />
       </div>
 
       {/* Quiet Editorial Footer */}

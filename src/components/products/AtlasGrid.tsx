@@ -29,13 +29,14 @@ export function AtlasGrid({
 
   return (
     <div className="atlas-grid">
-      {items.map((item) => {
+      {items.map((item, idx) => {
         const isAddedToQuote = quoteItems.some((q) => q.key === item.key);
 
         return (
           <ProductAtlasCard
             key={item.key}
             item={item}
+            index={idx}
             isAddedToQuote={isAddedToQuote}
             onOpenDetail={onOpenDetail}
             onToggleQuote={onToggleQuote}
