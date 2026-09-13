@@ -456,7 +456,8 @@
   min-width: 0;
   height: clamp(450px, 33vw, 480px);
   perspective: 1400px;
-  transition: transform 400ms ease, filter 400ms ease;
+  -webkit-perspective: 1400px;
+  transition: transform 400ms ease;
 }
 
 .export-card-scene[data-world="frozen"] {
@@ -484,7 +485,12 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
   transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms ease;
   border-radius: 22px;
   box-shadow:
@@ -498,6 +504,7 @@
 
 .export-card.is-flipped {
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
 }
 
 .export-card-keyboard-toggle {
@@ -515,8 +522,10 @@
 .export-card-face {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--card-border);
   border-radius: inherit;
   color: #f6f2e9;
@@ -548,6 +557,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  border-radius: inherit;
   opacity: 0.24;
   background:
     radial-gradient(ellipse at 100% 34%, rgba(112, 176, 66, 0.25), transparent 31%),
@@ -586,6 +596,8 @@
   display: grid;
   grid-template-rows: auto auto minmax(59%, 1fr);
   padding: clamp(1.05rem, 1.7vw, 1.35rem);
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
 }
 
 .export-card-back {
@@ -593,6 +605,7 @@
   flex-direction: column;
   padding: clamp(1.05rem, 1.7vw, 1.35rem);
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
 }
 
 .export-card-topline,
@@ -753,6 +766,7 @@
   min-height: 0;
   margin: -1.1rem -1.35rem -1.35rem;
   overflow: hidden;
+  border-radius: 0 0 21px 21px;
   background-image: url("/assets/three-worlds.png");
   background-position: 0 70%;
   background-repeat: no-repeat;
@@ -954,7 +968,13 @@
 @media (hover: hover) and (pointer: fine) {
   .export-card-scene:hover {
     transform: translateY(-4px) scale(1.005);
-    filter: drop-shadow(0 14px 22px var(--card-shadow));
+  }
+
+  .export-card-scene:hover .export-card {
+    box-shadow:
+      0 28px 66px var(--card-shadow),
+      0 10px 22px rgba(0, 0, 0, 0.22),
+      0 3px 6px rgba(0, 18, 44, 0.2);
   }
 
   .export-card-scene:hover .export-card-visual img {
@@ -1773,6 +1793,7 @@
   .export-card.is-flipped,
   .export-card-back {
     transform: none !important;
+    -webkit-transform: none !important;
   }
 
   .export-card-face {
