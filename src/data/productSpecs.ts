@@ -123,12 +123,14 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
  * Gets verified specs & variety list for a given product item.
  */
 export function getProductSpecData(item: ProductAtlasItem): CropSpecEntry {
-  const entry = VERIFIED_PRODUCT_SPECS[item.name];
+  // The current verified registry describes fresh export lines. Avoid applying
+  // those values to same-named frozen or dried products without explicit data.
+  const entry = item.worldId === "fresh" ? VERIFIED_PRODUCT_SPECS[item.name] : undefined;
   if (entry) return entry;
 
   // Fallback to verified item properties if present
   const defaultSpecs: ExportSpecification = {
-    origin: item.origin ?? "Egypt",
+    origin: item.origin,
     temperature: item.temperature,
     packaging: item.packaging,
     grade: item.grade,

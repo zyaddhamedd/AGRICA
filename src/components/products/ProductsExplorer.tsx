@@ -9,7 +9,6 @@ import { WorldSwitch } from "./WorldSwitch";
 import { FamilyPanel } from "./FamilyPanel";
 import { LiveSearchInput } from "./LiveSearchInput";
 import { AtlasGrid } from "./AtlasGrid";
-import { ProductDetailSheet } from "./ProductDetailSheet";
 import { FloatingEnquiryDock } from "./FloatingEnquiryDock";
 import { SeasonSection } from "@/components/home/SeasonSection";
 import { QuoteDrawer } from "./QuoteDrawer";
@@ -18,8 +17,6 @@ export function ProductsExplorer(): React.JSX.Element {
   const [activeWorld, setActiveWorld] = useState<WorldId>("fresh");
   const [activeFamilyCode, setActiveFamilyCode] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedItemDetail, setSelectedItemDetail] = useState<ProductAtlasItem | null>(null);
-
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, startTransition] = useTransition();
@@ -191,12 +188,11 @@ export function ProductsExplorer(): React.JSX.Element {
           />
         </section>
 
-        {/* Asymmetric Product Atlas Grid */}
+        {/* Premium Product Atlas Grid */}
         <section className="atlas-content">
           <AtlasGrid
             items={filteredItems}
             quoteItems={quoteItems}
-            onOpenDetail={(item) => setSelectedItemDetail(item)}
             onToggleQuote={handleToggleQuote}
           />
         </section>
@@ -216,14 +212,6 @@ export function ProductsExplorer(): React.JSX.Element {
           <span>© 2026 AGRICA</span>
         </div>
       </footer>
-
-      {/* Mobile Editorial Bottom Sheet Detail Drawer */}
-      <ProductDetailSheet
-        item={selectedItemDetail}
-        isAddedToQuote={Boolean(selectedItemDetail && quoteItems.some((q) => q.key === selectedItemDetail.key))}
-        onClose={() => setSelectedItemDetail(null)}
-        onToggleQuote={handleToggleQuote}
-      />
 
       {/* Quote Drawer */}
       <QuoteDrawer
