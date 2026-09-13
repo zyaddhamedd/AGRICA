@@ -1,0 +1,272 @@
+/* ==========================================================================
+   AGRICA Company Section — Editorial Journal Direction (Warm Off-White)
+   ========================================================================== */
+
+.company-section {
+  position: relative;
+  background-color: #FAF8F5;
+  color: var(--navy-deep, #002050);
+  padding: clamp(5rem, 8.5vw, 9.5rem) var(--gutter, 2.5rem);
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 32, 80, 0.08);
+}
+
+.company-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Left Column: Editorial Story & Copy Hierarchy
+   -------------------------------------------------------------------------- */
+
+.company-story-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.company-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+}
+
+.company-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--green, #50A010);
+  display: inline-block;
+}
+
+.company-eyebrow {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--navy-deep, #002050);
+  opacity: 0.85;
+}
+
+.company-headline {
+  margin: 0 0 2rem 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(2.8rem, 5.2vw, 5.4rem);
+  font-weight: 520;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  color: var(--navy-deep, #002050);
+}
+
+.company-headline em {
+  font-family: var(--font-serif, Georgia, serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--green, #50A010);
+}
+
+.company-statement {
+  margin: 0 0 2.75rem 0;
+  max-width: 33rem;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(1.05rem, 1.35vw, 1.28rem);
+  line-height: 1.62;
+  color: rgba(0, 32, 80, 0.78);
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   Verified Trust Pillars (1-2 Verified Facts)
+   -------------------------------------------------------------------------- */
+
+.company-trust-pillars {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  padding: 1.5rem 0;
+  margin-bottom: 2.5rem;
+  border-top: 1px solid rgba(0, 32, 80, 0.12);
+  border-bottom: 1px solid rgba(0, 32, 80, 0.12);
+  width: 100%;
+  max-width: 36rem;
+}
+
+.company-trust-pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.company-trust-label {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(0, 32, 80, 0.52);
+}
+
+.company-trust-value {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(0.95rem, 1.1vw, 1.12rem);
+  font-weight: 550;
+  color: var(--navy-deep, #002050);
+}
+
+.company-trust-divider {
+  width: 1px;
+  height: 2.4rem;
+  background-color: rgba(0, 32, 80, 0.14);
+}
+
+/* --------------------------------------------------------------------------
+   Commercial CTA Button
+   -------------------------------------------------------------------------- */
+
+.company-action {
+  display: flex;
+  align-items: center;
+}
+
+.company-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.1rem 2.2rem;
+  background-color: var(--navy-deep, #002050);
+  color: #FFFFFF;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 32, 80, 0.12);
+}
+
+.company-cta-button:hover {
+  background-color: #00173b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 32, 80, 0.2);
+}
+
+.company-cta-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.company-cta-button:hover .company-cta-icon {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Right Column: Premium Editorial Visual Asset
+   -------------------------------------------------------------------------- */
+
+.company-media-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.company-media-card {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  aspect-ratio: 4 / 5;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #EAE6DF;
+  box-shadow: 0 20px 40px rgba(0, 32, 80, 0.08);
+}
+
+.company-media-img {
+  width: 100%;
+  height: 110%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform: translateY(-5%);
+  will-change: transform;
+}
+
+.company-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 32, 80, 0) 65%,
+    rgba(0, 32, 80, 0.15) 100%
+  );
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Layout (Tablet & Mobile)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 992px) {
+  .company-container {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  .company-media-wrapper {
+    justify-content: center;
+    order: -1;
+  }
+
+  .company-media-card {
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 680px) {
+  .company-section {
+    padding-block: 4.5rem;
+  }
+
+  .company-container {
+    gap: 2.5rem;
+  }
+
+  .company-headline {
+    font-size: clamp(2.3rem, 9vw, 3.2rem);
+    line-height: 1.06;
+    margin-bottom: 1.25rem;
+  }
+
+  .company-statement {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .company-trust-pillars {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .company-trust-divider {
+    display: none;
+  }
+
+  .company-cta-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -68,10 +68,10 @@ export function SeasonSection(): React.JSX.Element {
               <span className="season-kicker-num">02 / SEASONAL RHYTHM</span>
               <span className="season-kicker-tag">HARVEST CALENDAR</span>
             </div>
-            <h2 className="season-mobile-headline">Every harvest has its moment.</h2>
-            <p className="season-mobile-subline">
-              Move through the year to discover what’s naturally in season and ready for export.
-            </p>
+            <h2 className="season-mobile-headline">
+              Every harvest has <br />
+              <em>its moment.</em>
+            </h2>
           </header>
 
           {/* Native Touch-Safe Horizontal Month Ribbon */}
@@ -125,21 +125,6 @@ export function SeasonSection(): React.JSX.Element {
               </div>
             ))}
           </div>
-
-          {/* Secondary Crops Line (if > 3 active crops) */}
-          {secondaryCrops.length > 0 && (
-            <div className="season-secondary-crops">
-              <span className="season-secondary-label">Also in season:</span>
-              <p className="season-secondary-text">
-                {secondaryCrops.map((c) => c.crop.name).join(" · ")}
-              </p>
-            </div>
-          )}
-
-          {/* Illustrative Notice Disclaimer */}
-          <footer className="season-disclaimer-notice">
-            <p>{SEASON_ILLUSTRATIVE_NOTICE}</p>
-          </footer>
         </div>
       </section>
 
@@ -158,11 +143,9 @@ export function SeasonSection(): React.JSX.Element {
           <div className="season-heading">
             <p className="eyebrow">Select a month</p>
             <h2 id="season-title">
-              Nature has
-              <br />
-              a schedule.
+              Every harvest has <br />
+              <em>its moment.</em>
             </h2>
-            <p>Move through the year to discover what is in season and ready for planning.</p>
           </div>
 
           <div className="month-stage">

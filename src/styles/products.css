@@ -58,10 +58,10 @@
 }
 
 .hero-compact-title em {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  color: #50A010;
+  color: var(--green);
 }
 
 /* ==========================================
@@ -763,7 +763,7 @@
   font-style: italic;
   color: var(--muted);
   margin: 0 0 1.25rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
 }
 
 /* Editorial Variety Selector (Clean text tabs directly above spec table) */
@@ -1083,10 +1083,10 @@
 
 .quote-head h2 {
   margin: 0.75rem 0 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2rem, 4vw, 3.2rem);
   line-height: 0.95;
-  font-weight: 400;
+  font-weight: 540;
   letter-spacing: -0.045em;
   color: var(--navy);
 }

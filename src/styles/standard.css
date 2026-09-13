@@ -46,10 +46,10 @@
 }
 
 .hero-headline em {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  color: #50A010;
+  color: var(--green);
 }
 
 .hero-subline {
@@ -192,7 +192,7 @@
   opacity: 0.04;
   pointer-events: none;
   user-select: none;
-  font-family: Inter, sans-serif;
+  font-family: var(--font-sans);
 }
 
 .stage-block-inner {

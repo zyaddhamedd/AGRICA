@@ -1,0 +1,278 @@
+/* ==========================================================================
+   AGRICA Trade Enquiry Section — Editorial Redesign
+   ========================================================================== */
+
+.trade-section {
+  position: relative;
+  background-color: #FAF8F5;
+  color: var(--navy-deep, #002050);
+  padding: clamp(5rem, 8.5vw, 9.5rem) var(--gutter, 2.5rem);
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 32, 80, 0.08);
+}
+
+.trade-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(3rem, 6vw, 7.5rem);
+  align-items: start;
+}
+
+/* --------------------------------------------------------------------------
+   Heading & Sales Moment Column
+   -------------------------------------------------------------------------- */
+
+.trade-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.trade-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+}
+
+.trade-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--green, #50A010);
+  display: inline-block;
+}
+
+.trade-eyebrow {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--navy-deep, #002050);
+  opacity: 0.85;
+}
+
+.trade-title {
+  margin: 0 0 1.5rem 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(2.8rem, 5vw, 4.8rem);
+  font-weight: 520;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: var(--navy-deep, #002050);
+}
+
+.trade-title-italic {
+  font-family: var(--font-serif, Georgia, serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--green, #50A010);
+}
+
+.trade-subline {
+  margin: 0;
+  max-width: 26rem;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(1rem, 1.2vw, 1.18rem);
+  line-height: 1.6;
+  color: rgba(0, 32, 80, 0.72);
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   Trade Form & Underline Fields
+   -------------------------------------------------------------------------- */
+
+.trade-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+.trade-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 2.5rem;
+}
+
+.trade-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trade-field-full {
+  grid-column: 1 / -1;
+}
+
+.trade-label {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(0, 32, 80, 0.6);
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.trade-field-group:focus-within .trade-label {
+  color: var(--navy-deep, #002050);
+  opacity: 1;
+}
+
+.trade-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.trade-input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.6rem 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 32, 80, 0.2);
+  background: transparent;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(1rem, 1.15vw, 1.15rem);
+  font-weight: 450;
+  color: var(--navy-deep, #002050);
+  outline: none;
+  transition: border-color 0.3s ease;
+  border-radius: 0;
+}
+
+.trade-input::placeholder {
+  color: rgba(0, 32, 80, 0.38);
+  font-weight: 400;
+}
+
+.trade-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--green, #50A010);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.trade-input:focus ~ .trade-line {
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   Submit Action & Status Feedback
+   -------------------------------------------------------------------------- */
+
+.trade-submit-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.trade-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.15rem 2.4rem;
+  min-height: 58px;
+  background-color: var(--navy-deep, #002050);
+  color: #FFFFFF;
+  border: 1px solid var(--navy-deep, #002050);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 32, 80, 0.12);
+}
+
+.trade-submit-btn:hover {
+  background-color: #001639;
+  border-color: var(--green, #50A010);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 32, 80, 0.2);
+}
+
+.trade-submit-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.trade-submit-btn:hover .trade-submit-icon {
+  transform: translateX(4px);
+}
+
+.trade-submit-btn.is-submitted {
+  background-color: var(--green, #50A010);
+  border-color: var(--green, #50A010);
+}
+
+.trade-success-note {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.88rem;
+  color: var(--green, #50A010);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Behavior (Tablet & Mobile)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 992px) {
+  .trade-container {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  .trade-title {
+    font-size: clamp(2.4rem, 7vw, 3.8rem);
+  }
+}
+
+@media (max-width: 680px) {
+  .trade-section {
+    padding-block: 4.5rem;
+  }
+
+  .trade-container {
+    gap: 2.5rem;
+  }
+
+  .trade-title {
+    font-size: clamp(2.2rem, 8.5vw, 3.2rem);
+    line-height: 1.08;
+    margin-bottom: 1rem;
+  }
+
+  .trade-subline {
+    font-size: 0.98rem;
+  }
+
+  .trade-fields-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .trade-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
