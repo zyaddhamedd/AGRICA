@@ -1,259 +1,562 @@
-/* ==========================================================================
-   AGRICA Three Worlds Section — Direction A Editorial Triptych
-   ========================================================================== */
-
 .tw-section {
   position: relative;
-  background-color: #FAF8F5;
-  color: var(--navy-deep, #002050);
-  padding: clamp(5rem, 8.5vw, 9.5rem) var(--gutter, 2.5rem);
   overflow: hidden;
-  border-top: 1px solid rgba(0, 32, 80, 0.08);
+  overflow: clip;
+  padding: clamp(3rem, 4vw, 4.25rem) var(--gutter, 2.5rem) clamp(4.75rem, 7vw, 7.25rem);
+  border-top: 1px solid rgba(0, 32, 80, 0.07);
+  color: var(--navy-deep, #002050);
+  background: #faf8f5;
 }
 
 .tw-container {
+  display: flex;
   max-width: 1360px;
   margin: 0 auto;
-  display: flex;
   flex-direction: column;
-  gap: clamp(3.5rem, 5vw, 5.5rem);
+  gap: clamp(1.5rem, 1.8vw, 1.9rem);
 }
 
-/* --------------------------------------------------------------------------
-   Header & Kicker
-   -------------------------------------------------------------------------- */
-
 .tw-header {
+  width: 100%;
+  max-width: 1360px;
+}
+
+.tw-header-meta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 44rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: clamp(0.7rem, 1vw, 0.95rem);
 }
 
 .tw-kicker {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 1.5rem;
 }
 
 .tw-kicker-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: var(--green, #50A010);
-  display: inline-block;
+  background: var(--green, #50a010);
 }
 
 .tw-eyebrow {
+  color: rgba(0, 32, 80, 0.76);
   font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size: 0.67rem;
+  font-weight: 650;
   letter-spacing: 0.16em;
-  color: var(--navy-deep, #002050);
-  opacity: 0.85;
+}
+
+.tw-section-index {
+  color: rgba(0, 32, 80, 0.38);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.61rem;
+  font-weight: 600;
+  letter-spacing: 0.17em;
 }
 
 .tw-title {
+  max-width: 40rem;
   margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(2.5rem, 4.6vw, 4.5rem);
-  font-weight: 520;
-  line-height: 1.04;
-  letter-spacing: -0.045em;
   color: var(--navy-deep, #002050);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(2.1rem, 2.85vw, 3rem);
+  font-weight: 520;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
 }
 
-.tw-title-italic {
+.tw-title em {
+  color: var(--green, #50a010);
   font-family: var(--font-serif, Georgia, serif);
   font-style: italic;
   font-weight: 400;
-  color: var(--green, #50A010);
 }
 
-/* --------------------------------------------------------------------------
-   Asymmetric Editorial Triptych Grid
-   -------------------------------------------------------------------------- */
-
-.tw-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
-  gap: clamp(2rem, 3.2vw, 3.8rem);
-  align-items: start;
-}
-
-/* Open Editorial Panels (No Box Cards) */
-.tw-panel {
+.tw-world-list {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  background: transparent;
-  border: none;
-  padding: 0;
+  margin: clamp(0.65rem, 0.9vw, 0.85rem) 0 0;
+  align-items: center;
+  gap: 0.48rem;
+  color: rgba(0, 32, 80, 0.48);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.62rem;
+  font-weight: 560;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
 }
 
-/* Media Framing */
-.tw-panel-media-link {
-  display: block;
-  text-decoration: none;
-  width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
+.tw-world-list span {
+  color: var(--green, #50a010);
+  font-size: 0.72em;
+  opacity: 0.72;
 }
 
-.tw-panel-media-mask {
+.tw-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.2vw, 2rem);
+}
+
+.world-card-scene {
+  --world-tint: #f0f3e8;
+  --world-reflection: rgba(80, 160, 16, 0.28);
+  --image-treatment: saturate(0.92) contrast(0.97) brightness(0.95);
+  --image-cast: rgba(16, 45, 18, 0.025);
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #EAE6DF;
+  min-width: 0;
+  aspect-ratio: 5 / 6;
+  perspective: 1700px;
+  -webkit-perspective: 1700px;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tw-panel-img {
+.world-card-scene::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  bottom: -10px;
+  left: 8%;
+  z-index: 0;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 24, 58, 0.17) 0%, rgba(0, 24, 58, 0.06) 46%, transparent 74%);
+  filter: blur(7px);
+  opacity: 0.7;
+  pointer-events: none;
+  transition: opacity 320ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.world-card-scene[data-world="frozen"] {
+  --world-tint: #edf4f5;
+  --world-reflection: rgba(109, 170, 196, 0.3);
+  --image-treatment: saturate(0.84) contrast(0.96) brightness(0.9);
+  --image-cast: rgba(4, 30, 60, 0.07);
+}
+
+.world-card-scene[data-world="dried"] {
+  --world-tint: #f6eee2;
+  --world-reflection: rgba(190, 126, 62, 0.28);
+  --image-treatment: saturate(0.86) contrast(0.96) brightness(0.93);
+  --image-cast: rgba(45, 25, 8, 0.045);
+}
+
+.world-card {
+  position: relative;
   width: 100%;
-  height: 110%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transform: translateY(-5%);
+  height: 100%;
+  z-index: 1;
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
   will-change: transform;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 560ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms ease;
+  border-radius: 20px;
+  box-shadow:
+    0 24px 54px rgba(0, 32, 80, 0.095),
+    0 8px 18px rgba(0, 32, 80, 0.055),
+    0 2px 4px rgba(0, 32, 80, 0.075);
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.tw-panel-media-link:hover .tw-panel-img {
-  transform: translateY(-5%) scale(1.035);
+.world-card.is-flipped {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
 }
 
-.tw-panel-overlay {
+.world-card-face {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 32, 80, 0) 70%,
-    rgba(0, 32, 80, 0.12) 100%
-  );
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: minmax(0, 1fr) 58px;
+  border: 1px solid rgba(0, 32, 80, 0.09);
+  border-radius: inherit;
+  color: var(--navy-deep, #002050);
+  background: #fffdf9;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.7) 0%, transparent 42%),
+    color-mix(in srgb, var(--world-tint) 20%, #fffdf9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.96),
+    inset 1px 0 0 var(--world-reflection),
+    inset -1px 0 0 rgba(0, 32, 80, 0.025),
+    inset 0 -1px 0 rgba(0, 32, 80, 0.045);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.world-card-front {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+}
+
+.world-card-back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  pointer-events: none;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.62) 0%, transparent 48%),
+    var(--world-tint);
+}
+
+.world-card.is-flipped .world-card-front {
   pointer-events: none;
 }
 
-/* Meta Content Below Media */
-.tw-panel-content {
+.world-card.is-flipped .world-card-back {
+  pointer-events: auto;
+}
+
+.world-card-body {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(0.9rem, 1.4vw, 1.2rem);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(0.65rem, 1.15vw, 0.9rem);
+}
+
+.world-card-body::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  border-radius: 19px 19px 0 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0.08) 8%, transparent 17%);
+  pointer-events: none;
+}
+
+.world-card-topline {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(0, 32, 80, 0.66);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(0.57rem, 0.72vw, 0.65rem);
+  font-weight: 650;
+  letter-spacing: 0.15em;
+}
+
+.world-card-turn-mark {
+  display: grid;
+  width: 26px;
+  height: 20px;
+  place-items: center;
+  color: rgba(0, 32, 80, 0.46);
+}
+
+.world-card-turn-mark svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.15;
+}
+
+.world-card-register-corners {
+  opacity: 0.42;
+}
+
+.world-card-turn-arc {
+  opacity: 0.72;
+}
+
+.world-card-turn-arrow {
+  color: var(--green, #50a010);
+  stroke: currentColor;
+  opacity: 0.9;
+}
+
+.world-card-media {
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--world-tint);
+}
+
+.world-card-media img {
+  object-fit: cover;
+  object-position: center;
+  filter: var(--image-treatment);
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), filter 320ms ease;
+}
+
+.world-card-scene[data-world="fresh"] .world-card-media img {
+  object-position: 58% 50%;
+}
+
+.world-card-scene[data-world="frozen"] .world-card-media img {
+  object-position: 54% 52%;
+}
+
+.world-card-scene[data-world="dried"] .world-card-media img {
+  object-position: 52% 52%;
+}
+
+.world-card-image-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, var(--image-cast) 0%, transparent 44%, rgba(0, 32, 80, 0.105) 100%);
+  pointer-events: none;
+}
+
+.world-card-title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--navy-deep, #002050);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(1.55rem, 2.4vw, 2.25rem);
+  font-weight: 540;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.world-card-body-action {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 19px 19px 0 0;
+  cursor: pointer;
+  background: transparent;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.world-card-body-action:focus-visible {
+  outline: 2px solid var(--green, #50a010);
+  outline-offset: -5px;
+}
+
+.world-card-footer {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  min-height: 44px;
+  padding: 0 clamp(0.9rem, 1.4vw, 1.2rem);
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(0, 32, 80, 0.12);
+  color: var(--navy-deep, #002050);
+  background: transparent;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.world-card-footer svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.45;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.world-card-footer:hover,
+.world-card-footer:focus-visible {
+  color: var(--green, #50a010);
+}
+
+.world-card-footer:focus-visible {
+  outline: 2px solid var(--green, #50a010);
+  outline-offset: -4px;
+}
+
+.world-card-footer:hover svg,
+.world-card-footer:focus-visible svg {
+  transform: translate(2px, -2px);
+}
+
+.world-card-back-body {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  isolation: isolate;
 }
 
-.tw-panel-index {
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: 0.62rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgba(0, 32, 80, 0.55);
-  margin-bottom: 0.4rem;
+.world-card-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: 19px 19px 0 0;
+  background:
+    radial-gradient(circle at 82% 15%, var(--world-reflection), transparent 31%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.58), transparent 52%);
 }
 
-.tw-panel-title {
-  margin: 0 0 0.5rem 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(1.4rem, 2vw, 2.1rem);
-  font-weight: 520;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-}
-
-.tw-panel-title-link {
-  color: var(--navy-deep, #002050);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.tw-panel-title-link:hover {
-  color: var(--green, #50A010);
-}
-
-.tw-panel-subline {
-  margin: 0 0 1.25rem 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
-  line-height: 1.55;
-  color: rgba(0, 32, 80, 0.72);
-  font-weight: 400;
-  max-width: 22rem;
-}
-
-/* Simple Text CTA */
-.tw-panel-action {
+.world-card-back-copy {
+  position: relative;
+  z-index: 1;
   display: flex;
-  align-items: center;
+  margin: auto 0;
+  flex-direction: column;
+  gap: clamp(1.25rem, 2vw, 1.75rem);
 }
 
-.tw-panel-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.world-card-back-copy .world-card-title {
+  max-width: 10ch;
+  font-size: clamp(2rem, 3.25vw, 3.25rem);
+  line-height: 0.94;
+}
+
+.world-card-back-copy p {
+  margin: 0;
+  color: rgba(0, 32, 80, 0.72);
   font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--navy-deep, #002050);
-  text-decoration: none;
-  transition: color 0.3s ease;
-  padding: 0.2rem 0;
+  font-size: clamp(0.93rem, 1.25vw, 1.08rem);
+  line-height: 1.55;
 }
 
-.tw-panel-cta-icon {
-  width: 15px;
-  height: 15px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.3s ease;
+.world-card-back-copy p span {
+  display: block;
 }
 
-.tw-panel-cta:hover {
-  color: var(--green, #50A010);
-}
-
-.tw-panel-cta:hover .tw-panel-cta-icon {
-  transform: translateX(4px);
-}
-
-/* --------------------------------------------------------------------------
-   Responsive Behavior (Tablet & Mobile)
-   -------------------------------------------------------------------------- */
-
-@media (max-width: 992px) {
-  .tw-grid {
-    grid-template-columns: 1fr;
-    gap: 3.5rem;
+@media (hover: hover) and (pointer: fine) {
+  .world-card-scene:hover {
+    transform: translateY(-3px);
   }
 
-  .tw-panel-media-mask {
-    aspect-ratio: 16 / 10;
+  .world-card-scene:hover .world-card {
+    box-shadow:
+      0 28px 62px rgba(0, 32, 80, 0.125),
+      0 10px 22px rgba(0, 32, 80, 0.065),
+      0 2px 4px rgba(0, 32, 80, 0.075);
+  }
+
+  .world-card-scene:hover::after {
+    opacity: 0.82;
+    transform: translateY(2px) scaleX(1.025);
+  }
+
+  .world-card-scene:hover .world-card-media img {
+    transform: scale(1.018);
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 1023px) and (min-width: 700px) {
+  .tw-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .world-card-scene:last-child {
+    width: calc(50% - 0.625rem);
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 699px) {
   .tw-section {
-    padding-block: 4.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 4.5rem;
   }
 
   .tw-container {
-    gap: 2.75rem;
+    gap: 1.15rem;
   }
 
   .tw-title {
-    font-size: clamp(2.2rem, 8.5vw, 3.2rem);
-    line-height: 1.08;
+    max-width: 100%;
+    font-size: clamp(1.85rem, 7.9vw, 2.2rem);
+    line-height: 1.04;
   }
 
-  .tw-grid {
-    gap: 3rem;
+  .tw-header-meta {
+    margin-bottom: 0.7rem;
   }
 
-  .tw-panel-subline {
-    font-size: 0.96rem;
-    margin-bottom: 1rem;
+  .tw-world-list {
+    display: none;
+  }
+
+  .tw-card-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .world-card-scene,
+  .world-card-scene:last-child {
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 6 / 7;
+    justify-self: center;
+  }
+
+  .world-card-face {
+    grid-template-rows: minmax(0, 1fr) 54px;
+  }
+
+  .world-card-body {
+    padding: 0.9rem;
+  }
+
+  .world-card-title {
+    font-size: clamp(1.55rem, 7vw, 1.85rem);
+  }
+
+  .world-card-back-copy .world-card-title {
+    font-size: clamp(2.15rem, 10vw, 2.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-card-scene,
+  .world-card,
+  .world-card.is-flipped,
+  .world-card-face,
+  .world-card-front,
+  .world-card-back,
+  .world-card-media img,
+  .world-card-footer svg {
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+
+  .world-card {
+    transition: box-shadow 120ms ease;
+  }
+
+  .world-card-face {
+    transition: opacity 140ms ease;
+  }
+
+  .world-card-back {
+    opacity: 0;
+  }
+
+  .world-card.is-flipped .world-card-front {
+    opacity: 0;
+  }
+
+  .world-card.is-flipped .world-card-back {
+    opacity: 1;
   }
 }

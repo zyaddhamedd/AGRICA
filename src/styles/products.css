@@ -611,7 +611,6 @@
 .export-card-topline,
 .export-card-back-head,
 .export-card-identity,
-.export-card-footerline,
 .export-card-back-title,
 .export-card-spec-kicker,
 .export-spec-table {
@@ -620,8 +619,7 @@
 }
 
 .export-card-topline,
-.export-card-back-head,
-.export-card-footerline {
+.export-card-back-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -630,7 +628,6 @@
 
 .export-card-code,
 .export-card-spec-kicker,
-.export-card-footerline,
 .enquiry-notch-label {
   font-size: 0.59rem;
   line-height: 1.3;
@@ -814,16 +811,6 @@
 
 .export-card-visual.has-dedicated-image {
   background-image: none;
-}
-
-.export-card-footerline {
-  position: absolute;
-  right: clamp(1.05rem, 1.7vw, 1.35rem);
-  bottom: clamp(0.85rem, 1.4vw, 1.1rem);
-  left: clamp(1.05rem, 1.7vw, 1.35rem);
-  padding-top: 0.38rem;
-  border-top: 1px solid color-mix(in srgb, var(--card-secondary-accent) 28%, transparent);
-  color: rgba(246, 242, 233, 0.4);
 }
 
 .export-card-back-cue {
@@ -1054,12 +1041,6 @@
   .export-spec-row {
     grid-template-columns: minmax(100px, 38%) minmax(0, 1fr);
     padding-block: 0.43rem;
-  }
-
-  .export-card-footerline {
-    right: 1rem;
-    bottom: 0.75rem;
-    left: 1rem;
   }
 
   .enquiry-notch {

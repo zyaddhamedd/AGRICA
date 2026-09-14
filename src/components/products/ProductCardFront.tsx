@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import type { ProductAtlasItem } from "@/types/agrica";
+import { productImageFor } from "@/data/productImages";
 import { QuoteMicroAction } from "./QuoteMicroAction";
 
 interface ProductCardFrontProps {
@@ -28,9 +29,8 @@ export function ProductCardFront({
         : item.name.length > 8
           ? "medium"
           : "short";
-  const dedicatedImage =
-    item.name === "Lemons" ? "/assets/lemon_card.png" :
-    item.name === "Grapes" ? "/assets/grapes_card.png" : undefined;
+  const dedicatedImage = productImageFor(item.id) ??
+    (item.name === "Grapes" ? "/assets/grapes_card.png" : undefined);
 
   return (
     <section className="export-card-face export-card-front" aria-hidden={isFlipped}>
@@ -67,9 +67,6 @@ export function ProductCardFront({
         )}
       </div>
 
-      <footer className="export-card-footerline" aria-hidden="true">
-        <span>Egyptian export selection</span>
-      </footer>
     </section>
   );
 }
