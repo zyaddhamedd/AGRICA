@@ -3,6 +3,7 @@ import React from "react";
 import "@/styles/globals.css";
 import "@/styles/products.css";
 import "@/styles/standard.css";
+import "@/styles/footer.css";
 import { SkipLink } from "@/components/common/SkipLink";
 
 export const metadata: Metadata = {

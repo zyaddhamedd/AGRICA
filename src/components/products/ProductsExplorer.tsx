@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useTransition } from "react";
-import Link from "next/link";
 import type { WorldId, QuoteItem, ProductAtlasItem } from "@/types/agrica";
 import { PRODUCT_LIBRARY, visualFor, countProductsInWorld, totalCatalogueCount } from "@/data/products";
 import { SiteHeader } from "@/components/common/SiteHeader";
+import { SiteFooter } from "@/components/common/SiteFooter";
 import { WorldSwitch } from "./WorldSwitch";
 import { FamilyPanel } from "./FamilyPanel";
 import { LiveSearchInput } from "./LiveSearchInput";
@@ -201,17 +201,7 @@ export function ProductsExplorer(): React.JSX.Element {
         <SeasonSection />
       </main>
 
-      <footer className="products-footer">
-        <Link className="brand brand--footer" href="/" aria-label="AGRICA home">
-          <strong>AGRĪCA</strong>
-          <small>Agriculture Cairo</small>
-        </Link>
-        <p>Egyptian produce. Prepared for global supply.</p>
-        <div>
-          <span>Cairo, Egypt</span>
-          <span>© 2026 AGRICA</span>
-        </div>
-      </footer>
+      <SiteFooter variant="products" onPrimaryAction={() => setIsDrawerOpen(true)} />
 
       {/* Quote Drawer */}
       <QuoteDrawer
