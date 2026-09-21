@@ -1,0 +1,5 @@
+.home {
+  display: block;
+  min-width: 0;
+  overflow: clip;
+}

@@ -1,0 +1,118 @@
+.footer {
+  display: block;
+  min-height: auto;
+  padding: 0 var(--hs-page-gutter);
+  border-top: 1px solid var(--hs-border-on-dark);
+  color: var(--hs-text);
+  background: var(--hs-bg-deep);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr minmax(220px, 0.7fr) auto;
+  gap: clamp(2rem, 5vw, 5rem);
+  width: min(100%, var(--hs-content-max));
+  min-height: 230px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  align-items: end;
+}
+
+.brand {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--hs-text);
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: 20px;
+  object-fit: contain;
+}
+
+.brand > span {
+  width: 1px;
+  height: 22px;
+  background: var(--hs-border-on-dark);
+}
+
+.brand strong {
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.parentStatement {
+  margin: 0;
+  color: var(--hs-muted-on-dark);
+  font-family: var(--hs-font-serif);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: 1.4;
+}
+
+.utility {
+  display: flex;
+  justify-self: auto;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-end;
+  color: var(--hs-muted-on-dark);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.utility nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.utility a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--hs-text);
+  border-bottom: 1px solid var(--hs-accent);
+}
+
+.brand:focus-visible,
+.utility a:focus-visible {
+  outline: 2px solid var(--hs-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 800px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .utility {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  .footer {
+    display: block;
+    min-height: auto;
+    padding: 0 var(--hs-page-gutter);
+  }
+
+  .footer > .inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    justify-self: auto;
+    gap: 2rem;
+  }
+
+  .parentStatement,
+  .utility {
+    grid-column: 1;
+  }
+}

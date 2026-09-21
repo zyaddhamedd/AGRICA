@@ -1,0 +1,17 @@
+.reveal { width: min(100%,230px); overflow: hidden; margin-top: .85rem; color: var(--hs-ink); text-align: left; }
+.rule { width: 100%; height: 1px; background: linear-gradient(90deg,var(--hs-accent),var(--hs-border)); transform-origin: left; }
+.content { padding-top: .9rem; }
+.forms { padding-bottom: .85rem; }
+.forms p { margin: 0; color: var(--hs-accent); font-size: .56rem; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
+.forms span { display: block; margin-top: .45rem; color: var(--hs-ink); font-family: var(--hs-font-serif); font-size: .88rem; line-height: 1.45; }
+.note { margin: 0; color: var(--hs-muted); font-size: .73rem; line-height: 1.55; }
+@media (max-width:1099px) { .reveal { width: min(100%,190px); } }
+@media (max-width:760px) {
+  .reveal { width: 100%; margin-top: .7rem; }
+  .content { padding-top: .75rem; }
+  .forms span { font-size: .82rem; }
+  .note { font-size: .68rem; line-height: 1.5; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .reveal,.rule,.content { transition: none; animation: none; transform: none; }
+}

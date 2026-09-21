@@ -1,0 +1,10 @@
+.scroller { overflow-x: auto; scrollbar-width: thin; }
+.rail { display: flex; width: max-content; min-width: 100%; border-bottom: 1px solid var(--hs-border); }
+.rail button { position: relative; min-height: 48px; padding: 0 1.2rem; border: 0; color: var(--hs-muted); background: transparent; cursor: pointer; font: inherit; font-size: .63rem; font-weight: 650; letter-spacing: .11em; text-transform: uppercase; white-space: nowrap; }
+.rail button:first-child { padding-left: 0; }
+.rail button::after { position: absolute; right: 1.2rem; bottom: -1px; left: 1.2rem; height: 2px; background: var(--hs-accent); content: ""; opacity: 0; transform: scaleX(.5); transition: opacity 160ms ease,transform 160ms ease; }
+.rail button:first-child::after { left: 0; }
+.rail button[aria-pressed="true"] { color: var(--hs-ink); }
+.rail button[aria-pressed="true"]::after { opacity: 1; transform: scaleX(1); }
+.rail button:focus-visible { outline: 2px solid var(--hs-accent); outline-offset: -3px; }
+@media (prefers-reduced-motion:reduce) { .rail button::after { transition: none; } }

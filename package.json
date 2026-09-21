@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test:catalogue": "node -e \"const p = require('./src/data/products.ts');\" || tsx test/catalogue.test.ts"
+    "test:catalogue": "node -e \"const p = require('./src/data/products.ts');\" || tsx test/catalogue.test.ts",
+    "test:herbs-spices": "tsx test/herbs-spices-catalogue.test.ts",
+    "test:herbs-spices-process": "tsx test/herbs-spices-process.test.ts"
   },
   "dependencies": {
     "gsap": "^3.15.0",

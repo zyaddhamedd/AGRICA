@@ -1,0 +1,166 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  width: 100%;
+  min-height: var(--hs-nav-height);
+  border-bottom: 1px solid var(--hs-border-on-dark);
+  color: var(--hs-text);
+  background: color-mix(in srgb, var(--hs-bg-deep) 92%, transparent);
+  backdrop-filter: blur(16px);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, var(--hs-content-max));
+  min-height: var(--hs-nav-height);
+  margin: 0 auto;
+  padding: 0 var(--hs-page-gutter);
+}
+
+.brand {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: clamp(0.7rem, 1.4vw, 1.15rem);
+  color: var(--hs-text);
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: 21px;
+  object-fit: contain;
+}
+
+.brandRule {
+  width: 1px;
+  height: 24px;
+  background: var(--hs-border-on-dark);
+}
+
+.divisionName {
+  overflow: hidden;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+}
+
+.divisionContext {
+  display: flex;
+  min-width: 156px;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--hs-border-on-dark);
+}
+
+.divisionContext span,
+.divisionContext strong {
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.divisionContext span {
+  color: var(--hs-muted-on-dark);
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+}
+
+.divisionContext strong {
+  color: var(--hs-text);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.menuTrigger {
+  display: inline-flex;
+  min-width: 84px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 0.85rem;
+  border: 1px solid var(--hs-border-on-dark);
+  border-radius: var(--hs-radius-sm);
+  color: var(--hs-text);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.menuTrigger i {
+  position: relative;
+  width: 13px;
+  height: 8px;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.menuTrigger:hover {
+  border-color: var(--hs-accent);
+  background: rgba(245, 238, 226, 0.06);
+}
+
+.brand:focus-visible,
+.menuTrigger:focus-visible {
+  outline: 2px solid var(--hs-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 680px) {
+  .header,
+  .inner {
+    min-height: 64px;
+  }
+
+  .logo {
+    height: 18px;
+  }
+
+  .brand {
+    gap: 0.65rem;
+  }
+
+  .brandRule {
+    height: 20px;
+  }
+
+  .divisionName {
+    max-width: 8.5rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.09em;
+  }
+
+  .divisionContext {
+    display: none;
+  }
+
+  .menuTrigger {
+    min-width: 72px;
+    padding-inline: 0.7rem;
+    font-size: 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuTrigger {
+    transition: none;
+  }
+}

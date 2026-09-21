@@ -1,0 +1,15 @@
+.progress { position: sticky; top: calc(var(--hs-nav-height) + 2rem); align-self: start; padding-right: 1.5rem; }
+.progress > p { display: none; }
+.progress ol { margin: 0; padding: 0; border-top: 1px solid var(--hs-border); list-style: none; }
+.progress li { border-bottom: 1px solid var(--hs-border); }
+.progress a { position: relative; display: grid; grid-template-columns: 2rem 1fr; min-height: 58px; align-items: center; gap: .6rem; color: var(--hs-muted); font-size: .62rem; letter-spacing: .09em; text-transform: uppercase; }
+.progress a::before { position: absolute; top: -1px; bottom: -1px; left: 0; width: 2px; background: var(--hs-accent); content: ""; opacity: 0; transform: scaleY(.35); transition: opacity 180ms ease,transform 180ms ease; }
+.progress a > span { padding-left: .75rem; font-variant-numeric: tabular-nums; }
+.progress a > strong { font-weight: 650; }
+.progress a > em { position: absolute; right: .35rem; bottom: .25rem; color: var(--hs-accent); font-size: .45rem; font-style: normal; letter-spacing: .08em; }
+.progress a[aria-current="step"] { color: var(--hs-ink); }
+.progress a[aria-current="step"]::before { opacity: 1; transform: scaleY(1); }
+.progress a:focus-visible { outline: 2px solid var(--hs-accent); outline-offset: 3px; }
+@media (max-width: 1050px) { .progress a { grid-template-columns: 1fr; gap: .15rem; min-height: 62px; padding: .65rem 0 .65rem .8rem; } .progress a > span { padding: 0; } }
+@media (max-width: 760px) { .progress { top: var(--hs-nav-height); z-index: 30; display: flex; min-height: 50px; align-items: center; justify-content: space-between; padding: 0 var(--hs-page-gutter); border-bottom: 1px solid var(--hs-border); background: color-mix(in srgb,var(--hs-paper) 94%,transparent); backdrop-filter: blur(10px); } .progress > p { display: flex; width: 100%; margin: 0; align-items: center; justify-content: space-between; color: var(--hs-muted); font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; } .progress > p strong { color: var(--hs-ink); font-weight: 700; } .progress ol { display: none; } }
+@media (prefers-reduced-motion: reduce) { .progress a::before { transition: none; } }

@@ -1,0 +1,47 @@
+.specimen { display: flex; min-width: 0; flex-direction: column; align-items: center; text-align: center; }
+.media { position: relative; width: clamp(190px,15vw,230px); aspect-ratio: 1; overflow: hidden; border: 1px solid var(--hs-border); border-radius: 50%; background: var(--hs-surface); box-shadow: inset 0 0 0 1px rgba(245,238,226,.08); transition: border-color 280ms ease; }
+.media img { transition: transform 280ms cubic-bezier(.22,1,.36,1); }
+.media::before,.media span,.media i { position: absolute; display: block; content: ""; }
+.media[data-media-status="fallback"]::before { inset: 18% 16% 14% 20%; border-radius: 42% 12% 18% 8%; background: var(--hs-paper); transform: rotate(-8deg); }
+.media span:first-child { right: -10%; bottom: -15%; width: 68%; aspect-ratio: 1; border-radius: 48% 52% 10% 46%; background: var(--hs-accent-secondary); }
+.media span:nth-child(2) { top: 18%; left: 9%; width: 37%; aspect-ratio: 1; border-radius: 50%; background: var(--hs-accent); }
+.media i { top: 12%; right: 14%; bottom: 12%; width: 1px; background: var(--hs-border); }
+[data-family="herbs"] .media { background: var(--hs-ink); }
+[data-family="herbs"] .media::before { background: var(--hs-sand); }
+[data-family="herbs"] .media i { background: var(--hs-border-on-dark); }
+[data-family="flowers"] .media span:first-child,[data-family="roots"] .media span:first-child { background: var(--hs-copper); }
+[data-family="seeds"] .media { background: var(--hs-sand); }
+[data-family="seeds"] .media span:first-child { background: var(--hs-accent-secondary); }
+[data-family="spices"] .media span:first-child { background: var(--hs-accent); }
+[data-family="spices"] .media span:nth-child(2) { background: var(--hs-paper); }
+[data-family="dehydrated-vegetables"] .media span:nth-child(2) { background: var(--hs-sand); }
+.identity { display: flex; min-height: 5.4rem; flex-direction: column; align-items: center; margin-top: 1rem; }
+.identity p { margin: 0; color: var(--hs-accent); font-size: .6rem; font-weight: 650; letter-spacing: .15em; text-transform: uppercase; }
+.identity h3 { max-width: 13ch; margin: .45rem 0 0; color: var(--hs-ink); font-family: var(--hs-font-serif); font-size: clamp(1.35rem,2vw,1.9rem); font-weight: 400; letter-spacing: -.025em; line-height: 1.05; overflow-wrap: anywhere; }
+.actions { display: flex; width: min(100%,230px); flex-direction: column; align-items: center; gap: .2rem; margin-top: .35rem; }
+.actions button { min-height: 40px; border: 0; color: var(--hs-ink); background: transparent; cursor: pointer; font: inherit; font-size: .58rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; }
+.viewAction { position: relative; }
+.viewAction::after { position: absolute; right: .2rem; bottom: .35rem; left: .2rem; height: 1px; background: var(--hs-accent); content: ""; transform: scaleX(.35); transform-origin: left; transition: transform 280ms ease; }
+.enquiryAction { color: var(--hs-muted) !important; }
+.enquiryAction[aria-pressed="true"] { color: var(--hs-accent) !important; }
+.actions button:focus-visible { border-radius: 2px; outline: 2px solid var(--hs-accent); outline-offset: 3px; }
+@media (hover:hover) and (pointer:fine) {
+  .specimen:hover .media { border-color: rgba(181,106,50,.62); }
+  .specimen:hover .media img { transform: scale(1.028); }
+  .viewAction:hover::after { transform: scaleX(1); }
+}
+@media (max-width:1099px) {
+  .media { width: clamp(160px,21vw,190px); }
+  .actions { width: min(100%,190px); }
+}
+@media (max-width:760px) {
+  .media { width: clamp(126px,38vw,156px); }
+  .identity { min-height: 5rem; margin-top: .8rem; }
+  .identity h3 { font-size: clamp(1.2rem,5.5vw,1.5rem); }
+  .actions { width: 100%; }
+  .actions button { min-height: 38px; font-size: .54rem; letter-spacing: .09em; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .media,.media img,.viewAction::after { transition: none; }
+  .specimen:hover .media img { transform: none; }
+}

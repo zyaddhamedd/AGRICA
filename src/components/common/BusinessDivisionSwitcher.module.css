@@ -1,0 +1,143 @@
+.switcher {
+  display: inline-flex;
+  height: 44px;
+  flex: none;
+  align-items: stretch;
+  border-block: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.68);
+  white-space: nowrap;
+}
+
+.switcher[data-tone="light"] {
+  border-color: rgba(0, 32, 80, 0.2);
+  color: rgba(0, 32, 80, 0.62);
+}
+
+.divisionLink {
+  position: relative;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 0.68rem;
+  color: inherit;
+  font-size: 0.54rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.divisionLink + .divisionLink {
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+[data-tone="light"] .divisionLink + .divisionLink {
+  border-left-color: rgba(0, 32, 80, 0.16);
+}
+
+.divisionLink::after {
+  position: absolute;
+  right: 0.68rem;
+  bottom: -1px;
+  left: 0.68rem;
+  height: 2px;
+  background: currentColor;
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.45);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.divisionLink[aria-current="page"] {
+  color: #ffffff;
+}
+
+[data-tone="light"] .divisionLink[aria-current="page"] {
+  color: #002050;
+}
+
+.divisionLink[aria-current="page"]::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.divisionLink:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+[data-tone="light"] .divisionLink:hover {
+  color: #002050;
+  background: rgba(0, 32, 80, 0.055);
+}
+
+.divisionLink:active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-tone="light"] .divisionLink:active {
+  background: rgba(0, 32, 80, 0.1);
+}
+
+.divisionLink:focus-visible {
+  z-index: 1;
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.compactLabel,
+.narrowLabel {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .divisionLink {
+    min-width: 38px;
+    justify-content: center;
+    padding-inline: 0.42rem;
+    font-size: 0.52rem;
+  }
+
+  .divisionLink::after {
+    right: 0.42rem;
+    left: 0.42rem;
+  }
+
+  .fullLabel {
+    display: none;
+  }
+
+  .compactLabel {
+    display: inline;
+  }
+}
+
+@media (max-width: 400px) {
+  .divisionLink {
+    min-width: 19px;
+    padding-inline: 0.18rem;
+    font-size: 0.48rem;
+    letter-spacing: 0;
+  }
+
+  .divisionLink::after {
+    right: 0.18rem;
+    left: 0.18rem;
+  }
+
+  .compactLabel {
+    display: none;
+  }
+
+  .narrowLabel {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .divisionLink,
+  .divisionLink::after {
+    transition: none;
+  }
+}

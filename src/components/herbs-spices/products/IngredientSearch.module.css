@@ -1,0 +1,8 @@
+.search { display: grid; gap: .65rem; width: min(100%,34rem); }
+.search label { color: var(--hs-accent); font-size: .58rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+.search>div { display: flex; border-bottom: 1px solid var(--hs-border); align-items: center; }
+.search input { width: 100%; min-height: 50px; padding: 0; border: 0; outline: 0; color: var(--hs-ink); background: transparent; font: inherit; font-size: 1rem; }
+.search input::placeholder { color: var(--hs-muted); }
+.search>div:focus-within { border-color: var(--hs-accent); box-shadow: 0 2px 0 var(--hs-accent); }
+.search button { min-height: 44px; padding: 0 .5rem; border: 0; color: var(--hs-accent); background: transparent; cursor: pointer; font-size: .62rem; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; }
+.search button:focus-visible { outline: 2px solid var(--hs-accent); outline-offset: 2px; }

@@ -1,0 +1,11 @@
+.final { display: grid; grid-template-columns: minmax(180px,.35fr) minmax(0,.65fr); gap: clamp(2rem,8vw,8rem); padding: var(--hs-section-space) var(--hs-page-gutter); color: var(--hs-ink); background: var(--hs-surface); }
+.number { color: var(--hs-accent); font-size: clamp(4rem,9vw,9rem); font-weight: 500; letter-spacing: -.08em; line-height: .8; }
+.copy > p { margin: 0 0 1.2rem; color: var(--hs-accent); font-size: .62rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.copy h2 { max-width: 12ch; margin: 0; font-family: var(--hs-font-serif); font-size: clamp(3rem,6vw,6rem); font-weight: 400; letter-spacing: -.055em; line-height: .94; }
+.copy > span { display: block; max-width: 38rem; margin-top: 2rem; color: var(--hs-muted); line-height: 1.7; }
+.actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
+.actions a { display: inline-flex; min-height: 50px; align-items: center; justify-content: space-between; gap: 2rem; padding: 0 1rem; border: 1px solid var(--hs-ink); color: var(--hs-ink); font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.actions a:first-child { color: var(--hs-text); background: var(--hs-bg-deep); }
+.actions i { color: var(--hs-accent); font-style: normal; }
+.actions a:focus-visible { outline: 2px solid var(--hs-accent); outline-offset: 4px; }
+@media (max-width: 700px) { .final { grid-template-columns: 1fr; } .actions { flex-direction: column; } .actions a { width: 100%; } }

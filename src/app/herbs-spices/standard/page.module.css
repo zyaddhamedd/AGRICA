@@ -1,0 +1,4 @@
+.page { flex: 1; overflow: clip; color: var(--hs-ink); background: var(--hs-paper); }
+.story { display: grid; width: min(100%,var(--hs-content-max)); grid-template-columns: clamp(8rem,14vw,12rem) minmax(0,1fr); gap: clamp(3rem,6vw,6rem); margin: 0 auto; padding: 0 var(--hs-page-gutter); }
+.sequence { min-width: 0; }
+@media (max-width: 760px) { .story { grid-template-columns: 1fr; gap: 0; } }

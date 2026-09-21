@@ -1,0 +1,10 @@
+.section { color: var(--hs-text); background: var(--hs-bg-deep); }
+.inner { position: relative; display: grid; grid-template-columns: minmax(150px,.28fr) minmax(0,.72fr); gap: clamp(3rem,8vw,8rem); width: min(100%,var(--hs-content-max)); min-height: 680px; margin: 0 auto; padding: var(--hs-section-space) var(--hs-page-gutter); align-items: start; }
+.eyebrow,.parentLabel { margin: 0; color: var(--hs-accent); font-size: .62rem; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
+.statement { position: relative; z-index: 2; }
+.statement h2 { max-width: 13ch; margin: 0; font-size: clamp(3.1rem,6.5vw,7rem); font-weight: 500; letter-spacing: -.065em; line-height: .91; }
+.statement p { max-width: 36rem; margin: 2.5rem 0 0; color: var(--hs-muted-on-dark); line-height: var(--hs-body-leading); }
+.parentLabel { grid-column: 2; align-self: end; color: var(--hs-sand); }
+.mark { position: absolute; right: var(--hs-page-gutter); bottom: 0; width: clamp(180px,27vw,400px); aspect-ratio: 1; overflow: hidden; border: 1px solid var(--hs-border-on-dark); border-radius: 50% 50% 0 0; opacity: .48; }
+.mark::before,.mark span { position: absolute; content: ""; } .mark::before { inset: 18%; border-radius: 50%; background: var(--hs-accent); } .mark span { top: 0; bottom: 0; left: 50%; width: 1px; background: var(--hs-border-on-dark); }
+@media (max-width:680px) { .inner { grid-template-columns: 1fr; min-height: 620px; } .parentLabel { grid-column: 1; align-self: start; } .mark { right: var(--hs-page-gutter); width: 220px; } }

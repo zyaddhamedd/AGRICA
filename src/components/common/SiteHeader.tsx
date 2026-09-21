@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BusinessDivisionSwitcher } from "./BusinessDivisionSwitcher";
 import { GlobalMenu } from "./GlobalMenu";
 
 export type HeaderVariant = "home" | "products" | "standard" | "internal";
@@ -135,6 +136,8 @@ export function SiteHeader({
 
           {/* Right Action Cluster */}
           <div className="global-navbar-actions">
+            <BusinessDivisionSwitcher tone={isWhiteLogo ? "dark" : "light"} />
+
             {/* Dedicated Quote Counter Trigger for Products */}
             {activeVariant === "products" && (
               <button
@@ -169,6 +172,5 @@ export function SiteHeader({
     </>
   );
 }
-
 
 
