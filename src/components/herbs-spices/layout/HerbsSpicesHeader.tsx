@@ -1,14 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import React, { useCallback, useRef, useState } from "react";
 import { BusinessDivisionSwitcher } from "@/components/common/BusinessDivisionSwitcher";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
+import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import { useCommonDictionary } from "@/i18n/locale-context";
 import { HerbsSpicesMenu } from "./HerbsSpicesMenu";
 import styles from "./HerbsSpicesHeader.module.css";
 
 export function HerbsSpicesHeader(): React.JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const common = useCommonDictionary();
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
@@ -25,11 +28,12 @@ export function HerbsSpicesHeader(): React.JSX.Element {
             priority
           />
           <span className={styles.brandRule} aria-hidden="true" />
-          <span className={styles.divisionName}>Herbs &amp; Spices</span>
+          <span className={styles.divisionName}>{common.divisions.herbsSpices}</span>
         </Link>
 
         <div className={styles.actions}>
           <BusinessDivisionSwitcher tone="dark" />
+          <LanguageSwitcher className={styles.language} tone="herbs" />
 
           <button
             ref={menuTriggerRef}
@@ -37,10 +41,10 @@ export function HerbsSpicesHeader(): React.JSX.Element {
             type="button"
             aria-expanded={isMenuOpen}
             aria-controls="herbs-spices-menu"
-            aria-label={isMenuOpen ? "Close Herbs & Spices menu" : "Open Herbs & Spices menu"}
+            aria-label={isMenuOpen ? common.divisions.herbsMenuClose : common.divisions.herbsMenuOpen}
             onClick={() => setIsMenuOpen((open) => !open)}
           >
-            <span>{isMenuOpen ? "Close" : "Menu"}</span>
+            <span>{isMenuOpen ? common.navigation.close : common.navigation.menu}</span>
             <i aria-hidden="true" />
           </button>
         </div>

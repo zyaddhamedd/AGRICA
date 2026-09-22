@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 import type { HerbsSpicesCatalogueItem } from "@/types/herbs-spices";
 import styles from "./MaterialReveal.module.css";
+import { useHerbsSpicesDictionary } from "@/i18n/locale-context";
 
 export interface MaterialRevealProps {
   readonly item: HerbsSpicesCatalogueItem;
@@ -13,6 +14,7 @@ export interface MaterialRevealProps {
 }
 
 export function MaterialReveal({ item, closing, onRequestClose, onClosed }: MaterialRevealProps): React.JSX.Element {
+  const dictionary = useHerbsSpicesDictionary().catalogue;
   const rootRef = useRef<HTMLElement>(null);
   const ruleRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -67,11 +69,11 @@ export function MaterialReveal({ item, closing, onRequestClose, onClosed }: Mate
   }, [closing, onRequestClose]);
 
   return (
-    <section className={styles.reveal} id={`material-details-${item.slug}`} ref={rootRef} aria-label={`${item.name} material details`} data-material-reveal={item.slug}>
+    <section className={styles.reveal} id={`material-details-${item.slug}`} ref={rootRef} aria-label={`${item.name} ${dictionary.detailsLabel}`} data-material-reveal={item.slug}>
       <div className={styles.rule} ref={ruleRef} />
       <div className={styles.content} ref={contentRef}>
-        {item.forms.length > 0 && <div className={styles.forms}><p>Available forms</p><span>{item.forms.join(" · ")}</span></div>}
-        <p className={styles.note}>Technical specifications and samples are available upon request.</p>
+        {item.forms.length > 0 && <div className={styles.forms}><p>{dictionary.availableForms}</p><span>{item.forms.join(" · ")}</span></div>}
+        <p className={styles.note}>{dictionary.technicalNote}</p>
       </div>
     </section>
   );

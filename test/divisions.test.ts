@@ -18,6 +18,8 @@ const divisionCases = [
   ["/herbs-spices/products", "herbs-spices"],
   ["/herbs-spices/standard", "herbs-spices"],
   ["/herbs-spices/products/", "herbs-spices"],
+  ["/en/products", "produce"],
+  ["/ar/herbs-spices/products", "herbs-spices"],
 ] as const;
 
 for (const [pathname, expected] of divisionCases) {
@@ -36,35 +38,37 @@ const pageKindCases = [
   ["/dried-spices/standard", null],
   ["/products/?world=frozen", "products"],
   ["/not-registered", null],
+  ["/de/products?world=frozen", "products"],
+  ["/fr/herbs-spices/products?family=flowers", "products"],
 ] as const;
 
 for (const [pathname, expected] of pageKindCases) {
   assert.equal(resolvePageKindFromPathname(pathname), expected);
 }
 
-assert.equal(mapPathnameToDivision("/", "herbs-spices"), "/herbs-spices");
+assert.equal(mapPathnameToDivision("/", "herbs-spices"), "/en/herbs-spices");
 assert.equal(
-  mapPathnameToDivision("/products", "herbs-spices"),
-  "/herbs-spices/products",
+  mapPathnameToDivision("/de/products", "herbs-spices"),
+  "/de/herbs-spices/products",
 );
 assert.equal(
-  mapPathnameToDivision("/standard", "herbs-spices"),
-  "/herbs-spices/standard",
+  mapPathnameToDivision("/ar/standard", "herbs-spices"),
+  "/ar/herbs-spices/standard",
 );
-assert.equal(mapPathnameToDivision("/herbs-spices", "produce"), "/");
+assert.equal(mapPathnameToDivision("/ru/herbs-spices", "produce"), "/ru/");
 assert.equal(
-  mapPathnameToDivision("/products?world=dried#catalogue", "herbs-spices"),
-  "/herbs-spices/products",
+  mapPathnameToDivision("/fr/products?world=dried#catalogue", "herbs-spices"),
+  "/fr/herbs-spices/products",
 );
-assert.equal(mapPathnameToDivision("/herbs-spices/products", "produce"), "/products");
-assert.equal(mapPathnameToDivision("/herbs-spices/standard", "produce"), "/standard");
+assert.equal(mapPathnameToDivision("/en/herbs-spices/products", "produce"), "/en/products");
+assert.equal(mapPathnameToDivision("/de/herbs-spices/standard", "produce"), "/de/standard");
 assert.equal(
-  mapPathnameToDivision("/standard?preview=true#process", "herbs-spices"),
-  "/herbs-spices/standard",
+  mapPathnameToDivision("/en/standard?preview=true#process", "herbs-spices"),
+  "/en/herbs-spices/standard",
 );
 assert.equal(
-  mapPathnameToDivision("/herbs-spices?preview=true#top", "produce"),
-  "/",
+  mapPathnameToDivision("/ar/herbs-spices?preview=true#top", "produce"),
+  "/ar/",
 );
 
 const futureDivisionWithoutStandard = {

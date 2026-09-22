@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { GlobalMenu } from "@/components/common/GlobalMenu";
+import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import { useCommonDictionary, useHomeDictionary, useLocale } from "@/i18n/locale-context";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -20,6 +22,9 @@ export function HeroSection(): React.JSX.Element {
   const desktopVideo1Ref = useRef<HTMLVideoElement>(null);
   const desktopVideo2Ref = useRef<HTMLVideoElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const common = useCommonDictionary();
+  const dictionary = useHomeDictionary().hero;
+  const locale = useLocale();
 
   useEffect(() => {
     // 1. Ensure all videos play reliably with muted configuration
@@ -169,7 +174,7 @@ export function HeroSection(): React.JSX.Element {
       <div
         ref={heroMobileStageRef}
         className="hero-mobile-stage"
-        aria-label="AGRICA Mobile Hero"
+        aria-label={dictionary.mobileLabel}
       >
         {/* Decorative Background Assets Layer */}
         <div className="mobile-hero-decor" aria-hidden="true">
@@ -222,7 +227,7 @@ export function HeroSection(): React.JSX.Element {
 
         {/* 1. Floating Utilitarian Top Navbar */}
         <header className="mobile-floating-navbar">
-          <Link href="/" className="mobile-navbar-brand" aria-label="AGRICA Home">
+          <Link href="/" className="mobile-navbar-brand" aria-label={common.navigation.agricaHome}>
             <img
               src="/assets/agrica-logo-brand.png"
               alt="AGRICA"
@@ -233,9 +238,9 @@ export function HeroSection(): React.JSX.Element {
             type="button"
             className="mobile-navbar-menu-btn"
             onClick={() => setIsMenuOpen(true)}
-            aria-label="Open navigation menu"
+            aria-label={common.navigation.openMenu}
           >
-            Menu
+            {common.navigation.menu}
           </button>
         </header>
 
@@ -243,7 +248,7 @@ export function HeroSection(): React.JSX.Element {
         <div
           ref={marqueeContainerRef}
           className="mobile-hero-marquee-container"
-          aria-label="AGRICA moving visual ribbons"
+          aria-label={dictionary.ribbonsLabel}
         >
           {/* Row 1: Video Strip 01 (Preserved direction) */}
           <div className="mobile-marquee-row mobile-marquee-row--1">
@@ -367,7 +372,7 @@ export function HeroSection(): React.JSX.Element {
           {/* Line 1: From Egyptian soil, (Intro Line) */}
           <div className="mobile-sentence-mask mobile-sentence-mask--1">
             <span className="mobile-sentence-line mobile-sentence-line--1 mobile-reveal-line">
-              From Egyptian soil,
+              {dictionary.mobileLead}
             </span>
           </div>
 
@@ -379,14 +384,14 @@ export function HeroSection(): React.JSX.Element {
                 alt="AGRICA"
                 className="mobile-sentence-logo"
               />
-              <span className="mobile-sentence-sans">reaches</span>
+              <span className="mobile-sentence-sans">{dictionary.mobileVerb}</span>
             </span>
           </div>
 
           {/* Line 3: the world. (Emotional Closing Line) */}
           <div className="mobile-sentence-mask mobile-sentence-mask--3">
             <em className="mobile-sentence-line mobile-sentence-line--3 mobile-sentence-serif mobile-reveal-line">
-              the world.
+              {dictionary.mobileClose}
             </em>
           </div>
         </div>
@@ -396,7 +401,7 @@ export function HeroSection(): React.JSX.Element {
 
 
       {/* Desktop Stage (min-width: 961px): Simplicity, calmness & visual language of mobile hero */}
-      <div className="hero-desktop-stage" aria-label="AGRICA Desktop Hero">
+      <div className="hero-desktop-stage" aria-label={dictionary.desktopLabel}>
         {/* Subtle Decorative Background Assets Layer */}
         <div className="desktop-hero-decor" aria-hidden="true">
           <img
@@ -418,21 +423,24 @@ export function HeroSection(): React.JSX.Element {
 
         {/* Floating Warm Paper Desktop Navbar */}
         <header className="desktop-floating-navbar">
-          <Link href="/" className="desktop-navbar-brand" aria-label="AGRICA Home">
+          <Link href="/" className="desktop-navbar-brand" aria-label={common.navigation.agricaHome}>
             <img
               src="/assets/agrica-logo-brand.png"
               alt="AGRICA"
               className="desktop-navbar-logo"
             />
           </Link>
-          <button
-            type="button"
-            className="desktop-navbar-menu-btn"
-            onClick={() => setIsMenuOpen(true)}
-            aria-label="Open navigation menu"
-          >
-            Menu
-          </button>
+          <div className="home-navbar-actions">
+            <LanguageSwitcher tone="light" />
+            <button
+              type="button"
+              className="desktop-navbar-menu-btn"
+              onClick={() => setIsMenuOpen(true)}
+              aria-label={common.navigation.openMenu}
+            >
+              {common.navigation.menu}
+            </button>
+          </div>
         </header>
 
         {/* Desktop Main Stage: Asymmetric Dual-Video Row + Left-Aligned Brand Lockup */}
@@ -478,8 +486,8 @@ export function HeroSection(): React.JSX.Element {
               className="desktop-hero-lockup-logo"
             />
             <p className="desktop-hero-lockup-copy">
-              <span id="hero-title">From Egyptian fields to</span>
-              <em>global supply.</em>
+              <span id="hero-title">{dictionary.desktopLead}</span>
+              <em>{locale === "en" ? "global supply." : dictionary.desktopEmphasis}</em>
             </p>
           </div>
         </div>

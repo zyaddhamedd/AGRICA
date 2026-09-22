@@ -9,10 +9,11 @@ export interface HerbsSpicesMediaProps {
   readonly fallback: React.ReactNode;
   readonly decorative?: boolean;
   readonly sizes?: string;
+  readonly alt?: string;
 }
 
 /** Division-owned image slot: approved assets use next/image; pending assets keep the supplied CSS fallback. */
-export function HerbsSpicesMedia({ entry, className, fallback, decorative = false, sizes }: HerbsSpicesMediaProps): React.JSX.Element {
+export function HerbsSpicesMedia({ entry, className, fallback, decorative = false, sizes, alt }: HerbsSpicesMediaProps): React.JSX.Element {
   const approved = entry?.status === "approved";
 
   return (
@@ -26,7 +27,7 @@ export function HerbsSpicesMedia({ entry, className, fallback, decorative = fals
         <Image
           className={styles.image}
           src={entry.src}
-          alt={decorative ? "" : entry.alt}
+          alt={decorative ? "" : (alt ?? entry.alt)}
           fill
           sizes={sizes ?? entry.sizes}
           preload={entry.preload}

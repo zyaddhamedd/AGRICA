@@ -1,5 +1,6 @@
 import React from "react";
 import type { ProductAtlasItem } from "@/types/agrica";
+import { useProductsDictionary } from "@/i18n/locale-context";
 
 interface ExportActionRailProps {
   readonly item: ProductAtlasItem;
@@ -14,6 +15,7 @@ export function ExportActionRail({
   isCardFlipped,
   onToggleQuote,
 }: ExportActionRailProps): React.JSX.Element {
+  const dictionary = useProductsDictionary();
   return (
     <button
       type="button"
@@ -28,12 +30,12 @@ export function ExportActionRail({
       aria-pressed={isAddedToQuote}
       aria-label={
         isAddedToQuote
-          ? `Remove ${item.name} from export enquiry`
-          : `Add ${item.name} to export enquiry`
+          ? `${dictionary.ui.removeFromEnquiry}: ${item.name}`
+          : `${dictionary.ui.add}: ${item.name}`
       }
     >
       <span className="enquiry-notch-label">
-        {isAddedToQuote ? "Added" : "Add to enquiry"}
+        {isAddedToQuote ? dictionary.ui.added : dictionary.ui.add}
       </span>
       <span className="enquiry-notch-mark" aria-hidden="true">
         {isAddedToQuote ? "✓" : "+"}

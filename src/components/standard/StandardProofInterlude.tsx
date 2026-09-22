@@ -1,19 +1,15 @@
 import React from "react";
+import { useStandardDictionary } from "@/i18n/locale-context";
 
 export function StandardProofInterlude(): React.JSX.Element {
-  const pillars = [
-    { num: "01", label: "Market" },
-    { num: "02", label: "Grade" },
-    { num: "03", label: "Pack" },
-    { num: "04", label: "Condition" },
-    { num: "05", label: "Handover" },
-  ];
+  const ui = useStandardDictionary().produce.ui;
+  const pillars = ui.proofPillars.map((label, index) => ({ num:String(index + 1).padStart(2, "0"), label }));
 
   return (
     <section className="standard-proof-interlude">
       <div className="proof-interlude-inner">
-        <span className="proof-interlude-kicker">CONTROLLED SPECIFICATION</span>
-        <h3 className="proof-interlude-title">Built around the destination.</h3>
+        <span className="proof-interlude-kicker">{ui.controlledSpecification}</span>
+        <h3 className="proof-interlude-title">{ui.destinationTitle}</h3>
         <div className="proof-interlude-pillars">
           {pillars.map((p) => (
             <div key={p.num} className="proof-pillar">

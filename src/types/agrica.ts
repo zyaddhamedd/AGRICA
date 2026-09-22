@@ -1,9 +1,44 @@
 export type WorldId = "fresh" | "frozen" | "dried";
 
+export type ProduceFamilyId =
+  | "citrus"
+  | "fresh-fruits"
+  | "vegetables-tubers"
+  | "iqf-fruits"
+  | "iqf-vegetables"
+  | "frozen-potato-products"
+  | "dried-fruits"
+  | "dried-vegetables";
+
+export type ProduceProductId = `produce:${string}`;
+
+/** Language-independent product identity and catalogue relationships. */
+export interface ProductCore {
+  readonly id: ProduceProductId;
+  readonly divisionId: "produce";
+  readonly worldId: WorldId;
+  readonly familyId: ProduceFamilyId;
+  readonly mediaKey: string;
+}
+
+/** Future localized presentation contract. Phase 0 keeps English in ProductDefinition. */
+export interface ProductTranslation {
+  readonly productId: ProduceProductId;
+  readonly name: string;
+  readonly slug?: string;
+  readonly shortDescription?: string;
+  readonly imageAlt?: string;
+}
+
+export interface ProductDefinition extends ProductCore {
+  readonly name: string;
+}
+
 export interface ProductFamily {
+  readonly id: ProduceFamilyId;
   readonly name: string;
   readonly code: string;
-  readonly products: readonly string[];
+  readonly products: readonly ProductDefinition[];
 }
 
 export interface WorldLibrary {
@@ -14,7 +49,7 @@ export interface WorldLibrary {
 export type ProductLibrary = Record<WorldId, WorldLibrary>;
 
 export interface QuoteItem {
-  readonly key: string;
+  readonly id: ProduceProductId;
   readonly name: string;
   readonly world: string;
   readonly family: string;
@@ -40,11 +75,9 @@ export interface ExportSpecification {
   readonly grade?: string;
 }
 
-export interface ProductAtlasItem {
-  readonly id: string;
-  readonly key: string;
+export interface ProductAtlasItem extends ProductCore {
   readonly name: string;
-  readonly worldId: WorldId;
+  readonly searchAliases?: readonly string[];
   readonly worldLabel: string;
   readonly familyCode: string;
   readonly familyName: string;

@@ -57,6 +57,8 @@
   gap: clamp(1rem, 2.5vw, 2.5rem);
 }
 
+.language { display: block; }
+
 .divisionContext {
   display: flex;
   min-width: 156px;
@@ -122,6 +124,10 @@
 .menuTrigger:focus-visible {
   outline: 2px solid var(--hs-accent);
   outline-offset: 4px;
+}
+
+@media (max-width: 800px) {
+  .language { display: none; }
 }
 
 @media (max-width: 680px) {

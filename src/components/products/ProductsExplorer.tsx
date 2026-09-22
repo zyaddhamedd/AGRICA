@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useTransition } from "react";
-import type { WorldId, QuoteItem, ProductAtlasItem } from "@/types/agrica";
-import { PRODUCT_LIBRARY, visualFor, countProductsInWorld, totalCatalogueCount } from "@/data/products";
+import type { WorldId, QuoteItem, ProductAtlasItem, ProduceFamilyId } from "@/types/agrica";
+import { PRODUCT_LIBRARY, countProductsInWorld } from "@/data/products";
+import {
+  buildProductAtlasItems,
+  filterProductAtlasItems,
+  toggleQuoteItem,
+} from "@/data/productCatalogue";
 import { SiteHeader } from "@/components/common/SiteHeader";
 import { SiteFooter } from "@/components/common/SiteFooter";
 import { WorldSwitch } from "./WorldSwitch";
@@ -12,25 +17,24 @@ import { AtlasGrid } from "./AtlasGrid";
 import { FloatingEnquiryDock } from "./FloatingEnquiryDock";
 import { SeasonSection } from "@/components/home/SeasonSection";
 import { QuoteDrawer } from "./QuoteDrawer";
+import { useProductsDictionary } from "@/i18n/locale-context";
 
-export function ProductsExplorer(): React.JSX.Element {
-  const [activeWorld, setActiveWorld] = useState<WorldId>("fresh");
-  const [activeFamilyCode, setActiveFamilyCode] = useState<string | null>(null);
+export function ProductsExplorer({
+  initialWorld,
+}: {
+  readonly initialWorld: WorldId;
+}): React.JSX.Element {
+  const dictionary = useProductsDictionary();
+  const [activeWorld, setActiveWorld] = useState<WorldId>(initialWorld);
+  const [activeFamilyId, setActiveFamilyId] = useState<ProduceFamilyId | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [quoteItems, setQuoteItems] = useState<QuoteItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, startTransition] = useTransition();
 
-  // Read initial world query parameter on mount
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const requestedWorld = params.get("world") as WorldId | null;
-      if (requestedWorld && PRODUCT_LIBRARY[requestedWorld]) {
-        setActiveWorld(requestedWorld);
-      }
-    }
-  }, []);
+    setActiveWorld(initialWorld);
+  }, [initialWorld]);
 
   // Sync body dataset for CSS theme styling
   useEffect(() => {
@@ -42,61 +46,22 @@ export function ProductsExplorer(): React.JSX.Element {
     };
   }, [activeWorld]);
 
-  // Construct full flat list of all atlas items in current library
-  const allAtlasItems = useMemo(() => {
-    const items: ProductAtlasItem[] = [];
-    const worldKeys: WorldId[] = ["fresh", "frozen", "dried"];
+  const allAtlasItems = useMemo(() => buildProductAtlasItems(dictionary), [dictionary]);
 
-    for (const wId of worldKeys) {
-      const worldObj = PRODUCT_LIBRARY[wId];
-      for (const fam of worldObj.families) {
-        for (const prodName of fam.products) {
-          const visual = visualFor(prodName, wId, fam.code);
-          const key = `${wId}::${fam.name}::${prodName}`;
-          items.push({
-            id: key,
-            key,
-            name: prodName,
-            worldId: wId,
-            worldLabel: worldObj.label,
-            familyCode: fam.code,
-            familyName: fam.name,
-            visual,
-            origin: "Egypt",
-          });
-        }
-      }
-    }
-    return items;
-  }, []);
-
-  // Filter items based on searchQuery, activeWorld, and activeFamilyCode
+  // Filter items based on searchQuery, activeWorld, and stable activeFamilyId.
   const filteredItems = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-
-    return allAtlasItems.filter((item) => {
-      // If search query is entered, search across name, world, family, variety
-      if (query) {
-        const matchesName = item.name.toLowerCase().includes(query);
-        const matchesWorld = item.worldLabel.toLowerCase().includes(query) || item.worldId.includes(query);
-        const matchesFamily = item.familyName.toLowerCase().includes(query) || item.familyCode.toLowerCase().includes(query);
-        const matchesVariety = item.variety ? item.variety.toLowerCase().includes(query) : false;
-        return matchesName || matchesWorld || matchesFamily || matchesVariety;
-      }
-
-      // Otherwise filter by active world and active family code
-      if (item.worldId !== activeWorld) return false;
-      if (activeFamilyCode !== null && item.familyCode !== activeFamilyCode) return false;
-
-      return true;
+    return filterProductAtlasItems(allAtlasItems, {
+      activeWorld,
+      activeFamilyId,
+      searchQuery,
     });
-  }, [allAtlasItems, searchQuery, activeWorld, activeFamilyCode]);
+  }, [allAtlasItems, searchQuery, activeWorld, activeFamilyId]);
 
   // World switcher
   const handleSelectWorld = (world: WorldId) => {
     if (world === activeWorld && !searchQuery) return;
     setActiveWorld(world);
-    setActiveFamilyCode(null);
+    setActiveFamilyId(null);
 
     startTransition(() => {
       if (typeof window !== "undefined") {
@@ -108,42 +73,27 @@ export function ProductsExplorer(): React.JSX.Element {
   };
 
   // Family switcher
-  const handleSelectFamily = (code: string | null) => {
-    setActiveFamilyCode(code);
+  const handleSelectFamily = (familyId: ProduceFamilyId | null) => {
+    setActiveFamilyId(familyId);
   };
 
   // Quote item toggle
   const handleToggleQuote = (item: ProductAtlasItem) => {
-    setQuoteItems((prev) => {
-      const exists = prev.some((q) => q.key === item.key);
-      if (exists) {
-        return prev.filter((q) => q.key !== item.key);
-      } else {
-        return [
-          ...prev,
-          {
-            key: item.key,
-            name: item.name,
-            world: item.worldLabel,
-            family: item.familyName,
-          },
-        ];
-      }
-    });
+    setQuoteItems((previousItems) => toggleQuoteItem(previousItems, item));
   };
 
   const handleRemoveQuoteItem = (key: string) => {
-    setQuoteItems((prev) => prev.filter((item) => item.key !== key));
+    setQuoteItems((prev) => prev.filter((item) => item.id !== key));
   };
 
   const currentWorldObj = PRODUCT_LIBRARY[activeWorld];
+  const localizedFamilies = useMemo(() => currentWorldObj.families.map((family) => ({ ...family, name: dictionary.families[family.id] })), [currentWorldObj, dictionary]);
   const totalWorldCount = countProductsInWorld(activeWorld);
-  const catalogueCount = totalCatalogueCount();
 
   return (
     <div className="products-page" data-world={activeWorld}>
       <a className="skip-link" href="#product-atlas-main">
-        Skip to product atlas
+        {dictionary.skipAtlas}
       </a>
 
       <SiteHeader
@@ -158,7 +108,7 @@ export function ProductsExplorer(): React.JSX.Element {
         <section className="products-hero-canvas">
           <div className="hero-compact-content">
             <h1 className="hero-compact-title">
-              Egyptian produce. <em>Prepared for export.</em>
+              {dictionary.heroLead} <em>{dictionary.heroEmphasis}</em>
             </h1>
 
             {/* Editorial World Selector */}
@@ -170,7 +120,7 @@ export function ProductsExplorer(): React.JSX.Element {
         <section className="catalogue-handoff-bar">
           <div className="handoff-inner">
             <div className="handoff-meta">
-              <span className="handoff-world-name">{currentWorldObj.label}</span>
+              <span className="handoff-world-name">{dictionary.worlds[activeWorld].label}</span>
             </div>
             <div className="handoff-search-wrap">
               <LiveSearchInput
@@ -181,8 +131,8 @@ export function ProductsExplorer(): React.JSX.Element {
             </div>
           </div>
           <FamilyPanel
-            families={currentWorldObj.families}
-            activeFamilyCode={activeFamilyCode}
+            families={localizedFamilies}
+            activeFamilyId={activeFamilyId}
             onSelectFamily={handleSelectFamily}
             totalWorldCount={totalWorldCount}
           />

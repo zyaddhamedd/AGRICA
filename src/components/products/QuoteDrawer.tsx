@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import type { QuoteItem } from "@/types/agrica";
+import { useCommonDictionary } from "@/i18n/locale-context";
+import { formatMessage } from "@/i18n/format";
 
 export interface QuoteDrawerProps {
   readonly isOpen: boolean;
@@ -14,6 +16,7 @@ export function QuoteDrawer({
   onClose,
   onRemoveItem,
 }: QuoteDrawerProps): React.JSX.Element {
+  const common = useCommonDictionary();
   const [formData, setFormData] = useState({
     destination: "",
     volume: "",
@@ -50,11 +53,11 @@ export function QuoteDrawer({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!items.length) {
-      setSuccessMessage("Add at least one product before preparing your enquiry.");
+      setSuccessMessage(common.enquiry.addProductFirst);
       return;
     }
     setSuccessMessage(
-      "Enquiry prepared. In production, this will be sent directly to the AGRICA export team."
+      common.enquiry.prepared
     );
   };
 
@@ -75,13 +78,13 @@ export function QuoteDrawer({
       >
         <div className="quote-head">
           <div>
-            <span>Export enquiry</span>
-            <h2 id="quote-title">Build your quotation.</h2>
+            <span>{common.enquiry.exportEnquiry}</span>
+            <h2 id="quote-title">{common.enquiry.buildQuotationTitle}</h2>
           </div>
           <button
             className="quote-close"
             type="button"
-            aria-label="Close quotation"
+            aria-label={common.enquiry.closeQuotation}
             ref={closeButtonRef}
             onClick={onClose}
           >
@@ -91,7 +94,7 @@ export function QuoteDrawer({
 
         <div className="quote-items" id="quote-items">
           {items.map((item) => (
-            <div className="quote-item" key={item.key}>
+            <div className="quote-item" key={item.id}>
               <div>
                 <strong>{item.name}</strong>
                 <span>
@@ -100,52 +103,52 @@ export function QuoteDrawer({
               </div>
               <button
                 type="button"
-                aria-label={`Remove ${item.name}`}
-                onClick={() => onRemoveItem(item.key)}
+                aria-label={formatMessage(common.enquiry.removeItem, { name: item.name })}
+                onClick={() => onRemoveItem(item.id)}
               >
-                Remove
+                {common.actions.remove}
               </button>
             </div>
           ))}
         </div>
 
         <p className="quote-empty" id="quote-empty" hidden={items.length > 0}>
-          Select products from the shelf to begin.
+          {common.enquiry.empty}
         </p>
 
         <form className="quote-form" id="quote-form" onSubmit={handleSubmit}>
           <label>
-            Destination market
+            {common.enquiry.destinationMarket}
             <input
               name="destination"
               required
-              placeholder="Country / port"
+              placeholder={common.enquiry.destinationPlaceholder}
               value={formData.destination}
               onChange={handleChange}
             />
           </label>
           <label>
-            Estimated volume
+            {common.enquiry.estimatedVolume}
             <input
               name="volume"
               required
-              placeholder="Monthly requirement"
+              placeholder={common.enquiry.volumePlaceholder}
               value={formData.volume}
               onChange={handleChange}
             />
           </label>
           <label>
-            Company
+            {common.enquiry.company}
             <input
               name="company"
               required
-              placeholder="Company name"
+              placeholder={common.enquiry.companyPlaceholder}
               value={formData.company}
               onChange={handleChange}
             />
           </label>
           <label>
-            Work email
+            {common.enquiry.workEmail}
             <input
               type="email"
               name="email"
@@ -156,7 +159,7 @@ export function QuoteDrawer({
             />
           </label>
           <button type="submit">
-            Prepare enquiry <span aria-hidden="true">↗</span>
+            {common.actions.prepareEnquiry} <span aria-hidden="true">↗</span>
           </button>
         </form>
 

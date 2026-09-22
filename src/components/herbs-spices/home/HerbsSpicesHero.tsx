@@ -1,12 +1,14 @@
-import Link from "next/link";
+"use client";
+
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import React from "react";
 import { HerbsSpicesMedia } from "@/components/herbs-spices/media/HerbsSpicesMedia";
-import { HERBS_SPICES_HOMEPAGE } from "@/data/herbs-spices/homepage";
+import { useHerbsSpicesDictionary } from "@/i18n/locale-context";
 import { HERBS_SPICES_MEDIA } from "@/data/herbs-spices/media";
 import styles from "./HerbsSpicesHero.module.css";
 
 export function HerbsSpicesHero(): React.JSX.Element {
-  const { hero } = HERBS_SPICES_HOMEPAGE;
+  const { hero } = useHerbsSpicesDictionary().homepage;
   return (
     <section className={styles.hero} aria-labelledby="herbs-spices-home-title">
       <div className={styles.inner}>

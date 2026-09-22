@@ -60,6 +60,7 @@ export interface HerbsSpicesCatalogueItem {
   readonly id: `herbs-spices:${string}`;
   readonly slug: string;
   readonly name: string;
+  readonly searchAliases?: readonly string[];
   readonly familyId: HerbsSpicesFamilyId;
   readonly familyName: string;
   readonly forms: readonly string[];

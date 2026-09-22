@@ -1,22 +1,24 @@
 import React from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
+import { useCommonDictionary, useStandardDictionary } from "@/i18n/locale-context";
 
 export function StandardClose(): React.JSX.Element {
+  const common = useCommonDictionary();
+  const ui = useStandardDictionary().produce.ui;
   return (
     <section className="standard-close" aria-labelledby="closing-title">
-      <span>From origin to arrival</span>
+      <span>{ui.closeEyebrow}</span>
       <h2 id="closing-title">
-        Controlled at every step.
+        {ui.closeTitle}
         <br />
-        <em>Trusted at every destination.</em>
+        <em>{ui.closeEmphasis}</em>
       </h2>
       <div>
         <p>
-          Choose the products and destination. AGRICA will shape the export brief
-          around your programme.
+          {ui.closeDescription}
         </p>
         <Link className="standard-cta" href="/products">
-          Build your quotation <span aria-hidden="true">↗</span>
+          {common.footer.buildQuotation} <span aria-hidden="true">↗</span>
         </Link>
       </div>
     </section>

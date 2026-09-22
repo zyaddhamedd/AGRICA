@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./TradeSection.css";
+import { useHomeDictionary, useLocale } from "@/i18n/locale-context";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -18,6 +19,8 @@ export interface TradeFormData {
 }
 
 export function TradeSection(): React.JSX.Element {
+  const dictionary = useHomeDictionary().trade;
+  const locale = useLocale();
   const [formData, setFormData] = useState<TradeFormData>({
     product: "",
     destination: "",
@@ -102,17 +105,17 @@ export function TradeSection(): React.JSX.Element {
         <div className="trade-heading" ref={headingRef}>
           <div className="trade-kicker trade-reveal">
             <span className="trade-kicker-dot" aria-hidden="true" />
-            <span className="trade-eyebrow">START A TRADE</span>
+            <span className="trade-eyebrow">{dictionary.eyebrow}</span>
           </div>
 
           <h2 id="trade-title" className="trade-title trade-reveal">
-            Tell us what
+            {dictionary.heading}
             <br />
-            <em className="trade-title-italic">needs to arrive.</em>
+            <em className="trade-title-italic">{locale === "en" ? "needs to arrive." : dictionary.emphasis}</em>
           </h2>
 
           <p className="trade-subline trade-reveal">
-            Share the essentials. AGRICA will handle the next export step.
+            {dictionary.description}
           </p>
         </div>
 
@@ -122,7 +125,7 @@ export function TradeSection(): React.JSX.Element {
             {/* Field 1: Product */}
             <div className="trade-field-group">
               <label htmlFor="trade-product" className="trade-label">
-                PRODUCT OR CATEGORY
+                {dictionary.product}
               </label>
               <div className="trade-input-wrapper">
                 <input
@@ -130,7 +133,7 @@ export function TradeSection(): React.JSX.Element {
                   type="text"
                   name="product"
                   className="trade-input"
-                  placeholder="e.g. Fresh citrus / Medjool dates"
+                  placeholder={dictionary.productPlaceholder}
                   value={formData.product}
                   onChange={handleChange}
                 />
@@ -141,7 +144,7 @@ export function TradeSection(): React.JSX.Element {
             {/* Field 2: Destination */}
             <div className="trade-field-group">
               <label htmlFor="trade-destination" className="trade-label">
-                DESTINATION MARKET
+                {dictionary.destination}
               </label>
               <div className="trade-input-wrapper">
                 <input
@@ -149,7 +152,7 @@ export function TradeSection(): React.JSX.Element {
                   type="text"
                   name="destination"
                   className="trade-input"
-                  placeholder="Port or country of import"
+                  placeholder={dictionary.destinationPlaceholder}
                   value={formData.destination}
                   onChange={handleChange}
                 />
@@ -160,7 +163,7 @@ export function TradeSection(): React.JSX.Element {
             {/* Field 3: Volume */}
             <div className="trade-field-group">
               <label htmlFor="trade-volume" className="trade-label">
-                ESTIMATED VOLUME
+                {dictionary.volume}
               </label>
               <div className="trade-input-wrapper">
                 <input
@@ -168,7 +171,7 @@ export function TradeSection(): React.JSX.Element {
                   type="text"
                   name="volume"
                   className="trade-input"
-                  placeholder="Monthly requirement (containers/tons)"
+                  placeholder={dictionary.volumePlaceholder}
                   value={formData.volume}
                   onChange={handleChange}
                 />
@@ -179,7 +182,7 @@ export function TradeSection(): React.JSX.Element {
             {/* Field 4: Company */}
             <div className="trade-field-group">
               <label htmlFor="trade-company" className="trade-label">
-                COMPANY NAME
+                {dictionary.company}
               </label>
               <div className="trade-input-wrapper">
                 <input
@@ -187,7 +190,7 @@ export function TradeSection(): React.JSX.Element {
                   type="text"
                   name="company"
                   className="trade-input"
-                  placeholder="Import / distribution company"
+                  placeholder={dictionary.companyPlaceholder}
                   value={formData.company}
                   onChange={handleChange}
                 />
@@ -198,7 +201,7 @@ export function TradeSection(): React.JSX.Element {
             {/* Field 5: Email */}
             <div className="trade-field-group trade-field-full">
               <label htmlFor="trade-email" className="trade-label">
-                WORK EMAIL
+                {dictionary.email}
               </label>
               <div className="trade-input-wrapper">
                 <input
@@ -219,14 +222,14 @@ export function TradeSection(): React.JSX.Element {
           {/* Submit Action */}
           <div className="trade-submit-wrapper">
             <button type="submit" className={`trade-submit-btn ${submitted ? "is-submitted" : ""}`}>
-              <span>{submitted ? "ENQUIRY SENT" : "SEND EXPORT ENQUIRY"}</span>
+              <span>{submitted ? dictionary.sent : dictionary.send}</span>
               <svg className="trade-submit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
             {submitted && (
               <p className="trade-success-note">
-                Thank you. Our export desk will review your requirements and respond promptly.
+                {dictionary.success}
               </p>
             )}
           </div>

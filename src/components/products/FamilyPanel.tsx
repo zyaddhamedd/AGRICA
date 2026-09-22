@@ -1,42 +1,44 @@
 import React from "react";
-import type { ProductFamily } from "@/types/agrica";
+import type { ProductFamily, ProduceFamilyId } from "@/types/agrica";
+import { useCommonDictionary } from "@/i18n/locale-context";
 
 export interface FamilyPanelProps {
   readonly families: readonly ProductFamily[];
-  readonly activeFamilyCode: string | null;
-  readonly onSelectFamily: (code: string | null) => void;
+  readonly activeFamilyId: ProduceFamilyId | null;
+  readonly onSelectFamily: (familyId: ProduceFamilyId | null) => void;
   readonly totalWorldCount: number;
 }
 
 export function FamilyPanel({
   families,
-  activeFamilyCode,
+  activeFamilyId,
   onSelectFamily,
   totalWorldCount,
 }: FamilyPanelProps): React.JSX.Element {
+  const common = useCommonDictionary();
   return (
     <div className="taxonomy-ribbon-shell">
-      <div className="taxonomy-ribbon-inner" role="tablist" aria-label="Filter by product family">
+      <div className="taxonomy-ribbon-inner" role="tablist" aria-label={common.accessibility.filterFamilies}>
         <button
           type="button"
-          className={`taxonomy-item${activeFamilyCode === null ? " is-active" : ""}`}
+          className={`taxonomy-item${activeFamilyId === null ? " is-active" : ""}`}
           role="tab"
-          aria-selected={activeFamilyCode === null}
+          aria-selected={activeFamilyId === null}
           onClick={() => onSelectFamily(null)}
         >
-          <span className="taxonomy-name">All Families</span>
+          <span className="taxonomy-name">{common.catalogue.allFamilies}</span>
         </button>
 
         {families.map((family) => {
-          const isActive = activeFamilyCode === family.code;
+          const isActive = activeFamilyId === family.id;
           return (
             <button
-              key={family.code}
+              key={family.id}
               type="button"
               className={`taxonomy-item${isActive ? " is-active" : ""}`}
               role="tab"
               aria-selected={isActive}
-              onClick={() => onSelectFamily(family.code)}
+              onClick={() => onSelectFamily(family.id)}
             >
               <span className="taxonomy-code">{family.code}</span>
               <span className="taxonomy-name">{family.name}</span>

@@ -120,7 +120,7 @@ const expectedSnippets = [
   "Move through the year to discover what is in season and ready for planning.",
   "Product availability",
   "Illustrative index",
-  "Orange · Lemon · Sweet potato",
+  "Oranges · Lemons · Sweet Potatoes",
   "Final seasonal availability to be confirmed.",
   // Standard
   "02 / Our standard",

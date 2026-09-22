@@ -1,26 +1,28 @@
+"use client";
+
 import React from "react";
-import { CONTROL_DISCIPLINES } from "@/data/controlDisciplines";
+import { useStandardDictionary } from "@/i18n/locale-context";
 
 export function ControlRegister(): React.JSX.Element {
+  const { controls, ui } = useStandardDictionary().produce;
   return (
     <section className="control-register" aria-labelledby="register-title">
       <div className="section-kicker">
-        <span>Control register</span>
-        <span>Eight connected disciplines</span>
+        <span>{ui.registerEyebrow}</span>
+        <span>{ui.registerStrap}</span>
       </div>
       <div className="register-head">
         <h2 id="register-title">
-          Not a checkpoint.
+          {ui.registerLead}
           <br />
-          <em>A system.</em>
+          <em>{ui.registerEmphasis}</em>
         </h2>
         <p>
-          Operational disciplines remain connected around the same specification,
-          lot and destination.
+          {ui.registerDescription}
         </p>
       </div>
       <div className="register-grid">
-        {CONTROL_DISCIPLINES.map((discipline) => (
+        {controls.map((discipline) => (
           <article key={discipline.number}>
             <span>{discipline.number}</span>
             <h3>{discipline.title}</h3>

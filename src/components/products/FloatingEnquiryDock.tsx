@@ -1,4 +1,6 @@
 import React from "react";
+import { useCommonDictionary } from "@/i18n/locale-context";
+import { formatMessage } from "@/i18n/format";
 
 export interface FloatingEnquiryDockProps {
   readonly count: number;
@@ -9,9 +11,10 @@ export function FloatingEnquiryDock({
   count,
   onOpenQuote,
 }: FloatingEnquiryDockProps): React.JSX.Element | null {
+  const common = useCommonDictionary();
   if (count === 0) return null;
 
-  const cropText = count === 1 ? "1 CROP SELECTED" : `${count} CROPS SELECTED`;
+  const cropText = count === 1 ? common.enquiry.cropSelected : formatMessage(common.enquiry.cropsSelected, { count });
 
   return (
     <div className="enquiry-dock-shell">
@@ -24,9 +27,9 @@ export function FloatingEnquiryDock({
           type="button"
           className="enquiry-dock-btn"
           onClick={onOpenQuote}
-          aria-label={`Review ${count} items in your export enquiry`}
+          aria-label={formatMessage(common.enquiry.reviewItems, { count })}
         >
-          <span>Review enquiry</span>
+          <span>{common.actions.reviewEnquiry}</span>
           <span className="enquiry-dock-arrow" aria-hidden="true">
             ↗
           </span>

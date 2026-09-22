@@ -3,6 +3,8 @@ import type { ProductAtlasItem } from "@/types/agrica";
 import { getProductSpecData } from "@/data/productSpecs";
 import { ProductCardFront } from "./ProductCardFront";
 import { ProductCardBack } from "./ProductCardBack";
+import { useLocale, useProductsDictionary } from "@/i18n/locale-context";
+import { localizeProduceTechnicalValue } from "@/content/produce/technical-terms";
 
 export interface ProductFlipCardProps {
   readonly item: ProductAtlasItem;
@@ -19,11 +21,13 @@ export function ProductFlipCard({
   onFlip,
   onToggleQuote,
 }: ProductFlipCardProps): React.JSX.Element {
+  const dictionary = useProductsDictionary();
+  const locale = useLocale();
   const pointerOrigin = useRef<{ x: number; y: number } | null>(null);
   const worldPrefix = item.worldId === "fresh" ? "FR" : item.worldId === "frozen" ? "FZ" : "DR";
   const code = `${worldPrefix} / ${item.familyCode}`;
   const specEntry = getProductSpecData(item);
-  const varietyNames = specEntry.varieties?.map((variety) => variety.name) ?? [];
+  const varietyNames = specEntry.varieties?.map((variety) => localizeProduceTechnicalValue(locale, variety.name)) ?? [];
   const varietyLine = varietyNames.join(" · ") || item.variety || "";
 
   const toggle = () => onFlip(item);
@@ -67,7 +71,7 @@ export function ProductFlipCard({
           type="button"
           className="export-card-keyboard-toggle"
           aria-pressed={isFlipped}
-          aria-label={`${item.name}: ${isFlipped ? "show card front" : "show product specifications"}`}
+          aria-label={`${item.name}: ${isFlipped ? dictionary.ui.showFront : dictionary.ui.showSpecifications}`}
           onClick={(event) => {
             event.stopPropagation();
             toggle();

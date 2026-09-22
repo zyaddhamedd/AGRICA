@@ -66,6 +66,10 @@ for (const item of HERBS_SPICES_CATALOGUE) {
   }
 }
 
+const renamedHerb = { ...HERBS_SPICES_CATALOGUE[0], name: "Localized display name" };
+assert.equal(renamedHerb.id, HERBS_SPICES_CATALOGUE[0].id);
+assert.equal(renamedHerb.mediaKey, HERBS_SPICES_CATALOGUE[0].mediaKey);
+
 assert.deepEqual(HERBS_SPICES_MEDIA_MANIFEST.filter((entry) => entry.status === "approved").map((entry) => entry.key), [
   "hero-primary",
   "family-herbs",
@@ -79,6 +83,18 @@ assert.deepEqual(HERBS_SPICES_MEDIA_MANIFEST.filter((entry) => entry.status === 
   "form-tbc",
   "form-crushed",
   "form-powder",
+  "product-basil",
+  "product-dill",
+  "product-lemon-grass",
+  "product-marjoram",
+  "product-moringa",
+  "product-oregano",
+  "product-parsley",
+  "product-peppermint",
+  "product-rosemary",
+  "product-spearmint",
+  "product-chamomile",
+  "product-black-cumin",
 ]);
 for (const entry of HERBS_SPICES_MEDIA_MANIFEST) {
   assert.ok(entry.src.startsWith("/assets/herbs-spices/"));

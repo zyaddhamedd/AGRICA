@@ -17,13 +17,6 @@ export interface HomepageForm {
   readonly status: "source-backed";
 }
 
-export interface PlaceholderProcessStage {
-  readonly id: string;
-  readonly index: string;
-  readonly name: string;
-  readonly status: "placeholder";
-}
-
 export interface HomepageTradeContent {
   readonly eyebrow: string;
   readonly title: string;
@@ -96,24 +89,28 @@ export const HERBS_SPICES_HOMEPAGE = {
     description: "Available division-level formats. Product-specific availability is confirmed on request.",
   },
   forms: homepageForms,
-  processIntro: {
-    eyebrow: "Process preview",
-    title: "A controlled path from source to export.",
-    description: "A provisional sequence for homepage storytelling. The verified process will be documented separately.",
-  },
-  process: [
-    { id: "source", index: "01", name: "Source", status: "placeholder" },
-    { id: "prepare", index: "02", name: "Prepare", status: "placeholder" },
-    { id: "dry", index: "03", name: "Dry", status: "placeholder" },
-    { id: "grade", index: "04", name: "Grade", status: "placeholder" },
-    { id: "pack", index: "05", name: "Pack", status: "placeholder" },
-    { id: "export", index: "06", name: "Export", status: "placeholder" },
-  ] satisfies readonly PlaceholderProcessStage[],
   trust: {
-    eyebrow: "One AGRICA",
-    title: "A different product world. The same AGRICA discipline.",
-    description: "Herbs & Spices is being shaped as a distinct commercial division within the wider AGRICA identity: focused, considered, and built for clear business conversations.",
-    parentLabel: "AGRICA business division",
+    eyebrow: "ONE AGRICA · HERBS & SPICES",
+    title: "A distinct division. The same AGRICA standard.",
+    description: "AGRICA Herbs & Spices brings together selected Egyptian herbs and spices for international buyers — with a clear focus on product consistency, export readiness, and dependable commercial supply.",
+    pillars: [
+      {
+        index: "01",
+        title: "Selected Origins",
+        description: "Egyptian herbs and spices sourced with purpose.",
+      },
+      {
+        index: "02",
+        title: "Export Ready",
+        description: "Prepared around international trade requirements.",
+      },
+      {
+        index: "03",
+        title: "Commercial Supply",
+        description: "Built for serious buyers, repeat orders and long-term business.",
+      },
+    ],
+    parentLabel: "HERBS & SPICES / AGRICA BUSINESS DIVISION",
   },
   trade: {
     eyebrow: "Start a trade",

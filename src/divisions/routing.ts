@@ -1,5 +1,6 @@
 import { DIVISION_REGISTRY, DIVISIONS } from "./registry";
 import type { DivisionDefinition, DivisionId, SemanticPageKind } from "./types";
+import { localeOrDefaultFromPathname, localePath, stripLocaleFromPath } from "@/i18n/navigation";
 
 function normalizePathname(pathname: string): string {
   const withoutQueryOrHash = pathname.split(/[?#]/, 1)[0] ?? "/";
@@ -18,7 +19,7 @@ function isPathWithinBase(pathname: string, basePath: string): boolean {
 
 /** Resolves the active division from the URL pathname. */
 export function resolveDivisionFromPathname(pathname: string): DivisionId {
-  const normalizedPathname = normalizePathname(pathname);
+  const normalizedPathname = normalizePathname(stripLocaleFromPath(pathname));
 
   const matchingDivision = [...DIVISIONS]
     .filter((division) => division.basePath !== "/")
@@ -32,7 +33,7 @@ export function resolveDivisionFromPathname(pathname: string): DivisionId {
 export function resolvePageKindFromPathname(
   pathname: string,
 ): SemanticPageKind | null {
-  const normalizedPathname = normalizePathname(pathname);
+  const normalizedPathname = normalizePathname(stripLocaleFromPath(pathname));
 
   for (const division of DIVISIONS) {
     for (const [pageKind, route] of Object.entries(division.routes)) {
@@ -61,8 +62,9 @@ export function mapPathnameToDivision(
   pathname: string,
   targetDivisionId: DivisionId,
 ): string {
+  const locale = localeOrDefaultFromPathname(pathname);
   const pageKind = resolvePageKindFromPathname(pathname) ?? "home";
   const targetDivision = DIVISION_REGISTRY[targetDivisionId];
 
-  return resolveRouteForDivision(targetDivision, pageKind);
+  return localePath(locale, resolveRouteForDivision(targetDivision, pageKind));
 }

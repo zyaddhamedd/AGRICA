@@ -1,16 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import type { HomepageFamily, HomepageForm, HomepageTradeContent } from "@/data/herbs-spices/homepage";
+import { useHerbsSpicesDictionary } from "@/i18n/locale-context";
 import styles from "./HerbsSpicesTradeSection.module.css";
 
-export interface HerbsSpicesTradeSectionProps {
-  readonly trade: HomepageTradeContent;
-  readonly families: readonly HomepageFamily[];
-  readonly forms: readonly HomepageForm[];
-}
-
-export function HerbsSpicesTradeSection({ trade, families, forms }: HerbsSpicesTradeSectionProps): React.JSX.Element {
+export function HerbsSpicesTradeSection(): React.JSX.Element {
+  const { trade, families, forms } = useHerbsSpicesDictionary().homepage;
   const [showPreviewNotice, setShowPreviewNotice] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => { event.preventDefault(); setShowPreviewNotice(true); };
   return (

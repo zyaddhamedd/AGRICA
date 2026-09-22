@@ -5,6 +5,8 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import { HerbsSpicesMedia } from "@/components/herbs-spices/media/HerbsSpicesMedia";
 import type { HerbsSpicesMediaManifestEntry } from "@/types/herbs-spices";
 import styles from "./MaterialStage.module.css";
+import { useHerbsSpicesDictionary } from "@/i18n/locale-context";
+import { formatMessage } from "@/i18n/format";
 
 export interface MaterialStageItem {
   readonly id: string;
@@ -28,6 +30,7 @@ const emptyFallback = <span className={styles.fallback} />;
 const stageTones = ["#4f5941", "#484943", "#59463c", "#563d39", "#65513f"] as const;
 
 export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element {
+  const dictionary = useHerbsSpicesDictionary().catalogue;
   const [activeIndex, setActiveIndex] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -192,7 +195,7 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
         id="material-expression-stage"
         role="group"
         aria-roledescription="material reel"
-        aria-label={`Current material form: ${activeItem.name}`}
+        aria-label={formatMessage(dictionary.currentForm, { name: activeItem.name })}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={finishPointer}
@@ -209,7 +212,7 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
               key={item.id}
             >
               <HerbsSpicesMedia entry={item.media} className={styles.media} fallback={emptyFallback} decorative />
-              <span className={styles.studyLabel}>Illustrative material study</span>
+              <span className={styles.studyLabel}>{dictionary.illustrativeStudy}</span>
             </li>
           ))}
         </ol>
@@ -220,15 +223,15 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
           <span>{activeItem.index}</span>
           <div><strong>{activeItem.name}</strong><small>{activeItem.descriptor}</small></div>
         </div>
-        <div className={styles.transport} role="group" aria-label="Material reel controls">
-          <button type="button" onClick={() => goTo(activeIndex - 1)} disabled={activeIndex === 0} aria-label="Previous material form">←</button>
+        <div className={styles.transport} role="group" aria-label={dictionary.reelControls}>
+          <button type="button" onClick={() => goTo(activeIndex - 1)} disabled={activeIndex === 0} aria-label={dictionary.previousForm}>←</button>
           <span aria-hidden="true">{activeItem.index} / {String(items.length).padStart(2, "0")}</span>
-          <button type="button" onClick={() => goTo(activeIndex + 1)} disabled={activeIndex === items.length - 1} aria-label="Next material form">→</button>
+          <button type="button" onClick={() => goTo(activeIndex + 1)} disabled={activeIndex === items.length - 1} aria-label={dictionary.nextForm}>→</button>
         </div>
       </div>
 
       <div className={styles.progress} aria-hidden="true"><span ref={progressRef} /></div>
-      <nav className={styles.selector} aria-label="Material forms">
+      <nav className={styles.selector} aria-label={dictionary.formsLabel}>
         <ol>
           {items.map((item, index) => (
             <li key={item.id}>

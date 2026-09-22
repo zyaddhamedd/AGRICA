@@ -1,5 +1,6 @@
 import React from "react";
 import type { JourneyStage } from "@/types/agrica";
+import { useStandardDictionary } from "@/i18n/locale-context";
 
 export interface LotStageProps {
   readonly stage: JourneyStage;
@@ -12,6 +13,7 @@ export function LotStage({
   activeIndex,
   totalStages,
 }: LotStageProps): React.JSX.Element {
+  const ui = useStandardDictionary().produce.ui;
   const paddedIndex = String(activeIndex + 1).padStart(2, "0");
   const progressPercent =
     totalStages > 1 ? (activeIndex / (totalStages - 1)) * 100 : 0;
@@ -31,23 +33,23 @@ export function LotStage({
       <div className="lot-card" data-motion="agrica-lot">
         <div className="lot-card-top">
           <strong>AGRĪCA</strong>
-          <span id="lot-code">{stage.code}</span>
+          <bdi id="lot-code">{stage.code}</bdi>
         </div>
         <div className="lot-card-main">
-          <span>Export programme</span>
+          <span>{ui.exportProgramme}</span>
           <strong id="lot-status">{stage.status}</strong>
           <i className="lot-stamp" id="lot-stamp">
             {stage.stamp}
           </i>
         </div>
         <div className="lot-card-foot">
-          <span>Egypt</span>
-          <span id="lot-step">{paddedIndex} / 06</span>
+          <span>{ui.egypt}</span>
+          <bdi id="lot-step">{paddedIndex} / 06</bdi>
         </div>
       </div>
-      <span className="stage-coordinate" id="stage-coordinate">
+      <bdi className="stage-coordinate" id="stage-coordinate">
         {stage.coordinate}
-      </span>
+      </bdi>
     </div>
   );
 }

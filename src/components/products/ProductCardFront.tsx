@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { ProductAtlasItem } from "@/types/agrica";
 import { productImageFor } from "@/data/productImages";
 import { QuoteMicroAction } from "./QuoteMicroAction";
+import { useProductsDictionary } from "@/i18n/locale-context";
 
 interface ProductCardFrontProps {
   readonly item: ProductAtlasItem;
@@ -21,6 +22,7 @@ export function ProductCardFront({
   isFlipped,
   onToggleQuote,
 }: ProductCardFrontProps): React.JSX.Element {
+  const dictionary = useProductsDictionary();
   const titleSize =
     item.name.length > 15
       ? "very-long"
@@ -30,7 +32,7 @@ export function ProductCardFront({
           ? "medium"
           : "short";
   const dedicatedImage = productImageFor(item.id) ??
-    (item.name === "Grapes" ? "/assets/grapes_card.png" : undefined);
+    (item.id === "produce:grape" ? "/assets/grapes_card.png" : undefined);
 
   return (
     <section className="export-card-face export-card-front" aria-hidden={isFlipped}>
@@ -55,12 +57,12 @@ export function ProductCardFront({
       <div
         className={`export-card-visual${dedicatedImage ? " has-dedicated-image" : ""}`}
         data-visual={item.visual}
-        aria-hidden="true"
+        aria-hidden={dedicatedImage ? undefined : true}
       >
         {dedicatedImage && (
           <Image
             src={dedicatedImage}
-            alt=""
+            alt={dictionary.products[item.id].imageAlt}
             fill
             sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) 50vw, 33vw"
           />

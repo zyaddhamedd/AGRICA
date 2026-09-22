@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { writeFile } from "node:fs/promises";
 
 const base = process.env.PHASE7_BASE_URL ?? "http://localhost:3100";
-const targets = await (await fetch("http://localhost:9333/json")).json();
+const debugUrl = process.env.CHROME_DEBUG_URL ?? "http://localhost:9333";
+const targets = await (await fetch(`${debugUrl}/json`)).json();
 const target = targets.find((entry) => entry.type === "page");
 assert.ok(target, "A browser page target is required");
 
@@ -85,7 +86,7 @@ async function assertFamilyLayout(width, expectedColumns, expectedRows, minDiame
 await send("Page.enable");
 await send("Runtime.enable");
 await send("Log.enable");
-await navigate("/herbs-spices/standard");
+await navigate("/en/herbs-spices/standard");
 
 assert.equal(await evaluate('document.querySelectorAll("h1").length'), 1, "page has one H1");
 assert.equal(await evaluate('document.querySelectorAll("[data-process-stage]").length'), 6, "six stages render");
@@ -93,7 +94,7 @@ assert.equal(await evaluate('document.querySelectorAll("[data-process-stage] [da
 assert.equal(await evaluate('document.querySelectorAll("[data-process-stage] img").length'), 0, "pending process paths do not create broken images");
 assert.equal(await evaluate(`document.querySelectorAll('nav[aria-label="Process stages"] a').length`), 6, "six progress links render");
 assert.equal(await evaluate('document.querySelector("meta[name=robots]")?.content'), "noindex, nofollow");
-assert.equal(await evaluate('document.querySelector("a[aria-label*=Produce]")?.getAttribute("href")'), "/standard", "switch maps to Produce Standard");
+assert.equal(await evaluate('document.querySelector("a[aria-label*=Produce]")?.getAttribute("href")'), "/en/standard", "switch maps to Produce Standard");
 assert.equal(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'), true, "desktop has no horizontal overflow");
 await capture("desktop");
 
@@ -123,15 +124,24 @@ await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-m
 assert.ok(Number.parseFloat(await evaluate(`getComputedStyle(document.querySelector('nav[aria-label="Process stages"] a')).transitionDuration`)) <= .001, "reduced motion disables progress transitions");
 
 await send("Emulation.clearDeviceMetricsOverride");
-await navigate("/standard");
-assert.equal(await evaluate('document.querySelector("a[aria-label*=Herbs]")?.getAttribute("href")'), "/herbs-spices/standard", "switch maps to Herbs & Spices Standard");
+await navigate("/en/standard");
+assert.equal(await evaluate('document.querySelector("a[aria-label*=Herbs]")?.getAttribute("href")'), "/en/herbs-spices/standard", "switch maps to Herbs & Spices Standard");
 await send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
-await navigate("/herbs-spices");
-assert.equal(await evaluate(`document.querySelector('a[href="/herbs-spices/standard"]')?.textContent.includes("View the process")`), true, "homepage teaser links to Process");
-assert.equal(await evaluate('document.querySelectorAll("main > section").length'), 6, "homepage sections remain intact");
+await navigate("/en/herbs-spices");
+assert.equal(await evaluate('document.querySelector("#process-preview")'), null, "homepage process preview is removed");
+assert.equal(await evaluate('document.body.textContent.includes("A controlled path from source to export.")'), false, "homepage process preview copy is removed");
+assert.equal(await evaluate('document.querySelectorAll("main > section").length'), 5, "homepage has no empty process wrapper");
+assert.equal(await evaluate('document.querySelector("#ingredient-forms").nextElementSibling?.id'), "agrica-trust", "material and trust sections are adjacent");
+assert.equal(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'), true, "homepage desktop has no horizontal overflow");
+assert.equal(await evaluate('document.querySelector("#agrica-trust h2")?.textContent'), "A distinct division. The same AGRICA standard.", "commercial positioning headline renders");
+assert.equal(await evaluate('document.querySelectorAll("#agrica-trust ol > li").length'), 3, "three positioning pillars render");
+assert.equal(await evaluate('new Set([...document.querySelectorAll("#agrica-trust ol > li")].map(item => Math.round(item.getBoundingClientRect().top))).size'), 1, "desktop pillars run horizontally");
+assert.equal(await evaluate('document.querySelector("#agrica-trust ol > li:nth-child(2)").getBoundingClientRect().left > document.querySelector("#agrica-trust ol > li:first-child").getBoundingClientRect().left'), true, "desktop pillars retain editorial columns");
+await evaluate('document.querySelector("#agrica-trust").scrollIntoView({ block: "center" })');
+await capture("trust-desktop");
 assert.equal(await evaluate('document.querySelectorAll("#ingredient-families ul > li").length'), 6, "six source-backed families render as a semantic list");
 assert.equal(await evaluate('document.querySelectorAll("#ingredient-families article").length'), 0, "family specimens no longer use editorial cards");
-assert.equal(await evaluate('document.querySelectorAll("#ingredient-families li a, #ingredient-families li button, #ingredient-families li [tabindex]").length'), 0, "static family specimens create no tab stops");
+assert.equal(await evaluate('document.querySelectorAll("#ingredient-families li > a").length'), 6, "each family specimen is one keyboard-focusable catalogue link");
 assert.equal(await evaluate('document.querySelector("[data-media-key=hero-primary]")?.getAttribute("data-media-status")'), "approved", "approved hero media renders");
 assert.equal(await evaluate('document.querySelectorAll("#ingredient-families [data-media-status=approved]").length'), 6, "six approved family images render");
 assert.equal(await evaluate('document.querySelectorAll("#ingredient-families img").length'), 6, "family specimens use next/image");
@@ -182,8 +192,16 @@ await waitFor('[...document.querySelectorAll("#ingredient-forms img")].every(ima
 assert.deepEqual(await evaluate('[...document.querySelectorAll("#start-a-trade select[name=category] option:not([disabled])")].map(option=>option.textContent)'), ["Herbs","Flowers","Seeds","Spices","Roots","Dehydrated Vegetables"], "trade categories use catalogue families");
 assert.deepEqual(await evaluate('[...document.querySelectorAll("#start-a-trade select[name=format] option:not([disabled])")].map(option=>option.textContent)'), ["Whole","Cut & Sifted","TBC (Tea Bag Cut)","Crushed","Powder"], "trade forms use division forms");
 assert.equal(await evaluate('document.querySelector("header") !== null && document.querySelector("footer") !== null'), true, "homepage shell remains intact");
+await send("Emulation.setDeviceMetricsOverride", { width: 820, height: 1000, deviceScaleFactor: 1, mobile: false });
+assert.equal(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'), true, "homepage tablet has no horizontal overflow");
+assert.equal(await evaluate('document.querySelector("#ingredient-forms").nextElementSibling?.id'), "agrica-trust", "tablet keeps the adjacent section flow");
+assert.equal(await evaluate('new Set([...document.querySelectorAll("#agrica-trust ol > li")].map(item => Math.round(item.getBoundingClientRect().top))).size'), 1, "tablet pillars run horizontally");
 await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
 assert.equal(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'), true, "homepage mobile has no horizontal overflow");
+assert.equal(await evaluate('document.querySelector("#ingredient-forms").nextElementSibling?.id'), "agrica-trust", "mobile keeps the adjacent section flow");
+assert.equal(await evaluate('new Set([...document.querySelectorAll("#agrica-trust ol > li")].map(item => Math.round(item.getBoundingClientRect().top))).size'), 3, "mobile pillars stack vertically");
+await evaluate('document.querySelector("#agrica-trust").scrollIntoView({ block: "start" })');
+await capture("trust-mobile");
 assert.equal(await evaluate('[...document.querySelectorAll("#ingredient-families li")].every(item => item.getBoundingClientRect().right <= window.innerWidth)'), true, "family specimens fit the mobile viewport");
 assert.notEqual(await evaluate('getComputedStyle(document.querySelector("#ingredient-forms nav")).display'), "none", "mobile keeps the compact reel selector");
 assert.equal(await evaluate('document.querySelectorAll("#ingredient-forms [data-reel-item]").length'), 5, "mobile uses the same five-item reel DOM");
@@ -203,6 +221,7 @@ assert.equal(await evaluate('document.documentElement.scrollWidth <= window.inne
 await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
 assert.ok(Number.parseFloat(await evaluate('getComputedStyle(document.querySelector("#ingredient-families img")).transitionDuration')) <= .001, "reduced motion disables family image transitions");
 assert.equal(await evaluate('getComputedStyle(document.querySelector("#ingredient-families img")).transform'), "none", "reduced motion disables family image transforms");
+assert.equal(await evaluate('getComputedStyle(document.querySelector("#agrica-trust h2").parentElement).animationName'), "none", "reduced motion disables trust-section entrance animation");
 await evaluate('document.querySelectorAll("#ingredient-forms nav button")[4].click()');
 await waitFor('document.querySelector("#ingredient-forms button[aria-pressed=true] strong")?.textContent === "Powder"', "reduced motion keeps every state accessible");
 await send("Emulation.clearDeviceMetricsOverride");
@@ -216,4 +235,4 @@ assert.deepEqual(pageProblems, [], `browser console problems: ${pageProblems.joi
 socket.close();
 console.log("✓ Phase 7 process, progress, menu, and keyboard checks passed");
 console.log("✓ Desktop, tablet, mobile, and reduced-motion checks passed");
-console.log("✓ Standard switch mapping and homepage linkage passed");
+console.log("✓ Standard switch mapping and homepage section checks passed");

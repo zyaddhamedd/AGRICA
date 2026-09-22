@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import type { HerbsSpicesCatalogueItem } from "@/types/herbs-spices";
+import { useCommonDictionary } from "@/i18n/locale-context";
+import { formatMessage } from "@/i18n/format";
 import styles from "./EnquiryDrawer.module.css";
 
 export interface EnquiryDrawerProps {
@@ -12,6 +14,7 @@ export interface EnquiryDrawerProps {
 }
 
 export function EnquiryDrawer({ items, onClose, onRemove, triggerRef }: EnquiryDrawerProps): React.JSX.Element {
+  const common = useCommonDictionary();
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -43,18 +46,18 @@ export function EnquiryDrawer({ items, onClose, onRemove, triggerRef }: EnquiryD
   }, [onClose, triggerRef]);
 
   return <div className={styles.dialog} id="herbs-spices-enquiry" role="dialog" aria-modal="true" aria-labelledby="enquiry-title">
-    <button className={styles.backdrop} type="button" aria-label="Close enquiry" onClick={onClose} />
+    <button className={styles.backdrop} type="button" aria-label={common.enquiry.closeEnquiry} onClick={onClose} />
     <div className={styles.panel} ref={panelRef}>
-      <header><div><p>LOCAL ENQUIRY PREVIEW</p><h2 id="enquiry-title">Selected materials</h2></div><button ref={closeRef} className={styles.close} type="button" onClick={onClose}>Close <span aria-hidden="true">&times;</span></button></header>
+      <header><div><p>{common.enquiry.localPreview}</p><h2 id="enquiry-title">{common.enquiry.selectedMaterials}</h2></div><button ref={closeRef} className={styles.close} type="button" onClick={onClose}>{common.actions.close} <span aria-hidden="true">&times;</span></button></header>
       <div className={styles.content}>
-        <ul className={styles.selection} aria-label="Selected materials">{items.map((item) => <li key={item.id}><div><span>{item.familyName}</span><strong>{item.name}</strong></div><button type="button" onClick={() => onRemove(item.id)} aria-label={`Remove ${item.name} from enquiry`}>Remove</button></li>)}</ul>
+        <ul className={styles.selection} aria-label={common.enquiry.selectedMaterialsLabel}>{items.map((item) => <li key={item.id}><div><span>{item.familyName}</span><strong>{item.name}</strong></div><button type="button" onClick={() => onRemove(item.id)} aria-label={formatMessage(common.enquiry.removeItemFromEnquiry, { name: item.name })}>{common.actions.remove}</button></li>)}</ul>
         <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}>
-          <label>Destination<input name="destination" autoComplete="country-name" required /></label>
-          <label>Estimated volume<input name="volume" required /></label>
-          <label>Company<input name="company" autoComplete="organization" required /></label>
-          <label>Email<input name="email" type="email" autoComplete="email" required /></label>
-          <button className={styles.submit} type="submit">Preview enquiry</button>
-          {submitted && <p className={styles.notice} role="status">Enquiry preview — submission integration coming next.</p>}
+          <label>{common.enquiry.destination}<input name="destination" autoComplete="country-name" required /></label>
+          <label>{common.enquiry.estimatedVolume}<input name="volume" required /></label>
+          <label>{common.enquiry.company}<input name="company" autoComplete="organization" required /></label>
+          <label>{common.enquiry.email}<input name="email" type="email" autoComplete="email" required /></label>
+          <button className={styles.submit} type="submit">{common.actions.previewEnquiry}</button>
+          {submitted && <p className={styles.notice} role="status">{common.enquiry.previewNotice}</p>}
         </form>
       </div>
     </div>

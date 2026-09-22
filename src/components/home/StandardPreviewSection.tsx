@@ -1,7 +1,11 @@
+"use client";
+
 import React from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
+import { useCommonDictionary } from "@/i18n/locale-context";
 
 export function StandardPreviewSection(): React.JSX.Element {
+  const common = useCommonDictionary();
   return (
     <section className="standard" id="standard" aria-labelledby="standard-title">
       <div className="section-kicker">
@@ -62,7 +66,7 @@ export function StandardPreviewSection(): React.JSX.Element {
           <em>Trusted at every destination.</em>
         </p>
         <Link className="arrow-link" href="/standard">
-          Discover our standard <span aria-hidden="true">↗</span>
+          {common.actions.explore} {common.navigation.standard} <span aria-hidden="true">↗</span>
         </Link>
       </div>
     </section>

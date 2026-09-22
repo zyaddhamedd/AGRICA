@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 
-const base = "http://localhost:3100";
-const targets = await (await fetch("http://localhost:9333/json")).json();
+const base = process.env.PHASE6A_BASE_URL ?? "http://localhost:3100";
+const debugUrl = process.env.CHROME_DEBUG_URL ?? "http://localhost:9333";
+const targets = await (await fetch(`${debugUrl}/json`)).json();
 const target = targets.find((entry) => entry.type === "page");
 assert.ok(target, "A browser page target is required");
 
@@ -35,8 +36,9 @@ async function evaluate(expression) {
 
 async function navigate(path) {
   await send("Page.navigate", { url: `${base}${path}` });
+  const expectedPathname = JSON.stringify(path.split("?", 1)[0]);
   for (let attempt = 0; attempt < 80; attempt += 1) {
-    if (await evaluate('document.readyState === "complete"')) break;
+    if (await evaluate(`location.pathname === ${expectedPathname} && document.readyState === "complete"`)) break;
     await new Promise((resolve) => setTimeout(resolve, 50));
   }
   await new Promise((resolve) => setTimeout(resolve, 300));
@@ -53,32 +55,32 @@ async function waitFor(expression, message) {
 await send("Page.enable");
 await send("Runtime.enable");
 await send("Log.enable");
-await navigate("/herbs-spices/products");
+await navigate("/en/herbs-spices/products");
 
-assert.equal(await evaluate('document.querySelectorAll("article").length'), 27, "all source-backed records render");
-assert.equal(await evaluate('document.querySelectorAll("article [data-media-status=fallback]").length'), 27, "all product fallbacks render intentionally");
-assert.equal(await evaluate('document.querySelectorAll("article img").length'), 0, "pending product paths do not create broken images");
-assert.equal(await evaluate('[...document.querySelectorAll("article [data-media-status=fallback]")].every(slot => slot.getBoundingClientRect().height > 0)'), true, "fallback slots reserve layout space");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen]").length'), 27, "all source-backed records render");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] [data-media-status=fallback]").length'), 15, "pending product fallbacks render intentionally");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] img").length'), 12, "approved product media render without changing pending fallbacks");
+assert.equal(await evaluate('[...document.querySelectorAll("[data-material-specimen] [data-media-status=fallback]")].every(slot => slot.getBoundingClientRect().height > 0)'), true, "fallback slots reserve layout space");
 assert.equal(await evaluate('document.querySelector("meta[name=robots]")?.content'), "noindex, nofollow");
-assert.equal(await evaluate('document.querySelector("a[aria-label*=Produce]")?.getAttribute("href")'), "/products", "switch maps to Produce Products");
+assert.equal(await evaluate('document.querySelector("a[aria-label*=Produce]")?.getAttribute("href")'), "/en/products", "switch maps to Produce Products");
 
 await evaluate('[...document.querySelectorAll("button")].find((button) => button.textContent.trim() === "Herbs").click()');
-assert.equal(await evaluate('document.querySelectorAll("article").length'), 11, "family filtering works");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen]").length'), 11, "family filtering works");
 assert.equal(await evaluate('[...document.querySelectorAll("button")].find((button) => button.textContent.trim() === "Herbs").getAttribute("aria-pressed")'), "true");
 
 await evaluate('(()=>{const input=document.querySelector("input[type=search]"); const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value").set; setter.call(input,"peppermint"); input.dispatchEvent(new Event("input",{bubbles:true}))})()');
-assert.equal(await evaluate('document.querySelectorAll("article").length'), 1, "search covers names");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen]").length'), 1, "search covers names");
 await evaluate('(()=>{const input=document.querySelector("input[type=search]"); const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value").set; setter.call(input,"unmatched material"); input.dispatchEvent(new Event("input",{bubbles:true}))})()');
 assert.equal(await evaluate('document.body.textContent.includes("No materials match this view.")'), true, "empty results render");
 await evaluate('[...document.querySelectorAll("button")].find((button) => button.textContent.trim() === "Reset catalogue").click()');
-assert.equal(await evaluate('document.querySelectorAll("article").length'), 27, "reset restores catalogue");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen]").length'), 27, "reset restores catalogue");
 
-await evaluate('document.querySelector("article button[aria-expanded]").click()');
-assert.equal(await evaluate('document.querySelectorAll("article [id^=material-details]").length'), 1, "details expand");
-await evaluate('document.querySelectorAll("article button[aria-expanded]")[1].click()');
-assert.equal(await evaluate('document.querySelectorAll("article [id^=material-details]").length'), 1, "only one detail remains open");
+await evaluate('document.querySelector("[data-material-specimen] button[aria-expanded]").click()');
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] [id^=material-details]").length'), 1, "details expand");
+await evaluate('document.querySelectorAll("[data-material-specimen] button[aria-expanded]")[1].click()');
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] [id^=material-details]").length'), 1, "only one detail remains open");
 
-await evaluate('[...document.querySelectorAll("article button")].filter((button) => button.textContent.includes("Add to enquiry")).slice(0,2).forEach((button) => button.click())');
+await evaluate('[...document.querySelectorAll("[data-material-specimen] button")].filter((button) => button.textContent.includes("Add to enquiry")).slice(0,2).forEach((button) => button.click())');
 assert.equal(await evaluate('document.querySelector("button[aria-controls=herbs-spices-enquiry] strong")?.textContent'), "2", "enquiry count updates");
 await evaluate('document.querySelector("button[aria-controls=herbs-spices-enquiry]").click()');
 await new Promise((resolve) => setTimeout(resolve, 80));
@@ -98,18 +100,18 @@ await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, devi
 assert.equal(await evaluate('document.documentElement.scrollWidth <= window.innerWidth'), true, "mobile has no horizontal overflow");
 assert.equal(await evaluate('getComputedStyle(document.querySelector("main")).overflowX !== "scroll"'), true);
 await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
-await evaluate('document.querySelector("article button[aria-expanded]").click()');
-assert.equal(await evaluate('getComputedStyle(document.querySelector("article [id^=material-details]")).animationName'), "none", "reduced motion disables detail animation");
+await evaluate('document.querySelector("[data-material-specimen] button[aria-expanded]").click()');
+assert.equal(await evaluate('getComputedStyle(document.querySelector("[data-material-specimen] [id^=material-details]")).animationName'), "none", "reduced motion disables detail animation");
 
 await send("Emulation.clearDeviceMetricsOverride");
-await navigate("/products");
-assert.equal(await evaluate('document.querySelector("a[aria-label*=Herbs]")?.getAttribute("href")'), "/herbs-spices/products", "switch maps to Herbs & Spices Products");
+await navigate("/en/products");
+assert.equal(await evaluate('document.querySelector("a[aria-label*=Herbs]")?.getAttribute("href")'), "/en/herbs-spices/products", "switch maps to Herbs & Spices Products");
 await evaluate('document.querySelector("a[aria-label*=Herbs]").click()');
-await waitFor('location.pathname === "/herbs-spices/products"', "switch did not navigate to Herbs & Spices Products");
+await waitFor('location.pathname === "/en/herbs-spices/products"', "switch did not navigate to Herbs & Spices Products");
 await evaluate('history.back()');
-await waitFor('location.pathname === "/products"', "browser back did not return to Produce Products");
+await waitFor('location.pathname === "/en/products"', "browser back did not return to Produce Products");
 await evaluate('history.forward()');
-await waitFor('location.pathname === "/herbs-spices/products"', "browser forward did not return to Herbs & Spices Products");
+await waitFor('location.pathname === "/en/herbs-spices/products"', "browser forward did not return to Herbs & Spices Products");
 
 const pageProblems = browserProblems.filter((problem) => !problem.endsWith("/favicon.ico"));
 assert.deepEqual(pageProblems, [], `browser console problems: ${pageProblems.join(" | ")}`);

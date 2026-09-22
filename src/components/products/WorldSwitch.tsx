@@ -1,5 +1,6 @@
 import React from "react";
 import type { WorldId } from "@/types/agrica";
+import { useProductsDictionary } from "@/i18n/locale-context";
 
 export interface WorldSwitchProps {
   readonly activeWorld: WorldId;
@@ -10,14 +11,15 @@ export function WorldSwitch({
   activeWorld,
   onSelectWorld,
 }: WorldSwitchProps): React.JSX.Element {
+  const dictionary = useProductsDictionary();
   const worlds: readonly { id: WorldId; label: string }[] = [
-    { id: "fresh", label: "Fresh" },
-    { id: "frozen", label: "Frozen" },
-    { id: "dried", label: "Dried" },
+    { id: "fresh", label: dictionary.worlds.fresh.short },
+    { id: "frozen", label: dictionary.worlds.frozen.short },
+    { id: "dried", label: dictionary.worlds.dried.short },
   ];
 
   return (
-    <nav className="editorial-world-nav" aria-label="Produce condition navigation">
+    <nav className="editorial-world-nav" aria-label={dictionary.worldNavigation}>
       <div className="editorial-world-list" role="tablist">
         {worlds.map(({ id, label }) => {
           const isActive = activeWorld === id;
@@ -42,6 +44,5 @@ export function WorldSwitch({
     </nav>
   );
 }
-
 
 

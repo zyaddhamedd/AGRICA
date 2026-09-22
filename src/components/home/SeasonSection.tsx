@@ -9,8 +9,10 @@ import {
   type MonthDefinition,
 } from "@/data/seasons";
 import "./SeasonSection.css";
+import { useHomeDictionary } from "@/i18n/locale-context";
 
 export function SeasonSection(): React.JSX.Element {
+  const dictionary = useHomeDictionary().season;
   const [selectedMonth, setSelectedMonth] = useState<MonthDefinition>(MONTHS[0]);
   const ribbonTrackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -58,24 +60,24 @@ export function SeasonSection(): React.JSX.Element {
       <section
         id="season-mobile-section"
         className="season-mobile-section"
-        aria-label="AGRICA Seasonal Rhythm Calendar"
+        aria-label={dictionary.calendar}
         style={{ backgroundColor: selectedMonth.bgTint }}
       >
         <div className="season-mobile-container">
           {/* Header Kicker & Editorial Headline */}
           <header className="season-mobile-header">
             <div className="section-kicker section-kicker--mobile">
-              <span className="season-kicker-num">02 / SEASONAL RHYTHM</span>
-              <span className="season-kicker-tag">HARVEST CALENDAR</span>
+              <span className="season-kicker-num">02 / {dictionary.rhythm}</span>
+              <span className="season-kicker-tag">{dictionary.calendar}</span>
             </div>
             <h2 className="season-mobile-headline">
-              Every harvest has <br />
-              <em>its moment.</em>
+              {dictionary.heading} <br />
+              <em>{dictionary.emphasis}</em>
             </h2>
           </header>
 
           {/* Native Touch-Safe Horizontal Month Ribbon */}
-          <nav className="season-ribbon-viewport" aria-label="Select harvest month">
+          <nav className="season-ribbon-viewport" aria-label={dictionary.selectMonthLabel}>
             <div ref={ribbonTrackRef} className="season-ribbon-track">
               {MONTHS.map((m, idx) => {
                 const isActive = m.number === selectedMonth.number;
@@ -87,7 +89,7 @@ export function SeasonSection(): React.JSX.Element {
                     onClick={() => handleSelectMonth(m, idx)}
                   >
                     <span className="season-ribbon-num">0{m.number}</span>
-                    <span className="season-ribbon-code">{m.code}</span>
+                    <span className="season-ribbon-code">{dictionary.months[idx].slice(0, 3)}</span>
                     {isActive && <span className="season-ribbon-active-bar" aria-hidden="true" />}
                   </button>
                 );
@@ -97,8 +99,8 @@ export function SeasonSection(): React.JSX.Element {
 
           {/* Active Month Readout Indicator */}
           <div className="season-active-readout">
-            <span className="season-readout-season-tag">{selectedMonth.seasonLabel.toUpperCase()}</span>
-            <h3 className="season-readout-title">{selectedMonth.name} Produce</h3>
+            <span className="season-readout-season-tag">{dictionary.calendar}</span>
+            <h3 className="season-readout-title">{dictionary.months[selectedMonth.number - 1]} — {dictionary.productAvailability}</h3>
           </div>
 
           {/* Editorial Floating Harvest Stage (Hero Produce Asset Pool Composition) */}
@@ -112,14 +114,14 @@ export function SeasonSection(): React.JSX.Element {
                 <div className="season-floating-asset-wrap">
                   <img
                     src={crop.imageSrc}
-                    alt={crop.name}
+                    alt={dictionary.cropNames[crop.id]}
                     className="season-floating-asset-img"
                   />
                 </div>
                 <div className="season-floating-label">
-                  <span className="season-floating-name">{crop.name}</span>
+                  <span className="season-floating-name">{dictionary.cropNames[crop.id]}</span>
                   <span className="season-floating-status" style={{ color: statusColor }}>
-                    {status}
+                    {status === "PEAK HARVEST" ? dictionary.statuses.peak : dictionary.statuses.available}
                   </span>
                 </div>
               </div>
@@ -135,28 +137,28 @@ export function SeasonSection(): React.JSX.Element {
         data-motion="season-index"
       >
         <div className="section-kicker section-kicker--light">
-          <span>02 / Seasons</span>
-          <span>Availability across the year</span>
+          <span>02 / {dictionary.rhythm}</span>
+          <span>{dictionary.availability}</span>
         </div>
 
         <div className="season-layout">
           <div className="season-heading">
-            <p className="eyebrow">Select a month</p>
+            <p className="eyebrow">{dictionary.selectMonth}</p>
             <h2 id="season-title">
-              Every harvest has <br />
-              <em>its moment.</em>
+              {dictionary.heading} <br />
+              <em>{dictionary.emphasis}</em>
             </h2>
           </div>
 
           <div className="month-stage">
             <div className="month-readout" aria-live="polite">
               <span>{selectedMonth.number < 10 ? `0${selectedMonth.number}` : selectedMonth.number}</span>
-              <strong>{selectedMonth.name}</strong>
-              <small>Product availability</small>
+              <strong>{dictionary.months[selectedMonth.number - 1]}</strong>
+              <small>{dictionary.productAvailability}</small>
             </div>
 
-            <div className="month-grid" role="list" aria-label="Months">
-              {MONTHS.map((m) => {
+            <div className="month-grid" role="list" aria-label={dictionary.monthsLabel}>
+              {MONTHS.map((m, index) => {
                 const isActive = m.number === selectedMonth.number;
                 return (
                   <button
@@ -165,16 +167,16 @@ export function SeasonSection(): React.JSX.Element {
                     type="button"
                     onClick={() => setSelectedMonth(m)}
                   >
-                    {m.code}
+                    {dictionary.months[index].slice(0, 3)}
                   </button>
                 );
               })}
             </div>
 
             <div className="season-products">
-              <span>Illustrative index</span>
-              <p>Orange · Lemon · Sweet potato</p>
-              <small>Final seasonal availability to be confirmed.</small>
+              <span>{dictionary.illustrativeIndex}</span>
+              <p>{dictionary.illustrativeProducts}</p>
+              <small>{dictionary.notice}</small>
             </div>
           </div>
         </div>

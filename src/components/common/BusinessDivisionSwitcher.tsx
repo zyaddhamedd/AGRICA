@@ -9,6 +9,8 @@ import {
   resolveDivisionFromPathname,
 } from "@/divisions/routing";
 import styles from "./BusinessDivisionSwitcher.module.css";
+import { useCommonDictionary } from "@/i18n/locale-context";
+import { formatMessage } from "@/i18n/format";
 
 export interface BusinessDivisionSwitcherProps {
   readonly tone?: "light" | "dark";
@@ -18,17 +20,18 @@ export function BusinessDivisionSwitcher({
   tone = "dark",
 }: BusinessDivisionSwitcherProps): React.JSX.Element {
   const pathname = usePathname();
+  const common = useCommonDictionary();
   const activeDivisionId = resolveDivisionFromPathname(pathname);
 
   return (
     <nav
       className={styles.switcher}
       data-tone={tone}
-      aria-label="AGRICA business divisions"
+      aria-label={common.divisions.navigationLabel}
     >
       {DIVISIONS.map((division) => {
         const isActive = division.id === activeDivisionId;
-        const displayLabel = division.label.replace(/^AGRICA\s+/i, "");
+        const displayLabel = common.divisions[division.id === "produce" ? "produce" : "herbsSpices"];
 
         return (
           <Link
@@ -39,8 +42,8 @@ export function BusinessDivisionSwitcher({
             aria-current={isActive ? "page" : undefined}
             aria-label={
               isActive
-                ? `${division.label}, current business division`
-                : `Switch to ${division.label}`
+                ? formatMessage(common.divisions.current, { division: displayLabel })
+                : formatMessage(common.divisions.switchTo, { division: displayLabel })
             }
           >
             <span className={styles.fullLabel}>{displayLabel}</span>

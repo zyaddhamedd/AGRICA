@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import type { JourneyStage } from "@/types/agrica";
+import { useStandardDictionary } from "@/i18n/locale-context";
 
 export interface StageSelectorProps {
   readonly stages: readonly JourneyStage[];
@@ -14,6 +15,7 @@ export function StageSelector({
   activeIndex,
   onSelectStage,
 }: StageSelectorProps): React.JSX.Element {
+  const ui = useStandardDictionary().produce.ui;
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -61,7 +63,7 @@ export function StageSelector({
       className="stage-selector"
       id="stage-selector"
       role="tablist"
-      aria-label="Export journey stages"
+      aria-label={ui.selectorLabel}
       onKeyDown={handleKeyDown}
     >
       {stages.map((stage, index) => {

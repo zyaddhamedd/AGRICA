@@ -1,5 +1,7 @@
 import React from "react";
 import type { ProductAtlasItem } from "@/types/agrica";
+import { useCommonDictionary } from "@/i18n/locale-context";
+import { formatMessage } from "@/i18n/format";
 
 interface QuoteMicroActionProps {
   readonly item: ProductAtlasItem;
@@ -14,6 +16,7 @@ export function QuoteMicroAction({
   isCardFlipped,
   onToggleQuote,
 }: QuoteMicroActionProps): React.JSX.Element {
+  const common = useCommonDictionary();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     onToggleQuote(item);
@@ -30,8 +33,8 @@ export function QuoteMicroAction({
       aria-pressed={isAddedToQuote}
       aria-label={
         isAddedToQuote
-          ? `Remove ${item.name} from enquiry`
-          : `Add ${item.name} to enquiry`
+          ? formatMessage(common.enquiry.removeItemFromEnquiry, { name: item.name })
+          : formatMessage(common.enquiry.addItem, { name: item.name })
       }
     >
       <span aria-hidden="true">{isAddedToQuote ? "✓" : "+"}</span>

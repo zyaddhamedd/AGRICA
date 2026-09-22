@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { JourneyStage } from "@/types/agrica";
+import { useCommonDictionary, useStandardDictionary } from "@/i18n/locale-context";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -17,6 +18,8 @@ export function StandardFinalStageBlock({
   stage,
   index,
 }: StandardFinalStageBlockProps): React.JSX.Element {
+  const common = useCommonDictionary();
+  const standard = useStandardDictionary();
   const blockRef = useRef<HTMLElement>(null);
   const numRef = useRef<HTMLSpanElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -108,14 +111,7 @@ export function StandardFinalStageBlock({
     return () => ctx.revert();
   }, []);
 
-  const journeySteps = [
-    { label: "SOURCE", isFinal: false },
-    { label: "INSPECT", isFinal: false },
-    { label: "PREPARE", isFinal: false },
-    { label: "PACK", isFinal: false },
-    { label: "CONTROL", isFinal: false },
-    { label: "CLEARED", isFinal: true },
-  ];
+  const journeySteps = standard.produce.ui.completionSteps.map((label, stepIndex) => ({ label, isFinal:stepIndex === 5 }));
 
   return (
     <section
@@ -125,22 +121,27 @@ export function StandardFinalStageBlock({
       data-stage-code={stage.code}
       data-stage-index={index}
     >
+      <span
+        id={`stage-${numStr}`}
+        className="stage-anchor-alias"
+        aria-hidden="true"
+        style={{ position: "absolute", top: 0, left: 0, width: 0, height: 0, opacity: 0, pointerEvents: "none" }}
+      />
+
       {/* Oversized 06 Watermark */}
       <span ref={numRef} className="stage-watermark-num final-watermark" aria-hidden="true">
-        {numStr}
+        <bdi>{numStr}</bdi>
       </span>
 
       <div className="stage-block-inner final-payoff-inner">
         {/* Stage Content Column */}
         <div className="stage-content-col final-content-col">
           <div className="stage-identity">
-            <span className="identity-tag final-tag">06 / EXPORT HANDOVER</span>
+            <span className="identity-tag final-tag"><bdi>06</bdi> / {standard.produce.ui.exportHandover}</span>
           </div>
 
           <h2 ref={headlineRef} className="stage-headline final-headline">
-            Cleared.<br />
-            Accounted for.<br />
-            Ready to move.
+            {stage.headline}
           </h2>
 
           <p ref={copyRef} className="stage-copy final-copy">
@@ -149,7 +150,7 @@ export function StandardFinalStageBlock({
 
           {/* Journey Completion Indicator Line */}
           <div ref={completionRef} className="completion-ticker-wrap">
-            <span className="ticker-label">JOURNEY STATUS</span>
+            <span className="ticker-label">{standard.produce.ui.journeyStatus}</span>
             <div className="completion-steps-row">
               {journeySteps.map((step, i) => (
                 <React.Fragment key={step.label}>
@@ -174,8 +175,8 @@ export function StandardFinalStageBlock({
               <span className="seal-brand">AGRICA</span>
               <span className="seal-divider" aria-hidden="true" />
               <div className="seal-status-group">
-                <span className="seal-title">EXPORT CLEARED</span>
-                <span className="seal-sub">FULL SPECIFICATION CERTIFIED</span>
+                <span className="seal-title">{standard.produce.ui.exportCleared}</span>
+                <span className="seal-sub">{standard.produce.ui.fullSpecificationCertified}</span>
               </div>
             </div>
           </div>
@@ -183,7 +184,7 @@ export function StandardFinalStageBlock({
           {/* Commercial CTA */}
           <div ref={ctaRef} className="final-cta-wrap">
             <Link href="/products" className="culmination-cta-btn final-cta-btn">
-              <span>BUILD AN EXPORT ENQUIRY</span>
+              <span>{common.actions.prepareEnquiry}</span>
               <span className="cta-arrow">→</span>
             </Link>
           </div>
@@ -194,11 +195,11 @@ export function StandardFinalStageBlock({
           <div ref={mediaRef} className="stage-visual-wrap final-visual-wrap">
             <img
               src={stage.imageSrc ?? "/assets/season_crop_4.png"}
-              alt="Export Clearance Handover"
+              alt={standard.produce.stages[stage.id].imageAlt}
               className="stage-visual-img"
               loading="lazy"
             />
-            <span className="stage-status-tag final-status-tag">EXPORT CLEARED</span>
+            <span className="stage-status-tag final-status-tag">{standard.produce.ui.exportCleared}</span>
           </div>
         </div>
       </div>

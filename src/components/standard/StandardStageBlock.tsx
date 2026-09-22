@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { JourneyStage } from "@/types/agrica";
+import { useCommonDictionary, useStandardDictionary } from "@/i18n/locale-context";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -19,6 +20,8 @@ export function StandardStageBlock({
   index,
   isCulmination = false,
 }: StandardStageBlockProps): React.JSX.Element {
+  const common = useCommonDictionary();
+  const standard = useStandardDictionary();
   const blockRef = useRef<HTMLElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
   const numRef = useRef<HTMLSpanElement>(null);
@@ -98,7 +101,7 @@ export function StandardStageBlock({
   }, []);
 
   const themeClass = isCulmination ? " bg-navy" : index % 2 === 1 ? " bg-tint" : " bg-paper";
-  const stageIdentity = `${numStr} / ${stage.name.toUpperCase() === "HANDOVER" ? "EXPORT HANDOVER" : stage.name.toUpperCase()}`;
+  const stageIdentity = `${numStr} / ${index === 5 ? standard.produce.ui.exportHandover : stage.name}`;
 
   return (
     <section
@@ -110,16 +113,23 @@ export function StandardStageBlock({
       data-stage-code={stage.code}
       data-stage-index={index}
     >
+      <span
+        id={`stage-${numStr}`}
+        className="stage-anchor-alias"
+        aria-hidden="true"
+        style={{ position: "absolute", top: 0, left: 0, width: 0, height: 0, opacity: 0, pointerEvents: "none" }}
+      />
+
       {/* Background Watermark Number */}
       <span ref={numRef} className="stage-watermark-num" aria-hidden="true">
-        {numStr}
+        <bdi>{numStr}</bdi>
       </span>
 
       <div className="stage-block-inner">
         {/* Stage Content Column */}
         <div className="stage-content-col">
           <div className="stage-identity">
-            <span className="identity-tag">{stageIdentity}</span>
+            <span className="identity-tag"><bdi>{numStr}</bdi> / {index === 5 ? standard.produce.ui.exportHandover : stage.name}</span>
           </div>
 
           <h2 ref={headlineRef} className="stage-headline">
@@ -140,11 +150,11 @@ export function StandardStageBlock({
           {isCulmination && (
             <div className="culmination-payoff-wrap">
               <div className="culmination-seal">
-                <span className="seal-tag">ONE SHIPMENT · SIX CONTROLLED STAGES</span>
-                <strong>Ready to discuss your next export programme?</strong>
+                <span className="seal-tag">{standard.produce.ui.oneShipment}</span>
+                <strong>{standard.produce.ui.discussProgramme}</strong>
               </div>
               <Link href="/products" className="culmination-cta-btn">
-                <span>BUILD AN EXPORT ENQUIRY</span>
+                <span>{common.actions.prepareEnquiry}</span>
                 <span className="cta-arrow">→</span>
               </Link>
             </div>
@@ -156,7 +166,7 @@ export function StandardStageBlock({
           <div ref={mediaRef} className="stage-visual-wrap">
             <img
               src={stage.imageSrc ?? "/assets/product-atlas.png"}
-              alt={`${stage.name} - ${stage.headline}`}
+              alt={standard.produce.stages[stage.id].imageAlt}
               className="stage-visual-img"
               loading="lazy"
             />

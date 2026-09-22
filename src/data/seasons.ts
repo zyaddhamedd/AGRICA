@@ -66,7 +66,7 @@ export interface MonthCropStatus {
 export const SEASONAL_CROPS_REGISTRY: readonly SeasonalCrop[] = [
   {
     id: "crop-mango",
-    name: "EGYPTIAN MANGOES",
+    name: "MANGOES",
     category: "Fresh",
     visualKey: "crop1",
     imageSrc: "/assets/season_crop_1.png",
@@ -78,7 +78,7 @@ export const SEASONAL_CROPS_REGISTRY: readonly SeasonalCrop[] = [
   },
   {
     id: "crop-pomegranate",
-    name: "FRESH POMEGRANATES",
+    name: "POMEGRANATES",
     category: "Fresh",
     visualKey: "crop2",
     imageSrc: "/assets/season_crop_2.png",
@@ -90,7 +90,7 @@ export const SEASONAL_CROPS_REGISTRY: readonly SeasonalCrop[] = [
   },
   {
     id: "crop-citrus",
-    name: "HERBS & BOTANICALS",
+    name: "DRIED LEMON",
     category: "Dried",
     visualKey: "crop3",
     imageSrc: "/assets/season_crop_3.png",
@@ -102,7 +102,7 @@ export const SEASONAL_CROPS_REGISTRY: readonly SeasonalCrop[] = [
   },
   {
     id: "crop-atlas",
-    name: "CITRUS SELECTION",
+    name: "ORANGES",
     category: "Fresh",
     visualKey: "crop4",
     imageSrc: "/assets/season_crop_4.png",
@@ -138,5 +138,4 @@ export function getCropsForMonth(monthNumber: number): MonthCropStatus[] {
 
   return result.sort((a, b) => a.crop.displayPriority - b.crop.displayPriority);
 }
-
 

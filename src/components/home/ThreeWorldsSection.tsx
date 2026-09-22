@@ -8,8 +8,10 @@ import {
 } from "@/data/threeWorlds";
 import { WorldCard } from "./WorldCard";
 import "./ThreeWorldsSection.css";
+import { useHomeDictionary } from "@/i18n/locale-context";
 
 export function ThreeWorldsSection(): React.JSX.Element {
+  const dictionary = useHomeDictionary().worlds;
   const [flippedWorld, setFlippedWorld] = useState<WorldKey | null>(null);
 
   return (
@@ -19,19 +21,19 @@ export function ThreeWorldsSection(): React.JSX.Element {
           <div className="tw-header-meta">
             <div className="tw-kicker">
               <span className="tw-kicker-dot" aria-hidden="true" />
-              <span className="tw-eyebrow">THREE WORLDS</span>
+              <span className="tw-eyebrow">{dictionary.eyebrow}</span>
             </div>
-            <span className="tw-section-index" aria-label="Worlds one through three">01 — 03</span>
+            <span className="tw-section-index" aria-label={dictionary.rangeLabel}>01 — 03</span>
           </div>
 
           <h2 id="tw-title" className="tw-title">
-            Three worlds.
+            {dictionary.heading}
             <br />
-            <em>One export standard.</em>
+            <em>{dictionary.emphasis}</em>
           </h2>
 
           <p className="tw-world-list">
-            Fresh <span aria-hidden="true">·</span> Frozen <span aria-hidden="true">·</span> Dried
+            {dictionary.items.fresh.label} <span aria-hidden="true">·</span> {dictionary.items.frozen.label} <span aria-hidden="true">·</span> {dictionary.items.dried.label}
           </p>
         </header>
 
@@ -39,7 +41,7 @@ export function ThreeWorldsSection(): React.JSX.Element {
           {THREE_WORLDS_LIST.map((key) => (
             <WorldCard
               key={key}
-              world={THREE_WORLDS_DATA[key]}
+              world={{ ...THREE_WORLDS_DATA[key], ...dictionary.items[key], actionText: dictionary.items[key].action, imgAlt: dictionary.items[key].imageAlt, editorialLines: dictionary.items[key].lines }}
               isFlipped={flippedWorld === key}
               onFlip={(selectedKey) => {
                 setFlippedWorld((current) => current === selectedKey ? null : selectedKey);

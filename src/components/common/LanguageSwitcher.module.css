@@ -1,0 +1,105 @@
+.root {
+  position: relative;
+  flex: none;
+  color: #002050;
+}
+
+.root[data-tone="dark"],
+.root[data-tone="herbs"] {
+  color: #fff;
+}
+
+.trigger {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0 0.7rem;
+  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  border-radius: 8px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.flag {
+  display: block;
+  flex: none;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14);
+}
+
+.activeLabel { line-height: 1; }
+
+.chevron {
+  width: 6px;
+  height: 6px;
+  margin-inline-start: 0.15rem;
+  border-inline-end: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.trigger[aria-expanded="true"] .chevron { transform: translateY(2px) rotate(225deg); }
+
+.popover {
+  position: absolute;
+  z-index: 160;
+  inset-block-start: calc(100% + 0.65rem);
+  inset-inline-end: 0;
+  width: min(260px, calc(100vw - 2rem));
+  padding: 0.65rem;
+  border: 1px solid rgba(0, 32, 80, 0.14);
+  border-radius: 12px;
+  color: #002050;
+  background: #f7f5ed;
+  box-shadow: 0 20px 55px rgba(0, 24, 55, 0.2);
+}
+
+.heading {
+  margin: 0;
+  padding: 0.45rem 0.55rem 0.65rem;
+  color: rgba(0, 32, 80, 0.58);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.popover nav { display: grid; gap: 0.2rem; }
+
+.option {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.65rem;
+  border-radius: 7px;
+  color: #002050;
+  font-size: 0.82rem;
+  font-weight: 560;
+  text-align: start;
+}
+
+.option:hover,
+.option:focus-visible { background: rgba(80, 160, 16, 0.1); }
+.option:focus-visible,
+.trigger:focus-visible { outline: 2px solid #63ad27; outline-offset: 2px; }
+.option[aria-current="page"] { color: #376f0d; background: rgba(80, 160, 16, 0.08); }
+.current { justify-self: end; color: #50a010; font-size: 0.8rem; }
+
+@media (max-width: 680px) {
+  .trigger { min-height: 44px; }
+  .popover { position: fixed; inset-inline: 1rem; inset-block-start: auto; inset-block-end: 1rem; width: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron { transition: none; }
+}

@@ -1,0 +1,17 @@
+import type { Locale } from "@/i18n/config";
+
+const replacements: Record<Exclude<Locale, "en">, Readonly<Record<string, string>>> = {
+  ar: { "Nov":"نوفمبر","May":"مايو","Oct":"أكتوبر","Mar":"مارس","Aug":"أغسطس","Jan":"يناير","Jun":"يونيو","Apr":"أبريل","Feb":"فبراير","Class I":"الفئة الأولى","Phytosanitary Certified":"معتمد للصحة النباتية","Telescopic Cartons":"كراتين تلسكوبية","Open-Top Cartons":"كراتين مفتوحة من الأعلى","Cartons":"كراتين","Plastic Boxes":"صناديق بلاستيكية","Carry Bags in Cartons":"أكياس داخل كراتين","Punnets":"عبوات صغيرة","Jumbo Bags":"أجولة جامبو","Mesh Bags":"أجولة شبكية","Net Bags":"أكياس شبكية","Ambient / Controlled Cool":"درجة حرارة محيطة / تبريد مضبوط","Red Onion":"بصل أحمر","Golden/Yellow Onion":"بصل ذهبي/أصفر","Egyptian White":"أبيض مصري","Egyptian Red":"أحمر مصري","Seedless":"بدون بذور" },
+  ru: { "Nov":"ноя","May":"май","Oct":"окт","Mar":"мар","Aug":"авг","Jan":"янв","Jun":"июн","Apr":"апр","Feb":"фев","Class I":"Класс I","Phytosanitary Certified":"Фитосанитарная сертификация","Telescopic Cartons":"Телескопические коробки","Open-Top Cartons":"Коробки с открытым верхом","Cartons":"Коробки","Plastic Boxes":"Пластиковые ящики","Carry Bags in Cartons":"Пакеты в коробках","Punnets":"Лотки","Jumbo Bags":"Биг-бэги","Mesh Bags":"Сетчатые мешки","Net Bags":"Сетки","Ambient / Controlled Cool":"Окружающая / контролируемая прохлада","Red Onion":"Красный лук","Golden/Yellow Onion":"Золотистый/жёлтый лук","Egyptian White":"Египетский белый","Egyptian Red":"Египетский красный","Seedless":"Без косточек" },
+  de: { "Nov":"Nov","May":"Mai","Oct":"Okt","Mar":"Mär","Aug":"Aug","Jan":"Jan","Jun":"Jun","Apr":"Apr","Feb":"Feb","Class I":"Klasse I","Phytosanitary Certified":"Pflanzengesundheitlich zertifiziert","Telescopic Cartons":"Teleskopkartons","Open-Top Cartons":"Offene Kartons","Cartons":"Kartons","Plastic Boxes":"Kunststoffkisten","Carry Bags in Cartons":"Tragebeutel in Kartons","Punnets":"Schalen","Jumbo Bags":"Big Bags","Mesh Bags":"Netzsäcke","Net Bags":"Netzbeutel","Ambient / Controlled Cool":"Umgebung / kontrolliert kühl","Red Onion":"Rote Zwiebel","Golden/Yellow Onion":"Goldene/gelbe Zwiebel","Egyptian White":"Ägyptisch weiß","Egyptian Red":"Ägyptisch rot","Seedless":"Kernlos" },
+  fr: { "Nov":"nov.","May":"mai","Oct":"oct.","Mar":"mars","Aug":"août","Jan":"janv.","Jun":"juin","Apr":"avr.","Feb":"févr.","Class I":"Classe I","Phytosanitary Certified":"Certifié phytosanitaire","Telescopic Cartons":"Cartons télescopiques","Open-Top Cartons":"Cartons ouverts","Cartons":"Cartons","Plastic Boxes":"Caisses en plastique","Carry Bags in Cartons":"Sachets en cartons","Punnets":"Barquettes","Jumbo Bags":"Big bags","Mesh Bags":"Sacs filet","Net Bags":"Filets","Ambient / Controlled Cool":"Ambiante / fraîcheur contrôlée","Red Onion":"Oignon rouge","Golden/Yellow Onion":"Oignon doré/jaune","Egyptian White":"Blanc égyptien","Egyptian Red":"Rouge égyptien","Seedless":"Sans pépins" },
+};
+
+export function localizeProduceTechnicalValue(locale: Locale, value: string): string {
+  if (locale === "en") return value;
+  const country = { ar: "مصر", ru: "Египет", de: "Ägypten", fr: "Égypte" }[locale];
+  const rangeConnector = { ar: " إلى ", ru: " до ", de: " bis ", fr: " à " }[locale];
+  return Object.entries(replacements[locale])
+    .sort(([a], [b]) => b.length - a.length)
+    .reduce((result, [source, target]) => result.replaceAll(source, target), value.replaceAll("Egypt", country).replaceAll(" to ", rangeConnector));
+}

@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useEffect, useCallback, useRef } from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "./LocaleLink";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useCommonDictionary } from "@/i18n/locale-context";
 
 export interface GlobalMenuProps {
   readonly isOpen: boolean;
@@ -9,15 +11,16 @@ export interface GlobalMenuProps {
 }
 
 export const MENU_ITEMS = [
-  { number: "01", label: "HOME", href: "/" },
-  { number: "02", label: "PRODUCTS", href: "/products" },
-  { number: "03", label: "OUR STANDARD", href: "/standard" },
-  { number: "04", label: "COMPANY", href: "/#company" },
-  { number: "05", label: "START A TRADE", href: "/#trade" },
+  { number: "01", labelKey: "home", href: "/" },
+  { number: "02", labelKey: "products", href: "/products" },
+  { number: "03", labelKey: "standard", href: "/standard" },
+  { number: "04", labelKey: "company", href: "/#company" },
+  { number: "05", labelKey: "startTrade", href: "/#trade" },
 ] as const;
 
 export function GlobalMenu({ isOpen, onClose }: GlobalMenuProps): React.JSX.Element {
   const panelRef = useRef<HTMLDivElement>(null);
+  const common = useCommonDictionary();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Close on Escape key press
@@ -60,7 +63,7 @@ export function GlobalMenu({ isOpen, onClose }: GlobalMenuProps): React.JSX.Elem
       aria-hidden={!isOpen}
       role="dialog"
       aria-modal="true"
-      aria-label="Site Navigation"
+      aria-label={common.navigation.siteDialogLabel}
     >
       {/* Click-away Backdrop */}
       <div
@@ -82,7 +85,7 @@ export function GlobalMenu({ isOpen, onClose }: GlobalMenuProps): React.JSX.Elem
             <span className="signal-dot" aria-hidden="true">●</span>
             <span>30.0444° N</span>
             <span className="signal-sep">/</span>
-            <span>CAIRO, EGYPT</span>
+            <span>{common.navigation.cairoEgypt}</span>
           </div>
 
           <button
@@ -90,14 +93,14 @@ export function GlobalMenu({ isOpen, onClose }: GlobalMenuProps): React.JSX.Elem
             className="menu-close-btn"
             type="button"
             onClick={onClose}
-            aria-label="Close navigation menu"
+            aria-label={common.navigation.closeMenu}
           >
-            <span>CLOSE</span>
+            <span>{common.navigation.close}</span>
             <i aria-hidden="true">×</i>
           </button>
         </div>
 
-        <nav className="menu-panel-nav" aria-label="Site pages">
+        <nav className="menu-panel-nav" aria-label={common.navigation.sitePagesLabel}>
           {MENU_ITEMS.map((item, index) => (
             <Link
               key={item.number}
@@ -107,23 +110,24 @@ export function GlobalMenu({ isOpen, onClose }: GlobalMenuProps): React.JSX.Elem
               style={{ transitionDelay: isOpen ? `${140 + index * 40}ms` : "0ms" }}
             >
               <span className="nav-item-num">{item.number}</span>
-              <strong className="nav-item-label">{item.label}</strong>
+              <strong className="nav-item-label">{common.navigation[item.labelKey]}</strong>
               <i className="nav-item-arrow" aria-hidden="true">↗</i>
             </Link>
           ))}
         </nav>
 
         <div className="menu-panel-foot">
+          <LanguageSwitcher className="global-menu-language" tone="light" />
           <div className="foot-brand">
             <strong>AGRĪCA</strong>
-            <small>Agriculture Cairo</small>
+            <small>{common.navigation.agricultureCairo}</small>
           </div>
           <p className="foot-statement">
-            Egyptian produce. Prepared for global supply.
+            {common.navigation.exportStatement}
           </p>
           <div className="foot-meta">
-            <span>B2B Agricultural Export</span>
-            <span>Fresh / Frozen / Dried</span>
+            <span>{common.navigation.b2bExport}</span>
+            <span>{common.navigation.produceWorlds}</span>
           </div>
         </div>
       </aside>

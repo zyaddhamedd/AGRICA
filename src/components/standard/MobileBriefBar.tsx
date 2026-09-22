@@ -1,11 +1,13 @@
 import React from "react";
-import Link from "next/link";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
+import { useCommonDictionary } from "@/i18n/locale-context";
 
 export function MobileBriefBar(): React.JSX.Element {
+  const common = useCommonDictionary();
   return (
     <Link className="mobile-brief" href="/products">
-      <span>Build a quotation</span>
-      <strong>Start brief ↗</strong>
+      <span>{common.footer.buildQuotation}</span>
+      <strong>{common.actions.enquire} ↗</strong>
     </Link>
   );
 }

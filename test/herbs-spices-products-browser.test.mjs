@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { writeFile } from "node:fs/promises";
 
 const base = process.env.HERBS_PRODUCTS_BASE_URL ?? "http://localhost:3000";
-const targets = await (await fetch("http://localhost:9333/json")).json();
+const debugUrl = process.env.CHROME_DEBUG_URL ?? "http://localhost:9333";
+const targets = await (await fetch(`${debugUrl}/json`)).json();
 const target = targets.find((entry) => entry.type === "page");
 assert.ok(target, "A browser page target is required");
 
@@ -91,14 +92,14 @@ await send("Page.enable");
 await send("Runtime.enable");
 await send("Log.enable");
 await setViewport(1440, 1000);
-await navigate("/herbs-spices/products");
+await navigate("/en/herbs-spices/products");
 
 assert.equal(await evaluate('document.querySelectorAll("h1").length'), 1, "catalogue has one H1");
 assert.equal(await evaluate('document.querySelector("meta[name=robots]")?.content'), "noindex, nofollow", "catalogue remains noindex");
 assert.equal(await evaluate('document.querySelectorAll("[data-material-grid]").length'), 1, "one semantic material grid renders");
 assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen]").length'), 27, "all 27 source-backed products render");
-assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] [data-media-status=fallback]").length'), 27, "pending product media use intentional fallbacks");
-assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] img").length'), 0, "pending product paths create no broken images");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] [data-media-status=fallback]").length'), 15, "pending product media use intentional fallbacks");
+assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] img").length'), 12, "approved product media render without changing pending fallbacks");
 assert.deepEqual(await evaluate('[...document.querySelectorAll("[data-material-specimen] h3")].slice(0,4).map((heading) => heading.textContent)'), ["Basil", "Dill", "Lemon Grass", "Marjoram"], "catalogue order is preserved");
 
 await assertGrid(1440, 4, 215, 217);

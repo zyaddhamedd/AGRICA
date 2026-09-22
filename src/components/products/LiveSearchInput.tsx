@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useCommonDictionary } from "@/i18n/locale-context";
 
 export interface LiveSearchInputProps {
   readonly query: string;
@@ -12,6 +13,7 @@ export function LiveSearchInput({
   query,
   onChange,
 }: LiveSearchInputProps): React.JSX.Element {
+  const common = useCommonDictionary();
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -81,7 +83,7 @@ export function LiveSearchInput({
           className="minimal-search-trigger"
           onClick={handleToggle}
           aria-expanded="false"
-          aria-label="Open product search"
+          aria-label={common.accessibility.openProductSearch}
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
             <circle cx="11" cy="11" r="8" />
@@ -97,14 +99,14 @@ export function LiveSearchInput({
             </svg>
           </span>
           <label htmlFor="minimal-search-input" className="visually-hidden">
-            Search products
+            {common.accessibility.searchProducts}
           </label>
           <input
             ref={inputRef}
             id="minimal-search-input"
             type="text"
             className="minimal-search-input"
-            placeholder="Search products"
+            placeholder={common.accessibility.searchProducts}
             value={query}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -115,7 +117,7 @@ export function LiveSearchInput({
             type="button"
             className="minimal-search-close"
             onClick={handleClearOrClose}
-            aria-label={query.trim() !== "" ? "Clear search query" : "Close search bar"}
+            aria-label={query.trim() !== "" ? common.accessibility.clearSearch : common.accessibility.closeSearch}
           >
             ✕
           </button>
@@ -124,4 +126,3 @@ export function LiveSearchInput({
     </div>
   );
 }
-

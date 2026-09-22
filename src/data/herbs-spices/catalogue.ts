@@ -15,6 +15,11 @@ export const HERBS_SPICES_FAMILIES = [
   { id: "dehydrated-vegetables", label: "Dehydrated Vegetables", status: "source-backed" },
 ] as const satisfies readonly HerbsSpicesFamily[];
 
+/** Validates URL and other untyped input against the canonical family catalogue. */
+export function isHerbsSpicesFamilyId(value: unknown): value is HerbsSpicesFamilyId {
+  return typeof value === "string" && HERBS_SPICES_FAMILIES.some((family) => family.id === value);
+}
+
 /** Division-level formats only; this is not a product-by-product availability matrix. */
 export const HERBS_SPICES_AVAILABLE_FORMS = [
   { id: "whole", label: "Whole", status: "source-backed" },

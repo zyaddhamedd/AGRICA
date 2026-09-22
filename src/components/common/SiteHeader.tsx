@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BusinessDivisionSwitcher } from "./BusinessDivisionSwitcher";
 import { GlobalMenu } from "./GlobalMenu";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { LocaleLink as Link } from "./LocaleLink";
+import { useCommonDictionary } from "@/i18n/locale-context";
+import { stripLocaleFromPath } from "@/i18n/navigation";
 
 export type HeaderVariant = "home" | "products" | "standard" | "internal";
 export type NavbarTheme = "navy" | "paper" | "light" | "transparent";
@@ -23,6 +26,8 @@ export function SiteHeader({
   onOpenQuote,
 }: SiteHeaderProps): React.JSX.Element {
   const pathname = usePathname();
+  const common = useCommonDictionary();
+  const semanticPathname = stripLocaleFromPath(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Reusable global scroll state logic for smart Navbar behavior
@@ -84,15 +89,15 @@ export function SiteHeader({
   // All internal pages (`/products`, `/standard`, etc.) -> Internal theme ("navy" surface #002050, white logo)
   const isHomePage =
     variant === "home" ||
-    (pathname === "/" && variant !== "products" && variant !== "standard" && variant !== "internal");
+    (semanticPathname === "/" && variant !== "products" && variant !== "standard" && variant !== "internal");
 
   const activeThemeMode: "home" | "internal" = isHomePage ? "home" : "internal";
 
   const activeVariant: HeaderVariant =
     variant ??
-    (pathname === "/products"
+    (semanticPathname === "/products"
       ? "products"
-      : pathname === "/standard"
+      : semanticPathname === "/standard"
       ? "standard"
       : isHomePage
       ? "home"
@@ -118,9 +123,9 @@ export function SiteHeader({
         data-scrolled={scrollState.isFloating ? "true" : "false"}
         data-hidden={!isMenuOpen && scrollState.isHidden ? "true" : "false"}
       >
-        <header className="global-navbar-capsule" aria-label="Primary navigation">
+        <header className="global-navbar-capsule" aria-label={common.navigation.primaryLabel}>
           {/* Brand Logo */}
-          <Link href="/" className="global-navbar-brand" aria-label="AGRICA Home">
+          <Link href="/" className="global-navbar-brand" aria-label={common.navigation.agricaHome}>
             <img
               src={isWhiteLogo ? "/assets/agrica-logo.png" : "/assets/agrica-logo-brand.png"}
               alt="AGRICA"
@@ -130,13 +135,15 @@ export function SiteHeader({
 
           {/* Semantic Navigation Anchors for Accessibility & Test Parity */}
           <div className="visually-hidden" aria-hidden="true">
-            <Link href="/products">Products</Link>
-            <Link href="/standard">Standard</Link>
+            <Link href="/products">{common.navigation.products}</Link>
+            <Link href="/standard">{common.navigation.standard}</Link>
           </div>
 
           {/* Right Action Cluster */}
           <div className="global-navbar-actions">
             <BusinessDivisionSwitcher tone={isWhiteLogo ? "dark" : "light"} />
+
+            <LanguageSwitcher className="global-navbar-language" tone={isWhiteLogo ? "dark" : "light"} />
 
             {/* Dedicated Quote Counter Trigger for Products */}
             {activeVariant === "products" && (
@@ -147,7 +154,7 @@ export function SiteHeader({
                 aria-controls="quote-drawer"
                 onClick={onOpenQuote}
               >
-                <span>Build a quote</span>
+                <span>{common.actions.buildQuote}</span>
                 <b className="quote-count">{quoteCount}</b>
               </button>
             )}
@@ -159,9 +166,9 @@ export function SiteHeader({
               onClick={toggleMenu}
               aria-expanded={isMenuOpen}
               aria-controls="global-menu-panel"
-              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-label={isMenuOpen ? common.navigation.closeMenu : common.navigation.openMenu}
             >
-              <span>{isMenuOpen ? "Close" : "Menu"}</span>
+              <span>{isMenuOpen ? common.navigation.close : common.navigation.menu}</span>
             </button>
           </div>
         </header>
@@ -172,5 +179,3 @@ export function SiteHeader({
     </>
   );
 }
-
-

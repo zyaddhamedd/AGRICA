@@ -1,5 +1,6 @@
 import React from "react";
 import type { JourneyStage } from "@/types/agrica";
+import { useStandardDictionary } from "@/i18n/locale-context";
 
 export interface StageDetailProps {
   readonly stage: JourneyStage;
@@ -10,6 +11,7 @@ export function StageDetail({
   stage,
   activeIndex,
 }: StageDetailProps): React.JSX.Element {
+  const ui = useStandardDictionary().produce.ui;
   const paddedIndex = String(activeIndex + 1).padStart(2, "0");
 
   return (
@@ -21,7 +23,7 @@ export function StageDetail({
     >
       <div className="detail-index">
         <span id="detail-number">{paddedIndex}</span>
-        <span>of 06</span>
+        <span>{ui.of} 06</span>
       </div>
       <p className="detail-kicker" id="detail-kicker">
         {stage.kicker}

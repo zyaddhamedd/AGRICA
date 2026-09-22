@@ -1,4 +1,4 @@
-import type { ExportSpecification, ProductVariety, ProductAtlasItem } from "@/types/agrica";
+import type { ExportSpecification, ProductVariety, ProductAtlasItem, ProduceProductId } from "@/types/agrica";
 
 export interface CropSpecEntry {
   readonly defaultSpecs?: ExportSpecification;
@@ -9,8 +9,8 @@ export interface CropSpecEntry {
  * Verified AGRICA Commercial & Export Specifications Registry.
  * Fields without approved data are omitted. No fabricated placeholders are used.
  */
-export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
-  Oranges: {
+export const VERIFIED_PRODUCT_SPECS: Readonly<Partial<Record<ProduceProductId, CropSpecEntry>>> = {
+  "produce:orange": {
     varieties: [
       { id: "valencia", name: "Valencia" },
       { id: "navel", name: "Navel" },
@@ -24,7 +24,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
       grade: "Class I / GlobalG.A.P.",
     },
   },
-  Lemons: {
+  "produce:lemon": {
     varieties: [
       { id: "eureka", name: "Eureka" },
       { id: "verna", name: "Verna" },
@@ -38,7 +38,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
       grade: "Class I / GlobalG.A.P.",
     },
   },
-  Grapes: {
+  "produce:grape": {
     varieties: [
       { id: "flame", name: "Flame Seedless" },
       { id: "superior", name: "Superior Seedless" },
@@ -53,7 +53,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
       grade: "Class I / GlobalG.A.P.",
     },
   },
-  Potatoes: {
+  "produce:potato": {
     varieties: [
       { id: "spunta", name: "Spunta" },
       { id: "hermes", name: "Hermes" },
@@ -67,7 +67,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
       grade: "Class I / Phytosanitary Certified",
     },
   },
-  Strawberries: {
+  "produce:fresh-strawberry": {
     varieties: [
       { id: "fortuna", name: "Florida Fortuna" },
       { id: "sensation", name: "Sensation" },
@@ -80,7 +80,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
       grade: "Class I / GlobalG.A.P.",
     },
   },
-  Pomegranates: {
+  "produce:pomegranate": {
     varieties: [
       { id: "wonderful", name: "Wonderful" },
       { id: "116", name: "116" },
@@ -93,7 +93,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
       grade: "Class I / GlobalG.A.P.",
     },
   },
-  Onions: {
+  "produce:onion": {
     varieties: [
       { id: "red", name: "Red Onion" },
       { id: "yellow", name: "Golden/Yellow Onion" },
@@ -105,7 +105,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
       packaging: ["Mesh Bags (10kg / 25kg)", "Jumbo Bags (1000kg)"],
     },
   },
-  Garlic: {
+  "produce:garlic": {
     varieties: [
       { id: "white", name: "Egyptian White" },
       { id: "red", name: "Egyptian Red" },
@@ -123,9 +123,7 @@ export const VERIFIED_PRODUCT_SPECS: Record<string, CropSpecEntry> = {
  * Gets verified specs & variety list for a given product item.
  */
 export function getProductSpecData(item: ProductAtlasItem): CropSpecEntry {
-  // The current verified registry describes fresh export lines. Avoid applying
-  // those values to same-named frozen or dried products without explicit data.
-  const entry = item.worldId === "fresh" ? VERIFIED_PRODUCT_SPECS[item.name] : undefined;
+  const entry = VERIFIED_PRODUCT_SPECS[item.id];
   if (entry) return entry;
 
   // Fallback to verified item properties if present

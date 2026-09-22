@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { ProductAtlasItem, QuoteItem } from "@/types/agrica";
 import { ProductFlipCard } from "./ProductFlipCard";
+import { useProductsDictionary } from "@/i18n/locale-context";
 
 export interface AtlasGridProps {
   readonly items: readonly ProductAtlasItem[];
@@ -13,10 +14,11 @@ export function AtlasGrid({
   quoteItems,
   onToggleQuote,
 }: AtlasGridProps): React.JSX.Element {
+  const dictionary = useProductsDictionary();
   const [flippedKey, setFlippedKey] = useState<string | null>(null);
 
   useEffect(() => {
-    if (flippedKey && !items.some((item) => item.key === flippedKey)) {
+    if (flippedKey && !items.some((item) => item.id === flippedKey)) {
       setFlippedKey(null);
     }
   }, [flippedKey, items]);
@@ -24,10 +26,10 @@ export function AtlasGrid({
   if (items.length === 0) {
     return (
       <div className="atlas-empty-state">
-        <p className="empty-eyebrow">No matching produce found</p>
-        <h3 className="empty-title">Refine your search or switch category</h3>
+        <p className="empty-eyebrow">{dictionary.ui.noMatches}</p>
+        <h3 className="empty-title">{dictionary.ui.refineSearch}</h3>
         <p className="empty-copy">
-          Try searching for &ldquo;Orange&rdquo;, &ldquo;Garlic&rdquo;, &ldquo;Pomegranate&rdquo;, or switch condition tabs above.
+          {dictionary.ui.searchHint}
         </p>
       </div>
     );
@@ -36,16 +38,16 @@ export function AtlasGrid({
   return (
     <div className="atlas-grid">
       {items.map((item) => {
-        const isAddedToQuote = quoteItems.some((q) => q.key === item.key);
+        const isAddedToQuote = quoteItems.some((q) => q.id === item.id);
 
         return (
           <ProductFlipCard
-            key={item.key}
+            key={item.id}
             item={item}
-            isFlipped={flippedKey === item.key}
+            isFlipped={flippedKey === item.id}
             isAddedToQuote={isAddedToQuote}
             onFlip={(selected) => {
-              setFlippedKey((current) => current === selected.key ? null : selected.key);
+              setFlippedKey((current) => current === selected.id ? null : selected.id);
             }}
             onToggleQuote={onToggleQuote}
           />

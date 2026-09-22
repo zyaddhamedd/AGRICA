@@ -1,8 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef } from "react";
+import { LocaleLink as Link } from "@/components/common/LocaleLink";
+import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import { useCommonDictionary } from "@/i18n/locale-context";
+import { stripLocaleFromPath } from "@/i18n/navigation";
 import styles from "./HerbsSpicesMenu.module.css";
 
 export interface HerbsSpicesMenuProps {
@@ -17,6 +20,8 @@ export function HerbsSpicesMenu({
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+  const common = useCommonDictionary();
+  const semanticPathname = stripLocaleFromPath(pathname);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -80,42 +85,43 @@ export function HerbsSpicesMenu({
       <div className={styles.panel} ref={panelRef}>
         <div className={styles.panelHeader}>
           <div>
-            <span className={styles.kicker}>AGRICA / HERBS &amp; SPICES</span>
-            <h2 id="herbs-spices-menu-title">Menu</h2>
+            <span className={styles.kicker}>AGRICA / {common.divisions.herbsSpices}</span>
+            <h2 id="herbs-spices-menu-title">{common.navigation.menu}</h2>
           </div>
           <button
             ref={closeButtonRef}
             className={styles.closeButton}
             type="button"
             onClick={onClose}
-            aria-label="Close Herbs & Spices menu"
+            aria-label={common.divisions.herbsMenuClose}
           >
-            <span>Close</span>
+            <span>{common.navigation.close}</span>
             <i aria-hidden="true">&times;</i>
           </button>
         </div>
 
-        <nav className={styles.navigation} aria-label="Herbs & Spices pages">
-          <Link href="/herbs-spices" aria-current={pathname === "/herbs-spices" ? "page" : undefined} onClick={onClose}>
+        <nav className={styles.navigation} aria-label={common.divisions.herbsPagesLabel}>
+          <Link href="/herbs-spices" aria-current={semanticPathname === "/herbs-spices" ? "page" : undefined} onClick={onClose}>
             <span>01</span>
-            <strong>Home</strong>
+            <strong>{common.navigation.home}</strong>
             <i aria-hidden="true">&nearr;</i>
           </Link>
-          <Link href="/herbs-spices/products" aria-current={pathname === "/herbs-spices/products" ? "page" : undefined} onClick={onClose}>
+          <Link href="/herbs-spices/products" aria-current={semanticPathname === "/herbs-spices/products" ? "page" : undefined} onClick={onClose}>
             <span>02</span>
-            <strong>Products</strong>
+            <strong>{common.navigation.products}</strong>
             <i aria-hidden="true">&nearr;</i>
           </Link>
-          <Link href="/herbs-spices/standard" aria-current={pathname === "/herbs-spices/standard" ? "page" : undefined} onClick={onClose}>
+          <Link href="/herbs-spices/standard" aria-current={semanticPathname === "/herbs-spices/standard" ? "page" : undefined} onClick={onClose}>
             <span>03</span>
-            <strong>Process</strong>
+            <strong>{common.divisions.process}</strong>
             <i aria-hidden="true">&nearr;</i>
           </Link>
         </nav>
 
         <div className={styles.panelFooter}>
+          <LanguageSwitcher className={styles.menuLanguage} tone="herbs" />
           <span>AGRICA</span>
-          <strong>Herbs &amp; Spices</strong>
+          <strong>{common.divisions.herbsSpices}</strong>
         </div>
       </div>
     </div>

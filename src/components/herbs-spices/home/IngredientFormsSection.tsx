@@ -1,11 +1,13 @@
+"use client";
+
 import React from "react";
-import { HERBS_SPICES_HOMEPAGE } from "@/data/herbs-spices/homepage";
+import { useHerbsSpicesDictionary } from "@/i18n/locale-context";
 import { HERBS_SPICES_MEDIA } from "@/data/herbs-spices/media";
 import { MaterialStage } from "./MaterialStage";
 import styles from "./IngredientFormsSection.module.css";
 
 export function IngredientFormsSection(): React.JSX.Element {
-  const { formsIntro, forms } = HERBS_SPICES_HOMEPAGE;
+  const { formsIntro, forms } = useHerbsSpicesDictionary().homepage;
   const stageItems = forms.map((form) => ({
     id: form.id,
     index: form.index,

@@ -9,8 +9,12 @@ import { StandardProgressThread } from "./StandardProgressThread";
 import { StandardStageBlock } from "./StandardStageBlock";
 import { StandardFinalStageBlock } from "./StandardFinalStageBlock";
 import { StandardProofInterlude } from "./StandardProofInterlude";
+import { useStandardDictionary } from "@/i18n/locale-context";
+import { localizeJourneyStages } from "@/content/standard/localize";
 
 export function StandardPageContent(): React.JSX.Element {
+  const dictionary = useStandardDictionary();
+  const stages = localizeJourneyStages(JOURNEY_STAGES, dictionary);
   return (
     <div className="standard-page">
       <SiteHeader variant="standard" />
@@ -20,13 +24,13 @@ export function StandardPageContent(): React.JSX.Element {
         <StandardMonolithHero />
 
         {/* Minimalist Progress Thread Indicator */}
-        <StandardProgressThread />
+        <StandardProgressThread stages={stages} />
 
         {/* 6 Layered Stage Blocks with Mid-Page Interlude & Stage 06 Final Payoff */}
         <div className="standard-stages-container">
-          {JOURNEY_STAGES.map((stage, idx) => (
+          {stages.map((stage, idx) => (
             <React.Fragment key={stage.id}>
-              {idx === JOURNEY_STAGES.length - 1 ? (
+              {idx === stages.length - 1 ? (
                 <StandardFinalStageBlock stage={stage} index={idx} />
               ) : (
                 <StandardStageBlock stage={stage} index={idx} />
