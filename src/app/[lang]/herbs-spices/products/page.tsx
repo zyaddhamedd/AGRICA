@@ -25,6 +25,8 @@ export default async function HerbsSpicesProductsPage({
 
   return <main className={styles.page}>
     <header className={styles.intro}><div><p>{dictionary.eyebrow}</p><h1>{dictionary.titleLead} <em>{dictionary.titleEmphasis}</em></h1><span>{dictionary.description}</span></div></header>
-    <HerbsSpicesProductsExplorer catalogue={HERBS_SPICES_CATALOGUE} families={HERBS_SPICES_FAMILIES} initialFamily={initialFamily} />
+    <div className={styles.catalogueWrapper}>
+      <HerbsSpicesProductsExplorer catalogue={HERBS_SPICES_CATALOGUE} families={HERBS_SPICES_FAMILIES} initialFamily={initialFamily} />
+    </div>
   </main>;
 }

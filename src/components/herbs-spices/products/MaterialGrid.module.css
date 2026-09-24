@@ -3,5 +3,6 @@
   .grid { grid-template-columns: repeat(3,minmax(0,1fr)); column-gap: clamp(1.5rem,4vw,3rem); row-gap: clamp(3.5rem,6vw,4.5rem); }
 }
 @media (max-width:760px) {
-  .grid { grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: clamp(1rem,5vw,1.75rem); row-gap: clamp(2.75rem,8vw,3.5rem); }
+  .grid { grid-template-columns: 1fr; row-gap: clamp(3.5rem, 9vw, 5rem); }
 }
+
