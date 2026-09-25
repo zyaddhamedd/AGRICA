@@ -76,12 +76,17 @@
   display: inline-flex;
   align-items: center;
   color: var(--hs-text);
-  border-bottom: 1px solid var(--hs-accent);
+  border-bottom: 1px solid var(--hs-sage);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.utility a:hover {
+  color: var(--hs-sage);
 }
 
 .brand:focus-visible,
 .utility a:focus-visible {
-  outline: 2px solid var(--hs-accent);
+  outline: 2px solid var(--hs-sage);
   outline-offset: 4px;
 }
 

@@ -16,7 +16,10 @@ export interface MaterialStageItem {
   readonly media: HerbsSpicesMediaManifestEntry;
 }
 
-interface MaterialStageProps { readonly items: readonly MaterialStageItem[]; }
+interface MaterialStageProps {
+  readonly items: readonly MaterialStageItem[];
+}
+
 interface DragState {
   pointerId: number;
   startX: number;
@@ -27,7 +30,6 @@ interface DragState {
 }
 
 const emptyFallback = <span className={styles.fallback} />;
-const stageTones = ["#4f5941", "#484943", "#59463c", "#563d39", "#65513f"] as const;
 
 export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element {
   const dictionary = useHerbsSpicesDictionary().catalogue;
@@ -60,24 +62,16 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
     if (!root || !track || cards.length === 0) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const duration = immediate || reduceMotion ? 0 : .76;
+    const duration = immediate || reduceMotion ? 0 : 0.68;
     const ease = "power3.inOut";
 
     gsap.killTweensOf([track, root, currentMetaRef.current, progressRef.current, ...cards]);
     gsap.to(track, { x: positionFor(index), duration, ease, overwrite: true });
     gsap.to(cards, {
-      scale: (cardIndex) => cardIndex === index ? 1 : Math.abs(cardIndex - index) === 1 ? .945 : .9,
-      rotateZ: (cardIndex) => cardIndex === index ? 0 : cardIndex < index ? -1.15 : 1.15,
-      opacity: (cardIndex) => cardIndex === index ? 1 : Math.abs(cardIndex - index) === 1 ? .52 : .18,
-      clipPath: (cardIndex) => cardIndex === index ? "inset(0% 0% 0% 0%)" : "inset(4% 2% 4% 2%)",
+      scale: (cardIndex) => (cardIndex === index ? 1 : Math.abs(cardIndex - index) === 1 ? 0.95 : 0.9),
+      opacity: (cardIndex) => (cardIndex === index ? 1 : Math.abs(cardIndex - index) === 1 ? 0.45 : 0.15),
       duration,
       ease,
-      overwrite: true,
-    });
-    gsap.to(root, {
-      backgroundColor: stageTones[index] ?? stageTones[0],
-      duration: immediate || reduceMotion ? 0 : .82,
-      ease: "power2.inOut",
       overwrite: true,
     });
     gsap.to(progressRef.current, {
@@ -89,8 +83,8 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
     if (currentMetaRef.current) {
       gsap.fromTo(
         currentMetaRef.current,
-        { y: reduceMotion ? 0 : directionRef.current * 14, opacity: reduceMotion ? 1 : .25 },
-        { y: 0, opacity: 1, duration: reduceMotion ? 0 : .52, ease: "power2.out", overwrite: true },
+        { y: reduceMotion ? 0 : directionRef.current * 10, opacity: reduceMotion ? 1 : 0.3 },
+        { y: 0, opacity: 1, duration: reduceMotion ? 0 : 0.45, ease: "power2.out", overwrite: true },
       );
     }
   };
@@ -164,10 +158,10 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
     rootRef.current?.setAttribute("data-dragging", "true");
     const atBoundary = (activeIndexRef.current === 0 && deltaX > 0)
       || (activeIndexRef.current === items.length - 1 && deltaX < 0);
-    const resistedDelta = atBoundary ? deltaX * .28 : deltaX;
-    const dragProgress = Math.min(Math.abs(resistedDelta) / Math.max(1, event.currentTarget.clientWidth), .3);
+    const resistedDelta = atBoundary ? deltaX * 0.28 : deltaX;
+    const dragProgress = Math.min(Math.abs(resistedDelta) / Math.max(1, event.currentTarget.clientWidth), 0.3);
     gsap.set(track, { x: drag.trackX + resistedDelta });
-    gsap.set(cardRefs.current[activeIndexRef.current], { scale: 1 - dragProgress * .16, rotateZ: resistedDelta * .008 });
+    gsap.set(cardRefs.current[activeIndexRef.current], { scale: 1 - dragProgress * 0.12 });
   };
 
   const finishPointer = (event: React.PointerEvent<HTMLDivElement>): void => {
@@ -176,9 +170,9 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
     const deltaX = event.clientX - drag.startX;
     const elapsed = Math.max(performance.now() - drag.startTime, 1);
     const velocity = deltaX / elapsed;
-    const threshold = Math.min(72, event.currentTarget.clientWidth * .15);
+    const threshold = Math.min(72, event.currentTarget.clientWidth * 0.15);
     const shouldAdvance = drag.axis === "horizontal"
-      && (Math.abs(deltaX) >= threshold || Math.abs(velocity) > .5);
+      && (Math.abs(deltaX) >= threshold || Math.abs(velocity) > 0.5);
 
     rootRef.current?.removeAttribute("data-dragging");
     dragRef.current = null;
@@ -212,7 +206,9 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
               key={item.id}
             >
               <HerbsSpicesMedia entry={item.media} className={styles.media} fallback={emptyFallback} decorative />
-              <span className={styles.studyLabel}>{dictionary.illustrativeStudy}</span>
+              <div className={styles.specimenBadge}>
+                <span>FORM {item.index}</span>
+              </div>
             </li>
           ))}
         </ol>
@@ -220,8 +216,11 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
 
       <div className={styles.reelFooter}>
         <div className={styles.currentMeta} ref={currentMetaRef} aria-atomic="true">
-          <span>{activeItem.index}</span>
-          <div><strong>{activeItem.name}</strong><small>{activeItem.descriptor}</small></div>
+          <span className={styles.currentFormNumber}>{activeItem.index}</span>
+          <div className={styles.currentFormText}>
+            <strong className={styles.currentFormName}>{activeItem.name}</strong>
+            <small className={styles.currentFormDesc}>{activeItem.descriptor}</small>
+          </div>
         </div>
         <div className={styles.transport} role="group" aria-label={dictionary.reelControls}>
           <button type="button" onClick={() => goTo(activeIndex - 1)} disabled={activeIndex === 0} aria-label={dictionary.previousForm}>←</button>
@@ -244,7 +243,8 @@ export function MaterialStage({ items }: MaterialStageProps): React.JSX.Element 
                 onClick={() => goTo(index)}
                 onKeyDown={(event) => handleKeyDown(event, index)}
               >
-                <span>{item.index}</span><strong>{item.name}</strong>
+                <span>{item.index}</span>
+                <span className={styles.selectorLabel}>{item.name}</span>
               </button>
             </li>
           ))}

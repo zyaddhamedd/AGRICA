@@ -1,7 +1,396 @@
-.section { color: var(--hs-text); background: var(--hs-accent-secondary); }
-.inner { width: min(100%,var(--hs-content-max)); margin: 0 auto; padding: var(--hs-section-space) var(--hs-page-gutter); }
-.heading { display: grid; grid-template-columns: minmax(180px,.34fr) minmax(0,.66fr); gap: 1.25rem clamp(2rem,7vw,7rem); }
-.heading p { margin: 0; color: var(--hs-sand); font-size: .62rem; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
-.heading h2 { max-width: 13ch; margin: 0; font-size: clamp(3rem,6vw,6.2rem); font-weight: 500; letter-spacing: -.06em; line-height: .92; }
-.heading span { grid-column: 2; max-width: 34rem; color: rgba(245,238,226,.72); line-height: var(--hs-body-leading); }
-@media (max-width:680px) { .heading { grid-template-columns: 1fr; } .heading span { grid-column: 1; } }
+.section {
+  color: var(--hs-ink);
+  background: var(--hs-paper);
+  scroll-margin-top: var(--hs-nav-height);
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.inner {
+  width: min(100%, var(--hs-content-max));
+  margin: 0 auto;
+  padding: clamp(4.5rem, 8.5vw, 8rem) var(--hs-page-gutter);
+}
+
+/* Two-Column Cinematic Metamorphosis Grid */
+.composition {
+  display: grid;
+  grid-template-columns: minmax(340px, 42%) minmax(0, 58%);
+  gap: clamp(3rem, 6vw, 6.5rem);
+  align-items: start;
+}
+
+/* LEFT COLUMN: Narrative & Transformation Sequence */
+.storyColumn {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 4.5vw, 3.5rem);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.headerMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--hs-sage);
+  font-family: var(--hs-font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scopeTag {
+  color: var(--hs-muted);
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--hs-radius-xs);
+  background: var(--hs-surface);
+  border: 1px solid var(--hs-border);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--hs-font-serif);
+  font-size: clamp(2.5rem, 4.2vw, 3.9rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--hs-ink);
+}
+
+.description {
+  max-width: 32rem;
+  margin: 0;
+  color: var(--hs-muted);
+  font-family: var(--hs-font-sans);
+  font-size: clamp(0.875rem, 1.05vw, 0.95rem);
+  line-height: 1.6;
+}
+
+/* Vertical Transformation Sequence Index (Desktop) */
+.transformationIndex {
+  display: flex;
+  flex-direction: column;
+}
+
+.indexList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.indexItem {
+  display: block;
+}
+
+.sequenceBtn {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--hs-ink);
+  opacity: 0.45;
+  cursor: pointer;
+  text-align: left;
+  transition: all 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 2px solid transparent;
+}
+
+.sequenceBtn:hover {
+  opacity: 0.8;
+}
+
+.sequenceBtnActive {
+  opacity: 1;
+  border-left-color: var(--hs-sage);
+  padding-left: 0.85rem;
+}
+
+.sequenceIndex {
+  font-family: var(--hs-font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--hs-sage);
+  transition: color 260ms ease;
+}
+
+.sequenceBtnActive .sequenceIndex {
+  color: var(--hs-ink);
+}
+
+.sequenceName {
+  font-family: var(--hs-font-serif);
+  font-size: clamp(1.25rem, 1.75vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  transition: color 260ms ease;
+}
+
+.sequenceBtnActive .sequenceName {
+  font-weight: 500;
+  color: var(--hs-ink);
+}
+
+.sequenceBtn:focus-visible {
+  outline: 2px solid var(--hs-sage);
+  outline-offset: 4px;
+}
+
+/* RIGHT COLUMN: Material Metamorphosis Stage */
+.stageColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  position: sticky;
+  top: calc(var(--hs-nav-height) + 2rem);
+}
+
+.specimenStage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.imageStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  border-radius: var(--hs-radius-sm);
+  background: var(--hs-sand);
+  border: 1px solid var(--hs-border);
+}
+
+.imageFade {
+  width: 100%;
+  height: 100%;
+  animation: specimenReveal 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.media :global(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  background: var(--hs-sand);
+}
+
+.chapterMarker {
+  position: absolute;
+  top: 1rem;
+  inset-inline-start: 1rem;
+  z-index: 2;
+  padding: 0.25rem 0.6rem;
+  background: rgba(36, 81, 63, 0.85);
+  backdrop-filter: blur(4px);
+  border-radius: var(--hs-radius-xs);
+  font-family: var(--hs-font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Editorial Active Details */
+.activeDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  animation: textAscend 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.detailsHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.detailsIndex {
+  font-family: var(--hs-font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--hs-sage);
+}
+
+.detailsTitle {
+  margin: 0;
+  font-family: var(--hs-font-serif);
+  font-size: clamp(2rem, 2.8vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--hs-ink);
+}
+
+.detailsDesc {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: 0.875rem;
+  color: var(--hs-muted);
+  line-height: 1.6;
+  max-width: 44ch;
+}
+
+/* Mobile Sequence View (Hidden on Desktop) */
+.mobileSequenceWrapper {
+  display: none;
+}
+
+@keyframes specimenReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes textAscend {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile & Tablet Responsive Flow (~900px and down) */
+@media (max-width: 900px) {
+  .inner {
+    padding: clamp(3.5rem, 6.5vw, 5rem) var(--hs-page-gutter);
+  }
+
+  .composition {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .stageColumn {
+    position: static;
+    gap: 1.25rem;
+  }
+
+  .transformationIndex {
+    display: none;
+  }
+
+  .imageStage {
+    aspect-ratio: 16 / 10;
+    max-height: 280px;
+  }
+
+  .detailsTitle {
+    font-size: 1.75rem;
+  }
+
+  .detailsDesc {
+    font-size: 0.8125rem;
+  }
+
+  /* Minimal Chapter Rail: 01 — 02 — 03 — 04 — 05 */
+  .mobileSequenceWrapper {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--hs-border);
+  }
+
+  .mobileSequence {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .mobileSequenceDash {
+    color: var(--hs-border);
+    font-size: 0.75rem;
+    user-select: none;
+  }
+
+  .mobileSeqBtn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: var(--hs-font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--hs-muted);
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+
+  .mobileSeqBtn::after {
+    position: absolute;
+    bottom: 6px;
+    width: 16px;
+    height: 2px;
+    background: transparent;
+    content: "";
+    transition: background 200ms ease;
+  }
+
+  .mobileSeqBtnActive {
+    color: var(--hs-ink);
+    font-weight: 700;
+  }
+
+  .mobileSeqBtnActive::after {
+    background: var(--hs-sage);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageFade,
+  .activeDetails,
+  .sequenceBtn,
+  .mobileSeqBtn {
+    animation: none;
+    transition: none;
+  }
+}

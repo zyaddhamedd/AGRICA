@@ -56,6 +56,8 @@ export interface HerbsSpicesSpecification {
   readonly verified: true;
 }
 
+export type HerbsSpicesFormsConfidence = "product-specific" | "family-default" | "unconfirmed";
+
 export interface HerbsSpicesCatalogueItem {
   readonly id: `herbs-spices:${string}`;
   readonly slug: string;
@@ -64,6 +66,7 @@ export interface HerbsSpicesCatalogueItem {
   readonly familyId: HerbsSpicesFamilyId;
   readonly familyName: string;
   readonly forms: readonly string[];
+  readonly formsConfidence?: HerbsSpicesFormsConfidence;
   readonly shortDescription?: string;
   readonly mediaKey: HerbsSpicesMediaKey;
   readonly specifications?: readonly HerbsSpicesSpecification[];
@@ -73,6 +76,13 @@ export interface HerbsSpicesCatalogueItem {
   readonly moq?: string | null;
   readonly certifications?: readonly string[] | null;
   readonly incoterms?: readonly string[] | null;
+  readonly shelfLife?: string | null;
+  readonly storage?: string | null;
+  readonly meshSize?: string | null;
+  readonly moisture?: string | null;
+  readonly purity?: string | null;
+  readonly volatileOil?: string | null;
+  readonly containerLoading?: string | null;
   readonly availability?: string | null;
   readonly status: HerbsSpicesRecordStatus;
   readonly verified: boolean;

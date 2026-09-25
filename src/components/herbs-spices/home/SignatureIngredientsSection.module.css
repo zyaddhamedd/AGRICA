@@ -1,0 +1,444 @@
+.section {
+  color: var(--hs-ink);
+  background: var(--hs-surface);
+  scroll-margin-top: var(--hs-nav-height);
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.inner {
+  width: min(100%, var(--hs-content-max));
+  margin: 0 auto;
+  padding: var(--hs-section-space) var(--hs-page-gutter);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.3fr) minmax(0, 0.7fr);
+  gap: 1.5rem clamp(2rem, 5vw, 5rem);
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  border-bottom: 1px solid var(--hs-border);
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.headerMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--hs-sage);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scopeTag {
+  color: var(--hs-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  max-width: 15ch;
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--hs-ink);
+}
+
+.description {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--hs-muted);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: var(--hs-body-leading);
+}
+
+/* Stage Grid Layout */
+.stageGrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.36fr) minmax(0, 0.64fr);
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: start;
+}
+
+/* Left: Interactive Specimen Editorial Index */
+.specimenNav {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--hs-border);
+}
+
+.navHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0.875rem 0.25rem 0.65rem;
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.navLabel {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hs-muted);
+}
+
+.navCounter {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--hs-sage);
+}
+
+.specimenList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.specimenItem {
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.specimenBtn {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1.125rem 0.5rem;
+  background: transparent;
+  border: 0;
+  color: var(--hs-ink);
+  cursor: pointer;
+  text-align: left;
+  transition: all 200ms ease;
+}
+
+.specimenBtn:hover {
+  background: rgba(36, 81, 63, 0.02);
+  padding-left: 0.75rem;
+}
+
+.specimenBtn:focus-visible {
+  outline: 2px solid var(--hs-sage);
+  outline-offset: 2px;
+}
+
+.itemNum {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--hs-sage);
+  transition: color 200ms ease;
+}
+
+.itemMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.itemName {
+  font-family: var(--hs-font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--hs-ink);
+  line-height: 1.1;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+.itemLatin {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--hs-muted);
+  transition: color 200ms ease;
+}
+
+.itemFamily {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hs-muted);
+  transition: color 200ms ease;
+}
+
+/* Subtle editorial active tint — no heavy buttons */
+.specimenBtnActive {
+  background: rgba(36, 81, 63, 0.045);
+  padding-left: 0.875rem;
+  border-left: 2px solid var(--hs-sage);
+}
+
+.specimenBtnActive .itemName {
+  font-weight: 500;
+  color: var(--hs-ink);
+  transform: translateX(2px);
+}
+
+.specimenBtnActive .itemNum {
+  color: var(--hs-ink);
+}
+
+.specimenBtnActive .itemFamily {
+  color: var(--hs-ink);
+}
+
+/* Right: Specimen Display */
+.specimenDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.imageStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--hs-radius-sm);
+  background: var(--hs-sand);
+  border: 1px solid var(--hs-border);
+  box-shadow: var(--hs-shadow-elevated);
+}
+
+.imageLayer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1), transform 550ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.imageLayerActive {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.media :global(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mediaFallback {
+  position: absolute;
+  inset: 0;
+  background: var(--hs-sand);
+}
+
+.originBadge {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 2;
+  padding: 0.35rem 0.75rem;
+  background: rgba(36, 81, 63, 0.92);
+  backdrop-filter: blur(8px);
+  color: var(--hs-text);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  border-radius: var(--hs-radius-sm);
+  border: 1px solid rgba(243, 240, 231, 0.2);
+}
+
+.specimenInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infoHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.tagGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.familyBadge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hs-sage);
+}
+
+.sepDot {
+  color: var(--hs-muted);
+}
+
+.originLabel {
+  font-size: 0.75rem;
+  color: var(--hs-muted);
+}
+
+.displayName {
+  margin: 0.25rem 0 0;
+  font-family: var(--hs-font-serif);
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--hs-ink);
+}
+
+.displayLatin {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--hs-muted);
+}
+
+.formsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--hs-border);
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.formsLabel {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hs-muted);
+}
+
+.formsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.formTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--hs-paper);
+  border: 1px solid var(--hs-border);
+  border-radius: var(--hs-radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--hs-ink);
+}
+
+.formDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--hs-sage);
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+}
+
+.primaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.875rem 1.6rem;
+  background: var(--hs-ink);
+  color: var(--hs-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--hs-radius-sm);
+  border: 1px solid var(--hs-ink);
+  transition: all 200ms ease;
+}
+
+.primaryLink:hover {
+  background: var(--hs-bg);
+  border-color: var(--hs-bg);
+}
+
+.primaryLink:focus-visible {
+  outline: 2px solid var(--hs-sage);
+  outline-offset: 3px;
+}
+
+/* Mobile Breakpoints */
+@media (max-width: 900px) {
+  .stageGrid {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+
+  .specimenList {
+    display: flex;
+    flex-direction: column;
+    border-top: 0;
+  }
+
+  .specimenItem {
+    border-bottom: 1px solid var(--hs-border);
+  }
+
+  .specimenBtn {
+    grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+    padding: 0.875rem 0.5rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .header {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .imageStage {
+    aspect-ratio: 16 / 11;
+  }
+
+  .primaryLink {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageLayer,
+  .specimenBtn,
+  .primaryLink {
+    transition: none;
+    transform: none !important;
+  }
+}

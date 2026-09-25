@@ -96,7 +96,7 @@ export function HerbsSpicesMenu({
             aria-label={common.divisions.herbsMenuClose}
           >
             <span>{common.navigation.close}</span>
-            <i aria-hidden="true">&times;</i>
+            <i aria-hidden="true">×</i>
           </button>
         </div>
 
@@ -104,17 +104,17 @@ export function HerbsSpicesMenu({
           <Link href="/herbs-spices" aria-current={semanticPathname === "/herbs-spices" ? "page" : undefined} onClick={onClose}>
             <span>01</span>
             <strong>{common.navigation.home}</strong>
-            <i aria-hidden="true">&nearr;</i>
+            <i aria-hidden="true">↗</i>
           </Link>
           <Link href="/herbs-spices/products" aria-current={semanticPathname === "/herbs-spices/products" ? "page" : undefined} onClick={onClose}>
             <span>02</span>
             <strong>{common.navigation.products}</strong>
-            <i aria-hidden="true">&nearr;</i>
+            <i aria-hidden="true">↗</i>
           </Link>
           <Link href="/herbs-spices/standard" aria-current={semanticPathname === "/herbs-spices/standard" ? "page" : undefined} onClick={onClose}>
             <span>03</span>
             <strong>{common.divisions.process}</strong>
-            <i aria-hidden="true">&nearr;</i>
+            <i aria-hidden="true">↗</i>
           </Link>
         </nav>
 
