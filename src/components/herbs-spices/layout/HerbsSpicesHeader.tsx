@@ -21,19 +21,19 @@ export function HerbsSpicesHeader(): React.JSX.Element {
         <Link className={styles.brand} href="/herbs-spices">
           <Image
             className={styles.logo}
-            src="/assets/agrica-logo.png"
+            src="/assets/agrica-logo-brand.png"
             alt="AGRICA"
             width={1024}
             height={341}
             priority
           />
-          <span className={styles.brandRule} aria-hidden="true" />
+          <span className={styles.brandRule} aria-hidden="true">/</span>
           <span className={styles.divisionName}>{common.divisions.herbsSpices}</span>
         </Link>
 
         <div className={styles.actions}>
-          <BusinessDivisionSwitcher tone="dark" />
-          <LanguageSwitcher className={styles.language} tone="herbs" />
+          <BusinessDivisionSwitcher tone="light" />
+          <LanguageSwitcher className={styles.language} tone="light" />
 
           <button
             ref={menuTriggerRef}

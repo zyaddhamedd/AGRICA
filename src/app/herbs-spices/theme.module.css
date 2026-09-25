@@ -1,38 +1,66 @@
 .divisionRoot {
-  --hs-bg: #17181c;
-  --hs-bg-deep: #0e1420;
-  --hs-paper: #f1eadc;
-  --hs-ink: #1b2534;
-  --hs-text: #f5eee2;
-  --hs-muted: #756d63;
-  --hs-muted-on-dark: #b8ad9d;
-  --hs-accent: #b56a32;
-  --hs-accent-secondary: #596446;
-  --hs-copper: #8d5945;
-  --hs-sand: #d8c8ae;
-  --hs-surface: #e5d9c5;
-  --hs-border: rgba(27, 37, 52, 0.16);
-  --hs-border-on-dark: rgba(245, 238, 226, 0.18);
-  --hs-font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --hs-font-serif: Georgia, "Times New Roman", serif;
+  /* Modern Egyptian Botanical Export House Color Tokens */
+  --hs-canvas: #f3f0e7;
+  --hs-paper: #f3f0e7;
+  --hs-surface: #e9e5d9;
+  --hs-sand: #ded7c8;
+
+  /* Botanical Greens */
+  --hs-ink: #24513f;
+  --hs-bg-deep: #24513f;
+  --hs-bg: #1b4333;
+  --hs-green-subtle: #2d634d;
+
+  /* Sage & Secondary Botanical Accents */
+  --hs-sage: #8fa889;
+  --hs-accent-secondary: #8fa889;
+
+  /* Muted Gold (Used very sparingly as micro-detail) */
+  --hs-gold: #b89b56;
+  --hs-accent: #b89b56;
+
+  /* Controlled Parent Brand Navy */
+  --hs-navy: #002050;
+
+  /* Typography Colors */
+  --hs-text: #f7f5ee;
+  --hs-muted: #52665a;
+  --hs-muted-on-dark: #b2c4b0;
+
+  /* Hairline Borders */
+  --hs-border: rgba(36, 81, 63, 0.14);
+  --hs-border-subtle: rgba(36, 81, 63, 0.07);
+  --hs-border-on-dark: rgba(243, 240, 231, 0.16);
+
+  /* Typography Families */
+  --hs-font-sans: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --hs-font-serif: "Canela", "Editorial New", Georgia, "Times New Roman", serif;
+
+  /* Layout Spacing */
   --hs-page-gutter: clamp(1.25rem, 4vw, 4.75rem);
   --hs-content-max: 1440px;
   --hs-section-space: clamp(5rem, 10vw, 9rem);
   --hs-nav-height: 72px;
-  --hs-radius-sm: 4px;
-  --hs-radius-md: 12px;
-  --hs-radius-lg: 24px;
-  --hs-shadow-soft: 0 24px 70px rgba(14, 20, 32, 0.12);
-  --hs-display-size: clamp(3.7rem, 9vw, 8.4rem);
-  --hs-display-leading: 0.88;
+
+  /* Radii (Clean, minimal architectural language) */
+  --hs-radius-sm: 2px;
+  --hs-radius-md: 4px;
+  --hs-radius-lg: 6px;
+  --hs-radius-pill: 999px;
+
+  /* Shadows */
+  --hs-shadow-soft: 0 16px 48px rgba(36, 81, 63, 0.08);
+  --hs-shadow-elevated: 0 24px 64px rgba(36, 81, 63, 0.14);
+  --hs-display-size: clamp(3.8rem, 8.5vw, 7.8rem);
+  --hs-display-leading: 0.92;
   --hs-body-leading: 1.65;
 
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   min-height: 100svh;
-  color: var(--hs-text);
-  background: var(--hs-bg-deep);
+  color: var(--hs-ink);
+  background: var(--hs-paper);
   font-family: var(--hs-font-sans);
   isolation: isolate;
 }

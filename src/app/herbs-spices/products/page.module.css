@@ -1,35 +1,139 @@
-.page { flex: 1; color: var(--hs-ink); background: var(--hs-paper); }
-.intro { padding: clamp(4rem,8vw,7rem) var(--hs-page-gutter) clamp(3rem,6vw,5rem); color: var(--hs-text); background: var(--hs-bg); }
-.intro > div { width: min(100%, var(--hs-content-max)); margin: 0 auto; }
-.intro p { margin: 0 0 1.5rem; color: var(--hs-accent); font-size: .62rem; font-weight: 700; letter-spacing: .17em; }
-.intro h1 { max-width: 900px; margin: 0; overflow-wrap: anywhere; font-size: clamp(3rem,8vw,7.2rem); font-weight: 500; letter-spacing: -.06em; line-height: .9; white-space: normal; }
-.intro h1 em { color: var(--hs-accent); font-family: var(--hs-font-serif); font-weight: 400; }
-.intro span { display: block; max-width: 640px; margin-top: 2rem; overflow-wrap: anywhere; color: var(--hs-muted-on-dark); font-family: var(--hs-font-serif); font-size: clamp(1rem,2vw,1.3rem); line-height: 1.55; white-space: normal; }
+.page {
+  flex: 1;
+  color: var(--hs-ink);
+  background: var(--hs-paper);
+}
+
+.intro {
+  padding: clamp(3rem, 5vw, 4.5rem) var(--hs-page-gutter) clamp(2rem, 3.5vw, 3rem);
+  color: var(--hs-ink);
+  background: var(--hs-paper);
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.introInner {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.28fr) minmax(0, 0.48fr) minmax(160px, 0.24fr);
+  gap: 1.5rem clamp(2rem, 4vw, 4rem);
+  width: min(100%, var(--hs-content-max));
+  margin: 0 auto;
+  align-items: start;
+}
+
+.introMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--hs-sage);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.scopeTag {
+  color: var(--hs-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.introContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  color: var(--hs-ink);
+}
+
+.title em {
+  font-family: var(--hs-font-serif);
+  font-style: normal;
+  font-weight: 400;
+  color: var(--hs-sage);
+}
+
+.description {
+  margin: 0;
+  color: var(--hs-muted);
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  line-height: var(--hs-body-leading);
+  max-width: 32rem;
+}
+
+.introStats {
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+
+.statItem strong {
+  font-family: var(--hs-font-serif);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-weight: 400;
+  color: var(--hs-ink);
+  line-height: 1;
+}
+
+.statItem small {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hs-sage);
+}
+
+.statDivider {
+  color: var(--hs-border);
+  font-size: 1.25rem;
+}
+
 .catalogueWrapper {
-  --hs-ink: #f5eee2;
-  --hs-muted: rgba(245, 238, 226, 0.72);
-  --hs-border: rgba(245, 238, 226, 0.2);
-  --hs-border-on-dark: rgba(245, 238, 226, 0.2);
   position: relative;
   width: 100%;
   color: var(--hs-ink);
-  background-color: #0c1811;
-  background-image: 
-    linear-gradient(rgba(10, 20, 14, 0.35), rgba(10, 20, 14, 0.35)),
-    url("/herbs-background/dk-background.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center top;
+  background: var(--hs-paper);
 }
-@media (max-width: 760px) {
-  .catalogueWrapper {
-    background-image: 
-      linear-gradient(rgba(10, 20, 14, 0.35), rgba(10, 20, 14, 0.35)),
-      url("/herbs-background/mb-background.png");
-    background-size: 100% auto;
-    background-repeat: repeat-y;
-    background-position: center top;
+
+@media (max-width: 960px) {
+  .introInner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .introStats {
+    justify-content: flex-start;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--hs-border);
   }
 }
-@media (max-width: 520px) { .intro h1 em { display: block; } }
 
+@media (max-width: 600px) {
+  .title {
+    font-size: clamp(2rem, 8vw, 2.75rem);
+  }
+
+  .title em {
+    display: block;
+  }
+}
