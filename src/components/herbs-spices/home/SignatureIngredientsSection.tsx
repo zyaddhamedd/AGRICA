@@ -15,19 +15,14 @@ export function SignatureIngredientsSection(): React.JSX.Element {
   const intro = HERBS_SPICES_HOMEPAGE.signatureIntro;
 
   return (
-    <section className={styles.section} id="signature-ingredients" aria-labelledby="signature-title">
+    <section className={styles.section} id="signature-ingredients" aria-label={intro.eyebrow || "02 / LIVING SPECIMENS"}>
       <div className={styles.inner}>
-        {/* Editorial Header */}
-        <header className={styles.header}>
-          <div className={styles.headerMeta}>
-            <p className={styles.eyebrow}>{intro.eyebrow}</p>
-            <span className={styles.scopeTag}>Living Specimen Stage</span>
-          </div>
-          <div className={styles.headerContent}>
-            <h2 id="signature-title" className={styles.title}>{intro.title}</h2>
-            <p className={styles.description}>{intro.description}</p>
-          </div>
-        </header>
+        {/* Chapter Label */}
+        <div className={styles.chapterHeader}>
+          <span className={styles.chapterLabel}>
+            {intro.eyebrow || "02 / LIVING SPECIMENS"}
+          </span>
+        </div>
 
         {/* Living Specimen Showcase */}
         <div className={styles.stageGrid}>
