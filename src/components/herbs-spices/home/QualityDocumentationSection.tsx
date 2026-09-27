@@ -55,13 +55,13 @@ export function QualityDocumentationSection(): React.JSX.Element {
     <section
       className={styles.section}
       id="quality-documentation"
-      aria-label={intro.eyebrow || "06 / DOCUMENTATION"}
+      aria-label="05 / DOCUMENTATION"
     >
       <div className={styles.inner}>
         {/* Chapter Label */}
         <div className={styles.chapterHeader}>
           <span className={styles.chapterLabel}>
-            {intro.eyebrow || "06 / DOCUMENTATION"}
+            05 / DOCUMENTATION
           </span>
         </div>
 

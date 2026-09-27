@@ -16,12 +16,12 @@ export function HerbsSpicesTradeSection(): React.JSX.Element {
   };
 
   return (
-    <section className={styles.section} id="start-a-trade" aria-label={trade.eyebrow || staticTrade.eyebrow || "07 / COMMERCIAL ENQUIRY"}>
+    <section className={styles.section} id="start-a-trade" aria-label="06 / COMMERCIAL ENQUIRY">
       <div className={styles.inner}>
         {/* Chapter Label */}
         <div className={styles.chapterHeader}>
           <span className={styles.chapterLabel}>
-            {trade.eyebrow || staticTrade.eyebrow || "07 / COMMERCIAL ENQUIRY"}
+            06 / COMMERCIAL ENQUIRY
           </span>
         </div>
 

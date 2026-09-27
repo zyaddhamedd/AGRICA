@@ -10,12 +10,12 @@ export function WhyAgricaSection(): React.JSX.Element {
   const [activePillar, setActivePillar] = useState(0);
 
   return (
-    <section className={styles.section} id="why-agrica" aria-label={intro.eyebrow || "05 / WHY AGRICA"}>
+    <section className={styles.section} id="why-agrica" aria-label="04 / WHY AGRICA">
       <div className={styles.inner}>
         {/* Chapter Label */}
         <div className={styles.chapterHeader}>
           <span className={styles.chapterLabel}>
-            {intro.eyebrow || "05 / WHY AGRICA"}
+            04 / WHY AGRICA
           </span>
         </div>
 
