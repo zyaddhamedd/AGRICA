@@ -1,0 +1,116 @@
+.section {
+  color: var(--hs-ink);
+  background: var(--hs-paper);
+  scroll-margin-top: var(--hs-nav-height);
+  border-bottom: 1px solid var(--hs-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.inner {
+  width: min(100%, var(--hs-content-max));
+  margin: 0 auto;
+  padding: clamp(3.5rem, 5vw, 4.5rem) var(--hs-page-gutter);
+}
+
+/* Chapter Label Header */
+.chapterHeader {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(1.5rem, 2.2vw, 2.25rem);
+}
+
+.chapterLabel {
+  display: inline-block;
+  margin: 0;
+  color: var(--hs-sage);
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* LogoLoop Wrapper */
+.loopWrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0 1rem;
+}
+
+.certificateLoop {
+  width: 100%;
+}
+
+/* Certificate Card Styling - Seamless / No Background */
+.certCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  height: 90px;
+  min-width: 120px;
+  padding: 0 8px;
+  transition: transform 250ms ease, opacity 200ms ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.certCard:hover {
+  transform: translateY(-2px);
+}
+
+.certImage {
+  height: 80px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: contrast(1.05);
+}
+
+/* Reassurance Strip */
+.footerStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--hs-border);
+}
+
+.footerDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--hs-sage);
+  flex-shrink: 0;
+}
+
+.footerNote {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: 0.8125rem;
+  color: var(--hs-muted);
+  line-height: 1.45;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .certCard {
+    height: 70px;
+    min-width: 90px;
+  }
+
+  .certImage {
+    height: 58px;
+    max-width: 110px;
+  }
+}

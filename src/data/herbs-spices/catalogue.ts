@@ -33,11 +33,21 @@ const familyNames = Object.fromEntries(
   HERBS_SPICES_FAMILIES.map((family) => [family.id, family.label]),
 ) as Record<HerbsSpicesFamilyId, string>;
 
+const defaultFamilyForms: Record<HerbsSpicesFamilyId, readonly string[]> = {
+  herbs: ["Whole", "Cut & Sifted", "TBC", "Powder"],
+  flowers: ["Whole", "Cut & Sifted", "TBC", "Powder"],
+  seeds: ["Whole", "Crushed", "Powder"],
+  spices: ["Whole", "Crushed", "Powder"],
+  roots: ["Whole", "Cut", "Powder"],
+  "dehydrated-vegetables": ["Flakes", "Granules", "Powder"],
+};
+
 function product(
   slug: string,
   name: string,
   familyId: HerbsSpicesFamilyId,
   forms: readonly string[] = [],
+  formsConfidence: "product-specific" | "family-default" | "unconfirmed" = "family-default",
 ): HerbsSpicesCatalogueItem {
   return {
     id: `herbs-spices:${slug}`,
@@ -46,12 +56,43 @@ function product(
     familyId,
     familyName: familyNames[familyId],
     forms,
+    formsConfidence,
     mediaKey: `product-${slug}`,
     status: "source-backed",
     // Identity and family membership are verified by the PDF; unlisted fields stay absent.
     verified: true,
   };
 }
+
+export const BOTANICAL_LATIN_NAMES: Record<string, string> = {
+  basil: "Ocimum basilicum",
+  dill: "Anethum graveolens",
+  "lemon-grass": "Cymbopogon citratus",
+  marjoram: "Origanum majorana",
+  moringa: "Moringa oleifera",
+  oregano: "Origanum vulgare",
+  parsley: "Petroselinum crispum",
+  peppermint: "Mentha piperita",
+  rosemary: "Rosmarinus officinalis",
+  spearmint: "Mentha spicata",
+  thyme: "Thymus vulgaris",
+  calendula: "Calendula officinalis",
+  chamomile: "Matricaria chamomilla",
+  hibiscus: "Hibiscus sabdariffa",
+  anise: "Pimpinella anisum",
+  "black-cumin": "Nigella sativa",
+  caraway: "Carum carvi",
+  coriander: "Coriandrum sativum",
+  fennel: "Foeniculum vulgare",
+  fenugreek: "Trigonella foenum-graecum",
+  flaxseed: "Linum usitatissimum",
+  sesame: "Sesamum indicum",
+  cumin: "Cuminum cyminum",
+  "red-chilli-pepper": "Capsicum annuum",
+  "licorice-root": "Glycyrrhiza glabra",
+  onion: "Allium cepa",
+  garlic: "Allium sativum",
+};
 
 /** Static, source-controlled catalogue. No CMS, database, admin panel, or product API. */
 export const HERBS_SPICES_CATALOGUE = [
@@ -80,6 +121,6 @@ export const HERBS_SPICES_CATALOGUE = [
   product("cumin", "Cumin", "spices"),
   product("red-chilli-pepper", "Red Chilli Pepper", "spices"),
   product("licorice-root", "Licorice Root", "roots"),
-  product("onion", "Onion", "dehydrated-vegetables", ["Flakes", "Granules", "Powder"]),
+  product("onion", "Onion", "dehydrated-vegetables", ["Flakes", "Granules", "Powder"], "product-specific"),
   product("garlic", "Garlic", "dehydrated-vegetables"),
 ] as const satisfies readonly HerbsSpicesCatalogueItem[];

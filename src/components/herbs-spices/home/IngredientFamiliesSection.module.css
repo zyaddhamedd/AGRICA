@@ -1,40 +1,292 @@
-.section { color: var(--hs-ink); background: var(--hs-paper); scroll-margin-top: var(--hs-nav-height); }
-.inner { width: min(100%,var(--hs-content-max)); margin: 0 auto; padding: var(--hs-section-space) var(--hs-page-gutter); }
-.heading { display: grid; grid-template-columns: minmax(150px,.32fr) minmax(0,.68fr); gap: 1.25rem clamp(2rem,7vw,7rem); margin-bottom: clamp(3.5rem,7vw,6.5rem); }
-.heading p,.index { margin: 0; color: var(--hs-accent); font-size: .62rem; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
-.heading h2 { max-width: 12ch; margin: 0; font-size: clamp(3rem,5.5vw,5.5rem); font-weight: 500; letter-spacing: -.06em; line-height: .93; }
-.heading span { grid-column: 2; max-width: 38rem; color: var(--hs-muted); line-height: var(--hs-body-leading); }
-.library { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); column-gap: clamp(3rem,9vw,8rem); row-gap: clamp(4rem,6vw,5rem); margin: 0; padding: 0; list-style: none; }
-.family { min-width: 0; }
-.familyLink { display: flex; min-width: 0; flex-direction: column; align-items: center; color: inherit; text-align: center; text-decoration: none; cursor: pointer; }
-.familyLink:focus-visible { border-radius: 2px; outline: 2px solid var(--hs-accent); outline-offset: 8px; }
-.material { position: relative; width: clamp(220px,20vw,280px); aspect-ratio: 1; overflow: hidden; border: 1px solid var(--hs-border); border-radius: 50%; background: var(--hs-bg); box-shadow: inset 0 0 0 1px rgba(245,238,226,.08); transition: border-color 280ms ease; }
-.material img { transition: transform 280ms cubic-bezier(.22,1,.36,1); }
-.material i { position: absolute; display: block; border-radius: 50%; content: ""; }
-.material i:first-child { inset: 18%; background: var(--hs-accent-secondary); }
-.material i:last-child { inset: 36%; background: var(--hs-accent); }
-.familyCopy { display: flex; width: 100%; flex-direction: column; align-items: center; margin-top: 1rem; }
-.index { display: block; }
-.familyCopy h3 { max-width: 12ch; min-height: 2.1em; margin: .5rem 0 0; color: var(--hs-ink); font-family: var(--hs-font-serif); font-size: clamp(1.35rem,2vw,2rem); font-weight: 400; letter-spacing: -.025em; line-height: 1.05; overflow-wrap: anywhere; }
-@media (hover:hover) and (pointer:fine) {
-  .family:hover .material { border-color: rgba(181,106,50,.62); }
-  .family:hover .material img { transform: scale(1.025); }
-  .familyLink:focus-visible .material { border-color: rgba(181,106,50,.62); }
-  .familyLink:focus-visible .material img { transform: scale(1.025); }
+.section {
+  color: var(--hs-ink);
+  background: var(--hs-paper);
+  scroll-margin-top: var(--hs-nav-height);
+  border-bottom: 1px solid var(--hs-border);
+  position: relative;
+  overflow: hidden;
 }
-@media (max-width:1099px) {
-  .library { grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: clamp(2rem,12vw,8rem); row-gap: clamp(3.5rem,6vw,4.5rem); }
-  .material { width: clamp(180px,26vw,230px); }
+
+.inner {
+  width: min(100%, var(--hs-content-max));
+  margin: 0 auto;
+  padding: clamp(3.5rem, 5vw, 4.5rem) var(--hs-page-gutter);
 }
-@media (max-width:680px) {
-  .heading { grid-template-columns: 1fr; margin-bottom: clamp(3rem,12vw,4.25rem); }
-  .heading span { grid-column: 1; }
-  .library { column-gap: clamp(1rem,5vw,1.75rem); row-gap: clamp(2.25rem,7vw,2.75rem); }
-  .material { width: clamp(126px,40vw,156px); }
-  .familyCopy { margin-top: .8rem; }
-  .familyCopy h3 { margin-top: .4rem; font-size: clamp(1.2rem,5.6vw,1.5rem); }
+
+/* Chapter Label Header */
+.chapterHeader {
+  margin-bottom: clamp(1.5rem, 2.2vw, 2.25rem);
 }
-@media (prefers-reduced-motion:reduce) {
-  .material,.material img { transition: none; }
-  .family:hover .material img { transform: none; }
+
+.chapterLabel {
+  display: inline-block;
+  margin: 0;
+  color: var(--hs-sage);
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* =========================================================================
+   DESKTOP ACCORDION GALLERY & STRIP (>= 769px)
+   ========================================================================= */
+.desktopGalleryWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+  width: 100%;
+}
+
+/* Active Family Strip (Desktop) */
+.activeStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.75rem 2rem;
+  background: var(--hs-surface, #faf8f3);
+  border: 1px solid var(--hs-border);
+  border-radius: var(--hs-radius-sm);
+}
+
+.stripInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 48rem;
+}
+
+.stripHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.stripIndex {
+  font-family: var(--hs-font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--hs-sage);
+}
+
+.stripTitle {
+  margin: 0;
+  font-family: var(--hs-font-serif);
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--hs-ink);
+}
+
+.stripDesc {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: 0.9375rem;
+  color: var(--hs-muted);
+  line-height: 1.5;
+}
+
+.stripSamples {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: 0.8125rem;
+  color: var(--hs-ink);
+  opacity: 0.85;
+}
+
+.samplesLabel {
+  font-weight: 600;
+  color: var(--hs-sage);
+}
+
+.stripAction {
+  flex-shrink: 0;
+}
+
+.exploreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--hs-font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--hs-ink);
+  background: var(--hs-paper);
+  border: 1px solid var(--hs-border);
+  border-radius: var(--hs-radius-xs);
+  text-decoration: none;
+  transition: all 220ms ease;
+}
+
+.exploreLink:hover {
+  background: var(--hs-ink);
+  color: #ffffff;
+  border-color: var(--hs-ink);
+}
+
+.exploreArrow {
+  font-size: 0.9375rem;
+  transition: transform 220ms ease;
+}
+
+.exploreLink:hover .exploreArrow {
+  transform: translate(2px, -2px);
+}
+
+/* =========================================================================
+   MOBILE CLEAN BOTANICAL CARDS (< 769px)
+   ========================================================================= */
+.mobileSequence {
+  display: none;
+}
+
+.mediaFallback {
+  position: absolute;
+  inset: 0;
+  background: var(--hs-sand);
+}
+
+@media (max-width: 768px) {
+  .header {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .desktopGalleryWrapper {
+    display: none;
+  }
+
+  .mobileSequence {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .mobileFamilyCard {
+    display: flex;
+    flex-direction: column;
+    background: var(--hs-surface, #faf8f3);
+    border: 1px solid var(--hs-border);
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--hs-ink);
+    box-shadow: 0 4px 20px -8px rgba(24, 45, 36, 0.06);
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+
+  .mobileFamilyCard:active {
+    transform: scale(0.985);
+  }
+
+  .mobileMediaWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--hs-sand);
+  }
+
+  .mobileMedia {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobileMedia :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mobileMediaOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 50%,
+      rgba(14, 35, 25, 0.7) 100%
+    );
+    pointer-events: none;
+  }
+
+  .mobileBadge {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 0.85rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    padding: 0.35rem 0.75rem;
+    background: rgba(243, 240, 231, 0.92);
+    backdrop-filter: blur(6px);
+    border-radius: var(--hs-radius-xs);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .mobileBadgeNum {
+    font-family: var(--hs-font-sans);
+    font-size: 0.6875rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    color: var(--hs-sage);
+  }
+
+  .mobileBadgeName {
+    font-family: var(--hs-font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--hs-ink);
+  }
+
+  .mobileCardBody {
+    padding: 1.15rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .mobileTextGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+  }
+
+  .mobileDescription {
+    margin: 0;
+    font-family: var(--hs-font-sans);
+    font-size: 0.875rem;
+    color: var(--hs-muted);
+    line-height: 1.45;
+  }
+
+  .mobileSamples {
+    margin: 0;
+    font-family: var(--hs-font-sans);
+    font-size: 0.8125rem;
+    color: var(--hs-ink);
+    font-weight: 500;
+  }
+
+  .mobileArrow {
+    font-size: 1.15rem;
+    color: var(--hs-sage);
+    flex-shrink: 0;
+    transition: transform 200ms ease;
+  }
+
+  .mobileFamilyCard:hover .mobileArrow {
+    transform: translate(2px, -2px);
+    color: var(--hs-ink);
+  }
 }

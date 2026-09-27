@@ -1,17 +1,558 @@
-.reveal { width: min(100%,230px); overflow: hidden; margin-top: .85rem; color: var(--hs-ink); text-align: left; }
-.rule { width: 100%; height: 1px; background: linear-gradient(90deg,var(--hs-accent),var(--hs-border)); transform-origin: left; }
-.content { padding-top: .9rem; }
-.forms { padding-bottom: .85rem; }
-.forms p { margin: 0; color: var(--hs-accent); font-size: .56rem; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
-.forms span { display: block; margin-top: .45rem; color: var(--hs-ink); font-family: var(--hs-font-serif); font-size: .88rem; line-height: 1.45; }
-.note { margin: 0; color: var(--hs-muted); font-size: .73rem; line-height: 1.55; }
-@media (max-width:1099px) { .reveal { width: min(100%,190px); } }
-@media (max-width:760px) {
-  .reveal { width: 100%; margin-top: .7rem; }
-  .content { padding-top: .75rem; }
-  .forms span { font-size: .82rem; }
-  .note { font-size: .68rem; line-height: 1.5; }
+.dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--hs-ink);
 }
-@media (prefers-reduced-motion:reduce) {
-  .reveal,.rule,.content { transition: none; animation: none; transform: none; }
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(15, 30, 22, 0.45);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  animation: fadeIn 200ms ease both;
+}
+
+.panel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(560px, 44vw);
+  height: 100%;
+  flex-direction: column;
+  background: var(--hs-paper);
+  box-shadow: -16px 0 50px rgba(0, 0, 0, 0.2);
+  border-left: 1px solid var(--hs-border);
+  animation: slideInRight 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  overflow: hidden;
+}
+
+.dragBar {
+  display: none;
+}
+
+/* Dossier Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.75rem;
+  border-bottom: 1px solid var(--hs-border);
+  background: var(--hs-paper);
+  flex: 0 0 auto;
+}
+
+.headerMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.eyebrow {
+  font-family: var(--hs-font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hs-sage);
+}
+
+.materialCode {
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--hs-muted);
+}
+
+.closeBtn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--hs-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--hs-ink);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: all 160ms ease;
+}
+
+.closeBtn:hover {
+  background: var(--hs-sand);
+  border-color: var(--hs-sage);
+  color: var(--hs-ink);
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid var(--hs-sage);
+}
+
+/* Two-Level Scroll Viewport Architecture */
+.contentViewport {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.contentInner {
+  display: block;
+  height: auto;
+  min-height: 0;
+  width: 100%;
+  padding: 1.75rem;
+}
+
+/* 1. MATERIAL IDENTITY */
+.identitySection {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.imageStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--hs-radius-sm);
+  background: var(--hs-sand);
+  border: 1px solid var(--hs-border);
+  margin-bottom: 1rem;
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.media :global(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  background: var(--hs-sand);
+}
+
+.imageBadge {
+  position: absolute;
+  bottom: 0.75rem;
+  inset-inline-start: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(36, 81, 63, 0.88);
+  backdrop-filter: blur(4px);
+  border-radius: var(--hs-radius-xs);
+  font-family: var(--hs-font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.identityHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.tagRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.familyBadge {
+  font-family: var(--hs-font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hs-sage);
+}
+
+.originTag {
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--hs-muted);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--hs-font-serif);
+  font-size: clamp(2rem, 2.8vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--hs-ink);
+}
+
+.latinName {
+  font-family: var(--hs-font-serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--hs-muted);
+  line-height: 1.3;
+}
+
+/* Dossier Section Clean Line Layout */
+.dossierSection {
+  display: block;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--hs-border);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hs-sage);
+}
+
+/* 2. MATERIAL EXPRESSION / PROCESSING */
+.formsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.formChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--hs-surface);
+  border: 1px solid var(--hs-border);
+  border-radius: var(--hs-radius-sm);
+  font-family: var(--hs-font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--hs-ink);
+}
+
+.chipDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--hs-sage);
+}
+
+.registerValueText {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: 0.8125rem;
+  color: var(--hs-ink);
+  line-height: 1.45;
+}
+
+/* 3. TECHNICAL REGISTER (Hairline Dividers, Open Whitespace) */
+.technicalRegister {
+  display: block;
+}
+
+.registerEntry {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(36, 81, 63, 0.08);
+}
+
+.registerEntry:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.registerLabel {
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hs-muted);
+  flex-shrink: 0;
+}
+
+.registerValue {
+  font-family: var(--hs-font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--hs-ink);
+  text-align: end;
+}
+
+/* 4. DOCUMENTATION REGISTER (Numbered Editorial List) */
+.docRegister {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.docRegisterRow {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(36, 81, 63, 0.08);
+}
+
+.docRegisterRow:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.docIndex {
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--hs-sage);
+  flex-shrink: 0;
+}
+
+.docName {
+  font-family: var(--hs-font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--hs-ink);
+}
+
+/* Certifications Badge List */
+.certList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.certBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  background: var(--hs-surface);
+  border: 1px solid var(--hs-border);
+  border-radius: var(--hs-radius-xs);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--hs-ink);
+}
+
+/* Action Footer */
+.footer {
+  flex: 0 0 auto;
+  height: auto;
+  min-height: 0;
+  position: relative;
+  inset: auto;
+  margin: 0;
+  padding: 1.15rem 1.75rem 1.35rem;
+  border-top: 1px solid var(--hs-border);
+  background: var(--hs-paper);
+}
+
+.enquiryActionBtn {
+  display: inline-flex;
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0 1.5rem;
+  border: 1px solid var(--hs-ink);
+  border-radius: var(--hs-radius-sm);
+  background: var(--hs-ink);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--hs-font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 180ms ease;
+}
+
+.enquiryActionBtn:hover {
+  background: #17372a;
+  border-color: #17372a;
+}
+
+.enquiryActionBtnActive {
+  background: var(--hs-surface);
+  border-color: var(--hs-ink);
+  color: var(--hs-ink);
+}
+
+.enquiryActionBtnActive:hover {
+  background: var(--hs-sand);
+  border-color: var(--hs-ink);
+}
+
+.enquiryActionBtn:focus-visible {
+  outline: 2px solid var(--hs-sage);
+  outline-offset: 3px;
+}
+
+.actionIcon {
+  font-size: 0.95rem;
+  color: var(--hs-gold);
+}
+
+.enquiryActionBtnActive .actionIcon {
+  color: var(--hs-ink);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideUpBottom {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Mobile & Tablet Bottom Sheet (~860px and down) */
+@media (max-width: 860px) {
+  .dialog {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .panel {
+    width: 100%;
+    height: auto;
+    max-height: 88dvh;
+    border-left: 0;
+    border-top: 1px solid var(--hs-border);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.25);
+    animation: slideUpBottom 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    overflow: hidden;
+  }
+
+  .dragBar {
+    display: flex;
+    justify-content: center;
+    padding: 0.65rem 0 0.15rem;
+    flex: 0 0 auto;
+  }
+
+  .dragHandle {
+    width: 36px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(36, 81, 63, 0.25);
+  }
+
+  .header {
+    flex: 0 0 auto;
+    padding: 0.5rem 1.25rem 0.65rem;
+  }
+
+  .contentViewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .contentInner {
+    padding: 1rem 1.25rem;
+  }
+
+  .identitySection {
+    margin-bottom: 0.85rem;
+  }
+
+  .imageStage {
+    aspect-ratio: 16 / 9;
+    max-height: 180px;
+    margin-bottom: 0.75rem;
+  }
+
+  .identityHeader {
+    padding-bottom: 0.75rem;
+  }
+
+  .title {
+    font-size: 1.55rem;
+  }
+
+  .dossierSection {
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .sectionHeader {
+    margin-bottom: 0.45rem;
+  }
+
+  .registerEntry {
+    padding: 0.45rem 0;
+  }
+
+  .docRegisterRow {
+    padding: 0.45rem 0;
+  }
+
+  .footer {
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+    position: relative;
+    inset: auto;
+    margin: 0;
+    padding: 0.65rem 1.25rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .enquiryActionBtn {
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .panel {
+    animation: none;
+  }
 }
