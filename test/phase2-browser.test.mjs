@@ -161,27 +161,29 @@ await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-m
 
 await setViewport(320, 720);
 await navigate("/fr/");
-await evaluate('document.querySelector(".mobile-navbar-menu-btn").click()');
-await waitFor('document.querySelector(".global-menu-root.is-open") !== null', "mobile Produce menu did not open");
-await new Promise((resolve) => setTimeout(resolve, 650));
-await evaluate('document.querySelector(".global-menu-root.is-open .global-menu-language [data-language-trigger]").click()');
-await waitFor('document.querySelector(".global-menu-root.is-open .global-menu-language [data-language-menu]") !== null', "mobile language menu did not open");
+await evaluate('document.querySelector(".mobile-navbar-actions [data-language-trigger]").click()');
+await waitFor('document.querySelector("[data-language-menu]") !== null', "mobile Produce language menu did not open");
 assert.equal(await evaluate('document.documentElement.scrollWidth <= innerWidth'), true, "mobile Produce switcher has no horizontal overflow");
-const mobileProduceMenu = await evaluate('(() => { const r = document.querySelector(".global-menu-root.is-open .global-menu-language [data-language-menu]").getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, width: innerWidth, height: innerHeight }; })()');
+const mobileProduceMenu = await evaluate('(() => { const r = document.querySelector("[data-language-menu]").getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, width: innerWidth, height: innerHeight }; })()');
 assert.equal(
   mobileProduceMenu.left >= 0 && mobileProduceMenu.right <= mobileProduceMenu.width && mobileProduceMenu.top >= 0 && mobileProduceMenu.bottom <= mobileProduceMenu.height,
   true,
   `mobile Produce dropdown stays within the viewport: ${JSON.stringify(mobileProduceMenu)}`,
 );
+await evaluate('document.querySelector(".mobile-navbar-actions [data-language-trigger]").click()');
+await evaluate('document.querySelector(".mobile-navbar-menu-btn").click()');
+await waitFor('document.querySelector(".global-menu-root.is-open") !== null', "mobile Produce menu did not open");
+assert.equal(await evaluate('document.querySelector(".global-menu-root [data-language-trigger]")'), null, "hidden Produce menu does not contain duplicate switcher");
 
 await setViewport(390, 844);
 await navigate("/de/herbs-spices/products?family=spices");
+await evaluate('document.querySelector("header [data-language-trigger]").click()');
+await waitFor('document.querySelector("[data-language-menu]") !== null', "Herbs mobile language menu did not open");
+assert.equal(await evaluate('document.documentElement.scrollWidth <= innerWidth'), true, "mobile Herbs switcher has no horizontal overflow");
+await evaluate('document.querySelector("header [data-language-trigger]").click()');
 await evaluate('document.querySelector("button[aria-controls=herbs-spices-menu]").click()');
 await waitFor('document.querySelector("#herbs-spices-menu") !== null', "Herbs mobile menu did not open");
-await new Promise((resolve) => setTimeout(resolve, 450));
-await evaluate('document.querySelector("#herbs-spices-menu [data-language-trigger]").click()');
-await waitFor('document.querySelector("#herbs-spices-menu [data-language-menu]") !== null', "Herbs mobile language menu did not open");
-assert.equal(await evaluate('document.documentElement.scrollWidth <= innerWidth'), true, "mobile Herbs switcher has no horizontal overflow");
+assert.equal(await evaluate('document.querySelector("#herbs-spices-menu [data-language-trigger]")'), null, "hidden Herbs menu does not contain duplicate switcher");
 
 const actionableProblems = browserProblems.filter(
   (problem) => !problem.includes("favicon.ico") && !problem.includes("preloaded using link preload"),

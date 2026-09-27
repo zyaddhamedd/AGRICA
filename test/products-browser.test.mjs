@@ -170,7 +170,7 @@ await waitFor('document.querySelectorAll(".export-card-scene").length === 11', "
 await evaluate(`[...document.querySelectorAll(".taxonomy-item")]
   .find((element) => element.textContent.includes("Frozen Potato Products")).click()`);
 await waitFor('document.querySelectorAll(".export-card-scene").length === 1', "FPP family filter failed");
-assert.equal(await evaluate('document.querySelector(".export-card-title").textContent'), "Half-Fried French Fries");
+assert.equal(await evaluate('document.querySelector(".export-card-title").textContent'), "Pre-fried Frozen French Fries");
 
 await navigate("/en/products?world=fresh", "fresh");
 await evaluate('document.querySelector(".export-card-quote").click()');

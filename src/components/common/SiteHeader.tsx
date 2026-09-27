@@ -143,8 +143,6 @@ export function SiteHeader({
           <div className="global-navbar-actions">
             <BusinessDivisionSwitcher tone={isWhiteLogo ? "dark" : "light"} />
 
-            <LanguageSwitcher className="global-navbar-language" tone={isWhiteLogo ? "dark" : "light"} />
-
             {/* Dedicated Quote Counter Trigger for Products */}
             {activeVariant === "products" && (
               <button
@@ -158,6 +156,8 @@ export function SiteHeader({
                 <b className="quote-count">{quoteCount}</b>
               </button>
             )}
+
+            <LanguageSwitcher className="global-navbar-language" tone={isWhiteLogo ? "dark" : "light"} />
 
             {/* Menu Trigger Button */}
             <button

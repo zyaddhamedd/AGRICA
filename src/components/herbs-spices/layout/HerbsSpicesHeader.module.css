@@ -106,16 +106,20 @@
   outline-offset: 3px;
 }
 
-@media (max-width: 800px) {
-  .language {
-    display: none;
-  }
-}
 
+main
 @media (max-width: 680px) {
   .header,
   .inner {
     min-height: 60px;
+  }
+
+  .inner {
+    padding: 0 clamp(0.75rem, 2.5vw, 1.25rem);
+  }
+
+  .actions {
+    gap: 0.5rem;
   }
 
   .logo {
@@ -132,6 +136,38 @@
     min-height: 38px;
     padding-inline: 0.65rem;
     font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 440px) {
+  .brandRule,
+  .divisionName {
+    display: none;
+  }
+
+  .actions {
+    gap: 0.35rem;
+  }
+
+  .menuTrigger {
+    min-width: 60px;
+    padding-inline: 0.55rem;
+    font-size: 0.64rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .inner {
+    padding: 0 0.5rem;
+  }
+
+  .actions {
+    gap: 0.22rem;
+  }
+
+  .menuTrigger {
+    min-width: 52px;
+    padding-inline: 0.4rem;
   }
 }
 

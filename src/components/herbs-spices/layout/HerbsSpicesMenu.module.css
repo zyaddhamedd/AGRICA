@@ -146,7 +146,6 @@
   text-transform: uppercase;
 }
 
-.menuLanguage { display: none; }
 
 .panelFooter span {
   color: var(--hs-text);
@@ -172,9 +171,6 @@
   to { transform: translateX(0); }
 }
 
-@media (max-width: 800px) {
-  .menuLanguage { display: block; width: 100%; }
-}
 
 @media (max-width: 680px) {
   .panel {

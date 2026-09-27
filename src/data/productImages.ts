@@ -1,10 +1,14 @@
 import type { ProduceProductId } from "@/types/agrica";
 
 const PRODUCT_IMAGE_BY_ID: Readonly<Partial<Record<ProduceProductId, string>>> = {
-  "produce:orange": "/assets/products/fresh/oranges.avif",
+  "produce:orange": "/assets/products/fresh/oranges-luminous-preview.avif",
   "produce:lemon": "/assets/products/fresh/lemons.avif",
   "produce:egyptian-lime": "/assets/products/fresh/egyptian-limes.avif",
   "produce:mandarin": "/assets/products/fresh/mandarins.avif",
+  "produce:onion": "/assets/products/fresh/onions.avif",
+  "produce:garlic": "/assets/products/fresh/garlic.avif",
+  "produce:fresh-green-bean": "/assets/products/fresh/green-beans.avif",
+  "produce:fresh-artichoke": "/assets/products/fresh/artichokes.avif",
   "produce:iqf-strawberry": "/assets/products/frozen/strawberries.avif",
   "produce:iqf-mango": "/assets/products/frozen/mango.avif",
   "produce:iqf-pomegranate-arils": "/assets/products/frozen/pomegranate-arils.avif",

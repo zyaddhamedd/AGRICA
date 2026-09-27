@@ -58,6 +58,11 @@ export function LanguageSwitcher({ tone = "light", className }: LanguageSwitcher
   };
 
   const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Escape" && isOpen) {
+      event.preventDefault();
+      close(false);
+      return;
+    }
     if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
     event.preventDefault();
     setIsOpen(true);
@@ -102,6 +107,7 @@ export function LanguageSwitcher({ tone = "light", className }: LanguageSwitcher
       >
         <Image className={styles.flag} src={active.flag.src} alt={active.flag.alt} width={22} height={15} />
         <span className={styles.activeLabel} lang={active.code} dir={active.direction}>{active.label}</span>
+        <span className={styles.activeCode} lang={active.code} dir={active.direction} aria-hidden="true">{active.code.toUpperCase()}</span>
         <span className={styles.chevron} aria-hidden="true" />
       </button>
 

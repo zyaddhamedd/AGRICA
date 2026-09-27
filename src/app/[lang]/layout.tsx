@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import "@/styles/products.css";
 import "@/styles/standard.css";
 import "@/styles/footer.css";
+import "@/styles/hero.css";
 import { SkipLink } from "@/components/common/SkipLink";
 import { directionForLocale, isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
