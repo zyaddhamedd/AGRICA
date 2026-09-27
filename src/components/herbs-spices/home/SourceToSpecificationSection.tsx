@@ -51,7 +51,7 @@ export function SourceToSpecificationSection(): React.JSX.Element {
                 <span className={styles.cardIndex}>
                   {stage.index} / {totalStagesFormatted}
                 </span>
-                <span className={styles.cardTag}>Operational Phase</span>
+                <span className={styles.cardHeaderRule} aria-hidden="true" />
               </div>
 
               <div className={styles.cardBody}>
