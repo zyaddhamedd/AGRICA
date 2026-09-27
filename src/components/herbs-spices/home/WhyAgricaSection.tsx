@@ -10,19 +10,14 @@ export function WhyAgricaSection(): React.JSX.Element {
   const [activePillar, setActivePillar] = useState(0);
 
   return (
-    <section className={styles.section} id="why-agrica" aria-labelledby="why-agrica-title">
+    <section className={styles.section} id="why-agrica" aria-label={intro.eyebrow || "05 / WHY AGRICA"}>
       <div className={styles.inner}>
-        {/* Concise Header on Botanical Green */}
-        <header className={styles.header}>
-          <div className={styles.headerMeta}>
-            <p className={styles.eyebrow}>{intro.eyebrow}</p>
-            <span className={styles.scopeTag}>Confidence Interruption</span>
-          </div>
-          <div className={styles.headerContent}>
-            <h2 id="why-agrica-title" className={styles.title}>{intro.title}</h2>
-            <p className={styles.description}>{intro.description}</p>
-          </div>
-        </header>
+        {/* Chapter Label */}
+        <div className={styles.chapterHeader}>
+          <span className={styles.chapterLabel}>
+            {intro.eyebrow || "05 / WHY AGRICA"}
+          </span>
+        </div>
 
         {/* Typographic Confidence Wall: 2-Column Staggered Statements (No Cards) */}
         <div className={styles.wallGrid}>

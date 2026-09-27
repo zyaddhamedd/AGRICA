@@ -34,26 +34,15 @@ export function IngredientFormsSection(): React.JSX.Element {
     <section
       className={styles.section}
       id="ingredient-forms"
-      aria-labelledby="forms-title"
+      aria-label={formsIntro.eyebrow || staticIntro.eyebrow || "03 / MATERIAL EXPRESSION"}
     >
       <div className={styles.inner}>
-        {/* Header */}
-        <header className={styles.header}>
-          <div className={styles.headerMeta}>
-            <span className={styles.eyebrow}>
-              {formsIntro.eyebrow || staticIntro.eyebrow}
-            </span>
-            <span className={styles.scopeTag}>5 Processing Formats</span>
-          </div>
-          <div className={styles.headerContent}>
-            <h2 id="forms-title" className={styles.title}>
-              {formsIntro.title || staticIntro.title}
-            </h2>
-            <p className={styles.description}>
-              {formsIntro.description || staticIntro.description}
-            </p>
-          </div>
-        </header>
+        {/* Chapter Label */}
+        <div className={styles.chapterHeader}>
+          <span className={styles.chapterLabel}>
+            {formsIntro.eyebrow || staticIntro.eyebrow || "03 / MATERIAL EXPRESSION"}
+          </span>
+        </div>
 
         {/* 3D Depth Carousel Stage from React Bits */}
         <div className={styles.stageWrapper}>

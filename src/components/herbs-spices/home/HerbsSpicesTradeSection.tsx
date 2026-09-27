@@ -16,30 +16,22 @@ export function HerbsSpicesTradeSection(): React.JSX.Element {
   };
 
   return (
-    <section className={styles.section} id="start-a-trade" aria-labelledby="trade-title">
+    <section className={styles.section} id="start-a-trade" aria-label={trade.eyebrow || staticTrade.eyebrow || "07 / COMMERCIAL ENQUIRY"}>
       <div className={styles.inner}>
-        {/* Left: Concise Heading + Support + Reassurance */}
-        <div className={styles.contextCol}>
-          <div className={styles.contextMeta}>
-            <p className={styles.eyebrow}>{trade.eyebrow || staticTrade.eyebrow}</p>
-            <span className={styles.scopeTag}>Trade Desk</span>
-          </div>
-
-          <h2 id="trade-title" className={styles.title}>
-            {staticTrade.title}
-          </h2>
-
-          <p className={styles.description}>
-            {staticTrade.description}
-          </p>
-
-          <p className={styles.reassuranceText}>
-            {staticTrade.reassuranceText}
-          </p>
+        {/* Chapter Label */}
+        <div className={styles.chapterHeader}>
+          <span className={styles.chapterLabel}>
+            {trade.eyebrow || staticTrade.eyebrow || "07 / COMMERCIAL ENQUIRY"}
+          </span>
         </div>
 
-        {/* Right: Quiet, Clean Conversion Form */}
-        <div className={styles.formCol}>
+        {/* Centered Luxury Trade Card */}
+        <div className={styles.cardContainer}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardHeading}>Export Trade Enquiry</h3>
+            <p className={styles.cardSubheading}>Direct sourcing from verified Egyptian harvest origins</p>
+          </div>
+
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.fieldGrid}>
               <label className={styles.label}>
@@ -127,6 +119,15 @@ export function HerbsSpicesTradeSection(): React.JSX.Element {
               )}
             </div>
           </form>
+
+          {staticTrade.reassuranceText && (
+            <div className={styles.reassuranceWrapper}>
+              <span className={styles.reassuranceDot} aria-hidden="true" />
+              <p className={styles.reassuranceText}>
+                {staticTrade.reassuranceText}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>

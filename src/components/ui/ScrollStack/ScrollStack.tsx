@@ -22,7 +22,9 @@ export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
   children,
   itemClassName = "",
 }) => (
-  <div className={`scroll-stack-card ${itemClassName}`.trim()}>{children}</div>
+  <div className="scroll-stack-card-wrapper">
+    <div className={`scroll-stack-card ${itemClassName}`.trim()}>{children}</div>
+  </div>
 );
 
 export interface ScrollStackProps {
@@ -107,11 +109,12 @@ export default function ScrollStack({
 
   const getElementOffset = useCallback(
     (element: HTMLElement) => {
+      const target = (element.closest(".scroll-stack-card-wrapper") || element) as HTMLElement;
       if (useWindowScroll) {
-        const rect = element.getBoundingClientRect();
-        return rect.top + window.scrollY;
+        const rect = target.getBoundingClientRect();
+        return rect.top + (window.scrollY || document.documentElement.scrollTop);
       } else {
-        return element.offsetTop;
+        return target.offsetTop;
       }
     },
     [useWindowScroll]
@@ -327,11 +330,20 @@ export default function ScrollStack({
       card.style.perspective = "1000px";
     });
 
-    setupLenis();
+    if (useWindowScroll) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      window.addEventListener("resize", handleScroll, { passive: true });
+    } else {
+      setupLenis();
+    }
 
     updateCardTransforms();
 
     return () => {
+      if (useWindowScroll) {
+        window.removeEventListener("scroll", handleScroll);
+        window.removeEventListener("resize", handleScroll);
+      }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
@@ -355,13 +367,14 @@ export default function ScrollStack({
     blurAmount,
     useWindowScroll,
     onStackComplete,
+    handleScroll,
     setupLenis,
     updateCardTransforms,
   ]);
 
   return (
     <div
-      className={`scroll-stack-scroller ${className}`.trim()}
+      className={`scroll-stack-scroller ${useWindowScroll ? "scroll-stack-window" : ""} ${className}`.trim()}
       ref={scrollerRef}
     >
       <div className="scroll-stack-inner">

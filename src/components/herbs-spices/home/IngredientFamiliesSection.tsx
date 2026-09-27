@@ -45,24 +45,15 @@ export function IngredientFamiliesSection(): React.JSX.Element {
     <section
       className={styles.section}
       id="ingredient-families"
-      aria-labelledby="families-title"
+      aria-label={familiesIntro.eyebrow || "01 / INGREDIENT FAMILIES"}
     >
       <div className={styles.inner}>
-        {/* Editorial Header */}
-        <header className={styles.header}>
-          <div className={styles.headerMeta}>
-            <p className={styles.eyebrow}>
-              {familiesIntro.eyebrow || "01 / INGREDIENT FAMILIES"}
-            </p>
-            <span className={styles.scopeTag}>Botanical Atlas</span>
-          </div>
-          <div className={styles.headerContent}>
-            <h2 id="families-title" className={styles.title}>
-              {familiesIntro.title}
-            </h2>
-            <p className={styles.description}>{familiesIntro.description}</p>
-          </div>
-        </header>
+        {/* Chapter Label */}
+        <div className={styles.chapterHeader}>
+          <span className={styles.chapterLabel}>
+            {familiesIntro.eyebrow || "01 / INGREDIENT FAMILIES"}
+          </span>
+        </div>
 
         {/* DESKTOP ONLY: Accordion Gallery Component from React Bits */}
         <div className={styles.desktopGalleryWrapper}>
