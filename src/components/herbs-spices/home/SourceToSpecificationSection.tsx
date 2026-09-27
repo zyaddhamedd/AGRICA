@@ -19,13 +19,13 @@ export function SourceToSpecificationSection(): React.JSX.Element {
     <section
       className={styles.section}
       id="source-to-specification"
-      aria-label={intro.eyebrow || "04 / PROCESS JOURNEY"}
+      aria-label="03 / PROCESS JOURNEY"
     >
       <div className={styles.inner}>
         {/* Chapter Label */}
         <div className={styles.chapterHeader}>
           <span className={styles.chapterLabel}>
-            {intro.eyebrow || "04 / PROCESS JOURNEY"}
+            03 / PROCESS JOURNEY
           </span>
         </div>
 

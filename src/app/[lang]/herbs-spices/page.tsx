@@ -1,7 +1,6 @@
 import React from "react";
 import { HerbsSpicesHero } from "@/components/herbs-spices/home/HerbsSpicesHero";
 import { IngredientFamiliesSection } from "@/components/herbs-spices/home/IngredientFamiliesSection";
-import { SignatureIngredientsSection } from "@/components/herbs-spices/home/SignatureIngredientsSection";
 import { IngredientFormsSection } from "@/components/herbs-spices/home/IngredientFormsSection";
 import { SourceToSpecificationSection } from "@/components/herbs-spices/home/SourceToSpecificationSection";
 import { WhyAgricaSection } from "@/components/herbs-spices/home/WhyAgricaSection";
@@ -18,22 +17,19 @@ export default function HerbsSpicesHomePage(): React.JSX.Element {
       {/* Section 1: Ingredient Families */}
       <IngredientFamiliesSection />
 
-      {/* Section 2: Signature Ingredients */}
-      <SignatureIngredientsSection />
-
-      {/* Section 3: Material Forms */}
+      {/* Section 2: Material Forms */}
       <IngredientFormsSection />
 
-      {/* Section 4: Source to Specification */}
+      {/* Section 3: Source to Specification */}
       <SourceToSpecificationSection />
 
-      {/* Section 5: Why AGRICA */}
+      {/* Section 4: Why AGRICA */}
       <WhyAgricaSection />
 
-      {/* Section 6: Quality & Documentation */}
+      {/* Section 5: Quality & Documentation */}
       <QualityDocumentationSection />
 
-      {/* Section 7: Commercial Trade Enquiry */}
+      {/* Section 6: Commercial Trade Enquiry */}
       <HerbsSpicesTradeSection />
     </main>
   );
