@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 import { LocaleLink as Link } from "@/components/common/LocaleLink";
-import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { useCommonDictionary } from "@/i18n/locale-context";
 import { stripLocaleFromPath } from "@/i18n/navigation";
 import styles from "./HerbsSpicesMenu.module.css";
@@ -119,7 +118,6 @@ export function HerbsSpicesMenu({
         </nav>
 
         <div className={styles.panelFooter}>
-          <LanguageSwitcher className={styles.menuLanguage} tone="herbs" />
           <span>AGRICA</span>
           <strong>{common.divisions.herbsSpices}</strong>
         </div>

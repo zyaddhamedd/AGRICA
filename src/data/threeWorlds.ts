@@ -22,8 +22,8 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     number: "01",
     actionText: "Explore Fresh",
     actionHref: "/products?world=fresh",
-    imgSrc: "/assets/world-card-fresh.png",
-    imgAlt: "Sunlit oranges growing in an Egyptian citrus orchard",
+    imgSrc: "/assets/categories/fresh-master.png",
+    imgAlt: "Overhead view of oranges and lemons beside pomegranates in olive-green harvest crates",
     editorialLines: [
       "Season-led Egyptian produce,",
       "selected for global export.",
@@ -36,8 +36,8 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     number: "02",
     actionText: "Explore Frozen",
     actionHref: "/products?world=frozen",
-    imgSrc: "/assets/world-card-frozen.png",
-    imgAlt: "Individually frozen green produce moving through a clean IQF line",
+    imgSrc: "/assets/categories/frozen-master.png",
+    imgAlt: "Overhead view of frosted strawberries beside frozen peas and green beans in metal trays",
     editorialLines: [
       "IQF-controlled Egyptian produce,",
       "ready for year-round supply.",
@@ -50,8 +50,8 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
     number: "03",
     actionText: "Explore Dried",
     actionHref: "/products?world=dried",
-    imgSrc: "/assets/world-card-dried.png",
-    imgAlt: "Citrus slices arranged on a wooden drying tray in Egypt",
+    imgSrc: "/assets/categories/dried-master.png",
+    imgAlt: "Overhead view of dried citrus slices beside dates and figs in shallow drying trays",
     editorialLines: [
       "Naturally concentrated produce,",
       "prepared for global trade.",

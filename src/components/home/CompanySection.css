@@ -1,272 +1,137 @@
-/* ==========================================================================
-   AGRICA Company Section — Editorial Journal Direction (Warm Off-White)
-   ========================================================================== */
-
 .company-section {
+  --company-paper: #faf8f5;
+  --company-ink: var(--navy-deep, #001837);
+  --company-muted: rgba(0, 32, 80, 0.62);
+  --company-line: rgba(0, 32, 80, 0.14);
   position: relative;
-  background-color: #FAF8F5;
-  color: var(--navy-deep, #002050);
-  padding: clamp(5rem, 8.5vw, 9.5rem) var(--gutter, 2.5rem);
-  overflow: hidden;
-  border-top: 1px solid rgba(0, 32, 80, 0.08);
+  isolation: isolate;
+  padding-inline: var(--gutter, clamp(1.25rem, 3vw, 3.75rem));
+  background: var(--company-paper);
+  color: var(--company-ink);
 }
 
-.company-container {
-  max-width: 1360px;
-  margin: 0 auto;
+.company-scroll-track { height: 190svh; }
+
+.company-sticky-stage {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(3rem, 6vw, 7rem);
+  align-items: center;
+  padding-block: clamp(1.75rem, 3.2svh, 2.75rem);
+}
+
+.company-cinematic-grid {
+  width: min(100%, 1420px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(18rem, 4fr);
+  gap: clamp(2.5rem, 5vw, 6rem);
   align-items: center;
 }
 
-/* --------------------------------------------------------------------------
-   Left Column: Editorial Story & Copy Hierarchy
-   -------------------------------------------------------------------------- */
-
-.company-story-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.company-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 1.75rem;
-}
-
-.company-kicker-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--green, #50A010);
-  display: inline-block;
-}
-
-.company-eyebrow {
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--navy-deep, #002050);
-  opacity: 0.85;
-}
-
-.company-headline {
-  margin: 0 0 2rem 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(2.8rem, 5.2vw, 5.4rem);
-  font-weight: 520;
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-  color: var(--navy-deep, #002050);
-}
-
-.company-headline em {
-  font-family: var(--font-serif, Georgia, serif);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--green, #50A010);
-}
-
-.company-statement {
-  margin: 0 0 2.75rem 0;
-  max-width: 33rem;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(1.05rem, 1.35vw, 1.28rem);
-  line-height: 1.62;
-  color: rgba(0, 32, 80, 0.78);
-  font-weight: 400;
-}
-
-/* --------------------------------------------------------------------------
-   Verified Trust Pillars (1-2 Verified Facts)
-   -------------------------------------------------------------------------- */
-
-.company-trust-pillars {
-  display: flex;
-  align-items: center;
-  gap: 2.25rem;
-  padding: 1.5rem 0;
-  margin-bottom: 2.5rem;
-  border-top: 1px solid rgba(0, 32, 80, 0.12);
-  border-bottom: 1px solid rgba(0, 32, 80, 0.12);
-  width: 100%;
-  max-width: 36rem;
-}
-
-.company-trust-pillar {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.company-trust-label {
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: 0.62rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgba(0, 32, 80, 0.52);
-}
-
-.company-trust-value {
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(0.95rem, 1.1vw, 1.12rem);
-  font-weight: 550;
-  color: var(--navy-deep, #002050);
-}
-
-.company-trust-divider {
-  width: 1px;
-  height: 2.4rem;
-  background-color: rgba(0, 32, 80, 0.14);
-}
-
-/* --------------------------------------------------------------------------
-   Commercial CTA Button
-   -------------------------------------------------------------------------- */
-
-.company-action {
-  display: flex;
-  align-items: center;
-}
-
-.company-cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 1.1rem 2.2rem;
-  background-color: var(--navy-deep, #002050);
-  color: #FFFFFF;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: 0.82rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 14px rgba(0, 32, 80, 0.12);
-}
-
-.company-cta-button:hover {
-  background-color: #00173b;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 32, 80, 0.2);
-}
-
-.company-cta-icon {
-  width: 18px;
-  height: 18px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.company-cta-button:hover .company-cta-icon {
-  transform: translateX(4px);
-}
-
-/* --------------------------------------------------------------------------
-   Right Column: Premium Editorial Visual Asset
-   -------------------------------------------------------------------------- */
-
-.company-media-wrapper {
+.company-film {
   position: relative;
   width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.company-media-card {
-  position: relative;
-  width: 100%;
-  max-width: 580px;
-  aspect-ratio: 4 / 5;
-  border-radius: 8px;
+  aspect-ratio: 16 / 9;
+  max-height: 70svh;
   overflow: hidden;
-  background-color: #EAE6DF;
-  box-shadow: 0 20px 40px rgba(0, 32, 80, 0.08);
+  border: 1px solid rgba(0, 32, 80, 0.1);
+  border-radius: 0.5rem;
+  background: #d8d4c8;
 }
 
-.company-media-img {
-  width: 100%;
-  height: 110%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transform: translateY(-5%);
-  will-change: transform;
+.company-film-poster, .company-film-video, .company-film-wash { position: absolute; inset: 0; width: 100%; height: 100%; }
+.company-film-poster, .company-film-video { display: block; object-fit: cover; object-position: center; }
+.company-film-video { z-index: 2; opacity: 0; transition: opacity 360ms ease; }
+.company-section[data-video-ready="true"] .company-film-video { opacity: 1; }
+.company-section[data-media-mode="poster"] .company-film-video { display: none; }
+.company-film-wash { z-index: 3; pointer-events: none; background: linear-gradient(180deg, transparent 76%, rgba(0, 24, 55, 0.07)); }
+.company-copy { min-width: 0; align-self: center; }
+
+.company-eyebrow, .company-chapter-meta, .company-chapter-title, .company-chapter h2, .company-chapter-supporting { margin: 0; }
+.company-eyebrow {
+  margin-bottom: clamp(1.35rem, 2.6vh, 2.25rem);
+  color: var(--green, #50a010);
+  font-size: var(--font-size-eyebrow, 0.65rem);
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
-.company-media-overlay {
+.company-chapters { position: relative; min-height: clamp(13.5rem, 29vh, 17.5rem); }
+.company-chapter {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 32, 80, 0) 65%,
-    rgba(0, 32, 80, 0.15) 100%
-  );
-  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 420ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 420ms;
+}
+.company-chapter.is-active { z-index: 1; opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 70ms, 70ms, 0s; }
+.company-chapter-meta { display: flex; align-items: center; gap: 0.55rem; color: var(--company-muted); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+.company-chapter-meta span + span::before { content: "·"; margin-inline-end: 0.55rem; color: rgba(0, 32, 80, 0.3); }
+.company-chapter-title { margin-top: 1rem; color: var(--green, #50a010); font-family: var(--font-serif, Georgia, serif); font-size: clamp(1.2rem, 1.8vw, 1.65rem); font-style: italic; line-height: 1.1; }
+.company-chapter h2 { max-width: 9ch; margin-top: 0.65rem; color: var(--company-ink); font-size: clamp(2.55rem, 4.2vw, 5rem); font-weight: 500; letter-spacing: -0.052em; line-height: 0.96; }
+.company-chapter-supporting { max-width: 29rem; margin-top: 1.4rem; color: var(--company-muted); font-size: clamp(0.92rem, 1.15vw, 1.08rem); line-height: 1.55; }
+
+.company-progress { display: grid; grid-template-columns: auto minmax(4rem, 1fr) auto; align-items: center; gap: 0.8rem; padding-top: 1.25rem; border-top: 1px solid var(--company-line); color: var(--company-muted); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.company-progress-track { position: relative; height: 1px; overflow: hidden; background: rgba(0, 32, 80, 0.18); }
+.company-progress-track > span { position: absolute; inset-block: 0; inset-inline-start: 0; width: 2%; background: var(--green, #50a010); }
+.company-progress-label { color: var(--company-ink); }
+
+@media (max-width: 1100px) and (min-width: 901px) {
+  .company-cinematic-grid { grid-template-columns: minmax(0, 7fr) minmax(17rem, 5fr); gap: 2.5rem; }
+  .company-chapter h2 { font-size: clamp(2.5rem, 4vw, 3.6rem); }
 }
 
-/* --------------------------------------------------------------------------
-   Responsive Layout (Tablet & Mobile)
-   -------------------------------------------------------------------------- */
-
-@media (max-width: 992px) {
-  .company-container {
-    grid-template-columns: 1fr;
-    gap: 3.5rem;
-  }
-
-  .company-media-wrapper {
-    justify-content: center;
-    order: -1;
-  }
-
-  .company-media-card {
-    max-width: 100%;
-    aspect-ratio: 16 / 10;
-  }
+@media (max-width: 900px) {
+  .company-scroll-track { height: 140svh; }
+  .company-sticky-stage { padding-block: clamp(1.25rem, 2.5svh, 2rem); }
+  .company-cinematic-grid { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: clamp(1rem, 2.5vh, 1.5rem); }
+  .company-film { width: min(100%, 50rem); max-height: 46svh; margin-inline: auto; aspect-ratio: 16 / 9; }
+  .company-copy { width: min(100%, 50rem); margin-inline: auto; }
+  .company-eyebrow { margin-bottom: 1.25rem; }
+  .company-chapters { min-height: clamp(10.5rem, 22svh, 13rem); }
+  .company-chapter { justify-content: flex-start; }
+  .company-chapter-title { margin-top: 0.65rem; }
+  .company-chapter h2 { max-width: 13ch; margin-top: 0.4rem; font-size: clamp(2.25rem, 7.5vw, 3.7rem); }
+  .company-chapter-supporting { margin-top: 0.85rem; }
 }
 
-@media (max-width: 680px) {
-  .company-section {
-    padding-block: 4.5rem;
-  }
+@media (max-width: 520px) {
+  .company-section { padding-inline: clamp(1rem, 5vw, 1.35rem); }
+  .company-scroll-track { height: 135svh; }
+  .company-sticky-stage { padding-block: 0.65rem; }
+  .company-cinematic-grid { gap: 0.9rem; }
+  .company-film { aspect-ratio: 1 / 1; max-height: 44svh; border-radius: 0.35rem; }
+  .company-eyebrow { margin-bottom: 0.7rem; }
+  .company-chapters { min-height: 10.6rem; }
+  .company-chapter h2 { max-width: 12ch; font-size: clamp(2.05rem, 10.2vw, 3rem); }
+  .company-chapter-supporting { max-width: 34rem; margin-top: 0.7rem; font-size: 0.86rem; line-height: 1.45; }
+  .company-progress { gap: 0.55rem; padding-top: 0.65rem; font-size: 0.52rem; }
+}
 
-  .company-container {
-    gap: 2.5rem;
-  }
+@media (max-width: 340px) {
+  .company-sticky-stage { padding-block: 0.5rem; }
+  .company-film { max-height: 42svh; }
+  .company-chapters { min-height: 10rem; }
+  .company-chapter h2 { font-size: 1.9rem; }
+  .company-progress-label { display: none; }
+}
 
-  .company-headline {
-    font-size: clamp(2.3rem, 9vw, 3.2rem);
-    line-height: 1.06;
-    margin-bottom: 1.25rem;
-  }
-
-  .company-statement {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .company-trust-pillars {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.25rem;
-    padding: 1.25rem 0;
-    margin-bottom: 2rem;
-  }
-
-  .company-trust-divider {
-    display: none;
-  }
-
-  .company-cta-button {
-    width: 100%;
-    justify-content: center;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .company-section { padding-block: clamp(4rem, 7vw, 6.5rem); }
+  .company-scroll-track { height: auto; }
+  .company-sticky-stage { position: relative; min-height: 0; padding-block: 0; }
+  .company-cinematic-grid { align-items: start; }
+  .company-film-video { display: none; }
+  .company-chapters { min-height: 0; display: grid; gap: 2rem; }
+  .company-chapter, .company-chapter.is-active { position: static; opacity: 1; visibility: visible; transform: none; transition: none; }
+  .company-chapter + .company-chapter { padding-top: 2rem; border-top: 1px solid var(--company-line); }
+  .company-progress { display: none; }
 }

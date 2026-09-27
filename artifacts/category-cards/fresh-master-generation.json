@@ -1,0 +1,58 @@
+{
+  "generation": {
+    "results": [
+      {
+        "id": "7ff21e8e-ffa5-4e0e-8654-bd5e884a3cb0",
+        "type": "image",
+        "status": "pending",
+        "model": "text2image_soul_v2",
+        "params": {
+          "prompt": "Create ONE high-end photorealistic documentary still: the AGRICA FRESH category card master, portrait 3:4. The supplied image is the PRIMARY COMPOSITION REFERENCE ONLY: preserve its true overhead camera language, two adjacent tall produce crates, strong central seam, close edge-to-edge framing, clear visual separation and realistic produce density. Ignore and entirely omit every reference text, typography, label, fruit sticker, graphic, icon, watermark and palette swatch. Do not copy its fruit arrangement or retail-market styling.\nCAMERA AND STRUCTURE: camera points exactly straight down at 90 degrees, sensor plane parallel to the crate rims, no oblique view or perspective convergence. Two aligned, adjacent export-grade harvest crates run vertically side by side, divided by a strong straight central seam. Crates may continue beyond the top and bottom frame; no surrounding market scene. Clean dark desaturated forest green/deep olive crates with substantial broad simple matte rims and restrained practical detailing. Premium durable harvest containers, not cheap shiny supermarket plastic.\nPRODUCE: left crate contains mostly whole oranges with a distinctly smaller number of whole lemons naturally interspersed. Right crate contains whole pomegranates, with only one or two small leaves still naturally attached to stems. Products cover about 70–80 percent of the whole image: abundant enough to read immediately but with believable dark gaps, breathing room and visible crate structure. A shallow natural settled layer, not huge piled abundance. Asymmetric distribution; believable natural differences in size, shape, peel texture, maturity and orientation; small realistic blemishes. Pomegranates have natural crown calyxes and varied muted ruby-red skin, oranges have real irregular citrus peel, lemons are naturally elongated. No cloned fruit, no grids, no repeated patterns, no perfect spheres, no decorative foliage.\nLIGHT: large soft neutral daylight source from upper left, gentle realistic contact shadows toward lower right, controlled diffuse highlights, dry natural fruit surfaces, accurate neutral white balance, restrained saturation and premium documentary realism. No warm orange color cast, HDR, hard phone-camera contrast, oversaturation, wet food styling, droplets or CGI appearance.\nCARD CROP: keep the strongest representatives of all three fruit types inside the central 75 percent safe area. Preserve both produce zones and the clear central divider after modest side cropping. Lower title-overlap zone contains ordinary continuation of produce and crates, never one unique hero fruit or vital detail. Maintain edge-to-edge photograph with no borders, no empty caption block and no rendered text.\nABSOLUTELY EXCLUDE all text, logos, labels, stickers, overlays, people, hands, plastic bags, liners, retail clutter and decorative arranged leaves. Fresh produce only. Output a single photograph.",
+          "aspect_ratio": "3:4",
+          "reference_images": [
+            "dc7e032a-389b-4dc8-90d6-eb351dee5e1e"
+          ],
+          "quality": "1.5k",
+          "medias": [
+            {
+              "role": "image",
+              "data": {
+                "id": "dc7e032a-389b-4dc8-90d6-eb351dee5e1e",
+                "type": "media_input",
+                "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JhQGnRNAFE1aHdq0lIF6bLzTXG/dc7e032a-389b-4dc8-90d6-eb351dee5e1e.png"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "preflight": {
+    "cost": {
+      "credits": 1,
+      "credits_exact": 0.12
+    }
+  },
+  "requested": {
+    "model": "soul_2",
+    "count": 1,
+    "aspect_ratio": "3:4",
+    "quality": "1.5k",
+    "medias": [
+      {
+        "role": "image",
+        "value": "dc7e032a-389b-4dc8-90d6-eb351dee5e1e"
+      }
+    ],
+    "prompt": "Create ONE high-end photorealistic documentary still: the AGRICA FRESH category card master, portrait 3:4. The supplied image is the PRIMARY COMPOSITION REFERENCE ONLY: preserve its true overhead camera language, two adjacent tall produce crates, strong central seam, close edge-to-edge framing, clear visual separation and realistic produce density. Ignore and entirely omit every reference text, typography, label, fruit sticker, graphic, icon, watermark and palette swatch. Do not copy its fruit arrangement or retail-market styling.\nCAMERA AND STRUCTURE: camera points exactly straight down at 90 degrees, sensor plane parallel to the crate rims, no oblique view or perspective convergence. Two aligned, adjacent export-grade harvest crates run vertically side by side, divided by a strong straight central seam. Crates may continue beyond the top and bottom frame; no surrounding market scene. Clean dark desaturated forest green/deep olive crates with substantial broad simple matte rims and restrained practical detailing. Premium durable harvest containers, not cheap shiny supermarket plastic.\nPRODUCE: left crate contains mostly whole oranges with a distinctly smaller number of whole lemons naturally interspersed. Right crate contains whole pomegranates, with only one or two small leaves still naturally attached to stems. Products cover about 70–80 percent of the whole image: abundant enough to read immediately but with believable dark gaps, breathing room and visible crate structure. A shallow natural settled layer, not huge piled abundance. Asymmetric distribution; believable natural differences in size, shape, peel texture, maturity and orientation; small realistic blemishes. Pomegranates have natural crown calyxes and varied muted ruby-red skin, oranges have real irregular citrus peel, lemons are naturally elongated. No cloned fruit, no grids, no repeated patterns, no perfect spheres, no decorative foliage.\nLIGHT: large soft neutral daylight source from upper left, gentle realistic contact shadows toward lower right, controlled diffuse highlights, dry natural fruit surfaces, accurate neutral white balance, restrained saturation and premium documentary realism. No warm orange color cast, HDR, hard phone-camera contrast, oversaturation, wet food styling, droplets or CGI appearance.\nCARD CROP: keep the strongest representatives of all three fruit types inside the central 75 percent safe area. Preserve both produce zones and the clear central divider after modest side cropping. Lower title-overlap zone contains ordinary continuation of produce and crates, never one unique hero fruit or vital detail. Maintain edge-to-edge photograph with no borders, no empty caption block and no rendered text.\nABSOLUTELY EXCLUDE all text, logos, labels, stickers, overlays, people, hands, plastic bags, liners, retail clutter and decorative arranged leaves. Fresh produce only. Output a single photograph."
+  },
+  "reference": {
+    "media_id": "dc7e032a-389b-4dc8-90d6-eb351dee5e1e",
+    "status": "uploaded",
+    "type": "image",
+    "filename": "fresh-master-reference.png",
+    "content_type": "image/png",
+    "size_bytes": 507815,
+    "source_file_id": "file_00000000b1b481f48c1840ed01d0682f"
+  }
+}

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { productCardFieldLabel } from "@/content/produce/product-card-labels";
+import { getPublicProductCardContent } from "@/data/productCardContent";
+import { useLocale, useProductsDictionary } from "@/i18n/locale-context";
 import type { ProductAtlasItem } from "@/types/agrica";
-import { getProductSpecData } from "@/data/productSpecs";
 
 export interface ProductDetailSheetProps {
   readonly item: ProductAtlasItem | null;
@@ -15,19 +17,16 @@ export function ProductDetailSheet({
   onClose,
   onToggleQuote,
 }: ProductDetailSheetProps): React.JSX.Element | null {
-  const [selectedVarietyId, setSelectedVarietyId] = useState<string | null>(null);
+  const locale = useLocale();
+  const dictionary = useProductsDictionary();
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
     };
     if (item) {
       window.addEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "hidden";
-      // Reset selected variety when opening new item
-      setSelectedVarietyId(null);
     }
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
@@ -37,146 +36,57 @@ export function ProductDetailSheet({
 
   if (!item) return null;
 
-  const codeStr = `${item.worldId.slice(0, 2).toUpperCase()} / ${item.familyCode}`;
-  const specEntry = getProductSpecData(item);
-  const varieties = specEntry.varieties;
-  const activeVariety =
-    varieties && varieties.length > 0
-      ? varieties.find((v) => v.id === selectedVarietyId) ?? varieties[0]
-      : null;
-
-  const effectiveSpecs = activeVariety?.specs ?? specEntry.defaultSpecs;
-
-  // Build single unified specification list of approved real data fields only
-  const specRows: Array<{ label: string; value: string }> = [];
-
-  if (effectiveSpecs?.origin) {
-    specRows.push({ label: "Origin", value: effectiveSpecs.origin });
-  }
-  specRows.push({
-    label: "Condition",
-    value: `${item.worldLabel.charAt(0).toUpperCase() + item.worldLabel.slice(1)} produce`,
-  });
-
-  if (effectiveSpecs?.temperature) {
-    specRows.push({ label: "Shipping Temperature", value: effectiveSpecs.temperature });
-  }
-  if (effectiveSpecs?.grade) {
-    specRows.push({ label: "Grade Standard", value: effectiveSpecs.grade });
-  }
-  if (effectiveSpecs?.packaging && effectiveSpecs.packaging.length > 0) {
-    specRows.push({ label: "Packaging", value: effectiveSpecs.packaging.join(", ") });
-  }
-  if (effectiveSpecs?.harvestWindow) {
-    specRows.push({ label: "Harvest Window", value: effectiveSpecs.harvestWindow });
-  }
-  if (effectiveSpecs?.sizeCalibre) {
-    specRows.push({ label: "Size / Calibre", value: effectiveSpecs.sizeCalibre });
-  }
-  if (effectiveSpecs?.brix) {
-    specRows.push({ label: "Brix", value: effectiveSpecs.brix });
-  }
-  if (effectiveSpecs?.acidity) {
-    specRows.push({ label: "Acidity", value: effectiveSpecs.acidity });
-  }
-  if (effectiveSpecs?.averageWeight) {
-    specRows.push({ label: "Average Weight", value: effectiveSpecs.averageWeight });
-  }
-  if (effectiveSpecs?.seedStatus) {
-    specRows.push({ label: "Seed Status", value: effectiveSpecs.seedStatus });
-  }
-  if (effectiveSpecs?.shelfLife) {
-    specRows.push({ label: "Shelf Life", value: effectiveSpecs.shelfLife });
-  }
+  const content = getPublicProductCardContent(item.id);
+  const displayItem = locale === "en" && content.publicName
+    ? { ...item, name: content.publicName }
+    : item;
+  const code = `${item.worldId.slice(0, 2).toUpperCase()} / ${item.familyCode}`;
+  const fields = [...content.fields].sort((a, b) => a.displayOrder - b.displayOrder);
 
   return (
     <div className="sheet-root" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
       <div className="sheet-backdrop" onClick={onClose} aria-hidden="true" />
       <div className="sheet-drawer">
         <div className="sheet-grab-bar" aria-hidden="true" />
-
-        <button
-          type="button"
-          className="sheet-close-btn"
-          onClick={onClose}
-          aria-label="Close product details"
-        >
-          ✕
+        <button type="button" className="sheet-close-btn" onClick={onClose} aria-label="Close product details">
+          ×
         </button>
 
         <div className="sheet-content">
-          {/* Media Header */}
           <div className="sheet-media" data-visual={item.visual}>
-            <span className="sheet-tag">{codeStr}</span>
+            <span className="sheet-tag">{code}</span>
             <div className="sheet-media-art" />
           </div>
 
           <div className="sheet-details">
-            {/* Identity Header */}
             <div className="sheet-meta">
               <span className="sheet-world">{item.worldLabel.toUpperCase()}</span>
               <span className="sheet-dot">·</span>
               <span className="sheet-family">{item.familyName.toUpperCase()}</span>
             </div>
 
-            <h2 id="sheet-title" className="sheet-title">
-              {item.name}
-            </h2>
+            <h2 id="sheet-title" className="sheet-title">{displayItem.name}</h2>
+            <p className="sheet-subtitle">{dictionary.ui.productSpecifications}</p>
 
-            <p className="sheet-subtitle">Egyptian Agricultural Export Selection</p>
+            <dl className="unified-spec-table">
+              {fields.map((field) => (
+                <div key={field.labelKey} className="unified-spec-row">
+                  <dt className="unified-spec-label">{productCardFieldLabel(locale, field.labelKey)}</dt>
+                  <dd className="unified-spec-value" dir={locale === "ar" ? "ltr" : undefined}>{field.value}</dd>
+                </div>
+              ))}
+            </dl>
 
-            {/* Variety Selector */}
-            {varieties && varieties.length > 0 ? (
-              <div className="sheet-varieties-wrap" role="tablist" aria-label="Product varieties">
-                {varieties.map((v) => {
-                  const isVarActive = (activeVariety?.id ?? varieties[0].id) === v.id;
-                  return (
-                    <button
-                      key={v.id}
-                      type="button"
-                      className={`variety-chip${isVarActive ? " is-active" : ""}`}
-                      onClick={() => setSelectedVarietyId(v.id)}
-                      role="tab"
-                      aria-selected={isVarActive}
-                    >
-                      {v.name}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="sheet-varieties-spacer" aria-hidden="true" />
-            )}
-
-            {/* Unified Specification Table */}
-            {specRows.length > 0 && (
-              <dl className="unified-spec-table">
-                {specRows.map((row) => (
-                  <div key={row.label} className="unified-spec-row">
-                    <dt className="unified-spec-label">{row.label}</dt>
-                    <dd className="unified-spec-value">{row.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-
-            {/* Primary Action */}
             <div className="sheet-actions">
               <button
                 type="button"
                 className={`sheet-cta${isAddedToQuote ? " is-added" : ""}`}
-                onClick={() => onToggleQuote(item)}
+                onClick={() => onToggleQuote(displayItem)}
               >
                 {isAddedToQuote ? (
-                  <>
-                    <span>✓ IN YOUR EXPORT ENQUIRY</span>
-                    <small>Click to remove</small>
-                  </>
+                  <><span>✓ IN YOUR EXPORT ENQUIRY</span><small>Click to remove</small></>
                 ) : (
-                  <>
-                    <span>+ ADD TO EXPORT ENQUIRY</span>
-                    <small>Include in quote build</small>
-                  </>
+                  <><span>+ ADD TO EXPORT ENQUIRY</span><small>Include in quote build</small></>
                 )}
               </button>
             </div>
@@ -186,4 +96,3 @@ export function ProductDetailSheet({
     </div>
   );
 }
-

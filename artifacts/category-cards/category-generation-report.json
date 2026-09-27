@@ -1,0 +1,85 @@
+{
+  "reference": {
+    "job_id": "0bc78b37-3f7a-4131-9c97-83baee349413",
+    "path": "public/assets/categories/fresh-master.png"
+  },
+  "frozen": {
+    "results": [
+      {
+        "id": "d6a59155-a9c3-426f-8877-61cf4d65be85",
+        "type": "image",
+        "status": "pending",
+        "model": "gpt_image_2_5",
+        "params": {
+          "prompt": "Create a NEW premium editorial photograph of FROZEN produce, one portrait 3:4 website category image. The supplied Fresh photograph is a structural/style anchor ONLY: keep its exact overhead camera language, strong central vertical division, restrained realism and two adjacent produce zones. Invent a different arrangement and different food-safe containers; do not reproduce any citrus, pomegranates, leaves, harvest crates or individual reference shapes. This is a new cold-preserved category in the same visual family.\nTRUE 90-degree overhead, sensor parallel to tray rims, no perspective tilt or convergence. Two adjacent shallow professional food-safe trays, satin matte cool graphite-grey stainless steel with broad clean simple rims and a crisp central seam. Edge-to-edge portrait framing, with some outer rim visible, useful breathing room and no surrounding scene. LEFT: individually quick-frozen whole hulled strawberries, natural irregular strawberry silhouettes and seeds, varied size, muted natural red and fine pale crystalline frost on the skin. No green leafy crowns. RIGHT: individually frozen green peas with a small minority of short green bean segments, realistic scale, loosely collected in a shallow layer, subtle granular frost. Clear readable red and green product grouping. About 70–80 percent visual fill, visible dark tray surface between small natural clusters, enough negative space to avoid overstuffing. No arranged grids, no repeated produce patterns. Peas must be much smaller than strawberries. Preserve the strong vertical center divider at small card size.\nSoft directional daylight from upper-left, gentle precise shadows lower-right, cool neutral color balance, refined cold material behavior and subtle frost cues. Frost must read as frozen food, not snow or ice piles. Premium photographic realism, believable detailed texture, restrained highlights and saturation, no wet gloss. Keep category-identifying detail inside central 75% safe area and avoid unique important details in bottom title-overlap zone. Pure unbranded photograph with NO text, letters, numbers, labels, stickers, logos, watermark, borders, packaging, plastic bags, hands, people, props or clutter. No supermarket freezer, excessive frost, condensation, fake blue lighting, shiny plastic, CGI, HDR, cloned produce or citrus/pomegranates.",
+          "aspect_ratio": "3:4",
+          "reference_images": [
+            "0bc78b37-3f7a-4131-9c97-83baee349413"
+          ],
+          "variant": "flare",
+          "quality": "low",
+          "resolution": "1k"
+        }
+      }
+    ],
+    "adjustments": {
+      "medias[0].role": {
+        "requested": "image",
+        "used": "image_references",
+        "reason": "GPT Image 2.5 backend expects schema-key media roles"
+      }
+    },
+    "preflight": {
+      "cost": {
+        "credits": 0.25,
+        "credits_exact": 0.25
+      },
+      "adjustments": {
+        "medias[0].role": {
+          "requested": "image",
+          "used": "image_references",
+          "reason": "GPT Image 2.5 backend expects schema-key media roles"
+        }
+      }
+    },
+    "dimensions": [
+      880,
+      1168
+    ]
+  },
+  "dried": {
+    "results": [
+      {
+        "id": "e8abf785-901a-41be-b6e3-8ad4c4795af3",
+        "type": "image",
+        "status": "pending",
+        "model": "gpt_image_2_5",
+        "params": {
+          "prompt": "Create one NEW premium editorial photograph of DRIED produce, portrait 3:4 website category card. The supplied Fresh image is a structural/style anchor ONLY: use the true overhead camera, two side-by-side zones, strong central vertical divider, controlled density and restrained photographic realism. Create a distinctly preserved-food image with different materials, scale and arrangement. Do not copy individual fruit positions, harvest-crate geometry, fresh whole citrus or pomegranates.\nCamera exactly 90 degrees straight down, sensor parallel to rims, no perspective tilt or convergence. Two adjacent shallow professional drying trays in restrained warm charcoal-brown, with broad smooth simple rims and finely perforated food-safe metal bases. A clear vertical center seam. Clean and refined export-quality presentation, no woodgrain rustic props, no surrounding market scene. Trays may extend past top and bottom frame edges; edge-to-edge portrait photograph with breathing room and readable simple organization.\nLEFT ZONE: naturally dried orange wheels, with a smaller number of dried lemon slices. Thin irregular slices with subtly curled edges, translucent amber and muted ochre pulp, darker rind, visible dry citrus segment structure and natural variation in thickness and size. Loose small overlapping groups, not a perfect grid or decorative pattern. RIGHT ZONE: mostly whole dried dates, natural deep chestnut-brown wrinkled skin with restrained natural satin highlights, plus a small minority of whole dried figs with matte tan folded leathery surfaces and flattened forms, approximately four dates per fig. Dates and figs clearly distinct in shape and texture. No fresh fruit, no leaves, no extra products. Product occupies about 70–80 percent visual fill with dark surface gaps and clean rims; shallow layer, no overstuffing. Realistic relative product scale, independent varied shapes, no cloned items.\nWarm-neutral soft directional daylight from upper-left, elegant gentle shadows lower-right, earthy restrained palette, tactile dryness and preserved-product richness without an orange cast. High-end photographic realism and natural detail, dry food surfaces, no syrup, wet shine, HDR, oversaturation or CGI. Preserve strong color/texture readability in a small category card. Keep important category cues inside central 75% safe area and ordinary continuation at the lower title-overlap zone. Pure photograph, no caption panel.\nEXCLUDE all text, letters, numbers, typography, logos, labels, stickers, watermarks, branding, packaging, paper liners, bowls, props, hands, people, garnish, leaves, spice-market clutter, craft-market styling, fake rustic surfaces, symmetric arrangements, repeated patterns, fresh oranges, pomegranates or random extra foods.",
+          "aspect_ratio": "3:4",
+          "reference_images": [
+            "0bc78b37-3f7a-4131-9c97-83baee349413"
+          ],
+          "variant": "flare",
+          "quality": "low",
+          "resolution": "1k"
+        }
+      }
+    ],
+    "adjustments": {
+      "medias[0].role": {
+        "requested": "image",
+        "used": "image_references",
+        "reason": "GPT Image 2.5 backend expects schema-key media roles"
+      }
+    },
+    "quoted_credits_exact": 0.25,
+    "dimensions": [
+      880,
+      1168
+    ]
+  },
+  "new_generation_count": 2,
+  "retries": 0,
+  "upscales": 0
+}

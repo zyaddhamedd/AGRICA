@@ -76,7 +76,7 @@ assert.equal(family("fresh", "fresh-fruits").length, 8);
 assert.equal(family("fresh", "vegetables-tubers").length, 8);
 assert.equal(family("frozen", "iqf-fruits").length, 3);
 assert.equal(family("frozen", "iqf-vegetables").length, 7);
-assert.deepEqual(family("frozen", "frozen-potato-products").map((item) => item.name), ["Half-Fried French Fries"]);
+assert.deepEqual(family("frozen", "frozen-potato-products").map((item) => item.name), ["Pre-fried Frozen French Fries"]);
 assert.equal(family("dried", "dried-fruits").length, 2);
 assert.equal(family("dried", "dried-vegetables").length, 4);
 

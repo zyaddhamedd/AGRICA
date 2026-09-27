@@ -236,49 +236,15 @@
   pointer-events: none;
 }
 
-.world-card-topline {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: rgba(0, 32, 80, 0.66);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(0.57rem, 0.72vw, 0.65rem);
-  font-weight: 650;
-  letter-spacing: 0.15em;
+.world-card-front .world-card-front-body {
+  overflow: hidden;
+  padding: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0;
 }
 
-.world-card-turn-mark {
-  display: grid;
-  width: 26px;
-  height: 20px;
-  place-items: center;
-  color: rgba(0, 32, 80, 0.46);
-}
-
-.world-card-turn-mark svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.15;
-}
-
-.world-card-register-corners {
-  opacity: 0.42;
-}
-
-.world-card-turn-arc {
-  opacity: 0.72;
-}
-
-.world-card-turn-arrow {
-  color: var(--green, #50a010);
-  stroke: currentColor;
-  opacity: 0.9;
+.world-card-front .world-card-front-body::before {
+  display: none;
 }
 
 .world-card-media {
@@ -286,7 +252,7 @@
   z-index: 1;
   min-height: 0;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 19px 19px 0 0;
   background: var(--world-tint);
 }
 
@@ -329,6 +295,19 @@
   line-height: 1;
 }
 
+.world-card-front .world-card-title {
+  width: calc(100% - clamp(1.5rem, 2.4vw, 2rem));
+  margin: clamp(-1.25rem, -1.5vw, -1rem) auto 0;
+  padding: clamp(1.05rem, 1.55vw, 1.3rem) clamp(1rem, 1.5vw, 1.25rem) clamp(1.15rem, 1.75vw, 1.4rem);
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 32, 80, 0.075);
+  border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  background: color-mix(in srgb, var(--world-tint) 14%, #fffdf9);
+  box-shadow: 0 -14px 30px rgba(0, 24, 58, 0.08);
+  text-align: center;
+}
+
 .world-card-body-action {
   position: absolute;
   inset: 0;
@@ -356,28 +335,18 @@
   min-height: 44px;
   padding: 0 clamp(0.9rem, 1.4vw, 1.2rem);
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   border-top: 1px solid rgba(0, 32, 80, 0.12);
   color: var(--navy-deep, #002050);
   background: transparent;
   font-family: var(--font-sans, system-ui, sans-serif);
   font-size: 0.68rem;
   font-weight: 650;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.11em;
+  text-align: center;
   text-decoration: none;
   text-transform: uppercase;
   transition: color 180ms ease;
-}
-
-.world-card-footer svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.45;
-  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .world-card-footer:hover,
@@ -390,9 +359,22 @@
   outline-offset: -4px;
 }
 
-.world-card-footer:hover svg,
-.world-card-footer:focus-visible svg {
-  transform: translate(2px, -2px);
+.world-card-footer span {
+  animation: world-card-cta-pulse 5.4s ease-in-out infinite;
+  will-change: opacity, letter-spacing;
+}
+
+@keyframes world-card-cta-pulse {
+  0%,
+  100% {
+    opacity: 0.86;
+    letter-spacing: 0.11em;
+  }
+
+  50% {
+    opacity: 1;
+    letter-spacing: 0.125em;
+  }
 }
 
 .world-card-back-body {
@@ -518,6 +500,10 @@
     padding: 0.9rem;
   }
 
+  .world-card-front .world-card-front-body {
+    padding: 0;
+  }
+
   .world-card-title {
     font-size: clamp(1.55rem, 7vw, 1.85rem);
   }
@@ -528,14 +514,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .world-card-footer span {
+    animation: none;
+    opacity: 1;
+    letter-spacing: inherit;
+  }
+
   .world-card-scene,
   .world-card,
   .world-card.is-flipped,
   .world-card-face,
   .world-card-front,
   .world-card-back,
-  .world-card-media img,
-  .world-card-footer svg {
+  .world-card-media img {
     transform: none !important;
     -webkit-transform: none !important;
   }

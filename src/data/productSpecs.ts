@@ -6,8 +6,9 @@ export interface CropSpecEntry {
 }
 
 /**
- * Verified AGRICA Commercial & Export Specifications Registry.
- * Fields without approved data are omitted. No fabricated placeholders are used.
+ * @deprecated Historical compatibility data only.
+ * Public product surfaces must use `productCardContent.ts`; this registry contains
+ * legacy claims that have not passed the current AGRICA content-governance review.
  */
 export const VERIFIED_PRODUCT_SPECS: Readonly<Partial<Record<ProduceProductId, CropSpecEntry>>> = {
   "produce:orange": {
@@ -122,6 +123,7 @@ export const VERIFIED_PRODUCT_SPECS: Readonly<Partial<Record<ProduceProductId, C
 /**
  * Gets verified specs & variety list for a given product item.
  */
+/** @deprecated Public UI must use `getPublicProductCardContent`. */
 export function getProductSpecData(item: ProductAtlasItem): CropSpecEntry {
   const entry = VERIFIED_PRODUCT_SPECS[item.id];
   if (entry) return entry;
