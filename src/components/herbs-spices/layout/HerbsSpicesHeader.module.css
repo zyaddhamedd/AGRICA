@@ -106,8 +106,6 @@
   outline-offset: 3px;
 }
 
-
-main
 @media (max-width: 680px) {
   .header,
   .inner {
