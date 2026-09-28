@@ -6,7 +6,7 @@
   min-height: var(--hs-nav-height);
   border-bottom: 1px solid var(--hs-border);
   color: var(--hs-ink);
-  background: rgba(243, 240, 231, 0.94);
+  background: rgba(243, 235, 221, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
