@@ -1,0 +1,1190 @@
+[
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:orange",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 48,
+      "titleLineHeight": 42.24,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:fresh-mango",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 48,
+      "titleLineHeight": 42.24,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:potato",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 48,
+      "titleLineHeight": 42.24,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:fresh-artichoke",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 43.2,
+      "titleLineHeight": 38.016,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:iqf-mango",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 43.2,
+      "titleLineHeight": 38.016,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 4
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:mixed-vegetables",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 31.2,
+      "titleLineHeight": 27.456,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:half-fried-french-fries",
+    "front": {
+      "height": 640,
+      "noOverflow": false,
+      "titleFont": 31.2,
+      "titleLineHeight": 27.456,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:dried-lemon",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 43.2,
+      "titleLineHeight": 38.016,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1920,
+    "productId": "produce:dehydrated-onion",
+    "front": {
+      "height": 640,
+      "noOverflow": true,
+      "titleFont": 31.2,
+      "titleLineHeight": 27.456,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 11.52,
+      "minValueFont": 14.4,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:orange",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 46.8,
+      "titleLineHeight": 41.184,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:fresh-mango",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 46.8,
+      "titleLineHeight": 41.184,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:potato",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 46.8,
+      "titleLineHeight": 41.184,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:fresh-artichoke",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 43.2,
+      "titleLineHeight": 38.016,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:iqf-mango",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 43.2,
+      "titleLineHeight": 38.016,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:mixed-vegetables",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 30.672,
+      "titleLineHeight": 26.9914,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:half-fried-french-fries",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": false,
+      "titleFont": 30.672,
+      "titleLineHeight": 26.9914,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:dried-lemon",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 43.2,
+      "titleLineHeight": 38.016,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1440,
+    "productId": "produce:dehydrated-onion",
+    "front": {
+      "height": 604.796875,
+      "noOverflow": true,
+      "titleFont": 30.672,
+      "titleLineHeight": 26.9914,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:orange",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 33.28,
+      "titleLineHeight": 29.2864,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:fresh-mango",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 33.28,
+      "titleLineHeight": 29.2864,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:potato",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 33.28,
+      "titleLineHeight": 29.2864,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:fresh-artichoke",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 30.72,
+      "titleLineHeight": 27.0336,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:iqf-mango",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 30.72,
+      "titleLineHeight": 27.0336,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:mixed-vegetables",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 21.8112,
+      "titleLineHeight": 19.1939,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:half-fried-french-fries",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 21.8112,
+      "titleLineHeight": 19.1939,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:dried-lemon",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 30.72,
+      "titleLineHeight": 27.0336,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 1024,
+    "productId": "produce:dehydrated-onion",
+    "front": {
+      "height": 660,
+      "noOverflow": false,
+      "titleFont": 21.8112,
+      "titleLineHeight": 19.1939,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:orange",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 32,
+      "titleLineHeight": 28.16,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:fresh-mango",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 32,
+      "titleLineHeight": 28.16,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:potato",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 32,
+      "titleLineHeight": 28.16,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:fresh-artichoke",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 29.12,
+      "titleLineHeight": 25.6256,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:iqf-mango",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 29.12,
+      "titleLineHeight": 25.6256,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 4
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:mixed-vegetables",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 21.76,
+      "titleLineHeight": 19.1488,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:half-fried-french-fries",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 21.76,
+      "titleLineHeight": 19.1488,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:dried-lemon",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 29.12,
+      "titleLineHeight": 25.6256,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 768,
+    "productId": "produce:dehydrated-onion",
+    "front": {
+      "height": 610,
+      "noOverflow": false,
+      "titleFont": 21.76,
+      "titleLineHeight": 19.1488,
+      "visualInside": false
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.4,
+      "minValueFont": 12.8,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:orange",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 37.05,
+      "titleLineHeight": 32.604,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:fresh-mango",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 37.05,
+      "titleLineHeight": 32.604,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:potato",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 37.05,
+      "titleLineHeight": 32.604,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:fresh-artichoke",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 30.42,
+      "titleLineHeight": 26.7696,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:iqf-mango",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 30.42,
+      "titleLineHeight": 26.7696,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 4
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:mixed-vegetables",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 22.425,
+      "titleLineHeight": 19.734,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 2
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:half-fried-french-fries",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": false,
+      "titleFont": 22.425,
+      "titleLineHeight": 19.734,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:dried-lemon",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 30.42,
+      "titleLineHeight": 26.7696,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 390,
+    "productId": "produce:dehydrated-onion",
+    "front": {
+      "height": 655.1875,
+      "noOverflow": true,
+      "titleFont": 22.425,
+      "titleLineHeight": 19.734,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:orange",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 32,
+      "titleLineHeight": 28.16,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 4
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:fresh-mango",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 32,
+      "titleLineHeight": 28.16,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:potato",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 32,
+      "titleLineHeight": 28.16,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:fresh-artichoke",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 27.52,
+      "titleLineHeight": 24.2176,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:iqf-mango",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 27.52,
+      "titleLineHeight": 24.2176,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 4
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:mixed-vegetables",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 20.48,
+      "titleLineHeight": 18.0224,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 3
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:half-fried-french-fries",
+    "front": {
+      "height": 620,
+      "noOverflow": false,
+      "titleFont": 20.48,
+      "titleLineHeight": 18.0224,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 7,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 4
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:dried-lemon",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 27.52,
+      "titleLineHeight": 24.2176,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 4
+    }
+  },
+  {
+    "phase": "before",
+    "width": 320,
+    "productId": "produce:dehydrated-onion",
+    "front": {
+      "height": 620,
+      "noOverflow": true,
+      "titleFont": 20.48,
+      "titleLineHeight": 18.0224,
+      "visualInside": true
+    },
+    "back": {
+      "noOverflow": true,
+      "noCollision": true,
+      "actionInside": true,
+      "actionHeight": 48,
+      "rowCount": 6,
+      "minLabelFont": 10.56,
+      "minValueFont": 13.12,
+      "maxValueLines": 4
+    }
+  }
+]

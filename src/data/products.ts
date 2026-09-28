@@ -106,7 +106,7 @@ export const PRODUCT_LIBRARY: ProductLibrary = {
         name: "Frozen Potato Products",
         code: "FPP",
         products: [
-          product("produce:half-fried-french-fries", "Half-Fried French Fries", "frozen", "frozen-potato-products", "frozen-fpp"),
+          product("produce:half-fried-french-fries", "Pre-fried Frozen French Fries", "frozen", "frozen-potato-products", "frozen-fpp"),
         ],
       },
     ],

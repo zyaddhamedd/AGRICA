@@ -2,7 +2,6 @@
 
 import React, { useEffect, useCallback, useRef } from "react";
 import { LocaleLink as Link } from "./LocaleLink";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useCommonDictionary } from "@/i18n/locale-context";
 
 export interface GlobalMenuProps {
@@ -117,7 +116,6 @@ export function GlobalMenu({ isOpen, onClose }: GlobalMenuProps): React.JSX.Elem
         </nav>
 
         <div className="menu-panel-foot">
-          <LanguageSwitcher className="global-menu-language" tone="light" />
           <div className="foot-brand">
             <strong>AGRĪCA</strong>
             <small>{common.navigation.agricultureCairo}</small>

@@ -453,8 +453,9 @@
   --card-shadow: rgba(0, 48, 38, 0.2);
   --card-rim-light: rgba(127, 185, 86, 0.13);
   --card-visual-filter: saturate(1.13) contrast(1.04) brightness(0.93);
+  --card-pad: clamp(0.9rem, 1.35vw, 1.1rem);
   min-width: 0;
-  height: clamp(450px, 33vw, 480px);
+  height: clamp(510px, 36vw, 545px);
   perspective: 1400px;
   -webkit-perspective: 1400px;
   transition: transform 400ms ease;
@@ -595,7 +596,7 @@
 .export-card-front {
   display: grid;
   grid-template-rows: auto auto minmax(59%, 1fr);
-  padding: clamp(1.05rem, 1.7vw, 1.35rem);
+  padding: var(--card-pad);
   transform: rotateY(0deg);
   -webkit-transform: rotateY(0deg);
 }
@@ -603,7 +604,7 @@
 .export-card-back {
   display: flex;
   flex-direction: column;
-  padding: clamp(1.05rem, 1.7vw, 1.35rem);
+  padding: var(--card-pad);
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
 }
@@ -692,7 +693,7 @@
 }
 
 .export-card-identity {
-  padding-top: clamp(0.35rem, 0.8vw, 0.6rem);
+  padding-top: clamp(0.25rem, 0.55vw, 0.42rem);
 }
 
 .export-card-title,
@@ -707,41 +708,29 @@
 
 .export-card-title {
   max-width: 100%;
-  font-size: clamp(2rem, 3.25vw, 3rem);
-  line-height: 0.88;
+  font-size: clamp(1.9rem, 2.85vw, 2.65rem);
+  line-height: 0.9;
   white-space: nowrap;
   overflow: visible;
   overflow-wrap: normal;
 }
 
 .export-card-title[data-title-size="medium"] {
-  font-size: clamp(1.82rem, 3vw, 2.7rem);
+  font-size: clamp(1.72rem, 2.65vw, 2.4rem);
   letter-spacing: -0.056em;
 }
 
 .export-card-title[data-title-size="long"] {
-  font-size: clamp(1.56rem, 2.48vw, 2.25rem);
+  font-size: clamp(1.48rem, 2.2vw, 2.05rem);
   letter-spacing: -0.06em;
 }
 
 .export-card-title[data-title-size="very-long"] {
-  font-size: clamp(1.36rem, 2.13vw, 1.95rem);
+  max-width: 15ch;
+  font-size: clamp(1.28rem, 1.95vw, 1.78rem);
+  line-height: 0.92;
   letter-spacing: -0.062em;
-}
-
-.export-card-category {
-  margin: 0.5rem 0 0;
-  color: rgba(246, 242, 233, 0.72);
-  font-size: 0.64rem;
-  font-weight: 650;
-  letter-spacing: 0.13em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.export-card-category span {
-  margin: 0 0.25rem;
-  color: var(--card-secondary-accent);
+  white-space: normal;
 }
 
 .export-card-varieties {
@@ -761,7 +750,7 @@
   z-index: 1;
   align-self: stretch;
   min-height: 0;
-  margin: -1.1rem -1.35rem -1.35rem;
+  margin: -0.85rem calc(0px - var(--card-pad)) calc(0px - var(--card-pad));
   overflow: hidden;
   border-radius: 0 0 21px 21px;
   background-image: url("/assets/three-worlds.png");
@@ -815,8 +804,8 @@
 
 .export-card-back-cue {
   display: grid;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   place-items: center;
   border-top: 1px solid color-mix(in srgb, var(--card-secondary-accent) 48%, transparent);
   border-right: 1px solid color-mix(in srgb, var(--card-secondary-accent) 48%, transparent);
@@ -826,21 +815,23 @@
 }
 
 .export-card-back-title {
-  max-width: 13ch;
-  margin-top: 0.45rem;
-  font-size: clamp(1.7rem, 2.75vw, 2.25rem);
+  max-width: 14ch;
+  margin-top: 0.24rem;
+  font-size: clamp(1.32rem, 2vw, 1.76rem);
   line-height: 0.94;
 }
 
 .export-card-spec-kicker {
-  margin: 0.5rem 0 0;
-  padding: 0 0 0.4rem 0.65rem;
+  margin: 0.25rem 0 0;
+  padding: 0 0 0.2rem 0.55rem;
   border-left: 1px solid var(--card-accent);
   color: rgba(246, 242, 233, 0.56);
 }
 
 .export-spec-table {
-  flex-shrink: 0;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   min-height: 0;
   margin: 0;
   overflow: visible;
@@ -849,9 +840,11 @@
 
 .export-spec-row {
   display: grid;
-  grid-template-columns: minmax(88px, 38%) minmax(0, 1fr);
-  gap: clamp(0.65rem, 1.5vw, 1rem);
-  padding: clamp(0.48rem, 0.62vw, 0.58rem) 0;
+  flex: 1 1 0;
+  grid-template-columns: minmax(100px, 40%) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(0.52rem, 1vw, 0.72rem);
+  padding: clamp(0.3rem, 0.4vw, 0.4rem) 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -864,17 +857,21 @@
 
 .export-spec-row dt {
   color: rgba(215, 226, 235, 0.52);
-  font-size: clamp(0.7rem, 0.72vw, 0.76rem);
+  font-size: clamp(0.64rem, 0.65vw, 0.7rem);
   font-weight: 650;
-  letter-spacing: 0.075em;
-  line-height: 1.35;
+  letter-spacing: 0.07em;
+  line-height: 1.22;
   text-transform: uppercase;
 }
 
 .export-spec-row dd {
   color: rgba(246, 242, 233, 0.92);
-  font-size: clamp(0.92rem, 0.96vw, 1.02rem);
-  line-height: 1.35;
+  font-size: clamp(0.8rem, 0.82vw, 0.88rem);
+  line-height: 1.24;
+}
+
+.export-spec-table[data-field-count="7"] .export-spec-row {
+  padding-block: clamp(0.27rem, 0.35vw, 0.34rem);
 }
 
 .enquiry-notch {
@@ -886,10 +883,10 @@
   align-items: center;
   justify-content: space-between;
   width: auto;
-  min-width: 164px;
-  min-height: 48px;
-  margin: auto clamp(-1.35rem, -1.7vw, -1.05rem) clamp(-1.35rem, -1.7vw, -1.05rem) 0;
-  padding: 0.55rem clamp(1rem, 1.4vw, 1.2rem) 0.55rem 1.35rem;
+  min-width: 156px;
+  min-height: 44px;
+  margin: auto calc(0px - var(--card-pad)) calc(0px - var(--card-pad)) 0;
+  padding: 0.4rem clamp(0.86rem, 1.1vw, 1rem) 0.4rem 1.15rem;
   border: 0;
   background: rgba(0, 11, 29, 0.62);
   color: rgba(246, 242, 233, 0.88);
@@ -914,14 +911,16 @@
 
 .enquiry-notch-label {
   color: inherit;
+  font-size: 0.56rem;
+  letter-spacing: 0.15em;
   transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .enquiry-notch-mark {
   display: grid;
-  width: 26px;
-  height: 26px;
-  margin-left: 0.85rem;
+  width: 24px;
+  height: 24px;
+  margin-left: 0.72rem;
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid color-mix(in srgb, var(--card-accent) 76%, transparent);
@@ -996,7 +995,7 @@
 
 @media (max-width: 1024px) {
   .export-card-scene {
-    height: clamp(440px, 52vw, 470px);
+    height: clamp(545px, 62vw, 570px);
   }
 }
 
@@ -1006,46 +1005,84 @@
   }
 
   .atlas-grid {
-    gap: 1.5rem;
+    gap: 1.15rem;
   }
 
   .export-card-scene {
-    height: clamp(400px, 105vw, 425px);
+    --card-pad: 0.68rem;
+    height: clamp(465px, 125vw, 495px);
   }
 
-  .export-card-front,
-  .export-card-back {
-    padding: 1rem;
+  .export-card-identity {
+    padding-top: 0.08rem;
   }
 
   .export-card-title {
-    font-size: clamp(2rem, 9.5vw, 2.55rem);
+    font-size: clamp(1.8rem, 8.6vw, 2.25rem);
+    line-height: 0.88;
   }
 
   .export-card-title[data-title-size="medium"] {
-    font-size: clamp(1.72rem, 7.8vw, 2.1rem);
+    font-size: clamp(1.58rem, 7.2vw, 1.9rem);
   }
 
   .export-card-title[data-title-size="long"] {
-    font-size: clamp(1.48rem, 6.7vw, 1.78rem);
+    font-size: clamp(1.36rem, 6.15vw, 1.62rem);
   }
 
   .export-card-title[data-title-size="very-long"] {
-    font-size: clamp(1.28rem, 5.75vw, 1.5rem);
+    font-size: clamp(1.16rem, 5.25vw, 1.38rem);
+  }
+
+  .export-card-back-title {
+    margin-top: 0.08rem;
+    font-size: clamp(1.25rem, 5.5vw, 1.45rem);
+    line-height: 0.92;
+  }
+
+  .export-card-varieties {
+    margin-top: 0.08rem;
+    line-height: 1.25;
   }
 
   .export-card-visual {
-    margin: -0.9rem -1rem -1rem;
+    margin-top: -0.58rem;
+  }
+
+  .export-card-spec-kicker {
+    margin-top: 0.08rem;
+    padding-bottom: 0.08rem;
   }
 
   .export-spec-row {
-    grid-template-columns: minmax(100px, 38%) minmax(0, 1fr);
-    padding-block: 0.43rem;
+    grid-template-columns: minmax(90px, 35%) minmax(0, 1fr);
+    gap: 0.4rem;
+    padding-block: 0.1rem;
+  }
+
+  .export-spec-table[data-field-count="7"] .export-spec-row {
+    padding-block: 0.08rem;
+  }
+
+  .export-spec-row dt {
+    font-size: 0.625rem;
+    line-height: 1.14;
+  }
+
+  .export-spec-row dd {
+    font-size: 0.76rem;
+    line-height: 1.18;
   }
 
   .enquiry-notch {
-    margin-right: -1rem;
-    margin-bottom: -1rem;
+    min-height: 44px;
+    min-width: 150px;
+    padding: 0.28rem 0.72rem 0.28rem 1rem;
+  }
+
+  .enquiry-notch-mark {
+    width: 24px;
+    height: 24px;
   }
 }
 

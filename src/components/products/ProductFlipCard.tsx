@@ -1,10 +1,9 @@
 import React, { useRef } from "react";
 import type { ProductAtlasItem } from "@/types/agrica";
-import { getProductSpecData } from "@/data/productSpecs";
+import { getPublicProductCardContent } from "@/data/productCardContent";
 import { ProductCardFront } from "./ProductCardFront";
 import { ProductCardBack } from "./ProductCardBack";
 import { useLocale, useProductsDictionary } from "@/i18n/locale-context";
-import { localizeProduceTechnicalValue } from "@/content/produce/technical-terms";
 
 export interface ProductFlipCardProps {
   readonly item: ProductAtlasItem;
@@ -26,14 +25,15 @@ export function ProductFlipCard({
   const pointerOrigin = useRef<{ x: number; y: number } | null>(null);
   const worldPrefix = item.worldId === "fresh" ? "FR" : item.worldId === "frozen" ? "FZ" : "DR";
   const code = `${worldPrefix} / ${item.familyCode}`;
-  const specEntry = getProductSpecData(item);
-  const varietyNames = specEntry.varieties?.map((variety) => localizeProduceTechnicalValue(locale, variety.name)) ?? [];
-  const varietyLine = varietyNames.join(" · ") || item.variety || "";
+  const content = getPublicProductCardContent(item.id);
+  const displayItem = locale === "en" && content.publicName
+    ? { ...item, name: content.publicName }
+    : item;
 
-  const toggle = () => onFlip(item);
+  const toggle = () => onFlip(displayItem);
 
   return (
-    <div className="export-card-scene" data-world={item.worldId}>
+    <div className="export-card-scene" data-world={item.worldId} data-product-id={item.id}>
       <article
         className={`export-card${isFlipped ? " is-flipped" : ""}`}
         onPointerDown={(event) => {
@@ -51,18 +51,17 @@ export function ProductFlipCard({
         }}
       >
         <ProductCardFront
-          item={item}
+          item={displayItem}
           code={code}
-          varietyLine={varietyLine}
+          varietyLine=""
           isAddedToQuote={isAddedToQuote}
           isFlipped={isFlipped}
           onToggleQuote={onToggleQuote}
         />
         <ProductCardBack
-          item={item}
+          item={displayItem}
           code={code}
-          specifications={specEntry.defaultSpecs}
-          varietyNames={varietyNames}
+          fields={content.fields}
           isFlipped={isFlipped}
           isAddedToQuote={isAddedToQuote}
           onToggleQuote={onToggleQuote}
@@ -71,7 +70,7 @@ export function ProductFlipCard({
           type="button"
           className="export-card-keyboard-toggle"
           aria-pressed={isFlipped}
-          aria-label={`${item.name}: ${isFlipped ? dictionary.ui.showFront : dictionary.ui.showSpecifications}`}
+          aria-label={`${displayItem.name}: ${isFlipped ? dictionary.ui.showFront : dictionary.ui.showSpecifications}`}
           onClick={(event) => {
             event.stopPropagation();
             toggle();

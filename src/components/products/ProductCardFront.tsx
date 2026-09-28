@@ -48,9 +48,6 @@ export function ProductCardFront({
 
       <div className="export-card-identity">
         <h3 className="export-card-title" data-title-size={titleSize}>{item.name}</h3>
-        <p className="export-card-category">
-          {item.worldLabel} <span aria-hidden="true">·</span> {item.familyName}
-        </p>
         {varietyLine && <p className="export-card-varieties">{varietyLine}</p>}
       </div>
 

@@ -1,0 +1,203 @@
+{
+  "reports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "cards": [
+        {
+          "key": "fresh",
+          "loaded": true,
+          "src": "/_next/image?url=%2Fassets%2Fcategories%2Ffresh-master.png&w=3840&q=75",
+          "alt": "Overhead view of oranges and lemons beside pomegranates in olive-green harvest crates",
+          "natural": [
+            446,
+            592
+          ],
+          "card": {
+            "x": 43.1875,
+            "y": 220.21875,
+            "width": 425.09375,
+            "height": 510.109375
+          },
+          "image": {
+            "width": 423.09375,
+            "height": 391.359375
+          },
+          "titleAlign": "center",
+          "ctaAlign": "center",
+          "pulse": "world-card-cta-pulse",
+          "objectPosition": "58% 50%"
+        },
+        {
+          "key": "frozen",
+          "loaded": true,
+          "src": "/_next/image?url=%2Fassets%2Fcategories%2Ffrozen-master.png&w=3840&q=75",
+          "alt": "Overhead view of frosted strawberries beside frozen peas and green beans in metal trays",
+          "natural": [
+            446,
+            592
+          ],
+          "card": {
+            "x": 499.953125,
+            "y": 220.21875,
+            "width": 425.09375,
+            "height": 510.109375
+          },
+          "image": {
+            "width": 423.09375,
+            "height": 391.359375
+          },
+          "titleAlign": "center",
+          "ctaAlign": "center",
+          "pulse": "world-card-cta-pulse",
+          "objectPosition": "54% 52%"
+        },
+        {
+          "key": "dried",
+          "loaded": true,
+          "src": "/_next/image?url=%2Fassets%2Fcategories%2Fdried-master.png&w=3840&q=75",
+          "alt": "Overhead view of dried citrus slices beside dates and figs in shallow drying trays",
+          "natural": [
+            446,
+            592
+          ],
+          "card": {
+            "x": 956.71875,
+            "y": 220.21875,
+            "width": 425.09375,
+            "height": 510.109375
+          },
+          "image": {
+            "width": 423.09375,
+            "height": 391.359375
+          },
+          "titleAlign": "center",
+          "ctaAlign": "center",
+          "pulse": "world-card-cta-pulse",
+          "objectPosition": "52% 52%"
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "cards": [
+        {
+          "key": "fresh",
+          "loaded": true,
+          "src": "/_next/image?url=%2Fassets%2Fcategories%2Ffresh-master.png&w=3840&q=75",
+          "alt": "Overhead view of oranges and lemons beside pomegranates in olive-green harvest crates",
+          "natural": [
+            350,
+            464
+          ],
+          "card": {
+            "x": 20,
+            "y": 146.640625,
+            "width": 350,
+            "height": 408.328125
+          },
+          "image": {
+            "width": 348,
+            "height": 304.84375
+          },
+          "titleAlign": "center",
+          "ctaAlign": "center",
+          "pulse": "world-card-cta-pulse",
+          "objectPosition": "58% 50%"
+        },
+        {
+          "key": "frozen",
+          "loaded": true,
+          "src": "/_next/image?url=%2Fassets%2Fcategories%2Ffrozen-master.png&w=3840&q=75",
+          "alt": "Overhead view of frosted strawberries beside frozen peas and green beans in metal trays",
+          "natural": [
+            350,
+            464
+          ],
+          "card": {
+            "x": 20,
+            "y": 570.96875,
+            "width": 350,
+            "height": 408.328125
+          },
+          "image": {
+            "width": 348,
+            "height": 304.84375
+          },
+          "titleAlign": "center",
+          "ctaAlign": "center",
+          "pulse": "world-card-cta-pulse",
+          "objectPosition": "54% 52%"
+        },
+        {
+          "key": "dried",
+          "loaded": true,
+          "src": "/_next/image?url=%2Fassets%2Fcategories%2Fdried-master.png&w=3840&q=75",
+          "alt": "Overhead view of dried citrus slices beside dates and figs in shallow drying trays",
+          "natural": [
+            350,
+            464
+          ],
+          "card": {
+            "x": 20,
+            "y": 995.296875,
+            "width": 350,
+            "height": 408.328125
+          },
+          "image": {
+            "width": 348,
+            "height": 304.84375
+          },
+          "titleAlign": "center",
+          "ctaAlign": "center",
+          "pulse": "world-card-cta-pulse",
+          "objectPosition": "52% 52%"
+        }
+      ],
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "imageResponses": [
+    {
+      "url": "http://localhost:3126/_next/image?url=%2Fassets%2Fcategories%2Ffresh-master.png&w=640&q=75",
+      "status": 200,
+      "mime": "image/webp",
+      "bytes": 0
+    },
+    {
+      "url": "http://localhost:3126/_next/image?url=%2Fassets%2Fcategories%2Ffrozen-master.png&w=640&q=75",
+      "status": 200,
+      "mime": "image/webp",
+      "bytes": 0
+    },
+    {
+      "url": "http://localhost:3126/_next/image?url=%2Fassets%2Fcategories%2Fdried-master.png&w=640&q=75",
+      "status": 200,
+      "mime": "image/webp",
+      "bytes": 0
+    },
+    {
+      "url": "http://localhost:3126/_next/image?url=%2Fassets%2Fcategories%2Ffresh-master.png&w=640&q=75",
+      "status": 200,
+      "mime": "image/webp",
+      "bytes": 0
+    },
+    {
+      "url": "http://localhost:3126/_next/image?url=%2Fassets%2Fcategories%2Ffrozen-master.png&w=640&q=75",
+      "status": 200,
+      "mime": "image/webp",
+      "bytes": 0
+    },
+    {
+      "url": "http://localhost:3126/_next/image?url=%2Fassets%2Fcategories%2Fdried-master.png&w=640&q=75",
+      "status": 200,
+      "mime": "image/webp",
+      "bytes": 0
+    }
+  ]
+}

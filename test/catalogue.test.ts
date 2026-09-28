@@ -79,7 +79,7 @@ const EXPECTED_CATALOGUE = {
         id: "frozen-potato-products",
         name: "Frozen Potato Products",
         code: "FPP",
-        products: ["Half-Fried French Fries"],
+        products: ["Pre-fried Frozen French Fries"],
       },
     ],
   },

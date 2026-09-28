@@ -20,6 +20,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+debug.log
+*.log
 
 # Local environment files
 .env*.local
@@ -28,6 +30,7 @@ yarn-error.log*
 # Scratch & temporary development scripts
 scratch/
 scratch_*.js
+*chrome*profile*
 
 # OS metadata
 .DS_Store
