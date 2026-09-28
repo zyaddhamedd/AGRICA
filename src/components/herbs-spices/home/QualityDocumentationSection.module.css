@@ -1,16 +1,17 @@
 .section {
-  color: var(--hs-ink);
-  background: var(--hs-paper);
-  scroll-margin-top: var(--hs-nav-height);
-  border-bottom: 1px solid var(--hs-border);
+  color: var(--hs-ink, #24513f);
+  background: var(--hs-paper, #faf8f5);
+  scroll-margin-top: var(--hs-nav-height, 72px);
+  border-bottom: 1px solid var(--hs-border, rgba(36, 81, 63, 0.12));
+  border-top: 1px solid var(--hs-border, rgba(36, 81, 63, 0.08));
   position: relative;
   overflow: hidden;
 }
 
 .inner {
-  width: min(100%, var(--hs-content-max));
+  width: min(100%, var(--hs-content-max, 1440px));
   margin: 0 auto;
-  padding: clamp(3.5rem, 5vw, 4.5rem) var(--hs-page-gutter);
+  padding: clamp(3rem, 4.5vw, 4.25rem) var(--hs-page-gutter, clamp(1.25rem, 4vw, 4.75rem));
 }
 
 /* Chapter Label Header */
@@ -23,8 +24,8 @@
 .chapterLabel {
   display: inline-block;
   margin: 0;
-  color: var(--hs-sage);
-  font-family: var(--hs-font-sans);
+  color: var(--hs-sage, #50a010);
+  font-family: var(--hs-font-sans, var(--font-sans, sans-serif));
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -83,22 +84,22 @@
   gap: 0.5rem;
   margin-top: 1.75rem;
   padding-top: 1.25rem;
-  border-top: 1px solid var(--hs-border);
+  border-top: 1px solid var(--hs-border, rgba(36, 81, 63, 0.12));
 }
 
 .footerDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--hs-sage);
+  background: var(--hs-sage, #50a010);
   flex-shrink: 0;
 }
 
 .footerNote {
   margin: 0;
-  font-family: var(--hs-font-sans);
+  font-family: var(--hs-font-sans, var(--font-sans, sans-serif));
   font-size: 0.8125rem;
-  color: var(--hs-muted);
+  color: var(--hs-muted, rgba(0, 32, 80, 0.62));
   line-height: 1.45;
   text-align: center;
 }
