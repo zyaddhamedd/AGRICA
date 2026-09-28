@@ -1,0 +1,320 @@
+.atlasSection {
+  color: var(--hs-ink);
+  background: var(--hs-paper);
+  padding: 0 var(--hs-page-gutter) clamp(2.5rem, 4vw, 3.5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.inner {
+  width: min(100%, var(--hs-content-max));
+  margin: 0 auto;
+}
+
+/* Mobile Header (Hidden on Desktop) */
+.mobileHeader {
+  display: none;
+}
+
+/* =========================================================================
+   DESKTOP 2-COLUMN PROCESS ATLAS WORKSPACE (560–640px Target Total Height)
+   ========================================================================= */
+.atlasGrid {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  gap: clamp(2rem, 3.5vw, 3.5rem);
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Left: Architectural Botanical Stage Rail (25%) */
+.leftRail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-right: 1px solid rgba(24, 45, 36, 0.08);
+  padding-right: clamp(1.25rem, 2vw, 2rem);
+}
+
+.railHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(24, 45, 36, 0.08);
+  margin-bottom: 0.5rem;
+}
+
+.railLabel {
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hs-sage);
+}
+
+.railCounter {
+  font-family: var(--hs-font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(24, 45, 36, 0.45);
+  letter-spacing: 0.08em;
+}
+
+.stageNav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 0;
+  width: 100%;
+}
+
+.stageNavItem {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 0.5rem 0.85rem 0.25rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(24, 45, 36, 0.06);
+  text-align: left;
+  cursor: pointer;
+  color: rgba(24, 45, 36, 0.45);
+  transition: color 180ms ease;
+  position: relative;
+}
+
+.stageNavItem:last-child {
+  border-bottom: none;
+}
+
+.stageNavItem:hover {
+  color: var(--hs-ink);
+}
+
+.stageNavItemActive {
+  color: var(--hs-ink);
+}
+
+.itemIndex {
+  font-family: var(--hs-font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--hs-sage);
+  transition: color 180ms ease, font-weight 180ms ease;
+}
+
+.stageNavItemActive .itemIndex {
+  color: var(--hs-ink);
+  font-weight: 700;
+}
+
+.itemName {
+  font-family: var(--hs-font-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: inherit;
+  transition: color 180ms ease, font-weight 180ms ease;
+}
+
+.stageNavItemActive .itemName {
+  color: var(--hs-ink);
+  font-weight: 600;
+}
+
+/* Subtle single active hairline indicator */
+.itemIndicator {
+  position: absolute;
+  left: -2px;
+  top: 20%;
+  bottom: 20%;
+  width: 2px;
+  background: var(--hs-ink);
+  opacity: 0;
+  transform: scaleY(0);
+  transition: opacity 180ms ease, transform 180ms ease;
+  border-radius: 1px;
+}
+
+.stageNavItemActive .itemIndicator {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.stageNavItem:focus-visible {
+  outline: 2px solid var(--hs-sage);
+  outline-offset: 2px;
+}
+
+/* Right: Visual Plate System (75%) */
+.stageCol {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.visualFrame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  max-height: 540px;
+  border-radius: 12px;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* =========================================================================
+   MOBILE & TABLET RESPONSIVE EXPERIENCE (<768px)
+   Target Atlas Height: ~460–560px
+   ========================================================================= */
+@media (max-width: 767px) {
+  .atlasSection {
+    padding: 0 var(--hs-page-gutter) 2.5rem;
+  }
+
+  .mobileHeader {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(24, 45, 36, 0.08);
+    margin-bottom: 0.75rem;
+  }
+
+  .mobileHeaderLabel {
+    font-family: var(--hs-font-sans);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--hs-sage);
+  }
+
+  .mobileHeaderCounter {
+    font-family: var(--hs-font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--hs-ink);
+    letter-spacing: 0.08em;
+  }
+
+  .atlasGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 100%;
+  }
+
+  .leftRail {
+    display: contents;
+  }
+
+  .railHeader {
+    display: none;
+  }
+
+  /* Simultaneous 6-Stage Top Selector */
+  .stageNav {
+    order: 1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.15rem;
+    width: 100%;
+    margin-bottom: 0.85rem;
+    background: transparent;
+  }
+
+  .stageNavItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.4rem 0.1rem 0.5rem;
+    min-height: 44px; /* Accessible touch target >=44px */
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: rgba(24, 45, 36, 0.4);
+    position: relative;
+  }
+
+  .stageNavItemActive {
+    color: var(--hs-ink);
+  }
+
+  .itemIndex {
+    font-size: 0.625rem;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+    color: rgba(24, 45, 36, 0.4);
+  }
+
+  .stageNavItemActive .itemIndex {
+    color: var(--hs-sage);
+    font-weight: 700;
+  }
+
+  .itemName {
+    font-size: 0.6875rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .stageNavItemActive .itemName {
+    color: var(--hs-ink);
+    font-weight: 600;
+  }
+
+  /* Thin Sage underline for active mobile stage */
+  .itemIndicator {
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    top: auto;
+    bottom: 0;
+    width: auto;
+    height: 2px;
+    background: var(--hs-sage);
+    opacity: 0;
+    transform: scaleX(0);
+    transition: transform 200ms ease, opacity 200ms ease;
+  }
+
+  .stageNavItemActive .itemIndicator {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .stageCol {
+    order: 2;
+  }
+
+  .visualFrame {
+    min-height: 340px;
+    height: clamp(340px, 78vw, 420px);
+    max-height: 440px;
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stageNavItem,
+  .itemIndicator {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
