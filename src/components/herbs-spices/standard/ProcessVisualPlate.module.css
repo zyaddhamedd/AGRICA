@@ -23,9 +23,9 @@
   height: 100%;
   border-radius: 12px;
   overflow: hidden;
-  background: #14231c;
-  box-shadow: 0 12px 36px -12px rgba(20, 35, 28, 0.12),
-    0 2px 6px rgba(20, 35, 28, 0.04);
+  background: #1D3F2D;
+  box-shadow: 0 12px 36px -12px rgba(36, 75, 54, 0.16),
+    0 2px 6px rgba(36, 75, 54, 0.06);
 }
 
 .botanicalImage {
@@ -51,12 +51,12 @@
   padding: clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 2.5vw, 2rem);
   background: linear-gradient(
     to top,
-    rgba(14, 28, 21, 0.92) 0%,
-    rgba(14, 28, 21, 0.55) 55%,
-    rgba(14, 28, 21, 0.15) 85%,
+    rgba(29, 63, 45, 0.94) 0%,
+    rgba(29, 63, 45, 0.6) 55%,
+    rgba(29, 63, 45, 0.15) 85%,
     transparent 100%
   );
-  color: #faf8f4;
+  color: #F3EBDD;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -76,13 +76,13 @@
   font-family: var(--hs-font-mono, monospace);
   font-size: 0.6875rem;
   font-weight: 600;
-  color: #a8c7a3;
+  color: #8A9B68;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .plateNumber {
-  color: #c9e6c4;
+  color: #B08A43;
 }
 
 .plateDivider {
@@ -100,7 +100,7 @@
   font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.1;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .plateShortLabel {
@@ -109,7 +109,7 @@
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #b7d1b3;
+  color: #8A9B68;
   margin-top: 0.05rem;
 }
 
@@ -117,7 +117,7 @@
   margin: 0;
   font-family: var(--hs-font-sans);
   font-size: clamp(0.8125rem, 0.9vw, 0.875rem);
-  color: rgba(250, 248, 244, 0.85);
+  color: rgba(243, 235, 221, 0.88);
   line-height: 1.4;
   max-width: 48ch;
   margin-top: 0.15rem;

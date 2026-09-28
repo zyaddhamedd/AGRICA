@@ -3,11 +3,12 @@
    ========================================================================= */
 
 .footer {
-  --hs-footer-bg: #142d22;
-  --hs-footer-line: rgba(244, 241, 234, 0.1);
-  --hs-footer-text: #f4f1ea;
-  --hs-footer-sage: #9bbd95;
-  --hs-footer-muted: rgba(244, 241, 234, 0.6);
+  --hs-footer-bg: #244b36;
+  --hs-footer-line: rgba(243, 235, 221, 0.12);
+  --hs-footer-text: #f3ebdd;
+  --hs-footer-sage: #8a9b68;
+  --hs-footer-brass: #b08a43;
+  --hs-footer-muted: rgba(243, 235, 221, 0.65);
 
   display: block !important;
   width: 100% !important;
@@ -29,8 +30,8 @@
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 85% 15%, rgba(155, 189, 149, 0.08), transparent 35rem),
-    radial-gradient(circle at 10% 90%, rgba(10, 26, 19, 0.6), transparent 30rem);
+    radial-gradient(circle at 85% 15%, rgba(138, 155, 104, 0.12), transparent 35rem),
+    radial-gradient(circle at 10% 90%, rgba(37, 42, 39, 0.5), transparent 30rem);
 }
 
 .inner {

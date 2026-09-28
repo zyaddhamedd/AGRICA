@@ -1,36 +1,39 @@
 .divisionRoot {
-  /* Modern Egyptian Botanical Export House Color Tokens */
-  --hs-canvas: #f3f0e7;
-  --hs-paper: #f3f0e7;
-  --hs-surface: #e9e5d9;
-  --hs-sand: #ded7c8;
+  /* BOTANICAL HERITAGE COLOR TOKENS (OPTION 2) */
+  /* Linen Canvas / Paper / Card Surfaces */
+  --hs-canvas: #f3ebdd;
+  --hs-paper: #f3ebdd;
+  --hs-surface: #eae1d1;
+  --hs-sand: #dfd5c3;
 
-  /* Botanical Greens */
-  --hs-ink: #24513f;
-  --hs-bg-deep: #24513f;
-  --hs-bg: #1b4333;
-  --hs-green-subtle: #2d634d;
+  /* Forest Green (Primary Brand & Dark Hero Green) */
+  --hs-forest: #244b36;
+  --hs-bg-deep: #244b36;
+  --hs-bg: #1d3f2d;
+  --hs-green-subtle: #2c5b42;
 
-  /* Sage & Secondary Botanical Accents */
-  --hs-sage: #8fa889;
-  --hs-accent-secondary: #8fa889;
+  /* Sage (Herbal Botanical Accent) */
+  --hs-sage: #8a9b68;
+  --hs-accent-secondary: #8a9b68;
 
-  /* Muted Gold (Used very sparingly as micro-detail) */
-  --hs-gold: #b89b56;
-  --hs-accent: #b89b56;
+  /* Antique Brass (Luxury Botanical Accent & Micro-details) */
+  --hs-gold: #b08a43;
+  --hs-brass: #b08a43;
+  --hs-accent: #b08a43;
 
-  /* Controlled Parent Brand Navy */
-  --hs-navy: #002050;
+  /* Ink (Deep Charcoal / Primary Dark Contrast) */
+  --hs-ink: #252a27;
+  --hs-navy: #252a27;
 
   /* Typography Colors */
-  --hs-text: #f7f5ee;
-  --hs-muted: #52665a;
-  --hs-muted-on-dark: #b2c4b0;
+  --hs-text: #f3ebdd;
+  --hs-muted: #57635c;
+  --hs-muted-on-dark: #a9bba2;
 
   /* Hairline Borders */
-  --hs-border: rgba(36, 81, 63, 0.14);
-  --hs-border-subtle: rgba(36, 81, 63, 0.07);
-  --hs-border-on-dark: rgba(243, 240, 231, 0.16);
+  --hs-border: rgba(36, 75, 54, 0.14);
+  --hs-border-subtle: rgba(36, 75, 54, 0.08);
+  --hs-border-on-dark: rgba(243, 235, 221, 0.14);
 
   /* Typography Families */
   --hs-font-sans: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
@@ -49,8 +52,8 @@
   --hs-radius-pill: 999px;
 
   /* Shadows */
-  --hs-shadow-soft: 0 16px 48px rgba(36, 81, 63, 0.08);
-  --hs-shadow-elevated: 0 24px 64px rgba(36, 81, 63, 0.14);
+  --hs-shadow-soft: 0 16px 48px rgba(36, 75, 54, 0.08);
+  --hs-shadow-elevated: 0 24px 64px rgba(36, 75, 54, 0.14);
   --hs-display-size: clamp(3.8rem, 8.5vw, 7.8rem);
   --hs-display-leading: 0.92;
   --hs-body-leading: 1.65;
