@@ -1,22 +1,25 @@
 /* =========================================================================
-   HERBS & SPICES GLOBAL FOOTER — Botanical Architectural Layout
+   HERBS & SPICES GLOBAL FOOTER — Refined Botanical Architectural Layout
    ========================================================================= */
 
 .footer {
   --hs-footer-bg: #142d22;
-  --hs-footer-line: rgba(243, 240, 231, 0.12);
-  --hs-footer-text: #faf8f4;
+  --hs-footer-line: rgba(244, 241, 234, 0.1);
+  --hs-footer-text: #f4f1ea;
   --hs-footer-sage: #9bbd95;
-  --hs-footer-muted: rgba(250, 248, 244, 0.62);
+  --hs-footer-muted: rgba(244, 241, 234, 0.6);
 
-  display: block;
-  width: 100%;
+  display: block !important;
+  width: 100% !important;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: var(--hs-footer-bg);
-  color: var(--hs-footer-text);
-  border-top: 1px solid var(--hs-footer-line);
+  background: var(--hs-footer-bg) !important;
+  color: var(--hs-footer-text) !important;
+  border-top: 1px solid var(--hs-footer-line) !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  letter-spacing: normal !important;
 }
 
 .footer::before {
@@ -26,22 +29,25 @@
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 85% 15%, rgba(143, 168, 137, 0.08), transparent 35rem),
-    radial-gradient(circle at 10% 90%, rgba(20, 45, 34, 0.5), transparent 30rem);
+    radial-gradient(circle at 85% 15%, rgba(155, 189, 149, 0.08), transparent 35rem),
+    radial-gradient(circle at 10% 90%, rgba(10, 26, 19, 0.6), transparent 30rem);
 }
 
 .inner {
-  display: flex;
-  flex-direction: column;
-  width: min(100%, 1440px);
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: clamp(3rem, 5vw, 4.5rem) var(--hs-page-gutter, clamp(1.25rem, 3.5vw, 3.75rem)) clamp(1.75rem, 2.5vw, 2.25rem);
-  gap: clamp(2.25rem, 3.5vw, 3.25rem);
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(100%, 1440px) !important;
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding: clamp(3rem, 5vw, 4.5rem) var(--gutter, clamp(1.25rem, 3.5vw, 3.75rem)) clamp(1.75rem, 2.5vw, 2.25rem) !important;
+  gap: clamp(2.25rem, 3.5vw, 3.25rem) !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  letter-spacing: normal !important;
 }
 
 /* =========================================================================
-   1. TOP BAR: Brand Identity & Direct Channels
+   1. TOP BAR: Brand Identity & Direct Communication
    ========================================================================= */
 .topBar {
   display: flex;
@@ -49,6 +55,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
+  width: 100%;
   padding-bottom: clamp(1.75rem, 2.5vw, 2.25rem);
   border-bottom: 1px solid var(--hs-footer-line);
 }
@@ -61,28 +68,32 @@
   max-width: 520px;
 }
 
-.brand {
-  display: inline-flex;
+.brandHeader {
+  display: flex;
   align-items: center;
   gap: 0.85rem;
-  color: var(--hs-footer-text);
+}
+
+.brandLink {
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
 }
 
-.logo {
+.brandLogo {
   width: auto;
-  height: clamp(20px, 2.3vw, 24px);
+  height: clamp(22px, 2.4vw, 26px);
   object-fit: contain;
 }
 
 .brandDivider {
   width: 1px;
   height: 18px;
-  background: var(--hs-footer-line);
+  background: rgba(244, 241, 234, 0.2);
 }
 
 .divisionBadge {
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.65rem;
   font-weight: 650;
   letter-spacing: 0.12em;
@@ -92,11 +103,11 @@
 
 .manifesto {
   margin: 0;
-  font-family: var(--hs-font-serif, Georgia, serif);
+  font-family: var(--font-serif);
   font-size: clamp(1.05rem, 1.2vw, 1.2rem);
   line-height: 1.45;
   font-style: italic;
-  color: rgba(250, 248, 244, 0.82);
+  color: rgba(244, 241, 234, 0.8);
 }
 
 .channels {
@@ -113,19 +124,19 @@
 }
 
 .channelLabel {
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(250, 248, 244, 0.45);
+  color: rgba(244, 241, 234, 0.45);
 }
 
 .channelLink {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--hs-footer-text);
@@ -161,7 +172,7 @@
 }
 
 .officesEyebrow {
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -181,7 +192,7 @@
   flex-direction: column;
   gap: 0.55rem;
   padding-left: clamp(0.85rem, 1.5vw, 1.35rem);
-  border-left: 1px solid var(--hs-footer-line);
+  border-left: 1px solid rgba(244, 241, 234, 0.12);
   transition: border-color 200ms ease;
 }
 
@@ -196,7 +207,7 @@
 }
 
 .officeNum {
-  font-family: var(--hs-font-mono, monospace);
+  font-family: var(--font-mono, monospace);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -212,16 +223,17 @@
 
 .officeCountry {
   margin: 0;
-  font-family: var(--hs-font-serif, Georgia, serif);
+  font-family: var(--font-serif);
   font-size: clamp(1.2rem, 1.4vw, 1.4rem);
   font-weight: 500;
   letter-spacing: -0.015em;
   color: #ffffff;
   line-height: 1.1;
+  text-transform: none;
 }
 
 .officeRole {
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.6rem;
   font-weight: 650;
   letter-spacing: 0.1em;
@@ -231,13 +243,14 @@
 
 .officeAddress {
   margin: 0.25rem 0 0;
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.76rem;
   line-height: 1.45;
-  color: rgba(250, 248, 244, 0.75);
+  color: rgba(244, 241, 234, 0.72);
   display: flex;
   align-items: flex-start;
   gap: 0.45rem;
+  text-transform: none;
 }
 
 .pinIcon {
@@ -253,13 +266,14 @@
   align-items: center;
   gap: 0.45rem;
   color: var(--hs-footer-text);
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none;
   margin-top: 0.25rem;
   transition: color 160ms ease;
   width: fit-content;
+  text-transform: none;
 }
 
 .officePhone:hover {
@@ -282,6 +296,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1.5rem;
+  width: 100%;
   padding: 1.25rem 0;
   border-top: 1px solid var(--hs-footer-line);
   border-bottom: 1px solid var(--hs-footer-line);
@@ -296,8 +311,8 @@
 
 .navItem {
   position: relative;
-  color: rgba(250, 248, 244, 0.75);
-  font-family: var(--hs-font-sans);
+  color: rgba(244, 241, 234, 0.75);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 550;
   letter-spacing: 0.04em;
@@ -333,17 +348,17 @@
 }
 
 .desk span {
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(250, 248, 244, 0.45);
+  color: rgba(244, 241, 234, 0.45);
 }
 
 .deskLink {
   color: var(--hs-footer-sage);
-  font-family: var(--hs-font-sans);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 650;
   text-decoration: none;
@@ -363,8 +378,9 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
-  color: rgba(250, 248, 244, 0.45);
-  font-family: var(--hs-font-sans);
+  width: 100%;
+  color: rgba(244, 241, 234, 0.45);
+  font-family: var(--font-sans);
   font-size: 0.65rem;
   font-weight: 550;
   letter-spacing: 0.06em;
@@ -394,7 +410,7 @@
 .topBtn {
   background: transparent;
   border: none;
-  color: rgba(250, 248, 244, 0.65);
+  color: rgba(244, 241, 234, 0.65);
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
@@ -414,6 +430,18 @@
 
 .topBtn:hover {
   color: #ffffff;
+}
+
+/* Reveal transition */
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms ease, transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer[data-visible="true"] .reveal {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* =========================================================================
@@ -464,5 +492,13 @@
 
   .topBtn {
     align-self: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

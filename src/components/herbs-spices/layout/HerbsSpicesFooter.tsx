@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { useCommonDictionary } from "@/i18n/locale-context";
 import styles from "./HerbsSpicesFooter.module.css";
@@ -34,25 +34,51 @@ const GLOBAL_OFFICES = [
 ] as const;
 
 export function HerbsSpicesFooter(): React.JSX.Element {
+  const footerRef = useRef<HTMLElement>(null);
   const common = useCommonDictionary();
 
+  useEffect(() => {
+    const footer = footerRef.current;
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          footer.dataset.visible = "true";
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.08 }
+    );
+
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <footer className={styles.footer} aria-labelledby="hs-footer-title">
+    <footer
+      className={styles.footer}
+      ref={footerRef}
+      data-visible="false"
+      aria-labelledby="hs-footer-title"
+    >
       <div className={styles.inner}>
         {/* 1. Header Bar: Brand Identity & Direct Communication */}
-        <div className={styles.topBar}>
+        <div className={`${styles.topBar} ${styles.reveal}`}>
           <div className={styles.brandGroup}>
-            <Link className={styles.brand} href="/herbs-spices" aria-label={common.accessibility.footerHome}>
-              <Image
-                className={styles.logo}
-                src="/assets/agrica-logo.png"
-                alt="AGRICA"
-                width={140}
-                height={46}
-              />
+            <div className={styles.brandHeader}>
+              <Link className={styles.brandLink} href="/herbs-spices" aria-label={common.accessibility.footerHome}>
+                <Image
+                  src="/assets/agrica-logo.png"
+                  alt="AGRICA"
+                  width={150}
+                  height={50}
+                  className={styles.brandLogo}
+                />
+              </Link>
               <span className={styles.brandDivider} aria-hidden="true" />
-              <strong className={styles.divisionBadge}>{common.divisions.herbsSpices}</strong>
-            </Link>
+              <span className={styles.divisionBadge}>{common.divisions.herbsSpices}</span>
+            </div>
             <p className={styles.manifesto}>
               Egyptian botanical export house. Whole, cut, and milled botanical ingredients for global industry.
             </p>
@@ -83,7 +109,7 @@ export function HerbsSpicesFooter(): React.JSX.Element {
         </div>
 
         {/* 2. Full-Width 3-Column Global Offices Grid */}
-        <div className={styles.officesSection}>
+        <div className={`${styles.officesSection} ${styles.reveal}`}>
           <div className={styles.officesHeader}>
             <span className={styles.officesEyebrow}>GLOBAL PRESENCE & REGIONAL DESKS</span>
           </div>
@@ -119,7 +145,7 @@ export function HerbsSpicesFooter(): React.JSX.Element {
         </div>
 
         {/* 3. Navigation & Actions Bar */}
-        <div className={styles.utility}>
+        <div className={`${styles.utility} ${styles.reveal}`}>
           <nav className={styles.navLinks} aria-label={common.footer.navigationLabel}>
             <Link href="/herbs-spices" className={styles.navItem}>
               <span>{common.navigation.home}</span>
@@ -147,7 +173,7 @@ export function HerbsSpicesFooter(): React.JSX.Element {
         </div>
 
         {/* 4. Bottom Legal Bar */}
-        <div className={styles.legal}>
+        <div className={`${styles.legal} ${styles.reveal}`}>
           <div className={styles.legalLeft}>
             <span>© 2026 AGRICA · Botanical Division · {common.navigation.agricultureCairo}</span>
           </div>
