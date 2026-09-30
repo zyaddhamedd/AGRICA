@@ -19,7 +19,7 @@ export type HerbsSpicesMediaKey =
 export type HerbsSpicesMediaStatus = "awaiting-approved-asset" | "approved";
 export type HerbsSpicesMediaKind = "hero" | "family" | "form" | "product" | "process" | "trust";
 export type HerbsSpicesMediaPriority = "critical" | "high" | "standard" | "optional";
-export type HerbsSpicesMediaRatio = "4:5" | "4:3" | "3:2" | "16:9";
+export type HerbsSpicesMediaRatio = "1:1" | "4:5" | "4:3" | "3:2" | "16:9";
 
 export interface HerbsSpicesFamily {
   readonly id: HerbsSpicesFamilyId;
@@ -36,12 +36,12 @@ export interface HerbsSpicesAvailableForm {
 export interface HerbsSpicesMediaManifestEntry {
   readonly key: HerbsSpicesMediaKey;
   /** Planned public path. Rendered only after status becomes approved. */
-  readonly src: `/assets/herbs-spices/${string}.webp`;
+  readonly src: `/assets/herbs-spices/${string}.webp` | `/assets/herbs-spices/${string}.avif`;
   readonly alt: string;
   readonly width: number;
   readonly height: number;
   readonly ratio: HerbsSpicesMediaRatio;
-  readonly orientation: "portrait" | "landscape";
+  readonly orientation: "square" | "portrait" | "landscape";
   readonly sizes: string;
   readonly cropFocus: string;
   readonly kind: HerbsSpicesMediaKind;

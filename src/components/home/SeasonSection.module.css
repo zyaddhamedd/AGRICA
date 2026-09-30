@@ -65,209 +65,229 @@
 
 .editorialLayout {
   display: grid;
-  grid-template-columns: minmax(31rem, 1.2fr) minmax(20rem, 0.8fr);
-  gap: clamp(3rem, 7vw, 8rem);
+  grid-template-columns: minmax(28rem, 1.05fr) minmax(24rem, 1.25fr);
+  gap: clamp(2rem, 4vw, 5rem);
   align-items: center;
 }
 
 .orbitShell {
   position: relative;
-  width: min(100%, 610px);
+  width: min(100%, 580px);
   aspect-ratio: 1;
   justify-self: center;
+  isolation: isolate;
 }
 
-.orbitRings,
 .monthButtons {
   position: absolute;
   inset: 0;
-}
-
-.orbitRingOuter,
-.orbitRingInner,
-.orbitAxisVertical,
-.orbitAxisHorizontal {
-  position: absolute;
-  display: block;
+  z-index: 10;
   pointer-events: none;
-}
-
-.orbitRingOuter {
-  inset: 4.5%;
-  border: 1px solid var(--season-line-strong);
-  border-radius: 50%;
-}
-
-.orbitRingInner {
-  inset: 16%;
-  border: 1px solid rgba(0, 32, 80, 0.075);
-  border-radius: 50%;
-}
-
-.orbitAxisVertical {
-  top: 4.5%;
-  bottom: 4.5%;
-  left: 50%;
-  width: 1px;
-  background: linear-gradient(transparent, rgba(0, 32, 80, 0.055) 22%, rgba(0, 32, 80, 0.055) 78%, transparent);
-}
-
-.orbitAxisHorizontal {
-  top: 50%;
-  right: 4.5%;
-  left: 4.5%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0, 32, 80, 0.055) 22%, rgba(0, 32, 80, 0.055) 78%, transparent);
 }
 
 .monthButton {
   position: absolute;
-  z-index: 4;
+  z-index: 10;
   top: var(--month-y);
   left: var(--month-x);
-  width: clamp(3rem, 3.8vw, 3.55rem);
-  min-height: 3rem;
-  display: grid;
-  place-content: center;
-  gap: 0.15rem;
-  padding: 0.35rem;
+  width: clamp(2.75rem, 3.5vw, 3.25rem);
+  min-height: clamp(2.75rem, 3.5vw, 3.25rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.08rem;
+  padding: 0.25rem;
   transform: translate(-50%, -50%);
   border: 1px solid transparent;
   border-radius: 50%;
   background: transparent;
-  color: rgba(0, 32, 80, 0.48);
+  color: rgba(0, 32, 80, 0.44);
   cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  pointer-events: auto;
+  box-shadow: none;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms ease;
+}
+
+/* Tiny subtle orbital station tick/node for inactive months */
+.monthButton::before {
+  content: "";
+  display: block;
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: rgba(0, 32, 80, 0.22);
+  margin-bottom: 2px;
+  transition: background-color 180ms ease, transform 180ms ease;
 }
 
 .monthButton:hover {
-  border-color: var(--season-line);
-  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(0, 32, 80, 0.12);
+  background: rgba(255, 255, 255, 0.65);
   color: var(--season-ink);
-  transform: translate(-50%, -50%) scale(1.03);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.monthButton:hover::before {
+  background: var(--green, #50a010);
+  transform: scale(1.3);
 }
 
 .monthButton:focus-visible {
-  z-index: 8;
+  z-index: 15;
   outline: 2px solid var(--green, #50a010);
   outline-offset: 3px;
+  background: rgba(255, 255, 255, 0.8);
 }
 
+/* Active month: strong, clean AGRICA-green circular node without heavy glow */
 .monthButtonActive,
 .monthButtonActive:hover {
+  z-index: 12;
   border-color: var(--green, #50a010);
   background: var(--green, #50a010);
-  color: #fff;
-  transform: translate(-50%, -50%) scale(1.06);
+  color: #ffffff;
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 3px 8px rgba(0, 24, 55, 0.14), 0 1px 2px rgba(80, 160, 16, 0.18);
+}
+
+.monthButtonActive::before {
+  display: none;
 }
 
 .monthIndex {
-  font-size: 0.47rem;
+  font-size: 0.44rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   line-height: 1;
+  opacity: 0.72;
+}
+
+.monthButtonActive .monthIndex {
+  opacity: 0.92;
 }
 
 .monthCode {
-  font-size: clamp(0.59rem, 0.7vw, 0.68rem);
+  font-size: clamp(0.56rem, 0.68vw, 0.65rem);
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1;
   text-transform: uppercase;
 }
 
-.orbitHero {
-  position: absolute;
-  z-index: 3;
-  inset: 50% auto auto 50%;
-  width: 48%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.heroMedia {
-  --tone-start: #405366;
-  --tone-end: #8b9aa5;
-  position: relative;
-  width: 73%;
-  aspect-ratio: 4 / 5;
-  margin-inline: auto;
-  overflow: hidden;
-  border: 1px solid rgba(0, 32, 80, 0.14);
-  border-radius: 44% 44% 0.8rem 0.8rem;
-  background:
-    radial-gradient(circle at 60% 30%, color-mix(in srgb, var(--tone-end) 82%, white), transparent 32%),
-    linear-gradient(145deg, var(--tone-start), var(--tone-end));
-  animation: mediaReveal 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.heroMedia::before,
-.heroMedia::after {
-  content: "";
-  position: absolute;
-  border: 1px solid rgba(255, 255, 255, 0.27);
-  border-radius: 50%;
-}
-
-.heroMedia::before {
-  top: -8%;
-  right: -28%;
-  width: 78%;
-  aspect-ratio: 1;
-}
-
-.heroMedia::after {
-  bottom: -17%;
-  left: -22%;
-  width: 62%;
-  aspect-ratio: 1;
-}
-
-.mediaGrid {
+/* ==========================================
+   SEASONAL HERO CROP (Orbit Center)
+   ========================================== */
+.heroCropContainer {
   position: absolute;
   inset: 0;
-  opacity: 0.17;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-  background-size: 25% 25%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: visible;
 }
 
-.mediaBrand,
-.mediaSequence,
-.mediaPending {
+.heroSubjectFrame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 76%;
+  height: 76%;
+  animation: heroCropEnter 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes heroCropEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.silhouetteWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.silhouetteSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 16px 32px rgba(0, 24, 55, 0.1));
+}
+
+.heroImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: visible;
+}
+
+.heroImageCutout {
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0, 24, 55, 0.14));
+}
+
+/* Minimalist Integrated Botanical Metadata: Primary Crop Name + Secondary Badge */
+.heroMetadata {
   position: absolute;
-  z-index: 2;
-  color: rgba(255, 255, 255, 0.76);
-}
-
-.mediaBrand {
-  top: 0.7rem;
-  inset-inline-start: 0.7rem;
-  font-size: 0.46rem;
-  font-weight: 700;
-  letter-spacing: 0.17em;
-}
-
-.mediaSequence {
-  top: 50%;
+  bottom: -2%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-serif);
-  font-size: clamp(3rem, 6vw, 4.8rem);
-  font-style: italic;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.heroCropTitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  color: var(--season-ink);
+  margin: 0 0 0.35rem;
+  line-height: 1.1;
+}
+
+.heroStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--green, #50a010);
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 550;
+  letter-spacing: 0.04em;
   line-height: 1;
 }
 
-.mediaPending {
-  right: 0.65rem;
-  bottom: 0.65rem;
-  left: 0.65rem;
-  font-size: 0.42rem;
-  font-weight: 650;
-  letter-spacing: 0.1em;
-  line-height: 1.3;
-  text-transform: uppercase;
+.heroStatusBadge::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--green, #50a010);
+  opacity: 0.85;
 }
 
 .monthPanel {
@@ -449,10 +469,20 @@
   .monthIndex { font-size: 0.41rem; }
   .monthCode { font-size: 0.54rem; letter-spacing: 0.05em; }
 
-  .orbitHero { width: 52%; }
-  .heroMedia { width: 71%; }
-  .mediaBrand { top: 0.5rem; inset-inline-start: 0.5rem; font-size: 0.36rem; }
-  .mediaPending { right: 0.4rem; bottom: 0.4rem; left: 0.4rem; font-size: 0.32rem; }
+  .heroSubjectFrame {
+    width: 76%;
+    height: 76%;
+  }
+
+  .heroCropTitle {
+    font-size: 1.12rem;
+    margin: 0 0 0.25rem;
+  }
+
+  .heroStatusBadge {
+    font-size: 0.6rem;
+    padding: 0;
+  }
 
   .monthPanel {
     padding-top: 1.25rem;
@@ -488,7 +518,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .heroMedia,
+  .heroSubjectFrame,
   .monthButton {
     animation: none;
     transition: none;

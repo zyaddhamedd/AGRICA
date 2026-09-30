@@ -98,7 +98,7 @@ assert.deepEqual(HERBS_SPICES_MEDIA_MANIFEST.filter((entry) => entry.status === 
 ]);
 for (const entry of HERBS_SPICES_MEDIA_MANIFEST) {
   assert.ok(entry.src.startsWith("/assets/herbs-spices/"));
-  assert.ok(entry.src.endsWith(".webp"));
+  assert.ok(entry.src.endsWith(".webp") || entry.src.endsWith(".avif"));
   assert.ok(entry.width > 0 && entry.height > 0);
   assert.ok(entry.sizes.length > 0);
   if (entry.status === "approved") assert.ok(existsSync(join(process.cwd(), "public", entry.src)), `${entry.key} approved asset must exist`);

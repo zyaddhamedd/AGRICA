@@ -609,6 +609,91 @@
   -webkit-transform: rotateY(180deg);
 }
 
+/* Compact presentation mode for Seasonal Calendar */
+.export-card-scene.is-compact {
+  height: auto;
+  aspect-ratio: 3 / 4.4;
+  --card-pad: clamp(0.35rem, 0.6vw, 0.55rem);
+}
+
+.export-card.is-compact {
+  border-radius: 14px;
+  box-shadow:
+    0 8px 18px rgba(0, 24, 55, 0.14),
+    0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease;
+}
+
+.export-card.is-compact:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 14px 28px rgba(0, 24, 55, 0.22),
+    0 0 0 1px rgba(80, 160, 16, 0.4);
+}
+
+.export-card-face.is-compact {
+  border-radius: 14px;
+}
+
+.export-card-face.is-compact::after {
+  inset: 5px;
+  border-radius: 10px;
+}
+
+.export-card-front.is-compact {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  --card-pad: clamp(0.35rem, 0.6vw, 0.55rem);
+  padding: var(--card-pad);
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.export-card-front.is-compact .export-card-identity {
+  margin: 0;
+  padding: 0.15rem 0.1rem 0.3rem;
+  text-align: center;
+}
+
+.export-card-front.is-compact .export-card-title {
+  font-size: clamp(0.64rem, 0.95vw, 0.8rem);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.export-card-front.is-compact .export-card-visual {
+  margin: 0 calc(0px - var(--card-pad)) calc(0px - var(--card-pad));
+  border-radius: 0 0 13px 13px;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Shared-Element Flight Representation (Proportionally Scaled Solid Object) */
+.export-card-scene.is-flight {
+  height: 100%;
+  aspect-ratio: auto;
+  --card-pad: clamp(0.9rem, 1.35vw, 1.15rem);
+}
+
+.export-card-scene.is-flight .export-card.is-flight,
+.export-card.is-flight {
+  border-radius: 22px;
+  transition: none !important;
+}
+
+.export-card-scene.is-flight .export-card-face:not(.is-compact) {
+  border-radius: 22px;
+}
+
+.export-card-scene.is-flight .export-card-face:not(.is-compact)::after {
+  inset: 10px;
+  border-radius: 15px;
+}
+
 .export-card-topline,
 .export-card-back-head,
 .export-card-identity,
@@ -812,6 +897,27 @@
   color: var(--card-secondary-accent);
   font-size: 0.82rem;
   opacity: 0.72;
+}
+
+.export-card-flight-close {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--card-secondary-accent) 38%, transparent);
+  background: rgba(0, 24, 55, 0.35);
+  color: var(--card-secondary-accent);
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease, color 180ms ease;
+}
+
+.export-card-flight-close:hover {
+  background: color-mix(in srgb, var(--card-accent) 22%, transparent);
+  border-color: var(--card-accent);
+  color: #fff;
+  transform: scale(1.1);
 }
 
 .export-card-back-title {
