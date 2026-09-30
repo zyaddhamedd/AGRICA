@@ -5,13 +5,14 @@ import { productImageFor } from "@/data/productImages";
 import { QuoteMicroAction } from "./QuoteMicroAction";
 import { useProductsDictionary } from "@/i18n/locale-context";
 
-interface ProductCardFrontProps {
+export interface ProductCardFrontProps {
   readonly item: ProductAtlasItem;
   readonly code: string;
   readonly varietyLine: string;
   readonly isAddedToQuote: boolean;
   readonly isFlipped: boolean;
   readonly onToggleQuote: (item: ProductAtlasItem) => void;
+  readonly isCompact?: boolean;
 }
 
 export function ProductCardFront({
@@ -21,6 +22,7 @@ export function ProductCardFront({
   isAddedToQuote,
   isFlipped,
   onToggleQuote,
+  isCompact = false,
 }: ProductCardFrontProps): React.JSX.Element {
   const dictionary = useProductsDictionary();
   const titleSize =
@@ -35,20 +37,26 @@ export function ProductCardFront({
     (item.id === "produce:grape" ? "/assets/grapes_card.png" : undefined);
 
   return (
-    <section className="export-card-face export-card-front" aria-hidden={isFlipped}>
-      <header className="export-card-topline">
-        <span className="export-card-code">{code}</span>
-        <QuoteMicroAction
-          item={item}
-          isAddedToQuote={isAddedToQuote}
-          isCardFlipped={isFlipped}
-          onToggleQuote={onToggleQuote}
-        />
-      </header>
+    <section
+      className={`export-card-face export-card-front${isCompact ? " is-compact" : ""}`}
+      aria-hidden={isFlipped}
+      data-compact={isCompact ? "true" : undefined}
+    >
+      {!isCompact && (
+        <header className="export-card-topline">
+          <span className="export-card-code">{code}</span>
+          <QuoteMicroAction
+            item={item}
+            isAddedToQuote={isAddedToQuote}
+            isCardFlipped={isFlipped}
+            onToggleQuote={onToggleQuote}
+          />
+        </header>
+      )}
 
       <div className="export-card-identity">
         <h3 className="export-card-title" data-title-size={titleSize}>{item.name}</h3>
-        {varietyLine && <p className="export-card-varieties">{varietyLine}</p>}
+        {!isCompact && varietyLine && <p className="export-card-varieties">{varietyLine}</p>}
       </div>
 
       <div
@@ -59,9 +67,14 @@ export function ProductCardFront({
         {dedicatedImage && (
           <Image
             src={dedicatedImage}
-            alt={dictionary.products[item.id].imageAlt}
+            alt={dictionary.products[item.id]?.imageAlt ?? item.name}
             fill
-            sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) 50vw, 33vw"
+            loading={isCompact ? "eager" : undefined}
+            sizes={
+              isCompact
+                ? "(max-width: 640px) 25vw, (max-width: 1024px) 22vw, 15vw"
+                : "(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) 50vw, 33vw"
+            }
           />
         )}
       </div>

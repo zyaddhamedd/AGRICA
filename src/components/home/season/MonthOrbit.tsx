@@ -1,18 +1,9 @@
 import React, { useRef, type CSSProperties, type KeyboardEvent } from "react";
 import type { MonthNumber, ProduceProductId } from "@/types/agrica";
 import { MONTHS } from "@/data/seasons";
+import { SeasonalOrbitSvg } from "./SeasonalOrbitSvg";
+import { SeasonalHeroCrop } from "./SeasonalHeroCrop";
 import styles from "../SeasonSection.module.css";
-
-const HERO_TONES: Readonly<Partial<Record<ProduceProductId, readonly [string, string]>>> = {
-  "produce:orange": ["#c8762d", "#e8b257"],
-  "produce:fresh-strawberry": ["#8e2f35", "#d77a6f"],
-  "produce:potato": ["#8b7656", "#cab789"],
-  "produce:grape": ["#687549", "#b5b98b"],
-  "produce:fresh-mango": ["#a65c2d", "#d6a94f"],
-  "produce:pomegranate": ["#672a38", "#a75863"],
-  "produce:date": ["#69422d", "#a9784e"],
-  "produce:sweet-potato": ["#81503d", "#c1815f"],
-};
 
 const ORBIT_POSITIONS = [
   ["50%", "4.5%"],
@@ -51,11 +42,9 @@ export function MonthOrbit({
   heroName,
   statusLabel,
   selectMonthLabel,
-  mediaPendingLabel,
   onSelectMonth,
 }: MonthOrbitProps): React.JSX.Element {
   const buttonRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const [toneStart, toneEnd] = HERO_TONES[heroProductId] ?? ["#405366", "#8b9aa5"];
 
   const moveSelection = (event: KeyboardEvent<HTMLButtonElement>, index: number): void => {
     let targetIndex: number | null = null;
@@ -72,14 +61,19 @@ export function MonthOrbit({
   };
 
   return (
-    <div className={styles.orbitShell} data-season-orbit>
-      <div className={styles.orbitRings} aria-hidden="true">
-        <span className={styles.orbitRingOuter} />
-        <span className={styles.orbitRingInner} />
-        <span className={styles.orbitAxisVertical} />
-        <span className={styles.orbitAxisHorizontal} />
-      </div>
+    <div className={styles.orbitShell} data-season-orbit data-selected={selectedMonth}>
+      {/* Layer 1: Editorial Astronomical Orbit Geometry (behind crop) */}
+      <SeasonalOrbitSvg selectedMonth={selectedMonth} />
 
+      {/* Layer 2 & 3: Floating Botanical Hero Subject + Minimal Metadata */}
+      <SeasonalHeroCrop
+        heroProductId={heroProductId}
+        heroName={heroName}
+        statusLabel={statusLabel}
+        selectedMonth={selectedMonth}
+      />
+
+      {/* Layer 4: Interactive Month Dial Controls */}
       <div className={styles.monthButtons} role="group" aria-label={selectMonthLabel}>
         {MONTHS.map((month, index) => {
           const [x, y] = ORBIT_POSITIONS[index];
@@ -92,7 +86,9 @@ export function MonthOrbit({
 
           return (
             <button
-              ref={(node) => { buttonRefs.current[index] = node; }}
+              ref={(node) => {
+                buttonRefs.current[index] = node;
+              }}
               key={month.number}
               type="button"
               className={`${styles.monthButton}${active ? ` ${styles.monthButtonActive}` : ""}`}
@@ -109,21 +105,6 @@ export function MonthOrbit({
           );
         })}
       </div>
-
-      <article className={styles.orbitHero} aria-label={`${heroName}, ${statusLabel}`}>
-        <div
-          key={`${heroProductId}-${selectedMonth}`}
-          className={styles.heroMedia}
-          style={{ "--tone-start": toneStart, "--tone-end": toneEnd } as CSSProperties}
-          role="img"
-          aria-label={`${heroName} — ${mediaPendingLabel}`}
-        >
-          <span className={styles.mediaGrid} aria-hidden="true" />
-          <span className={styles.mediaBrand} aria-hidden="true">AGRICA</span>
-          <span className={styles.mediaSequence} aria-hidden="true">{String(selectedMonth).padStart(2, "0")}</span>
-          <span className={styles.mediaPending}>{mediaPendingLabel}</span>
-        </div>
-      </article>
     </div>
   );
 }

@@ -151,9 +151,9 @@
   max-height: 480px;
   border-radius: 12px;
   overflow: hidden;
-  background: #fbf9f4;
-  border: 1px solid rgba(24, 45, 36, 0.08);
-  box-shadow: 0 16px 40px -15px rgba(24, 45, 36, 0.06), 0 2px 5px rgba(24, 45, 36, 0.02);
+  background: var(--hs-paper);
+  border: 0;
+  box-shadow: none;
   user-select: none;
 }
 
@@ -162,6 +162,9 @@
   inset: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   pointer-events: none;
   transition: opacity 320ms cubic-bezier(0.2, 0, 0.2, 1);
@@ -187,76 +190,40 @@
   transform: scale(1);
 }
 
-/* Attached Editorial Title Edge Plate: Subtle & Compact */
-.attachedPlate {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: clamp(0.85rem, 1.4vw, 1.15rem) clamp(1.1rem, 1.6vw, 1.5rem);
-  background: linear-gradient(to top, rgba(16, 32, 25, 0.8) 0%, rgba(16, 32, 25, 0.3) 35%, transparent 100%);
-  color: #faf8f4;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  z-index: 2;
-  pointer-events: none;
-  animation: plateReveal 280ms cubic-bezier(0.2, 0, 0.2, 1) both;
+.specimenImageMaterial {
+  --material-shift-x: 0%;
+  --material-shift-y: 0%;
+  width: 96%;
+  height: 96%;
+  object-fit: contain;
+  object-position: center;
+  transform: translate(var(--material-shift-x), var(--material-shift-y)) scale(0.985);
 }
 
-.plateHeader {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.3rem;
-  font-family: var(--hs-font-mono, monospace);
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: #b7d1b3;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.imageLayerActive .specimenImageMaterial {
+  transform: translate(var(--material-shift-x), var(--material-shift-y)) scale(1);
 }
 
-.plateNumber {
-  color: #d8eed5;
+.specimenImageWhole {
+  --material-shift-x: -4%;
 }
 
-.plateDivider {
-  opacity: 0.45;
+.specimenImageCutSifted {
+  --material-shift-x: -3%;
 }
 
-.plateTotal {
-  opacity: 0.7;
+.specimenImageTbc {
+  --material-shift-x: -4%;
+  --material-shift-y: -1%;
 }
 
-.plateTitle {
-  margin: 0;
-  font-family: var(--hs-font-serif);
-  font-size: clamp(1.15rem, 1.45vw, 1.45rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  color: #ffffff;
+.specimenImageCrushed {
+  --material-shift-x: -3%;
 }
 
-.plateDescriptor {
-  margin: 0;
-  font-family: var(--hs-font-sans);
-  font-size: clamp(0.75rem, 0.8vw, 0.78rem);
-  color: rgba(255, 255, 255, 0.74);
-  line-height: 1.4;
-  max-width: 44ch;
-  margin-top: 0.1rem;
-}
-
-@keyframes plateReveal {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.specimenImagePowder {
+  --material-shift-x: -2%;
+  --material-shift-y: -1%;
 }
 
 /* Mobile & Tablet Editorial Experience */
@@ -312,28 +279,7 @@
     aspect-ratio: 16 / 11;
     max-width: 100%;
     border-radius: 12px;
-    border: 1px solid rgba(24, 45, 36, 0.08);
-  }
-
-  .attachedPlate {
-    padding: 0.85rem 1rem;
-    background: linear-gradient(to top, rgba(16, 32, 25, 0.88) 0%, rgba(16, 32, 25, 0.4) 45%, transparent 100%);
-  }
-
-  .plateHeader {
-    font-size: 0.625rem;
-  }
-
-  .plateTitle {
-    font-size: 1.25rem;
-    line-height: 1.15;
-  }
-
-  .plateDescriptor {
-    font-size: 0.75rem;
-    line-height: 1.35;
-    margin-top: 0.1rem;
-    max-width: 90%;
+    border: 0;
   }
 
   /* All 5 Formats clearly visible simultaneously across mobile width without box or scroll */
@@ -431,7 +377,6 @@
 @media (prefers-reduced-motion: reduce) {
   .imageLayer,
   .specimenImage,
-  .attachedPlate,
   .formatNavItem,
   .navItemIndicator {
     transition: none !important;

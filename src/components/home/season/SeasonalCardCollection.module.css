@@ -1,0 +1,290 @@
+.monthPanel {
+  min-width: 0;
+  max-width: 48rem;
+  width: 100%;
+  padding-inline-start: clamp(1.5rem, 3.5vw, 3.75rem);
+  border-inline-start: 1px solid var(--season-line);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--season-line);
+}
+
+.headerTitles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.panelMonth {
+  margin: 0;
+  color: var(--green, #50a010);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.panelHeading {
+  margin: 0;
+  color: var(--season-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.productCountBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(0, 32, 80, 0.05);
+  border: 1px solid var(--season-line);
+  color: var(--season-muted);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.cardTrack {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.55rem, 0.85vw, 0.8rem);
+  margin-top: 1.15rem;
+  overflow: visible;
+}
+
+/* Adaptive desktop layout rules */
+.cardTrack[data-count="1"] {
+  grid-template-columns: minmax(0, 220px);
+}
+
+.cardTrack[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 180px));
+}
+
+.cardTrack[data-count="3"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.cardTrack[data-count="5"],
+.cardTrack[data-count="6"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.cardSlot {
+  position: relative;
+  min-width: 0;
+  cursor: pointer;
+  outline: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: start;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cardSlot:focus-visible {
+  outline: 2px solid var(--green, #50a010);
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+.mobileSwipeCue {
+  display: none;
+  margin: 0.6rem 0 0;
+  color: var(--season-muted);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.mobileSwipeCue span {
+  color: var(--green, #50a010);
+}
+
+/* Shared-Element Flight Overlay */
+.flightOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  pointer-events: auto;
+  isolation: isolate;
+}
+
+.flightBackdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 20, 48, 0.52);
+  backdrop-filter: blur(8px) saturate(115%);
+  -webkit-backdrop-filter: blur(8px) saturate(115%);
+  cursor: pointer;
+}
+
+.flightContainer {
+  position: fixed;
+  z-index: 2;
+  perspective: 1400px;
+  -webkit-perspective: 1400px;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  will-change: top, left, width, height, transform;
+}
+
+.flightInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+  border-radius: 22px;
+  will-change: transform;
+}
+
+.flightFaceFront,
+.flightFaceBack {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.flightFaceFront {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+}
+
+.flightFaceBack {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.flightCloseButton {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 25;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 24, 55, 0.45);
+  color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+.flightCloseButton:hover {
+  background: rgba(80, 160, 16, 0.45);
+  border-color: rgba(80, 160, 16, 0.65);
+  transform: scale(1.08);
+}
+
+.flightCloseButton:focus-visible {
+  outline: 2px solid var(--green, #50a010);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1020px) {
+  .monthPanel {
+    padding-inline-start: 1.75rem;
+  }
+}
+
+/* Mobile & Tablet Portrait (< 820px) */
+@media (max-width: 820px) {
+  .monthPanel {
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--season-line);
+    border-inline-start: 0;
+  }
+
+  .panelHeader {
+    padding-bottom: 0.6rem;
+  }
+
+  .panelHeading {
+    font-size: 1.35rem;
+  }
+
+  .cardTrack,
+  .cardTrack[data-count] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: var(--card-mobile-gap, 8px) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    max-height: none;
+    padding-bottom: 0.5rem;
+    padding-inline-end: 1.5rem;
+    margin-top: 0.85rem;
+  }
+
+  .cardTrack::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cardTrack[data-scrollable="true"] {
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 24px), transparent 100%);
+  }
+
+  .cardSlot {
+    flex: 0 0 clamp(96px, calc((100% - 24px) / 3.25), 135px) !important;
+    width: clamp(96px, calc((100% - 24px) / 3.25), 135px) !important;
+    min-width: 96px;
+    scroll-snap-align: start;
+  }
+
+  .mobileSwipeCue {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardTrack,
+  .cardTrack[data-count] {
+    gap: var(--card-mobile-gap, 7px) !important;
+    padding-inline-end: 1.25rem;
+  }
+
+  .cardSlot {
+    flex: 0 0 clamp(92px, calc((100% - 21px) / 3.25), 125px) !important;
+    width: clamp(92px, calc((100% - 21px) / 3.25), 125px) !important;
+    min-width: 92px;
+  }
+}

@@ -29,6 +29,13 @@ export function IngredientFormsSection(): React.JSX.Element {
 
   const activeItem = formItems[activeIndex] ?? formItems[0];
   const totalCountFormatted = String(formItems.length).padStart(2, "0");
+  const materialPositionClasses = {
+    whole: styles.specimenImageWhole,
+    "cut-sifted": styles.specimenImageCutSifted,
+    tbc: styles.specimenImageTbc,
+    crushed: styles.specimenImageCrushed,
+    powder: styles.specimenImagePowder,
+  } as const;
 
   // Auto-switch processes every 2 seconds (2000ms)
   useEffect(() => {
@@ -147,30 +154,13 @@ export function IngredientFormsSection(): React.JSX.Element {
                     <img
                       src={item.image}
                       alt={item.alt}
-                      className={styles.specimenImage}
+                      className={`${styles.specimenImage} ${styles.specimenImageMaterial} ${materialPositionClasses[item.id as keyof typeof materialPositionClasses]}`}
                       loading={idx === 0 ? "eager" : "lazy"}
                       draggable={false}
                     />
                   </div>
                 );
               })}
-
-              {/* Attached Editorial Title Edge Plate */}
-              <div
-                key={`attached-plate-${activeItem.id}`}
-                className={styles.attachedPlate}
-                aria-live="polite"
-              >
-                <div className={styles.plateHeader}>
-                  <span className={styles.plateNumber}>{activeItem.index}</span>
-                  <span className={styles.plateDivider}>/</span>
-                  <span className={styles.plateTotal}>{totalCountFormatted}</span>
-                </div>
-                <h3 className={styles.plateTitle}>{activeItem.name}</h3>
-                {activeItem.descriptor && (
-                  <p className={styles.plateDescriptor}>{activeItem.descriptor}</p>
-                )}
-              </div>
             </div>
           </div>
         </div>
