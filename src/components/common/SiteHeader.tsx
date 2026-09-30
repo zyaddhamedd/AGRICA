@@ -30,52 +30,12 @@ export function SiteHeader({
   const semanticPathname = stripLocaleFromPath(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Reusable global scroll state logic for smart Navbar behavior
-  const [scrollState, setScrollState] = useState<{
-    isAtTop: boolean;
-    isHidden: boolean;
-    isFloating: boolean;
-  }>({
-    isAtTop: true,
-    isHidden: false,
-    isFloating: false,
-  });
+  // Reusable global scroll state logic for subtle shadow elevation when scrolled
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          const deltaY = currentScrollY - lastScrollY;
-          const topThreshold = 20;
-          const hideThreshold = 80;
-
-          if (currentScrollY <= topThreshold) {
-            setScrollState({
-              isAtTop: true,
-              isHidden: false,
-              isFloating: false,
-            });
-          } else {
-            // Require > 6px scroll movement to prevent jitter/flicker
-            if (Math.abs(deltaY) > 6) {
-              const isScrollingDown = deltaY > 0;
-              setScrollState({
-                isAtTop: false,
-                isHidden: isScrollingDown && currentScrollY > hideThreshold,
-                isFloating: true,
-              });
-            }
-          }
-
-          lastScrollY = currentScrollY;
-          ticking = false;
-        });
-        ticking = true;
-      }
+      setIsScrolled(window.scrollY > 20);
     };
 
     handleScroll();
@@ -119,9 +79,8 @@ export function SiteHeader({
         }`}
         data-variant={activeVariant}
         data-theme={activeTheme}
-        data-top={scrollState.isAtTop ? "true" : "false"}
-        data-scrolled={scrollState.isFloating ? "true" : "false"}
-        data-hidden={!isMenuOpen && scrollState.isHidden ? "true" : "false"}
+        data-top={!isScrolled ? "true" : "false"}
+        data-scrolled={isScrolled ? "true" : "false"}
       >
         <header className="global-navbar-capsule" aria-label={common.navigation.primaryLabel}>
           {/* Brand Logo */}

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useHomeDictionary } from "@/i18n/locale-context";
 import "./CompanySection.css";
 
 const FILM_DURATION = 9.9;
-const CHAPTER_STARTS = [0.08, 3.35, 6.4] as const;
-const CHAPTER_ENDS = [3.02, 6.08, 9.72] as const;
+const CHAPTER_STARTS = [0.0, 3.35, 6.4] as const;
+const CHAPTER_DURATIONS = [3.35, 3.05, 3.5] as const; // per chapter duration in seconds
 
 type NavigatorWithConnection = Navigator & { connection?: { readonly saveData?: boolean } };
 
@@ -22,6 +22,18 @@ export function CompanySection(): React.JSX.Element {
   const activeChapterRef = useRef(0);
   const [activeChapter, setActiveChapter] = useState(0);
 
+  // Jump to specific chapter
+  const seekToChapter = useCallback((index: number) => {
+    const video = videoRef.current;
+    activeChapterRef.current = index;
+    setActiveChapter(index);
+
+    if (video && video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      video.currentTime = CHAPTER_STARTS[index] ?? 0;
+      void video.play().catch(() => {});
+    }
+  }, []);
+
   useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
@@ -35,13 +47,11 @@ export function CompanySection(): React.JSX.Element {
     let isDesktop = desktopQuery.matches;
     let sectionVisible = false;
     let mediaAttached = false;
-    let targetProgress = 0;
-    let renderedProgress = 0;
-    let measureFrame = 0;
-    let playbackFrame = 0;
-    let mobileSegmentEnd: number | null = null;
+    let animFrameId = 0;
+    let fallbackTimer: ReturnType<typeof setInterval> | null = null;
 
     section.dataset.mediaMode = saveData ? "poster" : "video";
+    section.dataset.motion = reducedMotion ? "reduced" : "full";
 
     const attachMedia = () => {
       if (mediaAttached || saveData || reducedMotion) return;
@@ -52,88 +62,126 @@ export function CompanySection(): React.JSX.Element {
       mediaAttached = true;
     };
 
-    const updateChapter = (progress: number) => {
-      const nextChapter = progress < 1 / 3 ? 0 : progress < 2 / 3 ? 1 : 2;
-      if (nextChapter === activeChapterRef.current) return;
-      activeChapterRef.current = nextChapter;
-      setActiveChapter(nextChapter);
+    const updateFromTime = (currentTime: number, duration: number) => {
+      const validDuration = duration > 0 ? duration : FILM_DURATION;
+      const progress = clamp(currentTime / validDuration);
 
-      if (!isDesktop && !reducedMotion && !saveData && mediaAttached) {
-        mobileSegmentEnd = CHAPTER_ENDS[nextChapter];
-        const playSegment = () => {
-          video.currentTime = CHAPTER_STARTS[nextChapter];
-          void video.play().catch(() => {
-            section.dataset.mediaMode = "poster";
-          });
-        };
-        if (video.readyState >= HTMLMediaElement.HAVE_METADATA) playSegment();
-        else video.addEventListener("loadedmetadata", playSegment, { once: true });
+      progressBar.style.width = `${Math.max(progress * 100, 2)}%`;
+
+      let nextChapter = 0;
+      if (currentTime >= CHAPTER_STARTS[2]) {
+        nextChapter = 2;
+      } else if (currentTime >= CHAPTER_STARTS[1]) {
+        nextChapter = 1;
+      } else {
+        nextChapter = 0;
+      }
+
+      if (nextChapter !== activeChapterRef.current) {
+        activeChapterRef.current = nextChapter;
+        setActiveChapter(nextChapter);
       }
     };
 
-    const measure = () => {
-      measureFrame = 0;
-      const rect = section.getBoundingClientRect();
-      const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
-      targetProgress = clamp(-rect.top / travel);
-      updateChapter(targetProgress);
-      progressBar.style.width = `${Math.max(targetProgress * 100, 2)}%`;
-    };
-
-    const scheduleMeasure = () => {
-      if (!measureFrame) measureFrame = window.requestAnimationFrame(measure);
-    };
-
-    const scrubFilm = () => {
-      playbackFrame = 0;
-      if (!sectionVisible || !isDesktop || reducedMotion || saveData || !mediaAttached) return;
-      renderedProgress += (targetProgress - renderedProgress) * 0.12;
-      if (Math.abs(targetProgress - renderedProgress) < 0.0005) renderedProgress = targetProgress;
-
-      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-        const duration = Number.isFinite(video.duration) ? video.duration : FILM_DURATION;
-        const nextTime = clamp(renderedProgress) * Math.min(duration, FILM_DURATION);
-        if (Math.abs(video.currentTime - nextTime) > 0.018) video.currentTime = nextTime;
+    const tick = () => {
+      if (sectionVisible && !video.paused && !video.ended) {
+        const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : FILM_DURATION;
+        updateFromTime(video.currentTime, duration);
       }
-      playbackFrame = window.requestAnimationFrame(scrubFilm);
-    };
-
-    const startScrubbing = () => {
-      if (!playbackFrame && sectionVisible && isDesktop && !reducedMotion && !saveData) {
-        playbackFrame = window.requestAnimationFrame(scrubFilm);
+      if (sectionVisible) {
+        animFrameId = window.requestAnimationFrame(tick);
       }
     };
 
-    const stopScrubbing = () => {
-      if (playbackFrame) window.cancelAnimationFrame(playbackFrame);
-      playbackFrame = 0;
-      video.pause();
+    const startPlayback = () => {
+      if (reducedMotion || saveData) {
+        startFallbackCarousel();
+        return;
+      }
+
+      attachMedia();
+
+      if (video) {
+        video.muted = true;
+        video.loop = true;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              section.dataset.videoReady = "true";
+              if (!animFrameId) {
+                animFrameId = window.requestAnimationFrame(tick);
+              }
+            })
+            .catch(() => {
+              // Autoplay blocked or failed -> run timer-based chapter switcher
+              section.dataset.mediaMode = "poster";
+              startFallbackCarousel();
+            });
+        }
+      }
     };
 
-    const onTimeUpdate = () => {
-      if (!isDesktop && mobileSegmentEnd !== null && video.currentTime >= mobileSegmentEnd) {
+    const stopPlayback = () => {
+      if (animFrameId) {
+        window.cancelAnimationFrame(animFrameId);
+        animFrameId = 0;
+      }
+      if (fallbackTimer) {
+        clearInterval(fallbackTimer);
+        fallbackTimer = null;
+      }
+      if (video && !video.paused) {
         video.pause();
-        mobileSegmentEnd = null;
       }
+    };
+
+    const startFallbackCarousel = () => {
+      if (fallbackTimer) return;
+      fallbackTimer = setInterval(() => {
+        const next = (activeChapterRef.current + 1) % 3;
+        activeChapterRef.current = next;
+        setActiveChapter(next);
+        progressBar.style.width = `${((next + 1) / 3) * 100}%`;
+      }, 3500);
     };
 
     const onLoadedData = () => {
       section.dataset.videoReady = "true";
-      startScrubbing();
+      if (sectionVisible) {
+        void video.play().catch(() => {});
+      }
     };
 
     const onVideoError = () => {
       section.dataset.mediaMode = "poster";
       section.dataset.videoReady = "false";
+      startFallbackCarousel();
     };
+
+    // IntersectionObserver triggers autoplay when section comes into view
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        sectionVisible = entry.isIntersecting;
+        if (sectionVisible) {
+          startPlayback();
+        } else {
+          stopPlayback();
+        }
+      },
+      { threshold: 0.15 },
+    );
 
     const onMediaPreferenceChange = () => {
       reducedMotion = reducedMotionQuery.matches;
       const wasDesktop = isDesktop;
       isDesktop = desktopQuery.matches;
       section.dataset.motion = reducedMotion ? "reduced" : "full";
-      if (reducedMotion) stopScrubbing();
-      else {
+
+      if (reducedMotion) {
+        stopPlayback();
+        startFallbackCarousel();
+      } else {
         if (mediaAttached && wasDesktop !== isDesktop) {
           const source = isDesktop ? video.dataset.desktopSrc : video.dataset.mobileSrc;
           if (source && !video.currentSrc.endsWith(source)) {
@@ -141,67 +189,50 @@ export function CompanySection(): React.JSX.Element {
             video.load();
           }
         }
-        attachMedia();
-        startScrubbing();
+        if (sectionVisible) {
+          startPlayback();
+        }
       }
-      scheduleMeasure();
     };
 
-    const preloadObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          attachMedia();
-          preloadObserver.disconnect();
-        }
-      },
-      { rootMargin: "100% 0px" },
-    );
-
-    const visibilityObserver = new IntersectionObserver(
-      ([entry]) => {
-        sectionVisible = entry.isIntersecting;
-        if (sectionVisible) {
-          scheduleMeasure();
-          startScrubbing();
-        } else stopScrubbing();
-      },
-      { threshold: 0.01 },
-    );
-
-    section.dataset.motion = reducedMotion ? "reduced" : "full";
-    preloadObserver.observe(section);
-    visibilityObserver.observe(section);
+    observer.observe(section);
     video.addEventListener("loadeddata", onLoadedData);
-    video.addEventListener("timeupdate", onTimeUpdate);
     video.addEventListener("error", onVideoError);
-    window.addEventListener("scroll", scheduleMeasure, { passive: true });
-    window.addEventListener("resize", scheduleMeasure, { passive: true });
     reducedMotionQuery.addEventListener("change", onMediaPreferenceChange);
     desktopQuery.addEventListener("change", onMediaPreferenceChange);
-    scheduleMeasure();
 
     return () => {
-      preloadObserver.disconnect();
-      visibilityObserver.disconnect();
+      observer.disconnect();
+      stopPlayback();
       video.removeEventListener("loadeddata", onLoadedData);
-      video.removeEventListener("timeupdate", onTimeUpdate);
       video.removeEventListener("error", onVideoError);
-      window.removeEventListener("scroll", scheduleMeasure);
-      window.removeEventListener("resize", scheduleMeasure);
       reducedMotionQuery.removeEventListener("change", onMediaPreferenceChange);
       desktopQuery.removeEventListener("change", onMediaPreferenceChange);
-      if (measureFrame) window.cancelAnimationFrame(measureFrame);
-      stopScrubbing();
     };
   }, []);
 
   return (
-    <section className="company-section" id="company" ref={sectionRef} aria-labelledby="company-title" data-active-chapter={activeChapter + 1}>
+    <section
+      className="company-section"
+      id="company"
+      ref={sectionRef}
+      aria-labelledby="company-title"
+      data-active-chapter={activeChapter + 1}
+    >
       <div className="company-scroll-track">
         <div className="company-sticky-stage">
           <div className="company-cinematic-grid">
+            {/* Cinematic Film Media Container */}
             <div className="company-film" aria-label={dictionary.videoLabel}>
-              <img className="company-film-poster" src="/assets/company/origin-poster.webp" alt="" width="960" height="538" loading="lazy" decoding="async" />
+              <img
+                className="company-film-poster"
+                src="/assets/company/origin-poster.webp"
+                alt=""
+                width="960"
+                height="538"
+                loading="lazy"
+                decoding="async"
+              />
               <video
                 ref={videoRef}
                 className="company-film-video"
@@ -211,18 +242,29 @@ export function CompanySection(): React.JSX.Element {
                 preload="none"
                 muted
                 playsInline
+                loop
                 disablePictureInPicture
                 aria-hidden="true"
               />
               <div className="company-film-wash" aria-hidden="true" />
             </div>
 
+            {/* Editorial Content Stage with Automatic Transitions */}
             <div className="company-copy">
-              <p className="company-eyebrow" id="company-title">{dictionary.eyebrow}</p>
+              <p className="company-eyebrow" id="company-title">
+                {dictionary.eyebrow}
+              </p>
               <div className="company-chapters">
                 {dictionary.chapters.map((chapter, index) => (
-                  <article className={`company-chapter${activeChapter === index ? " is-active" : ""}`} key={chapter.number} data-chapter={chapter.number}>
-                    <p className="company-chapter-meta"><span>{dictionary.chapterLabel}</span><span>{chapter.number}</span></p>
+                  <article
+                    className={`company-chapter${activeChapter === index ? " is-active" : ""}`}
+                    key={chapter.number}
+                    data-chapter={chapter.number}
+                  >
+                    <p className="company-chapter-meta">
+                      <span>{dictionary.chapterLabel}</span>
+                      <span>{chapter.number}</span>
+                    </p>
                     <p className="company-chapter-title">{chapter.title}</p>
                     <h2>{chapter.headline}</h2>
                     <p className="company-chapter-supporting">{chapter.supporting}</p>
@@ -230,10 +272,28 @@ export function CompanySection(): React.JSX.Element {
                 ))}
               </div>
 
+              {/* Progress Indicator */}
               <div className="company-progress" aria-label={dictionary.progressLabel}>
-                <span className="company-progress-count" aria-hidden="true">{String(activeChapter + 1).padStart(2, "0")} / 03</span>
-                <span className="company-progress-track" aria-hidden="true"><span ref={progressRef} /></span>
-                <span className="company-progress-label">{dictionary.chapters[activeChapter]?.title}</span>
+                <span className="company-progress-count" aria-hidden="true">
+                  {String(activeChapter + 1).padStart(2, "0")} / 03
+                </span>
+                <span
+                  className="company-progress-track"
+                  aria-hidden="true"
+                  onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const ratio = clamp((e.clientX - rect.left) / rect.width);
+                    const clickedIndex = ratio < 0.33 ? 0 : ratio < 0.66 ? 1 : 2;
+                    seekToChapter(clickedIndex);
+                  }}
+                  style={{ cursor: "pointer" }}
+                  title="Jump to chapter"
+                >
+                  <span ref={progressRef} />
+                </span>
+                <span className="company-progress-label">
+                  {dictionary.chapters[activeChapter]?.title}
+                </span>
               </div>
             </div>
           </div>

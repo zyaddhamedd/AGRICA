@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { WorldsSection } from "@/components/home/WorldsSection";
 import { SeasonSection } from "@/components/home/SeasonSection";
 import { CompanySection } from "@/components/home/CompanySection";
+import { QualityDocumentationSection } from "@/components/herbs-spices/home/QualityDocumentationSection";
 import { TradeSection } from "@/components/home/TradeSection";
 
 export default function HomePage(): React.JSX.Element {
@@ -14,6 +15,7 @@ export default function HomePage(): React.JSX.Element {
         <WorldsSection />
         <SeasonSection />
         <CompanySection />
+        <QualityDocumentationSection />
         <TradeSection />
       </main>
       <SiteFooter variant="home" />

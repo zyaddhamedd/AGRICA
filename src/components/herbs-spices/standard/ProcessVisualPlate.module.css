@@ -1,0 +1,172 @@
+.plateContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 300ms cubic-bezier(0.2, 0, 0.2, 1),
+    visibility 300ms cubic-bezier(0.2, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.plateActive {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1D3F2D;
+  box-shadow: 0 12px 36px -12px rgba(36, 75, 54, 0.16),
+    0 2px 6px rgba(36, 75, 54, 0.06);
+}
+
+.botanicalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(0.99);
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.plateActive .botanicalImage {
+  transform: scale(1);
+}
+
+/* Integrated Edge Title Plate with Subtle Dark-to-Transparent Gradient (<35% height) */
+.attachedPlate {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 35%;
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 2.5vw, 2rem);
+  background: linear-gradient(
+    to top,
+    rgba(29, 63, 45, 0.94) 0%,
+    rgba(29, 63, 45, 0.6) 55%,
+    rgba(29, 63, 45, 0.15) 85%,
+    transparent 100%
+  );
+  color: #F3EBDD;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.2rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.plateActive .attachedPlate {
+  animation: settleIn 300ms cubic-bezier(0.2, 0, 0.2, 1) both;
+}
+
+.plateHeader {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  font-family: var(--hs-font-mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #8A9B68;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.plateNumber {
+  color: #B08A43;
+}
+
+.plateDivider {
+  opacity: 0.45;
+}
+
+.plateTotal {
+  opacity: 0.7;
+}
+
+.plateTitle {
+  margin: 0;
+  font-family: var(--hs-font-serif);
+  font-size: clamp(1.4rem, 2vw, 1.95rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: #FFFFFF;
+}
+
+.plateShortLabel {
+  font-family: var(--hs-font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8A9B68;
+  margin-top: 0.05rem;
+}
+
+.plateDescription {
+  margin: 0;
+  font-family: var(--hs-font-sans);
+  font-size: clamp(0.8125rem, 0.9vw, 0.875rem);
+  color: rgba(243, 235, 221, 0.88);
+  line-height: 1.4;
+  max-width: 48ch;
+  margin-top: 0.15rem;
+}
+
+@keyframes settleIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .imageFrame {
+    border-radius: 10px;
+  }
+
+  .attachedPlate {
+    max-height: 48%;
+    padding: 0.85rem 1rem;
+    background: linear-gradient(
+      to top,
+      rgba(14, 28, 21, 0.94) 0%,
+      rgba(14, 28, 21, 0.6) 65%,
+      transparent 100%
+    );
+  }
+
+  .plateTitle {
+    font-size: 1.25rem;
+  }
+
+  .plateDescription {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    margin-top: 0.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plateContainer,
+  .botanicalImage,
+  .attachedPlate {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}

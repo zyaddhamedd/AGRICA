@@ -1,123 +1,505 @@
+/* =========================================================================
+   HERBS & SPICES GLOBAL FOOTER — Refined Botanical Architectural Layout
+   ========================================================================= */
+
 .footer {
-  display: block;
-  min-height: auto;
-  padding: 0 var(--hs-page-gutter);
-  border-top: 1px solid var(--hs-border-on-dark);
-  color: var(--hs-text);
-  background: var(--hs-bg-deep);
+  --hs-footer-bg: #244b36;
+  --hs-footer-line: rgba(243, 235, 221, 0.12);
+  --hs-footer-text: #f3ebdd;
+  --hs-footer-sage: #8a9b68;
+  --hs-footer-brass: #b08a43;
+  --hs-footer-muted: rgba(243, 235, 221, 0.65);
+
+  display: block !important;
+  width: 100% !important;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--hs-footer-bg) !important;
+  color: var(--hs-footer-text) !important;
+  border-top: 1px solid var(--hs-footer-line) !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  letter-spacing: normal !important;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(138, 155, 104, 0.12), transparent 35rem),
+    radial-gradient(circle at 10% 90%, rgba(37, 42, 39, 0.5), transparent 30rem);
 }
 
 .inner {
-  display: grid;
-  grid-template-columns: 1fr minmax(220px, 0.7fr) auto;
-  gap: clamp(2rem, 5vw, 5rem);
-  width: min(100%, var(--hs-content-max));
-  min-height: 230px;
-  margin: 0 auto;
-  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
-  align-items: end;
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(100%, 1440px) !important;
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding: clamp(3rem, 5vw, 4.5rem) var(--gutter, clamp(1.25rem, 3.5vw, 3.75rem)) clamp(1.75rem, 2.5vw, 2.25rem) !important;
+  gap: clamp(2.25rem, 3.5vw, 3.25rem) !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  letter-spacing: normal !important;
 }
 
-.brand {
-  display: inline-flex;
-  width: fit-content;
+/* =========================================================================
+   1. TOP BAR: Brand Identity & Direct Communication
+   ========================================================================= */
+.topBar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  width: 100%;
+  padding-bottom: clamp(1.75rem, 2.5vw, 2.25rem);
+  border-bottom: 1px solid var(--hs-footer-line);
+}
+
+.brandGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  max-width: 520px;
+}
+
+.brandHeader {
+  display: flex;
   align-items: center;
   gap: 0.85rem;
-  color: var(--hs-text);
 }
 
-.logo {
-  display: block;
+.brandLink {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brandLogo {
   width: auto;
-  height: 20px;
+  height: clamp(22px, 2.4vw, 26px);
   object-fit: contain;
 }
 
-.brand > span {
+.brandDivider {
   width: 1px;
-  height: 22px;
-  background: var(--hs-border-on-dark);
+  height: 18px;
+  background: rgba(244, 241, 234, 0.2);
 }
 
-.brand strong {
-  font-size: 0.64rem;
-  font-weight: 600;
+.divisionBadge {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 650;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--hs-footer-sage);
 }
 
-.parentStatement {
+.manifesto {
   margin: 0;
-  color: var(--hs-muted-on-dark);
-  font-family: var(--hs-font-serif);
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  line-height: 1.4;
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.2vw, 1.2rem);
+  line-height: 1.45;
+  font-style: italic;
+  color: rgba(244, 241, 234, 0.8);
 }
 
-.utility {
+.channels {
   display: flex;
-  justify-self: auto;
+  align-items: flex-start;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  flex-wrap: wrap;
+}
+
+.channel {
+  display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  align-items: flex-end;
-  color: var(--hs-muted-on-dark);
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
+  gap: 0.25rem;
+}
+
+.channelLabel {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.45);
 }
 
-.utility nav {
-  display: flex;
-  gap: 1.25rem;
-}
-
-.utility a {
-  min-height: 44px;
+.channelLink {
   display: inline-flex;
   align-items: center;
-  color: var(--hs-text);
-  border-bottom: 1px solid var(--hs-sage);
-  transition: color 180ms ease, border-color 180ms ease;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--hs-footer-text);
+  text-decoration: none;
+  transition: color 160ms ease;
 }
 
-.utility a:hover {
-  color: var(--hs-sage);
+.channelLink:hover {
+  color: var(--hs-footer-sage);
 }
 
-.brand:focus-visible,
-.utility a:focus-visible {
-  outline: 2px solid var(--hs-sage);
-  outline-offset: 4px;
+.channelIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--hs-footer-sage);
+  flex-shrink: 0;
 }
 
-@media (max-width: 800px) {
-  .inner {
-    grid-template-columns: 1fr 1fr;
-  }
+/* =========================================================================
+   2. FULL-WIDTH 3-COLUMN GLOBAL OFFICES GRID
+   ========================================================================= */
+.officesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  width: 100%;
+}
 
-  .utility {
-    grid-column: 1 / -1;
+.officesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.officesEyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hs-footer-sage);
+}
+
+.officesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3.5vw, 3.5rem);
+  width: 100%;
+}
+
+.officeCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding-left: clamp(0.85rem, 1.5vw, 1.35rem);
+  border-left: 1px solid rgba(244, 241, 234, 0.12);
+  transition: border-color 200ms ease;
+}
+
+.officeCol:hover {
+  border-left-color: var(--hs-footer-sage);
+}
+
+.officeHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.officeNum {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--hs-footer-sage);
+  margin-top: 0.15rem;
+}
+
+.officeTitles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.officeCountry {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 1.4vw, 1.4rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.officeRole {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--hs-footer-muted);
+}
+
+.officeAddress {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: rgba(244, 241, 234, 0.72);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  text-transform: none;
+}
+
+.pinIcon {
+  width: 13px;
+  height: 13px;
+  color: var(--hs-footer-sage);
+  flex-shrink: 0;
+  margin-top: 0.12rem;
+}
+
+.officePhone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--hs-footer-text);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: 0.25rem;
+  transition: color 160ms ease;
+  width: fit-content;
+  text-transform: none;
+}
+
+.officePhone:hover {
+  color: var(--hs-footer-sage);
+}
+
+.phoneIcon {
+  width: 13px;
+  height: 13px;
+  color: var(--hs-footer-sage);
+  flex-shrink: 0;
+}
+
+/* =========================================================================
+   3. NAVIGATION & DESK UTILITY BAR
+   ========================================================================= */
+.utility {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--hs-footer-line);
+  border-bottom: 1px solid var(--hs-footer-line);
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(1.2rem, 2.5vw, 2.5rem);
+}
+
+.navItem {
+  position: relative;
+  color: rgba(244, 241, 234, 0.75);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 550;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.navItem::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: var(--hs-footer-sage);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 200ms ease;
+}
+
+.navItem:hover {
+  color: #ffffff;
+}
+
+.navItem:hover::after {
+  transform: scaleX(1);
+}
+
+.desk {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.desk span {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.45);
+}
+
+.deskLink {
+  color: var(--hs-footer-sage);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: opacity 160ms ease;
+}
+
+.deskLink:hover {
+  opacity: 0.8;
+}
+
+/* =========================================================================
+   4. BOTTOM LEGAL & METADATA BAR
+   ========================================================================= */
+.legal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  color: rgba(244, 241, 234, 0.45);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 550;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.legalLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legalCenter {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.originDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--hs-footer-sage);
+  box-shadow: 0 0 6px rgba(155, 189, 149, 0.6);
+}
+
+.topBtn {
+  background: transparent;
+  border: none;
+  color: rgba(244, 241, 234, 0.65);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 160ms ease;
+  padding: 0;
+}
+
+.topBtn span:last-child {
+  color: var(--hs-footer-sage);
+}
+
+.topBtn:hover {
+  color: #ffffff;
+}
+
+/* Reveal transition */
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms ease, transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer[data-visible="true"] .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================= */
+@media (max-width: 960px) {
+  .topBar {
+    flex-direction: column;
     align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .officesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .officeCol {
+    padding-left: 1rem;
   }
 }
 
-@media (max-width: 680px) {
-  .footer {
-    display: block;
-    min-height: auto;
-    padding: 0 var(--hs-page-gutter);
+@media (max-width: 640px) {
+  .channels {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
   }
 
-  .footer > .inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    min-height: auto;
-    justify-self: auto;
-    gap: 2rem;
-  }
-
-  .parentStatement,
   .utility {
-    grid-column: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .navLinks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem 1.5rem;
+    width: 100%;
+  }
+
+  .legal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .topBtn {
+    align-self: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
