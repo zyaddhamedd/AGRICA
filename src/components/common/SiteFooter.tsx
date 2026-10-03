@@ -14,7 +14,7 @@ export interface SiteFooterProps {
 const NAV_LINKS = [
   { labelKey: "products", href: "/products" },
   { labelKey: "standard", href: "/standard" },
-  { labelKey: "company", href: "/#company" },
+  { labelKey: "company", href: "/company" },
   { labelKey: "startTrade", href: "/#trade" },
 ] as const;
 

@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       { source: "/", destination: "/en/", permanent: true },
       { source: "/products", destination: "/en/products", permanent: true },
       { source: "/standard", destination: "/en/standard", permanent: true },
+      { source: "/company", destination: "/en/company", permanent: true },
       { source: "/herbs-spices", destination: "/en/herbs-spices", permanent: true },
       { source: "/herbs-spices/products", destination: "/en/herbs-spices/products", permanent: true },
       { source: "/herbs-spices/standard", destination: "/en/herbs-spices/standard", permanent: true },
