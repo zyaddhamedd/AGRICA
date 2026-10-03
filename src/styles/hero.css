@@ -440,14 +440,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 1vw, 12px);
+  gap: clamp(10px, 1.2vw, 16px);
+  width: min(100%, 980px);
   overflow: visible;
 }
 
 .hero-card-item {
   position: relative;
-  height: clamp(118px, 14vh, 150px);
-  border-radius: 13px;
+  height: clamp(150px, 18vh, 190px);
+  border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
   background: #010a14;
@@ -464,8 +465,8 @@
 
 /* Inactive narrow cards */
 .hero-card-item:not(.hero-card-item--active) {
-  width: clamp(85px, 7.5vw, 110px);
-  opacity: 0.75;
+  width: clamp(150px, 12vw, 190px);
+  opacity: 0.72;
 }
 
 .hero-card-item:not(.hero-card-item--active):hover {
@@ -476,7 +477,7 @@
 
 /* Active wide landscape card */
 .hero-card-item--active {
-  width: clamp(210px, 18.5vw, 265px);
+  width: clamp(300px, 24vw, 360px);
   opacity: 1;
   border: 1.5px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(130, 195, 50, 0.15);
@@ -508,6 +509,40 @@
 .hero-card-video.is-playing + .hero-card-poster {
   opacity: 0;
   pointer-events: none;
+}
+
+.hero-card-label {
+  position: absolute;
+  z-index: 2;
+  left: 14px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.96);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+}
+
+.hero-card-label span {
+  color: #9ed052;
+  font-size: 0.58rem;
+}
+
+.hero-card-item:not(.hero-card-item--active) .hero-card-label {
+  left: 11px;
+  bottom: 10px;
+  font-size: 0.58rem;
+  letter-spacing: 0.09em;
+}
+
+.hero-card-item:not(.hero-card-item--active) .hero-card-label span {
+  display: none;
 }
 
 /* Progress indicator bar */
@@ -907,12 +942,25 @@
     align-items: center;
     justify-content: center;
     gap: 7px;
+    width: 100%;
+  }
+
+  .hero-card-item--previous {
+    order: 1;
+  }
+
+  .hero-card-item--current {
+    order: 2;
+  }
+
+  .hero-card-item--next {
+    order: 3;
   }
 
   /* Active center card: 172–185px width, 126–136px height */
   .hero-card-item--active {
-    width: clamp(172px, 46vw, 185px);
-    height: clamp(126px, 15.5vh, 136px);
+    width: clamp(170px, 50vw, 210px);
+    height: clamp(138px, 18vh, 154px);
     border-radius: 13px;
     opacity: 1;
     border: 1.5px solid rgba(255, 255, 255, 0.55);
@@ -921,17 +969,28 @@
 
   /* Narrow side cards (distance 1): 56–66px width */
   .hero-card-item:not(.hero-card-item--active) {
-    width: clamp(56px, 15vw, 66px);
-    height: clamp(126px, 15.5vh, 136px);
+    width: clamp(56px, 20vw, 82px);
+    height: clamp(138px, 18vh, 154px);
     border-radius: 11px;
     opacity: 0.65;
   }
 
   /* Outer peek cards (distance 2): ~38–44px */
   .hero-card-item--outer {
-    width: clamp(38px, 10vw, 44px) !important;
-    height: clamp(126px, 15.5vh, 136px);
-    opacity: 0.35 !important;
+    display: none;
+  }
+
+  .hero-card-label {
+    left: 12px;
+    bottom: 10px;
+    font-size: 0.62rem;
+  }
+
+  .hero-card-item:not(.hero-card-item--active) .hero-card-label {
+    left: 8px;
+    bottom: 8px;
+    font-size: 0.5rem;
+    letter-spacing: 0.06em;
   }
 
   /* 7. Progress Indicator: Thin, centered, close below strip */

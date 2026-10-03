@@ -16,34 +16,28 @@ interface HeroMediaItem {
 
 const HERO_MEDIA_ITEMS: readonly HeroMediaItem[] = [
   {
-    id: "crate",
-    title: "Harvested Egyptian Citrus",
-    poster: "/assets/hero/card-1-crate.jpg",
-    video: "/assets/hero/u1-the-land.mp4",
+    id: "harvest",
+    title: "Harvest",
+    poster: "/assets/hero/hero-01-origin-poster.avif",
+    video: "/assets/hero/hero-01-origin.mp4",
   },
   {
-    id: "leaves",
-    title: "Golden Hour Orchard Light",
-    poster: "/assets/hero/card-2-leaves.jpg",
-    video: "/assets/video_hero.mp4",
+    id: "processing",
+    title: "Processing",
+    poster: "/assets/hero/hero_02_processing_poster.png",
+    video: "/assets/hero/hero_02_processing_final.mp4",
   },
   {
-    id: "orchard",
-    title: "Egyptian Citrus Groves",
-    poster: "/assets/hero/card-3-orchard.jpg",
-    video: "/assets/hero/u2-the-standard.mp4",
+    id: "packing",
+    title: "Packing",
+    poster: "/assets/hero/hero_03_packing_poster.png",
+    video: "/assets/hero/hero_03_packing_final.mp4",
   },
   {
-    id: "hands",
-    title: "Precision Hand-Harvest",
-    poster: "/assets/hero/card-4-hands.jpg",
-    video: "/assets/video 2.mp4",
-  },
-  {
-    id: "farm",
-    title: "Nile Valley Horizons",
-    poster: "/assets/hero/card-5-farm.jpg",
-    video: "/assets/video 3.mp4",
+    id: "shipping",
+    title: "Shipping",
+    poster: "/assets/REF_HERO/Agrica Loading Dock Operations (1).png",
+    video: "/assets/hero/hero_04_shipping_final.mp4",
   },
 ];
 
@@ -68,7 +62,7 @@ export function HeroSection(): React.JSX.Element {
   const common = useCommonDictionary();
   const dictionary = useHomeDictionary().hero;
 
-  const [activeIndex, setActiveIndex] = useState(2); // Center card (orchard) active by default
+  const [activeIndex, setActiveIndex] = useState(0); // Begin the four-film journey with Harvest
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [playingMap, setPlayingMap] = useState<Record<number, boolean>>({});
@@ -114,6 +108,7 @@ export function HeroSection(): React.JSX.Element {
           }
         } else {
           video.pause();
+          video.currentTime = 0;
           setPlayingMap((prev) => ({ ...prev, [idx]: false }));
         }
       });
@@ -328,6 +323,14 @@ export function HeroSection(): React.JSX.Element {
                   itemCount - Math.abs(index - activeIndex)
                 );
                 const isOuter = distance > 1;
+                const relativeOffset = (index - activeIndex + itemCount) % itemCount;
+                const positionClass = isActive
+                  ? " hero-card-item--current"
+                  : relativeOffset === 1
+                    ? " hero-card-item--next"
+                    : relativeOffset === itemCount - 1
+                      ? " hero-card-item--previous"
+                      : "";
                 const isPlaying = playingMap[index] ?? false;
 
                 return (
@@ -336,7 +339,7 @@ export function HeroSection(): React.JSX.Element {
                     type="button"
                     className={`hero-card-item${
                       isActive ? " hero-card-item--active" : ""
-                    }${isOuter ? " hero-card-item--outer" : ""}`}
+                    }${isOuter ? " hero-card-item--outer" : ""}${positionClass}`}
                     onClick={() => setActiveIndex(index)}
                     aria-current={isActive ? "true" : undefined}
                     aria-label={item.title}
@@ -363,6 +366,10 @@ export function HeroSection(): React.JSX.Element {
                         className="hero-card-poster"
                         aria-hidden="true"
                       />
+                      <span className="hero-card-label" aria-hidden="true">
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        {item.title}
+                      </span>
                     </div>
                   </button>
                 );

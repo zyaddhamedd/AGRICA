@@ -13,7 +13,7 @@ export const MENU_ITEMS = [
   { number: "01", labelKey: "home", href: "/" },
   { number: "02", labelKey: "products", href: "/products" },
   { number: "03", labelKey: "standard", href: "/standard" },
-  { number: "04", labelKey: "company", href: "/#company" },
+  { number: "04", labelKey: "company", href: "/company" },
   { number: "05", labelKey: "startTrade", href: "/#trade" },
 ] as const;
 
