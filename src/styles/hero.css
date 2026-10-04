@@ -146,7 +146,26 @@
   justify-content: space-between;
   box-shadow: 0 12px 36px rgba(0, 5, 15, 0.28);
   box-sizing: border-box;
-  transition: background-color 260ms ease, box-shadow 260ms ease, color 260ms ease;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 260ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 260ms ease,
+              box-shadow 260ms ease,
+              color 260ms ease;
+  will-change: transform;
+}
+
+.hero-floating-navbar[data-hidden="true"] {
+  transform: translateY(-120%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-floating-navbar {
+    transition: none !important;
+  }
 }
 
 .hero-navbar-brand {
@@ -157,8 +176,9 @@
 }
 
 .hero-navbar-logo {
-  height: clamp(21px, 2.5vh, 25px);
+  height: clamp(34px, 4.2vh, 42px);
   width: auto;
+  max-width: 175px;
   object-fit: contain;
   display: block;
 }
@@ -169,30 +189,36 @@
   gap: clamp(8px, 1.1vw, 14px);
 }
 
-/* Refined Subtle Website/Division Switcher */
+/* Minimal Editorial Site Switcher (Produce / Herbs & Spices) */
 .hero-navbar-controls [class*="switcher"] {
-  height: 30px;
-  border-radius: 7px;
-  border: 1px solid rgba(0, 32, 80, 0.14);
-  background: rgba(0, 32, 80, 0.04);
-  padding: 2px;
+  position: relative;
+  height: auto;
+  border-radius: 0;
+  border: none !important;
+  background: transparent !important;
+  padding: 4px 0 6px 0;
   display: inline-flex;
   align-items: center;
+  box-shadow: none !important;
+  gap: clamp(14px, 1.8vw, 22px);
 }
 
 .hero-navbar-controls [class*="divisionLink"] {
-  min-height: 24px;
-  height: 24px;
-  padding: 0 8px;
-  font-size: 0.60rem;
-  font-weight: 650;
-  letter-spacing: 0.07em;
-  border-radius: 5px;
+  min-height: auto;
+  height: auto;
+  padding: 2px 0;
+  font-size: 0.62rem;
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  border-radius: 0;
   border: none !important;
-  color: rgba(0, 32, 80, 0.65);
-  transition: all 0.18s ease;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: rgba(0, 32, 80, 0.45);
+  transition: color 180ms ease, opacity 180ms ease;
   display: inline-flex;
   align-items: center;
+  text-transform: uppercase;
 }
 
 .hero-navbar-controls [class*="divisionLink"]::after {
@@ -200,76 +226,62 @@
 }
 
 .hero-navbar-controls [class*="divisionLink"]:hover {
-  color: #002050;
-  background: rgba(0, 32, 80, 0.05);
+  color: rgba(0, 32, 80, 0.85);
+  background: transparent !important;
 }
 
 .hero-navbar-controls [class*="divisionLink"][aria-current="page"] {
-  background: #ffffff;
+  background: transparent !important;
   color: #002050;
-  box-shadow: 0 1px 3px rgba(0, 20, 50, 0.10);
+  font-weight: 700;
+  box-shadow: none !important;
 }
 
-/* Refined Subtle Language Switcher */
+/* Refined Icon-Only Language Switcher */
 .hero-navbar-controls [data-language-switcher] [data-language-trigger] {
-  min-height: 30px;
-  height: 30px;
-  padding: 0 8px;
-  border: 1px solid rgba(0, 32, 80, 0.15);
-  border-radius: 7px;
-  background: rgba(0, 32, 80, 0.03);
+  min-height: 28px;
+  height: 28px;
+  width: 28px;
+  min-width: 28px;
+  padding: 0;
+  border: none !important;
+  border-radius: 6px;
+  background: transparent !important;
   color: #002050;
-  font-family: var(--font-sans);
-  font-size: 0.74rem;
-  font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
   transition: all 0.18s ease;
 }
 
 .hero-navbar-controls [data-language-switcher] [data-language-trigger]:hover {
-  background: rgba(0, 32, 80, 0.07);
-  border-color: rgba(0, 32, 80, 0.30);
+  background: rgba(0, 32, 80, 0.06) !important;
+  border: none !important;
 }
 
-.hero-navbar-controls [data-language-switcher] [class*="activeLabel"] {
+.hero-navbar-controls [data-language-switcher] svg,
+.hero-navbar-controls [data-language-switcher] [class*="globeIcon"] {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+}
+
+.hero-navbar-controls [data-language-switcher] [class*="activeLabel"],
+.hero-navbar-controls [data-language-switcher] [class*="activeCode"],
+.hero-navbar-controls [data-language-switcher] [class*="chevron"] {
   display: none !important;
 }
 
-.hero-navbar-controls [data-language-switcher] [class*="activeCode"] {
-  display: inline !important;
-  font-weight: 650;
-  font-size: 0.74rem;
-  letter-spacing: 0.03em;
-}
-
-.hero-navbar-controls [data-language-switcher] [class*="flag"] {
-  width: 16px;
-  height: 11px;
-  border-radius: 2px;
-}
-
-.hero-navbar-controls [data-language-switcher] [class*="chevron"] {
-  width: 5px;
-  height: 5px;
-  margin-inline-start: 0.1rem;
-}
-
-/* Minimal Menu Trigger Button */
+/* Minimal Menu Trigger Button (Icon Only) */
 .hero-navbar-menu-btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 4px 2px;
+  padding: 6px;
   color: #002050;
-  font-family: var(--font-sans);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
   transition: opacity 0.18s ease;
 }
 
@@ -281,8 +293,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 16px;
-  height: 10px;
+  width: 17px;
+  height: 11px;
 }
 
 .hero-menu-burger span {
@@ -309,9 +321,9 @@
   box-sizing: border-box;
 }
 
-/* Editorial Headline Block — Reduced 15–20% for quiet luxury */
+/* Editorial Headline Block — AGRICA Unified Section Typography */
 .hero-headline-wrapper {
-  max-width: 500px;
+  max-width: clamp(480px, 38vw, 620px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -319,14 +331,26 @@
 }
 
 .hero-kicker {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-sans);
-  font-size: clamp(0.62rem, 0.70vw, 0.74rem);
-  font-weight: 600;
-  letter-spacing: 0.22em;
+  font-size: clamp(0.64rem, 0.72vw, 0.76rem);
+  font-weight: 650;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #90A495;
-  margin-bottom: clamp(10px, 1.4vh, 14px);
+  color: #9cb2a3;
+  margin-bottom: clamp(12px, 1.8vh, 18px);
+  line-height: 1.2;
+}
+
+.hero-kicker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--green, #82c332);
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .hero-title {
@@ -336,51 +360,38 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  line-height: 1.04;
-}
-
-.hero-title-line--serif {
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(2.35rem, 3.6vw, 3.85rem);
-  font-weight: 450;
-  color: #FFFFFF;
-  letter-spacing: -0.015em;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(2.35rem, 3.6vw, 3.65rem);
+  font-weight: 520;
   line-height: 1.05;
+  letter-spacing: -0.045em;
+  color: #ffffff;
 }
 
-.hero-line-block {
+/* Mask container for line-by-line reveal animation */
+.hero-line-mask {
   display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em; /* Ensure descenders (g, p, y) are never clipped */
+  margin-bottom: -0.02em;
 }
 
-.hero-title-line--brand {
+.hero-line-inner {
   display: block;
-  margin: clamp(3px, 0.6vh, 6px) 0;
-  line-height: 1;
+  color: #ffffff;
+  white-space: nowrap;
+  will-change: transform, opacity;
 }
 
-.hero-brand-logo-img {
-  height: clamp(30px, 3.4vw, 40px);
-  width: auto;
-  object-fit: contain;
-  display: block;
-  user-select: none;
-  pointer-events: none;
-}
-
-.hero-title-line--close {
-  display: block;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(2.5rem, 3.9vw, 4.15rem);
-  font-weight: 450;
-  font-style: italic;
+/* Unified AGRICA Section Signature: Serif Italic in Brand Green */
+.hero-title em,
+.hero-accent-word {
   color: #82c332;
-  letter-spacing: -0.015em;
-  line-height: 1.04;
-  margin-top: clamp(1px, 0.3vh, 4px);
-}
-
-.hero-title-line--close em {
+  font-family: var(--font-serif, Georgia, serif);
   font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  display: inline-block;
 }
 
 /* 4. Film Reel Strip & Minimal CTA (Centered horizontally on desktop, lower placement) */
@@ -788,7 +799,9 @@
   }
 
   .hero-navbar-logo {
-    height: 19px;
+    height: clamp(26px, 3.4vh, 30px);
+    width: auto;
+    max-width: 130px;
   }
 
   .hero-navbar-controls {
@@ -796,35 +809,38 @@
   }
 
   .hero-navbar-controls [class*="switcher"] {
-    height: 26px;
-    padding: 1px;
-    border-radius: 6px;
+    height: auto;
+    padding: 3px 0 5px 0;
+    gap: 12px;
   }
 
   .hero-navbar-controls [class*="divisionLink"] {
-    min-height: 22px;
-    height: 22px;
-    padding: 0 6px;
-    font-size: 0.54rem;
+    min-height: auto;
+    height: auto;
+    padding: 2px 0;
+    font-size: 0.60rem;
+    font-weight: 550;
+  }
+
+  .hero-navbar-controls [class*="divisionLink"][aria-current="page"] {
     font-weight: 700;
   }
 
   .hero-navbar-controls [data-language-switcher] [data-language-trigger] {
     min-height: 26px;
     height: 26px;
-    padding: 0 6px;
-    font-size: 0.70rem;
-    gap: 4px;
+    width: 26px;
+    min-width: 26px;
+    padding: 0;
+    border: none !important;
     border-radius: 6px;
+    background: transparent !important;
   }
 
-  .hero-navbar-controls [data-language-switcher] [class*="flag"] {
+  .hero-navbar-controls [data-language-switcher] svg,
+  .hero-navbar-controls [data-language-switcher] [class*="globeIcon"] {
     width: 14px;
-    height: 10px;
-  }
-
-  .hero-navbar-controls [data-language-switcher] [class*="activeCode"] {
-    font-size: 0.70rem;
+    height: 14px;
   }
 
   .hero-navbar-menu-btn {
@@ -853,41 +869,57 @@
     box-sizing: border-box;
   }
 
-  /* 5. Editorial Headline — Balanced placement lower down from navbar */
+  /* 5. Editorial Headline — Clean, balanced unified section typography on mobile */
   .hero-headline-wrapper {
-    max-width: 84%;
-    width: 82%;
-    padding-inline-start: clamp(16px, 5.5vw, 24px);
-    margin-top: clamp(10px, 2vh, 18px);
+    max-width: 100%;
+    width: 100%;
+    padding-inline-start: clamp(10px, 3.5vw, 18px);
+    padding-inline-end: 12px;
+    margin-top: clamp(6px, 1.5vh, 12px);
     align-items: flex-start;
   }
 
   .hero-kicker {
-    font-size: 10.5px;
-    letter-spacing: 0.20em;
-    color: #9AB0A2;
-    margin-bottom: 10px;
+    font-size: clamp(0.58rem, 2.2vw, 0.68rem);
+    letter-spacing: 0.16em;
+    color: #9ab0a2;
+    margin-bottom: 6px;
+    line-height: 1.2;
+    gap: 6px;
   }
 
-  .hero-title-line--serif {
-    font-size: clamp(34px, 9.6vw, 40px);
-    line-height: 1.06;
+  .hero-kicker-dot {
+    width: 5px;
+    height: 5px;
   }
 
-  .hero-title-line--brand {
-    margin: 6px 0;
+  .hero .hero-title,
+  .hero-content-stage .hero-title,
+  .hero-title {
+    font-size: clamp(1.35rem, 5.2vw, 1.75rem) !important;
+    line-height: 1.14 !important;
+    letter-spacing: -0.035em !important;
+    font-weight: 520 !important;
   }
 
-  .hero-brand-logo-img {
-    width: clamp(124px, 34vw, 144px);
-    height: auto;
-    object-fit: contain;
+  .hero-line-mask {
+    padding-bottom: 0.10em;
+    margin-bottom: 0;
   }
 
-  .hero-title-line--close {
-    font-size: clamp(38px, 10.6vw, 45px);
-    line-height: 1.04;
-    margin-top: 4px;
+  .hero-line-inner {
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+
+  .hero .hero-title em,
+  .hero .hero-accent-word,
+  .hero-title em,
+  .hero-accent-word {
+    color: #82c332 !important;
+    font-family: var(--font-serif, Georgia, serif) !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
   }
 
   /* 6. Film Strip & CTA: Positioned at bottom, generous middle breathing space */
@@ -1015,11 +1047,11 @@
     height: 2.5px;
   }
 
-  /* 8. Minimal CTA: Left-aligned under strip, close to bottom */
+  /* 8. Minimal CTA: Centered under film strip */
+  .hero .hero-cta,
   .hero-cta {
-    align-self: flex-start;
-    margin-inline-start: clamp(18px, 5.2vw, 24px);
-    margin-top: clamp(12px, 1.8vh, 20px);
+    align-self: center !important;
+    margin: clamp(10px, 1.6vh, 16px) auto 0 !important;
     gap: 12px;
   }
 
@@ -1035,5 +1067,15 @@
   .hero-cta-circle svg {
     width: 15px;
     height: 15px;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .hero-kicker,
+  .hero-line-inner {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
 }

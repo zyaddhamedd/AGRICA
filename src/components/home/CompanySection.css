@@ -1,70 +1,48 @@
 .company-section {
-  --company-paper: #faf8f5;
-  --company-ink: var(--navy-deep, #001837);
-  --company-muted: rgba(0, 32, 80, 0.62);
-  --company-line: rgba(0, 32, 80, 0.14);
+  --company-white: #fffdf8;
+  --company-green: #75ba45;
   position: relative;
   isolation: isolate;
-  padding-inline: var(--gutter, clamp(1.25rem, 3vw, 3.75rem));
-  padding-block: clamp(4rem, 7vw, 6.5rem);
-  background: var(--company-paper);
-  color: var(--company-ink);
-  overflow: hidden;
-}
-
-.company-scroll-track {
-  width: 100%;
-}
-
-.company-sticky-stage {
-  position: relative;
-  width: 100%;
   display: grid;
-  align-items: center;
-  padding-block: 0;
-}
-
-.company-cinematic-grid {
-  width: min(100%, 1420px);
-  margin-inline: auto;
-  display: grid;
-  grid-template-columns: minmax(0, 8fr) minmax(18rem, 4.5fr);
-  gap: clamp(2.5rem, 5vw, 5.5rem);
-  align-items: center;
-}
-
-.company-film {
-  position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 68vh;
+  min-height: clamp(42rem, 86svh, 62rem);
+  place-items: center;
   overflow: hidden;
-  border: 1px solid rgba(0, 32, 80, 0.1);
-  border-radius: 0.75rem;
-  background: #d8d4c8;
-  box-shadow: 0 16px 45px -12px rgba(0, 32, 80, 0.12);
+  background: #09140f;
+  color: var(--company-white);
 }
 
+.company-film,
 .company-film-poster,
 .company-film-video,
-.company-film-wash {
+.company-film-grade {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
+.company-film {
+  z-index: -1;
+  overflow: hidden;
+  background: #101b16;
+}
+
 .company-film-poster,
 .company-film-video {
   display: block;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
+}
+
+.company-film-poster {
+  z-index: 1;
 }
 
 .company-film-video {
   z-index: 2;
   opacity: 0;
-  transition: opacity 400ms ease;
+  transition: opacity 500ms ease;
 }
 
 .company-section[data-video-ready="true"] .company-film-video {
@@ -75,244 +53,166 @@
   display: none;
 }
 
-.company-film-wash {
+.company-film-grade {
   z-index: 3;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 76%, rgba(0, 24, 55, 0.08));
+  background:
+    radial-gradient(circle at 50% 49%, rgba(3, 14, 10, 0.22) 0%, rgba(3, 14, 10, 0.4) 43%, rgba(3, 14, 10, 0.22) 72%),
+    linear-gradient(180deg, rgba(2, 10, 7, 0.3) 0%, rgba(2, 10, 7, 0.06) 24%, rgba(2, 10, 7, 0.08) 67%, rgba(2, 10, 7, 0.52) 100%);
 }
 
 .company-copy {
-  min-width: 0;
-  align-self: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(90%, 54rem);
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(2rem, 6vw, 5rem) var(--gutter, clamp(1.25rem, 3vw, 3.75rem));
+  text-align: center;
+  text-wrap: balance;
 }
 
 .company-eyebrow,
-.company-chapter-meta,
-.company-chapter-title,
-.company-chapter h2,
-.company-chapter-supporting {
+.company-copy h2,
+.company-supporting {
   margin: 0;
 }
 
+.company-eyebrow,
+.company-copy h2,
+.company-supporting,
+.company-action {
+  font-family: var(--font-sans);
+}
+
 .company-eyebrow {
-  margin-bottom: clamp(1.2rem, 2.2vh, 1.8rem);
-  color: var(--green, #50a010);
-  font-size: var(--font-size-eyebrow, 0.65rem);
+  color: var(--company-green);
+  font-size: clamp(0.62rem, 0.78vw, 0.72rem);
   font-weight: 700;
-  letter-spacing: 0.17em;
+  letter-spacing: 0.2em;
   line-height: 1;
   text-transform: uppercase;
 }
 
-.company-chapters {
-  position: relative;
-  min-height: clamp(13rem, 26vh, 16.5rem);
-}
-
-.company-chapter {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px);
-  transition: opacity 450ms ease, transform 450ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 450ms;
-}
-
-.company-chapter.is-active {
-  z-index: 1;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  transition-delay: 50ms, 50ms, 0s;
-}
-
-.company-chapter-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  color: var(--company-muted);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.company-chapter-meta span + span::before {
-  content: "·";
-  margin-inline-end: 0.55rem;
-  color: rgba(0, 32, 80, 0.3);
-}
-
-.company-chapter-title {
-  margin-top: 0.85rem;
-  color: var(--green, #50a010);
-  font-family: var(--font-serif, Georgia, serif);
-  font-size: clamp(1.2rem, 1.8vw, 1.65rem);
-  font-style: italic;
-  line-height: 1.1;
-}
-
-.company-chapter h2 {
-  max-width: 9ch;
-  margin-top: 0.55rem;
-  color: var(--company-ink);
-  font-size: clamp(2.5rem, 4vw, 4.5rem);
+.company-copy h2 {
+  max-width: 15ch;
+  margin-top: clamp(1rem, 2.2vh, 1.5rem);
+  color: var(--company-white);
+  font-size: clamp(3rem, 6.3vw, 6.8rem);
   font-weight: 500;
-  letter-spacing: -0.052em;
-  line-height: 0.96;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  text-shadow: 0 3px 28px rgba(0, 0, 0, 0.28);
 }
 
-.company-chapter-supporting {
-  max-width: 29rem;
-  margin-top: 1.25rem;
-  color: var(--company-muted);
-  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+.company-supporting {
+  max-width: 42rem;
+  margin-top: clamp(1.2rem, 2.4vh, 1.8rem);
+  color: rgba(255, 253, 248, 0.82);
+  font-size: clamp(0.95rem, 1.25vw, 1.12rem);
   line-height: 1.55;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
 }
 
-/* Progress Indicator */
-.company-progress {
-  display: grid;
-  grid-template-columns: auto minmax(4rem, 1fr) auto;
+.company-action {
+  display: inline-flex;
   align-items: center;
-  gap: 0.85rem;
-  padding-top: 1.35rem;
-  margin-top: 0.5rem;
-  border-top: 1px solid var(--company-line);
-  color: var(--company-muted);
-  font-size: 0.58rem;
+  justify-content: center;
+  gap: 0.9rem;
+  min-height: 3.2rem;
+  margin-top: clamp(1.6rem, 3.2vh, 2.4rem);
+  padding: 0.85rem 1.4rem 0.82rem 1.55rem;
+  border: 1px solid rgba(255, 253, 248, 0.62);
+  border-radius: 999px;
+  background: rgba(7, 20, 14, 0.18);
+  color: var(--company-white);
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-decoration: none;
   text-transform: uppercase;
+  backdrop-filter: blur(7px);
+  transition: color 220ms ease, background 220ms ease, border-color 220ms ease, transform 220ms ease;
 }
 
-.company-progress-track {
-  position: relative;
-  height: 2px;
-  overflow: hidden;
-  background: rgba(0, 32, 80, 0.15);
-  border-radius: 1px;
-  cursor: pointer;
+.company-action span:last-child {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 0;
+  transition: transform 220ms ease;
 }
 
-.company-progress-track > span {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  width: 2%;
-  background: var(--green, #50a010);
-  border-radius: 1px;
-  transition: width 120ms linear;
+.company-action:hover,
+.company-action:focus-visible {
+  border-color: var(--company-white);
+  background: var(--company-white);
+  color: #07140d;
+  transform: translateY(-2px);
 }
 
-.company-progress-label {
-  color: var(--company-ink);
+.company-action:hover span:last-child,
+.company-action:focus-visible span:last-child {
+  transform: translate(2px, -2px);
 }
 
-/* =========================================================================
-   RESPONSIVE BREAKPOINTS
-   ========================================================================= */
-@media (max-width: 1100px) and (min-width: 901px) {
-  .company-cinematic-grid {
-    grid-template-columns: minmax(0, 7fr) minmax(17rem, 5fr);
-    gap: 2.5rem;
-  }
-  .company-chapter h2 {
-    font-size: clamp(2.4rem, 3.8vw, 3.4rem);
-  }
+.company-action:focus-visible {
+  outline: 2px solid var(--company-green);
+  outline-offset: 4px;
 }
 
 @media (max-width: 900px) {
   .company-section {
-    padding-block: clamp(3rem, 6vw, 4.5rem);
+    min-height: clamp(38rem, 80svh, 52rem);
   }
-  .company-cinematic-grid {
-    grid-template-columns: 1fr;
-    gap: clamp(1.25rem, 3vh, 2rem);
+
+  .company-film-poster,
+  .company-film-video {
+    object-position: center center;
   }
-  .company-film {
-    width: min(100%, 50rem);
-    max-height: 48vh;
-    margin-inline: auto;
-    aspect-ratio: 16 / 9;
+
+  .company-film-grade {
+    background:
+      radial-gradient(circle at 50% 48%, rgba(3, 14, 10, 0.24) 0%, rgba(3, 14, 10, 0.44) 52%, rgba(3, 14, 10, 0.28) 80%),
+      linear-gradient(180deg, rgba(2, 10, 7, 0.28), rgba(2, 10, 7, 0.14) 64%, rgba(2, 10, 7, 0.58));
   }
+
   .company-copy {
-    width: min(100%, 50rem);
-    margin-inline: auto;
+    width: min(94%, 43rem);
   }
-  .company-eyebrow {
-    margin-bottom: 1rem;
-  }
-  .company-chapters {
-    min-height: clamp(10.5rem, 22vh, 12.5rem);
-  }
-  .company-chapter {
-    justify-content: flex-start;
-  }
-  .company-chapter-title {
-    margin-top: 0.5rem;
-  }
-  .company-chapter h2 {
+
+  .company-copy h2 {
     max-width: 13ch;
-    margin-top: 0.35rem;
-    font-size: clamp(2.2rem, 7vw, 3.4rem);
-  }
-  .company-chapter-supporting {
-    margin-top: 0.75rem;
+    font-size: clamp(2.75rem, 10vw, 5.2rem);
   }
 }
 
 @media (max-width: 520px) {
   .company-section {
-    padding-inline: clamp(1rem, 5vw, 1.35rem);
-    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+    min-height: 76svh;
   }
-  .company-cinematic-grid {
-    gap: 1.1rem;
-  }
-  .company-film {
-    aspect-ratio: 16 / 10;
-    max-height: 42vh;
-    border-radius: 0.5rem;
-  }
-  .company-eyebrow {
-    margin-bottom: 0.65rem;
-  }
-  .company-chapters {
-    min-height: 10.5rem;
-  }
-  .company-chapter h2 {
-    max-width: 12ch;
-    font-size: clamp(1.95rem, 9.5vw, 2.8rem);
-  }
-  .company-chapter-supporting {
-    max-width: 34rem;
-    margin-top: 0.65rem;
-    font-size: 0.86rem;
-    line-height: 1.45;
-  }
-  .company-progress {
-    gap: 0.55rem;
-    padding-top: 0.75rem;
-    font-size: 0.52rem;
-  }
-}
 
-@media (max-width: 340px) {
-  .company-film {
-    max-height: 38vh;
+  .company-copy {
+    width: 100%;
+    padding-inline: clamp(1.25rem, 7vw, 2rem);
   }
-  .company-chapters {
-    min-height: 9.5rem;
+
+  .company-copy h2 {
+    font-size: clamp(2.55rem, 13vw, 4rem);
+    line-height: 0.98;
   }
-  .company-chapter h2 {
-    font-size: 1.8rem;
+
+  .company-supporting {
+    max-width: 30rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
   }
-  .company-progress-label {
-    display: none;
+
+  .company-action {
+    min-height: 3rem;
+    padding-inline: 1.25rem;
+    font-size: 0.63rem;
   }
 }
 
@@ -320,7 +220,9 @@
   .company-film-video {
     display: none;
   }
-  .company-chapter {
-    transition: none !important;
+
+  .company-action,
+  .company-action span:last-child {
+    transition: none;
   }
 }

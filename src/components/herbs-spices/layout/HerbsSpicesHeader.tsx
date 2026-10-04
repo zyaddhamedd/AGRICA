@@ -6,17 +6,25 @@ import { BusinessDivisionSwitcher } from "@/components/common/BusinessDivisionSw
 import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { useCommonDictionary } from "@/i18n/locale-context";
+import { useNavbarScrollVisibility } from "@/components/common/useNavbarScrollVisibility";
 import { HerbsSpicesMenu } from "./HerbsSpicesMenu";
 import styles from "./HerbsSpicesHeader.module.css";
 
 export function HerbsSpicesHeader(): React.JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const isNavbarVisible = useNavbarScrollVisibility({
+    isMenuOpen,
+    isDropdownOpen: isLanguageOpen,
+    threshold: 8,
+    topOffset: 20,
+  });
   const common = useCommonDictionary();
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-hidden={!isNavbarVisible ? "true" : "false"}>
       <div className={styles.inner}>
         <Link className={styles.brand} href="/herbs-spices">
           <Image
@@ -33,7 +41,11 @@ export function HerbsSpicesHeader(): React.JSX.Element {
 
         <div className={styles.actions}>
           <BusinessDivisionSwitcher tone="light" />
-          <LanguageSwitcher className={styles.language} tone="light" />
+          <LanguageSwitcher
+            className={styles.language}
+            tone="light"
+            onOpenChange={setIsLanguageOpen}
+          />
 
           <button
             ref={menuTriggerRef}
@@ -44,7 +56,7 @@ export function HerbsSpicesHeader(): React.JSX.Element {
             aria-label={isMenuOpen ? common.divisions.herbsMenuClose : common.divisions.herbsMenuOpen}
             onClick={() => setIsMenuOpen((open) => !open)}
           >
-            <span>{isMenuOpen ? common.navigation.close : common.navigation.menu}</span>
+            <span className="visually-hidden">{isMenuOpen ? common.navigation.close : common.navigation.menu}</span>
             <i aria-hidden="true" />
           </button>
         </div>

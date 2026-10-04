@@ -40,15 +40,10 @@ export interface HomeDictionary {
   readonly season: { readonly rhythm: string; readonly calendar: string; readonly heading: string; readonly emphasis: string; readonly availability: string; readonly selectMonth: string; readonly selectMonthLabel: string; readonly monthsLabel: string; readonly productAvailability: string; readonly illustrativeIndex: string; readonly illustrativeProducts: string; readonly notice: string; readonly cropNames: Readonly<Record<string, string>>; readonly categories: { readonly Fresh: string; readonly Frozen: string; readonly Dried: string }; readonly statuses: { readonly peak: string; readonly available: string }; readonly months: readonly string[] };
   readonly company: {
     readonly eyebrow: string;
-    readonly chapterLabel: string;
-    readonly progressLabel: string;
+    readonly headline: string;
+    readonly supporting: string;
+    readonly action: string;
     readonly videoLabel: string;
-    readonly chapters: readonly {
-      readonly number: string;
-      readonly title: string;
-      readonly headline: string;
-      readonly supporting: string;
-    }[];
   };
   readonly trade: { readonly eyebrow: string; readonly heading: string; readonly emphasis: string; readonly description: string; readonly product: string; readonly productPlaceholder: string; readonly destination: string; readonly destinationPlaceholder: string; readonly volume: string; readonly volumePlaceholder: string; readonly company: string; readonly companyPlaceholder: string; readonly email: string; readonly send: string; readonly sent: string; readonly success: string };
   readonly standardPreview: { readonly eyebrow: string; readonly strap: string; readonly heading: string; readonly emphasis: string; readonly origin: string; readonly quality: string; readonly coordination: string; readonly controlled: string; readonly trusted: string; readonly action: string };

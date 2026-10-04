@@ -1,213 +1,120 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { useHomeDictionary } from "@/i18n/locale-context";
+import Link from "next/link";
+import React, { useEffect, useRef } from "react";
+import { useHomeDictionary, useLocale } from "@/i18n/locale-context";
+import { localePath } from "@/i18n/navigation";
 import "./CompanySection.css";
 
-const FILM_DURATION = 9.9;
-const CHAPTER_STARTS = [0.0, 3.35, 6.4] as const;
-const CHAPTER_DURATIONS = [3.35, 3.05, 3.5] as const; // per chapter duration in seconds
+type NavigatorWithConnection = Navigator & {
+  connection?: { readonly saveData?: boolean };
+};
 
-type NavigatorWithConnection = Navigator & { connection?: { readonly saveData?: boolean } };
-
-function clamp(value: number, minimum = 0, maximum = 1): number {
-  return Math.min(maximum, Math.max(minimum, value));
-}
+const VIDEO_SOURCE = "/assets/company/agrica-company-strawberry-film.mp4";
+const POSTER_SOURCE = "/assets/company/agrica-company-strawberry-poster.webp";
 
 export function CompanySection(): React.JSX.Element {
   const dictionary = useHomeDictionary().company;
+  const locale = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const progressRef = useRef<HTMLSpanElement>(null);
-  const activeChapterRef = useRef(0);
-  const [activeChapter, setActiveChapter] = useState(0);
-
-  // Jump to specific chapter
-  const seekToChapter = useCallback((index: number) => {
-    const video = videoRef.current;
-    activeChapterRef.current = index;
-    setActiveChapter(index);
-
-    if (video && video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-      video.currentTime = CHAPTER_STARTS[index] ?? 0;
-      void video.play().catch(() => {});
-    }
-  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
-    const progressBar = progressRef.current;
-    if (!section || !video || !progressBar) return;
+    if (!section || !video) return;
 
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const desktopQuery = window.matchMedia("(min-width: 901px)");
     const saveData = Boolean((navigator as NavigatorWithConnection).connection?.saveData);
-    let reducedMotion = reducedMotionQuery.matches;
-    let isDesktop = desktopQuery.matches;
-    let sectionVisible = false;
     let mediaAttached = false;
-    let animFrameId = 0;
-    let fallbackTimer: ReturnType<typeof setInterval> | null = null;
+    let sectionVisible = false;
 
-    section.dataset.mediaMode = saveData ? "poster" : "video";
-    section.dataset.motion = reducedMotion ? "reduced" : "full";
+    const shouldUsePoster = () => reducedMotionQuery.matches || saveData;
 
     const attachMedia = () => {
-      if (mediaAttached || saveData || reducedMotion) return;
-      const source = isDesktop ? video.dataset.desktopSrc : video.dataset.mobileSrc;
-      if (!source) return;
-      video.src = source;
+      if (mediaAttached || shouldUsePoster()) return;
+      video.src = video.dataset.src ?? "";
       video.load();
       mediaAttached = true;
+      section.dataset.mediaMode = "video";
     };
 
-    const updateFromTime = (currentTime: number, duration: number) => {
-      const validDuration = duration > 0 ? duration : FILM_DURATION;
-      const progress = clamp(currentTime / validDuration);
-
-      progressBar.style.width = `${Math.max(progress * 100, 2)}%`;
-
-      let nextChapter = 0;
-      if (currentTime >= CHAPTER_STARTS[2]) {
-        nextChapter = 2;
-      } else if (currentTime >= CHAPTER_STARTS[1]) {
-        nextChapter = 1;
-      } else {
-        nextChapter = 0;
-      }
-
-      if (nextChapter !== activeChapterRef.current) {
-        activeChapterRef.current = nextChapter;
-        setActiveChapter(nextChapter);
-      }
-    };
-
-    const tick = () => {
-      if (sectionVisible && !video.paused && !video.ended) {
-        const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : FILM_DURATION;
-        updateFromTime(video.currentTime, duration);
-      }
-      if (sectionVisible) {
-        animFrameId = window.requestAnimationFrame(tick);
-      }
-    };
-
-    const startPlayback = () => {
-      if (reducedMotion || saveData) {
-        startFallbackCarousel();
-        return;
-      }
-
+    const playIfVisible = () => {
+      if (!sectionVisible || shouldUsePoster() || document.hidden) return;
       attachMedia();
+      video.muted = true;
+      void video.play().catch(() => {
+        section.dataset.mediaMode = "poster";
+      });
+    };
 
-      if (video) {
-        video.muted = true;
-        video.loop = true;
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              section.dataset.videoReady = "true";
-              if (!animFrameId) {
-                animFrameId = window.requestAnimationFrame(tick);
-              }
-            })
-            .catch(() => {
-              // Autoplay blocked or failed -> run timer-based chapter switcher
-              section.dataset.mediaMode = "poster";
-              startFallbackCarousel();
-            });
+    const pause = () => {
+      if (!video.paused) video.pause();
+    };
+
+    const mediaObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          attachMedia();
+          mediaObserver.disconnect();
         }
-      }
-    };
+      },
+      { rootMargin: "320px 0px" },
+    );
 
-    const stopPlayback = () => {
-      if (animFrameId) {
-        window.cancelAnimationFrame(animFrameId);
-        animFrameId = 0;
-      }
-      if (fallbackTimer) {
-        clearInterval(fallbackTimer);
-        fallbackTimer = null;
-      }
-      if (video && !video.paused) {
-        video.pause();
-      }
-    };
-
-    const startFallbackCarousel = () => {
-      if (fallbackTimer) return;
-      fallbackTimer = setInterval(() => {
-        const next = (activeChapterRef.current + 1) % 3;
-        activeChapterRef.current = next;
-        setActiveChapter(next);
-        progressBar.style.width = `${((next + 1) / 3) * 100}%`;
-      }, 3500);
-    };
+    const playbackObserver = new IntersectionObserver(
+      ([entry]) => {
+        sectionVisible = entry.isIntersecting && entry.intersectionRatio >= 0.16;
+        if (sectionVisible) playIfVisible();
+        else pause();
+      },
+      { threshold: [0, 0.16, 0.5] },
+    );
 
     const onLoadedData = () => {
       section.dataset.videoReady = "true";
-      if (sectionVisible) {
-        void video.play().catch(() => {});
-      }
+      playIfVisible();
     };
 
-    const onVideoError = () => {
+    const onError = () => {
       section.dataset.mediaMode = "poster";
       section.dataset.videoReady = "false";
-      startFallbackCarousel();
+      pause();
     };
 
-    // IntersectionObserver triggers autoplay when section comes into view
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        sectionVisible = entry.isIntersecting;
-        if (sectionVisible) {
-          startPlayback();
-        } else {
-          stopPlayback();
-        }
-      },
-      { threshold: 0.15 },
-    );
+    const onVisibilityChange = () => {
+      if (document.hidden) pause();
+      else playIfVisible();
+    };
 
-    const onMediaPreferenceChange = () => {
-      reducedMotion = reducedMotionQuery.matches;
-      const wasDesktop = isDesktop;
-      isDesktop = desktopQuery.matches;
-      section.dataset.motion = reducedMotion ? "reduced" : "full";
-
-      if (reducedMotion) {
-        stopPlayback();
-        startFallbackCarousel();
+    const onMotionPreferenceChange = () => {
+      section.dataset.motion = reducedMotionQuery.matches ? "reduced" : "full";
+      if (shouldUsePoster()) {
+        pause();
+        section.dataset.mediaMode = "poster";
       } else {
-        if (mediaAttached && wasDesktop !== isDesktop) {
-          const source = isDesktop ? video.dataset.desktopSrc : video.dataset.mobileSrc;
-          if (source && !video.currentSrc.endsWith(source)) {
-            video.src = source;
-            video.load();
-          }
-        }
-        if (sectionVisible) {
-          startPlayback();
-        }
+        playIfVisible();
       }
     };
 
-    observer.observe(section);
+    section.dataset.mediaMode = shouldUsePoster() ? "poster" : "pending";
+    section.dataset.motion = reducedMotionQuery.matches ? "reduced" : "full";
+
+    mediaObserver.observe(section);
+    playbackObserver.observe(section);
     video.addEventListener("loadeddata", onLoadedData);
-    video.addEventListener("error", onVideoError);
-    reducedMotionQuery.addEventListener("change", onMediaPreferenceChange);
-    desktopQuery.addEventListener("change", onMediaPreferenceChange);
+    video.addEventListener("error", onError);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    reducedMotionQuery.addEventListener("change", onMotionPreferenceChange);
 
     return () => {
-      observer.disconnect();
-      stopPlayback();
+      mediaObserver.disconnect();
+      playbackObserver.disconnect();
+      pause();
       video.removeEventListener("loadeddata", onLoadedData);
-      video.removeEventListener("error", onVideoError);
-      reducedMotionQuery.removeEventListener("change", onMediaPreferenceChange);
-      desktopQuery.removeEventListener("change", onMediaPreferenceChange);
+      video.removeEventListener("error", onError);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      reducedMotionQuery.removeEventListener("change", onMotionPreferenceChange);
     };
   }, []);
 
@@ -217,87 +124,45 @@ export function CompanySection(): React.JSX.Element {
       id="company"
       ref={sectionRef}
       aria-labelledby="company-title"
-      data-active-chapter={activeChapter + 1}
     >
-      <div className="company-scroll-track">
-        <div className="company-sticky-stage">
-          <div className="company-cinematic-grid">
-            {/* Cinematic Film Media Container */}
-            <div className="company-film" aria-label={dictionary.videoLabel}>
-              <img
-                className="company-film-poster"
-                src="/assets/company/origin-poster.webp"
-                alt=""
-                width="960"
-                height="538"
-                loading="lazy"
-                decoding="async"
-              />
-              <video
-                ref={videoRef}
-                className="company-film-video"
-                data-desktop-src="/assets/company/company-master-desktop.mp4?v=2"
-                data-mobile-src="/assets/company/company-master-mobile.mp4?v=2"
-                poster="/assets/company/origin-poster.webp"
-                preload="none"
-                muted
-                playsInline
-                loop
-                disablePictureInPicture
-                aria-hidden="true"
-              />
-              <div className="company-film-wash" aria-hidden="true" />
-            </div>
+      <div className="company-film" aria-label={dictionary.videoLabel}>
+        <img
+          className="company-film-poster"
+          src={POSTER_SOURCE}
+          alt=""
+          width="1280"
+          height="720"
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+        />
+        <video
+          ref={videoRef}
+          className="company-film-video"
+          data-src={VIDEO_SOURCE}
+          poster={POSTER_SOURCE}
+          preload="metadata"
+          muted
+          playsInline
+          loop
+          disablePictureInPicture
+          aria-hidden="true"
+        />
+        <div className="company-film-grade" aria-hidden="true" />
+      </div>
 
-            {/* Editorial Content Stage with Automatic Transitions */}
-            <div className="company-copy">
-              <p className="company-eyebrow" id="company-title">
-                {dictionary.eyebrow}
-              </p>
-              <div className="company-chapters">
-                {dictionary.chapters.map((chapter, index) => (
-                  <article
-                    className={`company-chapter${activeChapter === index ? " is-active" : ""}`}
-                    key={chapter.number}
-                    data-chapter={chapter.number}
-                  >
-                    <p className="company-chapter-meta">
-                      <span>{dictionary.chapterLabel}</span>
-                      <span>{chapter.number}</span>
-                    </p>
-                    <p className="company-chapter-title">{chapter.title}</p>
-                    <h2>{chapter.headline}</h2>
-                    <p className="company-chapter-supporting">{chapter.supporting}</p>
-                  </article>
-                ))}
-              </div>
-
-              {/* Progress Indicator */}
-              <div className="company-progress" aria-label={dictionary.progressLabel}>
-                <span className="company-progress-count" aria-hidden="true">
-                  {String(activeChapter + 1).padStart(2, "0")} / 03
-                </span>
-                <span
-                  className="company-progress-track"
-                  aria-hidden="true"
-                  onClick={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const ratio = clamp((e.clientX - rect.left) / rect.width);
-                    const clickedIndex = ratio < 0.33 ? 0 : ratio < 0.66 ? 1 : 2;
-                    seekToChapter(clickedIndex);
-                  }}
-                  style={{ cursor: "pointer" }}
-                  title="Jump to chapter"
-                >
-                  <span ref={progressRef} />
-                </span>
-                <span className="company-progress-label">
-                  {dictionary.chapters[activeChapter]?.title}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="company-copy">
+        <p className="company-eyebrow">{dictionary.eyebrow}</p>
+        <h2 id="company-title">{dictionary.headline}</h2>
+        <p className="company-supporting">{dictionary.supporting}</p>
+        <Link
+          className="company-action"
+          href={localePath(locale, "/company")}
+          prefetch={false}
+        >
+          <span>{dictionary.action}</span>
+          <span aria-hidden="true">↗</span>
+        </Link>
       </div>
     </section>
   );

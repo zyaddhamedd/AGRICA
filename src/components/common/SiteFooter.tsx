@@ -82,8 +82,8 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps): React.JSX.Ele
               <Image
                 src="/assets/agrica-logo.png"
                 alt="AGRICA"
-                width={150}
-                height={50}
+                width={420}
+                height={140}
                 className="site-footer-v2__brand-logo"
               />
             </Link>

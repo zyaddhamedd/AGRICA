@@ -8,6 +8,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { LocaleLink as Link } from "./LocaleLink";
 import { useCommonDictionary } from "@/i18n/locale-context";
 import { stripLocaleFromPath } from "@/i18n/navigation";
+import { useNavbarScrollVisibility } from "./useNavbarScrollVisibility";
 
 export type HeaderVariant = "home" | "products" | "standard" | "internal";
 export type NavbarTheme = "navy" | "paper" | "light" | "transparent";
@@ -29,6 +30,15 @@ export function SiteHeader({
   const common = useCommonDictionary();
   const semanticPathname = stripLocaleFromPath(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+
+  // Global navbar scroll behavior: hides on scroll down, reveals on scroll up immediately
+  const isVisible = useNavbarScrollVisibility({
+    isMenuOpen,
+    isDropdownOpen: isLanguageOpen,
+    threshold: 8,
+    topOffset: 20,
+  });
 
   // Reusable global scroll state logic for subtle shadow elevation when scrolled
   const [isScrolled, setIsScrolled] = useState(false);
@@ -81,6 +91,7 @@ export function SiteHeader({
         data-theme={activeTheme}
         data-top={!isScrolled ? "true" : "false"}
         data-scrolled={isScrolled ? "true" : "false"}
+        data-hidden={!isVisible ? "true" : "false"}
       >
         <header className="global-navbar-capsule" aria-label={common.navigation.primaryLabel}>
           {/* Brand Logo */}
@@ -116,9 +127,13 @@ export function SiteHeader({
               </button>
             )}
 
-            <LanguageSwitcher className="global-navbar-language" tone={isWhiteLogo ? "dark" : "light"} />
+            <LanguageSwitcher
+              className="global-navbar-language"
+              tone={isWhiteLogo ? "dark" : "light"}
+              onOpenChange={setIsLanguageOpen}
+            />
 
-            {/* Menu Trigger Button */}
+            {/* Minimal Menu Trigger Button */}
             <button
               type="button"
               className={`global-navbar-menu-btn${isMenuOpen ? " is-active" : ""}`}
@@ -127,7 +142,13 @@ export function SiteHeader({
               aria-controls="global-menu-panel"
               aria-label={isMenuOpen ? common.navigation.closeMenu : common.navigation.openMenu}
             >
-              <span>{isMenuOpen ? common.navigation.close : common.navigation.menu}</span>
+              <span className="visually-hidden">
+                {isMenuOpen ? common.navigation.close : common.navigation.menu}
+              </span>
+              <span className="global-navbar-burger" aria-hidden="true">
+                <span />
+                <span />
+              </span>
             </button>
           </div>
         </header>

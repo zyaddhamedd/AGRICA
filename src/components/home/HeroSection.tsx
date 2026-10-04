@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
+import { gsap } from "gsap";
 import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { GlobalMenu } from "@/components/common/GlobalMenu";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { BusinessDivisionSwitcher } from "@/components/common/BusinessDivisionSwitcher";
+import { useNavbarScrollVisibility } from "@/components/common/useNavbarScrollVisibility";
 import { useCommonDictionary, useHomeDictionary, useLocale } from "@/i18n/locale-context";
 
 interface HeroMediaItem {
@@ -13,6 +15,46 @@ interface HeroMediaItem {
   readonly poster: string;
   readonly video: string;
 }
+
+interface HeroHeadlineContent {
+  readonly line1: string;
+  readonly line2: string;
+  readonly line3Lead: string;
+  readonly line3Accent: string;
+}
+
+const HERO_HEADLINES: Record<string, HeroHeadlineContent> = {
+  en: {
+    line1: "Egyptian produce.",
+    line2: "Handled with discipline.",
+    line3Lead: "Ready for ",
+    line3Accent: "global trade.",
+  },
+  ar: {
+    line1: "محاصيل مصرية.",
+    line2: "تدار بانضباط.",
+    line3Lead: "جاهزة للتجارة ",
+    line3Accent: "العالمية.",
+  },
+  ru: {
+    line1: "Египетская продукция.",
+    line2: "Строгий контроль качества.",
+    line3Lead: "Готова к ",
+    line3Accent: "мировым поставкам.",
+  },
+  de: {
+    line1: "Ägyptische Erzeugnisse.",
+    line2: "Mit Disziplin verarbeitet.",
+    line3Lead: "Bereit für den ",
+    line3Accent: "Welthandel.",
+  },
+  fr: {
+    line1: "Produits égyptiens.",
+    line2: "Traités avec rigueur.",
+    line3Lead: "Prêts pour le ",
+    line3Accent: "commerce mondial.",
+  },
+};
 
 const HERO_MEDIA_ITEMS: readonly HeroMediaItem[] = [
   {
@@ -64,12 +106,71 @@ export function HeroSection(): React.JSX.Element {
 
   const [activeIndex, setActiveIndex] = useState(0); // Begin the four-film journey with Harvest
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const isNavbarVisible = useNavbarScrollVisibility({
+    isMenuOpen,
+    isDropdownOpen: isLanguageOpen,
+    threshold: 8,
+    topOffset: 20,
+  });
   const [isHovered, setIsHovered] = useState(false);
   const [playingMap, setPlayingMap] = useState<Record<number, boolean>>({});
 
   const heroRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const touchStartXRef = useRef<number | null>(null);
+
+  const kickerRef = useRef<HTMLSpanElement>(null);
+  const line1Ref = useRef<HTMLSpanElement>(null);
+  const line2Ref = useRef<HTMLSpanElement>(null);
+  const line3Ref = useRef<HTMLSpanElement>(null);
+
+  // Refined GSAP entrance animation for hero eyebrow & line-by-line headline
+  useEffect(() => {
+    const kicker = kickerRef.current;
+    const lines = [line1Ref.current, line2Ref.current, line3Ref.current].filter(
+      (el): el is HTMLSpanElement => Boolean(el)
+    );
+    if (!kicker || lines.length === 0) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      // Respect prefers-reduced-motion
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: {
+          ease: "power3.out",
+        },
+      });
+
+      // Eyebrow fades/slides in first
+      tl.from(kicker, {
+        opacity: 0,
+        y: 18,
+        duration: 0.8,
+        delay: 0.12,
+      });
+
+      // Headline reveals line-by-line with masked vertical motion
+      tl.from(
+        lines,
+        {
+          opacity: 0,
+          y: 35,
+          duration: 0.9,
+          stagger: 0.14,
+        },
+        "-=0.5"
+      );
+    }, heroRef);
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
 
   const itemCount = HERO_MEDIA_ITEMS.length;
 
@@ -173,6 +274,7 @@ export function HeroSection(): React.JSX.Element {
   };
 
   const kickerText = HERO_KICKERS[locale] || HERO_KICKERS.en;
+  const headline = HERO_HEADLINES[locale] || HERO_HEADLINES.en;
   const ctaText = HERO_CTA_LABELS[locale] || HERO_CTA_LABELS.en;
 
   return (
@@ -211,7 +313,11 @@ export function HeroSection(): React.JSX.Element {
       </div>
 
       {/* 2. Floating Cream Paper Capsule Navbar */}
-      <header className="hero-floating-navbar" role="banner">
+      <header
+        className="hero-floating-navbar"
+        role="banner"
+        data-hidden={!isNavbarVisible ? "true" : "false"}
+      >
         <Link href="/" className="hero-navbar-brand" aria-label={common.navigation.agricaHome}>
           <img
             src="/assets/agrica-logo-brand.png"
@@ -231,7 +337,7 @@ export function HeroSection(): React.JSX.Element {
           <BusinessDivisionSwitcher tone="light" />
 
           {/* Subtle compact language switcher */}
-          <LanguageSwitcher tone="light" />
+          <LanguageSwitcher tone="light" onOpenChange={setIsLanguageOpen} />
 
           {/* Minimal Menu Trigger */}
           <button
@@ -242,7 +348,7 @@ export function HeroSection(): React.JSX.Element {
             aria-controls="global-menu-panel"
             aria-label={common.navigation.openMenu}
           >
-            <span>{common.navigation.menu}</span>
+            <span className="visually-hidden">{common.navigation.menu}</span>
             <span className="hero-menu-burger" aria-hidden="true">
               <span />
               <span />
@@ -256,34 +362,33 @@ export function HeroSection(): React.JSX.Element {
       <div className="hero-content-stage">
         {/* Left Editorial Headline Block */}
         <div className="hero-headline-wrapper">
-          <span className="hero-kicker">{kickerText}</span>
+          <span ref={kickerRef} className="hero-kicker">
+            <span className="hero-kicker-dot" aria-hidden="true" />
+            {kickerText}
+          </span>
 
-          <h1 id="hero-title" className="hero-title">
-            <span className="hero-title-line hero-title-line--serif">
-              {locale === "en" ? (
-                <>
-                  <span className="hero-line-block">From</span>
-                  <span className="hero-line-block">Egyptian soil,</span>
-                </>
-              ) : (
-                <span className="hero-line-block">{dictionary.desktopLead}</span>
-              )}
+          <h1
+            id="hero-title"
+            className="hero-title"
+            aria-label={`${headline.line1} ${headline.line2} ${headline.line3Lead}${headline.line3Accent}`}
+          >
+            <span className="hero-line-mask">
+              <span ref={line1Ref} className="hero-line-inner">
+                {headline.line1}
+              </span>
             </span>
 
-            <span className="hero-title-line hero-title-line--brand">
-              <img
-                src="/assets/agrica-logo.png"
-                alt="AGRICA"
-                className="hero-brand-logo-img"
-              />
+            <span className="hero-line-mask">
+              <span ref={line2Ref} className="hero-line-inner">
+                {headline.line2}
+              </span>
             </span>
 
-            <span className="hero-title-line hero-title-line--serif">
-              <span className="hero-line-block">{dictionary.desktopVerb}</span>
-            </span>
-
-            <span className="hero-title-line hero-title-line--close">
-              <em>{dictionary.desktopEmphasis}</em>
+            <span className="hero-line-mask">
+              <span ref={line3Ref} className="hero-line-inner">
+                {headline.line3Lead}
+                <em className="hero-accent-word">{headline.line3Accent}</em>
+              </span>
             </span>
           </h1>
         </div>

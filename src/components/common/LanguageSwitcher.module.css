@@ -11,116 +11,157 @@
 
 .trigger {
   display: inline-flex;
-  min-height: 40px;
+  min-height: 28px;
+  height: 28px;
+  width: 28px;
+  min-width: 28px;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0 0.7rem;
-  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
-  border-radius: 8px;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
   color: inherit;
   background: transparent;
   cursor: pointer;
   font: inherit;
-  font-size: 0.72rem;
-  font-weight: 600;
-  white-space: nowrap;
+  transition: background-color 150ms ease, opacity 150ms ease;
 }
 
-.flag {
-  display: block;
+.root:not([data-tone="dark"]):not([data-tone="herbs"]) .trigger:hover {
+  background: rgba(0, 32, 80, 0.06);
+}
+
+.root[data-tone="dark"] .trigger:hover,
+.root[data-tone="herbs"] .trigger:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.globeIcon {
+  width: 15px;
+  height: 15px;
   flex: none;
-  border-radius: 2px;
-  object-fit: cover;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14);
+  stroke: currentColor;
+  opacity: 0.9;
 }
 
-.activeLabel { line-height: 1; }
 .activeCode {
-  display: none;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  display: none !important;
 }
 
 .chevron {
-  width: 6px;
-  height: 6px;
-  margin-inline-start: 0.15rem;
-  border-inline-end: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
+  display: none !important;
   transition: transform 160ms ease;
 }
 
-.trigger[aria-expanded="true"] .chevron { transform: translateY(2px) rotate(225deg); }
+.trigger[aria-expanded="true"] .chevron {
+  transform: translateY(1px) rotate(225deg);
+}
 
 .popover {
   position: absolute;
   z-index: 160;
-  inset-block-start: calc(100% + 0.65rem);
+  inset-block-start: calc(100% + 8px);
   inset-inline-end: 0;
-  width: min(260px, calc(100vw - 2rem));
-  padding: 0.65rem;
-  border: 1px solid rgba(0, 32, 80, 0.14);
-  border-radius: 12px;
+  width: min(240px, calc(100vw - 2rem));
+  padding: 0.5rem;
+  border: 1px solid rgba(0, 32, 80, 0.12);
+  border-radius: 10px;
   color: #002050;
-  background: #f7f5ed;
-  box-shadow: 0 20px 55px rgba(0, 24, 55, 0.2);
+  background: #fdfcf9;
+  box-shadow: 0 16px 40px rgba(0, 20, 50, 0.18);
+  animation: fadeInDown 140ms ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .heading {
   margin: 0;
-  padding: 0.45rem 0.55rem 0.65rem;
-  color: rgba(0, 32, 80, 0.58);
-  font-size: 0.58rem;
+  padding: 0.35rem 0.5rem 0.45rem;
+  color: rgba(0, 32, 80, 0.55);
+  font-size: 0.56rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.popover nav { display: grid; gap: 0.2rem; }
+.popover nav {
+  display: grid;
+  gap: 0.2rem;
+}
 
 .option {
   display: grid;
-  grid-template-columns: 24px 1fr auto;
-  min-height: 44px;
+  grid-template-columns: 22px 1fr auto;
+  min-height: 38px;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0 0.65rem;
-  border-radius: 7px;
+  gap: 0.65rem;
+  padding: 0 0.55rem;
+  border-radius: 6px;
   color: #002050;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 560;
   text-align: start;
+  transition: background-color 120ms ease;
 }
 
 .option:hover,
-.option:focus-visible { background: rgba(80, 160, 16, 0.1); }
+.option:focus-visible {
+  background: rgba(80, 160, 16, 0.1);
+}
+
 .option:focus-visible,
-.trigger:focus-visible { outline: 2px solid #63ad27; outline-offset: 2px; }
-.option[aria-current="page"] { color: #376f0d; background: rgba(80, 160, 16, 0.08); }
-.current { justify-self: end; color: #50a010; font-size: 0.8rem; }
+.trigger:focus-visible {
+  outline: 2px solid #63ad27;
+  outline-offset: 2px;
+}
+
+.option[aria-current="page"] {
+  color: #2e6208;
+  background: rgba(80, 160, 16, 0.09);
+  font-weight: 650;
+}
+
+.current {
+  justify-self: end;
+  color: #50a010;
+  font-size: 0.75rem;
+}
 
 @media (max-width: 680px) {
   .trigger {
-    min-height: 38px;
-    padding: 0 0.55rem;
-    gap: 0.35rem;
-    font-size: 0.68rem;
+    min-height: 26px;
+    height: 26px;
+    width: 26px;
+    min-width: 26px;
+    padding: 0;
   }
-  .activeLabel { display: none; }
-  .activeCode { display: inline; font-size: 0.68rem; }
-  .popover { position: fixed; inset-inline: 1rem; inset-block-start: auto; inset-block-end: 1rem; width: auto; }
-}
-
-@media (max-width: 360px) {
-  .trigger {
-    padding: 0 0.38rem;
-    gap: 0.25rem;
+  .globeIcon {
+    width: 14px;
+    height: 14px;
   }
-  .activeCode { font-size: 0.62rem; }
+  .popover {
+    position: fixed;
+    inset-inline: 1rem;
+    inset-block-start: auto;
+    inset-block-end: 1rem;
+    width: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chevron { transition: none; }
+  .chevron {
+    transition: none;
+  }
+  .popover {
+    animation: none;
+  }
 }

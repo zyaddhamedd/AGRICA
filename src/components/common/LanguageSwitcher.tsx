@@ -13,9 +13,14 @@ import styles from "./LanguageSwitcher.module.css";
 export interface LanguageSwitcherProps {
   readonly tone?: "light" | "dark" | "herbs";
   readonly className?: string;
+  readonly onOpenChange?: (open: boolean) => void;
 }
 
-export function LanguageSwitcher({ tone = "light", className }: LanguageSwitcherProps): React.JSX.Element {
+export function LanguageSwitcher({
+  tone = "light",
+  className,
+  onOpenChange,
+}: LanguageSwitcherProps): React.JSX.Element {
   const locale = useLocale();
   const common = useCommonDictionary();
   const pathname = usePathname();
@@ -26,6 +31,10 @@ export function LanguageSwitcher({ tone = "light", className }: LanguageSwitcher
   const triggerRef = useRef<HTMLButtonElement>(null);
   const optionRefs = useRef(new Map<Locale, HTMLAnchorElement>());
   const menuId = `language-menu-${useId().replace(/:/g, "")}`;
+
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
 
   useEffect(() => {
     const syncLocation = () => setLocationState({ search: window.location.search, hash: window.location.hash });
@@ -105,9 +114,26 @@ export function LanguageSwitcher({ tone = "light", className }: LanguageSwitcher
         onClick={() => setIsOpen((open) => !open)}
         onKeyDown={handleTriggerKeyDown}
       >
-        <Image className={styles.flag} src={active.flag.src} alt={active.flag.alt} width={22} height={15} />
-        <span className={styles.activeLabel} lang={active.code} dir={active.direction}>{active.label}</span>
-        <span className={styles.activeCode} lang={active.code} dir={active.direction} aria-hidden="true">{active.code.toUpperCase()}</span>
+        <svg
+          className={styles.globeIcon}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 2a14.5 14.5 0 0 0 0 20M12 2a14.5 14.5 0 0 1 0 20M2 12h20" />
+        </svg>
+        <span
+          className={styles.activeCode}
+          lang={active.code}
+          dir={active.direction}
+        >
+          {active.code.toUpperCase()}
+        </span>
         <span className={styles.chevron} aria-hidden="true" />
       </button>
 
