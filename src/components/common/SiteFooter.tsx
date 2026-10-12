@@ -88,7 +88,7 @@ export function SiteFooter({ variant = "home" }: SiteFooterProps): React.JSX.Ele
               />
             </Link>
             <p className="site-footer-v2__manifesto">
-              One Origin. Three Worlds. Egyptian produce prepared for global commercial supply.
+              One Origin. Two Worlds. Egyptian produce prepared for global commercial supply.
             </p>
           </div>
 

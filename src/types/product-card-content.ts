@@ -4,6 +4,23 @@ export type ProductCardConfidence = "HIGH" | "MEDIUM" | "LOW";
 export type ClientReviewPriority = "HIGH" | "MEDIUM" | "LOW";
 
 export type ProductCardFieldLabelKey =
+  | "product"
+  | "origin"
+  | "hsCode"
+  | "mainVarieties"
+  | "varieties"
+  | "colors"
+  | "availableForms"
+  | "sizeGrade"
+  | "ingredients"
+  | "grade"
+  | "packing"
+  | "shelfLife"
+  | "availability"
+  | "shipment"
+  | "applications"
+  | "length"
+  | "qualityStandard"
   | "typicalEgyptianSeason"
   | "typicalEgyptianExportWindow"
   | "typicalEgyptianHarvest"

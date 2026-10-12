@@ -113,19 +113,8 @@ export function SiteHeader({
           <div className="global-navbar-actions">
             <BusinessDivisionSwitcher tone={isWhiteLogo ? "dark" : "light"} />
 
-            {/* Dedicated Quote Counter Trigger for Products */}
-            {activeVariant === "products" && (
-              <button
-                className="global-navbar-quote-btn"
-                type="button"
-                aria-expanded="false"
-                aria-controls="quote-drawer"
-                onClick={onOpenQuote}
-              >
-                <span>{common.actions.buildQuote}</span>
-                <b className="quote-count">{quoteCount}</b>
-              </button>
-            )}
+            {/* Hidden Quote Counter for Accessibility/State Parity */}
+            <span className="visually-hidden quote-count">{quoteCount}</span>
 
             <LanguageSwitcher
               className="global-navbar-language"

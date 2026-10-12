@@ -7,15 +7,15 @@ const common = {
     menu: "Menü", close: "Schließen", openMenu: "Navigationsmenü öffnen", closeMenu: "Navigationsmenü schließen",
     agricaHome: "AGRICA Startseite", cairoEgypt: "Kairo, Ägypten", agricultureCairo: "Landwirtschaft aus Kairo",
     exportStatement: "Ägyptische Erzeugnisse. Bereit für die weltweite Versorgung.", b2bExport: "Agrarischer B2B-Export",
-    produceWorlds: "Frisch / Tiefgekühlt / Getrocknet",
+    produceWorlds: "Frisch / Tiefgekühlt",
   },
   footer: {
-    navigationLabel: "Fußzeilennavigation", oneOriginThreeWorlds: "Ein Ursprung · Drei Welten",
+    navigationLabel: "Fußzeilennavigation", oneOriginTwoWorlds: "Ein Ursprung · Zwei Welten",
     nextExportProgramme: "Ihr nächstes Exportprogramm", controlledFromOrigin: "Kontrolliert ab Ursprung",
     originGlobalReadiness: "Ägyptischer Ursprung · Weltweit lieferbereit", exploreProduce: "Unser Sortiment entdecken",
     buildQuotation: "Anfrage zusammenstellen", discoverProducts: "Produkte entdecken",
     originHeadline: "Ägyptischer Ursprung.", worldHeadline: "Bereit für die Welt.",
-    description: "Frische, tiefgekühlte und getrocknete Erzeugnisse für die weltweite Versorgung.", beginHere: "Hier beginnen",
+    description: "Frische und tiefgekühlte Erzeugnisse für die weltweite Versorgung.", beginHere: "Hier beginnen",
     tradeDesk: "Exportteam", exportConversation: "Exportgespräch beginnen", backToTop: "Nach oben",
   },
   languageSwitcher: {

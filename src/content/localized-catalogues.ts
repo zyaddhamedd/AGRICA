@@ -6,6 +6,12 @@ import { PRODUCT_LIBRARY } from "@/data/products";
 import { HERBS_SPICES_CATALOGUE, HERBS_SPICES_FAMILIES } from "@/data/herbs-spices/catalogue";
 
 const produceIds = Object.values(PRODUCT_LIBRARY).flatMap((world) => world.families.flatMap((family) => family.products.map((item) => item.id)));
+const addedProduceIds = new Set<ProduceProductId>([
+  "produce:grapefruit",
+  "produce:iqf-cauliflower",
+  "produce:iqf-sweet-corn",
+]);
+const legacyProduceIds = produceIds.filter((id) => !addedProduceIds.has(id));
 const herbIds = HERBS_SPICES_CATALOGUE.map((item) => item.id);
 
 function keyed<T extends string>(ids: readonly T[], names: readonly string[]): Readonly<Record<T, { name: string; aliases: readonly string[]; imageAlt: string }>> {
@@ -20,11 +26,39 @@ function keyed<T extends string>(ids: readonly T[], names: readonly string[]): R
 }
 
 const produceNames: Record<Locale, readonly string[]> = {
-  en: ["Oranges","Lemons","Egyptian Limes","Mandarins","Grapes","Pomegranates","Strawberries","Blueberries","Mangoes","Guava","Dates","Watermelon","Potatoes","Sweet Potatoes","Onions","Garlic","Green Beans","Artichokes","Carrots","Taro","IQF Strawberries","IQF Mango","IQF Pomegranate Arils","IQF Green Beans","IQF Green Peas","IQF Okra","IQF Molokhia","IQF Artichokes","IQF Broccoli","Mixed Vegetables","Pre-fried Frozen French Fries","Dried Lemon","Raisins","Sun-Dried Tomatoes","Dehydrated Onion","Dehydrated Garlic","Dried Molokhia"],
-  ar: ["برتقال","ليمون","ليمون أخضر مصري","يوسفي","عنب","رمان","فراولة","توت أزرق","مانجو","جوافة","تمور","بطيخ","بطاطس","بطاطا حلوة","بصل","ثوم","فاصوليا خضراء","خرشوف","جزر","قلقاس","فراولة مجمدة بتقنية IQF","مانجو مجمدة بتقنية IQF","حبوب رمان مجمدة بتقنية IQF","فاصوليا خضراء مجمدة بتقنية IQF","بازلاء خضراء مجمدة بتقنية IQF","بامية مجمدة بتقنية IQF","ملوخية مجمدة بتقنية IQF","خرشوف مجمد بتقنية IQF","بروكلي مجمد بتقنية IQF","خضروات مشكلة مجمدة","بطاطس نصف مقلية","ليمون مجفف","زبيب","طماطم مجففة بالشمس","بصل مجفف","ثوم مجفف","ملوخية مجففة"],
-  ru: ["Апельсины","Лимоны","Египетские лаймы","Мандарины","Виноград","Гранаты","Клубника","Голубика","Манго","Гуава","Финики","Арбузы","Картофель","Батат","Репчатый лук","Чеснок","Зелёная фасоль","Артишоки","Морковь","Таро","Клубника IQF","Манго IQF","Зёрна граната IQF","Зелёная фасоль IQF","Зелёный горошек IQF","Бамия IQF","Молохея IQF","Артишоки IQF","Брокколи IQF","Овощная смесь","Картофель фри полуобжаренный","Сушёный лимон","Изюм","Вяленые томаты","Дегидрированный лук","Дегидрированный чеснок","Сушёная молохея"],
-  de: ["Orangen","Zitronen","Ägyptische Limetten","Mandarinen","Trauben","Granatäpfel","Erdbeeren","Heidelbeeren","Mangos","Guaven","Datteln","Wassermelonen","Kartoffeln","Süßkartoffeln","Zwiebeln","Knoblauch","Grüne Bohnen","Artischocken","Karotten","Taro","IQF-Erdbeeren","IQF-Mango","IQF-Granatapfelkerne","IQF-Grüne Bohnen","IQF-Grüne Erbsen","IQF-Okra","IQF-Molokhia","IQF-Artischocken","IQF-Brokkoli","Gemüsemischung","Halbfrittierte Pommes frites","Getrocknete Zitronen","Rosinen","Sonnengetrocknete Tomaten","Dehydrierte Zwiebeln","Dehydrierter Knoblauch","Getrocknete Molokhia"],
-  fr: ["Oranges","Citrons","Citrons verts égyptiens","Mandarines","Raisins frais","Grenades","Fraises","Myrtilles","Mangues","Goyaves","Dattes","Pastèques","Pommes de terre","Patates douces","Oignons","Ail","Haricots verts","Artichauts","Carottes","Taro","Fraises IQF","Mangue IQF","Arilles de grenade IQF","Haricots verts IQF","Petits pois IQF","Gombo IQF","Molokhia IQF","Artichauts IQF","Brocoli IQF","Mélange de légumes","Frites préfrites","Citron séché","Raisins secs","Tomates séchées au soleil","Oignon déshydraté","Ail déshydraté","Molokhia séchée"],
+  en: ["Oranges","Lemons","Egyptian Limes","Mandarins","Grapes","Pomegranates","Strawberries","Blueberries","Mangoes","Guava","Dates","Watermelon","Potatoes","Sweet Potatoes","Onions","Garlic","Green Beans","Artichokes","Carrots","Taro","IQF Strawberries","IQF Mango","IQF Pomegranate Arils","IQF Green Beans","IQF Green Peas","IQF Okra","IQF Molokhia","IQF Artichokes","IQF Broccoli","Mixed Vegetables","Pre-fried Frozen French Fries"],
+  ar: ["برتقال","ليمون","ليمون أخضر مصري","يوسفي","عنب","رمان","فراولة","توت أزرق","مانجو","جوافة","تمور","بطيخ","بطاطس","بطاطا حلوة","بصل","ثوم","فاصوليا خضراء","خرشوف","جزر","قلقاس","فراولة مجمدة بتقنية IQF","مانجو مجمدة بتقنية IQF","حبوب رمان مجمدة بتقنية IQF","فاصوليا خضراء مجمدة بتقنية IQF","بازلاء خضراء مجمدة بتقنية IQF","بامية مجمدة بتقنية IQF","ملوخية مجمدة بتقنية IQF","خرشوف مجمد بتقنية IQF","بروكلي مجمد بتقنية IQF","خضروات مشكلة مجمدة","بطاطس نصف مقلية"],
+  ru: ["Апельсины","Лимоны","Египетские лаймы","Мандарины","Виноград","Гранаты","Клубника","Голубика","Манго","Гуава","Финики","Арбузы","Картофель","Батат","Репчатый лук","Чеснок","Зелёная фасоль","Артишоки","Морковь","Таро","Клубника IQF","Манго IQF","Зёрна граната IQF","Зелёная фасоль IQF","Зелёный горошек IQF","Бамия IQF","Молохея IQF","Артишоки IQF","Брокколи IQF","Овощная смесь","Картофель фри полуобжаренный"],
+  de: ["Orangen","Zitronen","Ägyptische Limetten","Mandarinen","Trauben","Granatäpfel","Erdbeeren","Heidelbeeren","Mangos","Guaven","Datteln","Wassermelonen","Kartoffeln","Süßkartoffeln","Zwiebeln","Knoblauch","Grüne Bohnen","Artischocken","Karotten","Taro","IQF-Erdbeeren","IQF-Mango","IQF-Granatapfelkerne","IQF-Grüne Bohnen","IQF-Grüne Erbsen","IQF-Okra","IQF-Molokhia","IQF-Artischocken","IQF-Brokkoli","Gemüsemischung","Halbfrittierte Pommes frites"],
+  fr: ["Oranges","Citrons","Citrons verts égyptiens","Mandarines","Raisins frais","Grenades","Fraises","Myrtilles","Mangues","Goyaves","Dattes","Pastèques","Pommes de terre","Patates douces","Oignons","Ail","Haricots verts","Artichauts","Carottes","Taro","Fraises IQF","Mangue IQF","Arilles de grenade IQF","Haricots verts IQF","Petits pois IQF","Gombo IQF","Molokhia IQF","Artichauts IQF","Brocoli IQF","Mélange de légumes","Frites préfrites"],
+};
+
+const addedProduceNames: Record<Locale, Readonly<Record<string, string>>> = {
+  en: {
+    "produce:grapefruit": "Grapefruit",
+    "produce:iqf-cauliflower": "IQF Cauliflower",
+    "produce:iqf-sweet-corn": "IQF Sweet Corn",
+  },
+  ar: {
+    "produce:grapefruit": "جريب فروت",
+    "produce:iqf-cauliflower": "قرنبيط مجمد بتقنية IQF",
+    "produce:iqf-sweet-corn": "ذرة حلوة مجمدة بتقنية IQF",
+  },
+  ru: {
+    "produce:grapefruit": "Грейпфрут",
+    "produce:iqf-cauliflower": "Цветная капуста IQF",
+    "produce:iqf-sweet-corn": "Сладкая кукуруза IQF",
+  },
+  de: {
+    "produce:grapefruit": "Grapefruit",
+    "produce:iqf-cauliflower": "IQF-Blumenkohl",
+    "produce:iqf-sweet-corn": "IQF-Zuckermais",
+  },
+  fr: {
+    "produce:grapefruit": "Pamplemousse",
+    "produce:iqf-cauliflower": "Chou-fleur IQF",
+    "produce:iqf-sweet-corn": "Maïs doux IQF",
+  },
 };
 
 const herbNames: Record<Locale, readonly string[]> = {
@@ -36,21 +70,29 @@ const herbNames: Record<Locale, readonly string[]> = {
 };
 
 const familyNames: Record<Locale, readonly string[]> = {
-  en: ["Citrus","Fresh Fruits","Vegetables & Tubers","IQF Fruits","IQF Vegetables","Frozen Potato Products","Dried Fruits","Dried Vegetables"],
-  ar: ["حمضيات","فواكه طازجة","خضروات ودرنيات","فواكه مجمدة بتقنية IQF","خضروات مجمدة بتقنية IQF","منتجات بطاطس مجمدة","فواكه مجففة","خضروات مجففة"],
-  ru: ["Цитрусовые","Свежие фрукты","Овощи и клубнеплоды","Фрукты IQF","Овощи IQF","Замороженные картофельные продукты","Сухофрукты","Сушёные овощи"],
-  de: ["Zitrusfrüchte","Frisches Obst","Gemüse & Knollen","IQF-Früchte","IQF-Gemüse","Tiefgekühlte Kartoffelprodukte","Trockenfrüchte","Getrocknetes Gemüse"],
-  fr: ["Agrumes","Fruits frais","Légumes et tubercules","Fruits IQF","Légumes IQF","Produits de pomme de terre surgelés","Fruits séchés","Légumes séchés"],
+  en: ["Citrus","Fresh Fruits","Vegetables & Tubers","IQF Fruits","IQF Vegetables","Frozen Potato Products"],
+  ar: ["حمضيات","فواكه طازجة","خضروات ودرنيات","فواكه مجمدة بتقنية IQF","خضروات مجمدة بتقنية IQF","منتجات بطاطس مجمدة"],
+  ru: ["Цитрусовые","Свежие фрукты","Овощи и клубнеплоды","Фрукты IQF","Овощи IQF","Замороженные картофельные продукты"],
+  de: ["Zitrusfrüchte","Frisches Obst","Gemüse & Knollen","IQF-Früchte","IQF-Gemüse","Tiefgekühlte Kartoffelprodukte"],
+  fr: ["Agrumes","Fruits frais","Légumes et tubercules","Fruits IQF","Légumes IQF","Produits de pomme de terre surgelés"],
 };
-const produceFamilyIds: readonly ProduceFamilyId[] = ["citrus","fresh-fruits","vegetables-tubers","iqf-fruits","iqf-vegetables","frozen-potato-products","dried-fruits","dried-vegetables"];
+const produceFamilyIds: readonly ProduceFamilyId[] = ["citrus","fresh-fruits","vegetables-tubers","iqf-fruits","iqf-vegetables","frozen-potato-products"];
 const herbFamilyNames: Record<Locale, readonly string[]> = {
   en: ["Herbs","Flowers","Seeds","Spices","Roots","Dehydrated Vegetables"], ar: ["أعشاب","زهور","بذور","توابل","جذور","خضروات مجففة"], ru: ["Травы","Цветы","Семена","Специи","Корни","Дегидрированные овощи"], de: ["Kräuter","Blüten","Samen","Gewürze","Wurzeln","Dehydriertes Gemüse"], fr: ["Herbes","Fleurs","Graines","Épices","Racines","Légumes déshydratés"],
 };
 
 export function produceCatalogue(locale: Locale): Pick<ProductsDictionary, "families" | "products"> {
+  const legacyProducts = keyed(legacyProduceIds, produceNames[locale]);
+  const addedProducts = Object.fromEntries(
+    [...addedProduceIds].map((id) => {
+      const name = addedProduceNames[locale][id];
+      const english = addedProduceNames.en[id];
+      return [id, { name, aliases: name === english ? [english] : [english, name], imageAlt: name }];
+    }),
+  );
   return {
     families: Object.fromEntries(produceFamilyIds.map((id, i) => [id, familyNames[locale][i]])) as Record<ProduceFamilyId, string>,
-    products: keyed(produceIds, produceNames[locale]) as ProductsDictionary["products"],
+    products: { ...legacyProducts, ...addedProducts } as ProductsDictionary["products"],
   };
 }
 

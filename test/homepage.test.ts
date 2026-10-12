@@ -37,7 +37,6 @@ const requiredHooks = [
   'data-motion="hero-portals"',
   'portal--fresh',
   'portal--frozen',
-  'portal--dried',
   'class="worlds"',
   'id="products"',
   'data-active-world="fresh"',
@@ -72,7 +71,6 @@ console.log("\n--- Checking Three Worlds Portal Navigation URLs ---");
 const expectedPortalUrls = [
   'href="/products?world=fresh"',
   'href="/products?world=frozen"',
-  'href="/products?world=dried"',
 ];
 for (const url of expectedPortalUrls) {
   if (!nextHtml.includes(url)) {

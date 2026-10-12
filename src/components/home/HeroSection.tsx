@@ -13,6 +13,8 @@ interface HeroMediaItem {
   readonly id: string;
   readonly title: string;
   readonly poster: string;
+  readonly posterWebp?: string;
+  readonly posterFallback: string;
   readonly video: string;
 }
 
@@ -61,24 +63,32 @@ const HERO_MEDIA_ITEMS: readonly HeroMediaItem[] = [
     id: "harvest",
     title: "Harvest",
     poster: "/assets/hero/hero-01-origin-poster.avif",
+    posterWebp: "/assets/hero/hero-01-origin-poster.webp",
+    posterFallback: "/assets/hero/hero_keyframe_01_origin.png",
     video: "/assets/hero/hero-01-origin.mp4",
   },
   {
     id: "processing",
     title: "Processing",
-    poster: "/assets/hero/hero_02_processing_poster.png",
+    poster: "/assets/hero/hero_02_processing_poster.avif",
+    posterWebp: "/assets/hero/hero_02_processing_poster.webp",
+    posterFallback: "/assets/hero/hero_02_processing_poster.png",
     video: "/assets/hero/hero_02_processing_final.mp4",
   },
   {
     id: "packing",
     title: "Packing",
-    poster: "/assets/hero/hero_03_packing_poster.png",
+    poster: "/assets/hero/hero_03_packing_poster.avif",
+    posterWebp: "/assets/hero/hero_03_packing_poster.webp",
+    posterFallback: "/assets/hero/hero_03_packing_poster.png",
     video: "/assets/hero/hero_03_packing_final.mp4",
   },
   {
     id: "shipping",
     title: "Shipping",
-    poster: "/assets/REF_HERO/Agrica Loading Dock Operations (1).png",
+    poster: "/assets/hero/hero_04_shipping_poster.avif",
+    posterWebp: "/assets/hero/hero_04_shipping_poster.webp",
+    posterFallback: "/assets/REF_HERO/Agrica Loading Dock Operations (1).png",
     video: "/assets/hero/hero_04_shipping_final.mp4",
   },
 ];
@@ -286,29 +296,49 @@ export function HeroSection(): React.JSX.Element {
     >
       {/* 1. Cinematic Background Atmosphere */}
       <div className="hero-bg-canvas" aria-hidden="true">
-        <img
-          src="/assets/hero/hero-bg.jpg"
-          alt=""
-          fetchPriority="high"
-          className="hero-citrus-art"
-        />
+        <picture>
+          <source srcSet="/assets/hero/hero-bg.avif" type="image/avif" />
+          <source srcSet="/assets/hero/hero-bg.webp" type="image/webp" />
+          <img
+            src="/assets/hero/hero-bg.jpg"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            className="hero-citrus-art"
+          />
+        </picture>
         <div className="hero-vignette" />
         <div className="hero-botanical-decor">
-          <img
-            src="/assets/s1.png"
-            alt=""
-            className="hero-botanical-item hero-botanical--s1-top"
-          />
-          <img
-            src="/assets/s2.png"
-            alt=""
-            className="hero-botanical-item hero-botanical--s2-mid"
-          />
-          <img
-            src="/assets/s3.png"
-            alt=""
-            className="hero-botanical-item hero-botanical--s3-bottom"
-          />
+          <picture>
+            <source srcSet="/assets/s1.avif" type="image/avif" />
+            <source srcSet="/assets/s1.webp" type="image/webp" />
+            <img
+              src="/assets/s1.png"
+              alt=""
+              decoding="async"
+              className="hero-botanical-item hero-botanical--s1-top"
+            />
+          </picture>
+          <picture>
+            <source srcSet="/assets/s2.avif" type="image/avif" />
+            <source srcSet="/assets/s2.webp" type="image/webp" />
+            <img
+              src="/assets/s2.png"
+              alt=""
+              decoding="async"
+              className="hero-botanical-item hero-botanical--s2-mid"
+            />
+          </picture>
+          <picture>
+            <source srcSet="/assets/s3.avif" type="image/avif" />
+            <source srcSet="/assets/s3.webp" type="image/webp" />
+            <img
+              src="/assets/s3.png"
+              alt=""
+              decoding="async"
+              className="hero-botanical-item hero-botanical--s3-bottom"
+            />
+          </picture>
         </div>
       </div>
 
@@ -465,12 +495,20 @@ export function HeroSection(): React.JSX.Element {
                       >
                         <source src={item.video} type="video/mp4" />
                       </video>
-                      <img
-                        src={item.poster}
-                        alt=""
-                        className="hero-card-poster"
-                        aria-hidden="true"
-                      />
+                      <picture className="hero-card-poster" aria-hidden="true">
+                        <source srcSet={item.poster} type="image/avif" />
+                        {item.posterWebp && (
+                          <source srcSet={item.posterWebp} type="image/webp" />
+                        )}
+                        <img
+                          src={item.posterFallback}
+                          alt=""
+                          className="hero-card-poster"
+                          aria-hidden="true"
+                          decoding="async"
+                          fetchPriority={index === 0 ? "high" : "auto"}
+                        />
+                      </picture>
                       <span className="hero-card-label" aria-hidden="true">
                         <span>{String(index + 1).padStart(2, "0")}</span>
                         {item.title}

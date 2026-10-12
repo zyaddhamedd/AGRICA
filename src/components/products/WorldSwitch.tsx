@@ -15,7 +15,6 @@ export function WorldSwitch({
   const worlds: readonly { id: WorldId; label: string }[] = [
     { id: "fresh", label: dictionary.worlds.fresh.short },
     { id: "frozen", label: dictionary.worlds.frozen.short },
-    { id: "dried", label: dictionary.worlds.dried.short },
   ];
 
   return (

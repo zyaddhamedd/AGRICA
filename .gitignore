@@ -31,6 +31,8 @@ debug.log
 scratch/
 scratch_*.js
 *chrome*profile*
+assets/AGRICA company profile images/
+assets/drone_tracking.mp4
 
 # OS metadata
 .DS_Store

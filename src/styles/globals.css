@@ -237,9 +237,9 @@ button { color: inherit; }
 }
 
 .global-navbar-logo {
-  height: clamp(30px, 3.6vh, 36px);
+  height: clamp(20px, 2.4vh, 25px);
   width: auto;
-  max-width: 165px;
+  max-width: 120px;
   object-fit: contain;
   display: block;
 }
@@ -366,8 +366,8 @@ button { color: inherit; }
     border-radius: 9px;
   }
   .global-navbar-logo {
-    height: 24px;
-    max-width: 120px;
+    height: 18px;
+    max-width: 90px;
   }
   .global-navbar-menu-btn {
     font-size: 0.74rem;
@@ -1031,7 +1031,6 @@ button { color: inherit; }
   }
   .portal--fresh { transform: translateY(4%); }
   .portal--frozen { transform: translateY(-3%); }
-  .portal--dried { transform: translateY(2%); }
   .global-menu-panel {
     width: 100vw;
     padding: 2rem 1.4rem;

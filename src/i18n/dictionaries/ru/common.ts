@@ -7,15 +7,15 @@ const common = {
     menu: "Меню", close: "Закрыть", openMenu: "Открыть меню навигации", closeMenu: "Закрыть меню навигации",
     agricaHome: "Главная страница AGRICA", cairoEgypt: "Каир, Египет", agricultureCairo: "Аграрный Каир",
     exportStatement: "Египетская продукция, подготовленная для мировых рынков.", b2bExport: "Экспорт сельхозпродукции для бизнеса",
-    produceWorlds: "Свежая / Замороженная / Сушёная",
+    produceWorlds: "Свежая / Замороженная",
   },
   footer: {
-    navigationLabel: "Навигация в подвале", oneOriginThreeWorlds: "Одно происхождение · Три направления",
+    navigationLabel: "Навигация в подвале", oneOriginTwoWorlds: "Одно происхождение · Два направления",
     nextExportProgramme: "Ваша следующая экспортная программа", controlledFromOrigin: "Контроль от места происхождения",
     originGlobalReadiness: "Египетское происхождение · Готовность к мировым поставкам", exploreProduce: "Изучить продукцию",
     buildQuotation: "Сформировать запрос", discoverProducts: "Открыть каталог",
     originHeadline: "Египетское происхождение.", worldHeadline: "Готово для мировых рынков.",
-    description: "Свежая, замороженная и сушёная продукция, подготовленная для международных поставок.", beginHere: "Начните здесь",
+    description: "Свежая и замороженная продукция, подготовленная для международных поставок.", beginHere: "Начните здесь",
     tradeDesk: "Отдел экспорта", exportConversation: "Обсудить экспортную поставку", backToTop: "Наверх",
   },
   languageSwitcher: {

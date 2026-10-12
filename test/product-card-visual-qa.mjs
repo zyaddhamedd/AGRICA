@@ -16,9 +16,6 @@ const cases = [
   ["frozen", "produce:iqf-artichoke", "iqf-artichokes"],
   ["frozen", "produce:mixed-vegetables", "mixed-vegetables"],
   ["frozen", "produce:half-fried-french-fries", "pre-fried-fries"],
-  ["dried", "produce:dried-lemon", "dried-lemon"],
-  ["dried", "produce:dehydrated-onion", "dehydrated-onion"],
-  ["dried", "produce:sun-dried-tomato", "sun-dried-tomatoes"],
 ];
 
 const targets = await (await fetch(`${debugUrl}/json`)).json();

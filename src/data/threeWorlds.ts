@@ -1,4 +1,4 @@
-export type WorldKey = "fresh" | "frozen" | "dried";
+export type WorldKey = "fresh" | "frozen";
 
 export interface WorldConfig {
   readonly key: WorldKey;
@@ -12,7 +12,7 @@ export interface WorldConfig {
   readonly editorialLines: readonly [string, string];
 }
 
-export const THREE_WORLDS_LIST: readonly WorldKey[] = ["fresh", "frozen", "dried"];
+export const THREE_WORLDS_LIST: readonly WorldKey[] = ["fresh", "frozen"];
 
 export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
   fresh: {
@@ -43,18 +43,5 @@ export const THREE_WORLDS_DATA: Record<WorldKey, WorldConfig> = {
       "ready for year-round supply.",
     ],
   },
-  dried: {
-    key: "dried",
-    label: "Dried",
-    title: "Dried Produce",
-    number: "03",
-    actionText: "Explore Dried",
-    actionHref: "/products?world=dried",
-    imgSrc: "/assets/categories/dried-master.png",
-    imgAlt: "Overhead view of dried citrus slices beside dates and figs in shallow drying trays",
-    editorialLines: [
-      "Naturally concentrated produce,",
-      "prepared for global trade.",
-    ],
-  },
 };
+

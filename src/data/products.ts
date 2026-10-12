@@ -6,7 +6,7 @@ import type {
   WorldId,
 } from "@/types/agrica";
 
-const WORLD_IDS: readonly WorldId[] = ["fresh", "frozen", "dried"];
+const WORLD_IDS: readonly WorldId[] = ["fresh", "frozen"];
 
 export function isWorldId(value: unknown): value is WorldId {
   return typeof value === "string" && (WORLD_IDS as readonly string[]).includes(value);
@@ -39,6 +39,7 @@ export const PRODUCT_LIBRARY: ProductLibrary = {
           product("produce:orange", "Oranges", "fresh", "citrus", "orange"),
           product("produce:lemon", "Lemons", "fresh", "citrus", "lemon"),
           product("produce:egyptian-lime", "Egyptian Limes", "fresh", "citrus", "fresh-cit"),
+          product("produce:grapefruit", "Grapefruit", "fresh", "citrus", "fresh-cit"),
           product("produce:mandarin", "Mandarins", "fresh", "citrus", "fresh-cit"),
         ],
       },
@@ -99,6 +100,8 @@ export const PRODUCT_LIBRARY: ProductLibrary = {
           product("produce:iqf-artichoke", "IQF Artichokes", "frozen", "iqf-vegetables", "frozen-iqv"),
           product("produce:iqf-broccoli", "IQF Broccoli", "frozen", "iqf-vegetables", "frozen-iqv"),
           product("produce:mixed-vegetables", "Mixed Vegetables", "frozen", "iqf-vegetables", "frozen-iqv"),
+          product("produce:iqf-cauliflower", "IQF Cauliflower", "frozen", "iqf-vegetables", "frozen-iqv"),
+          product("produce:iqf-sweet-corn", "IQF Sweet Corn", "frozen", "iqf-vegetables", "frozen-iqv"),
         ],
       },
       {
@@ -107,31 +110,6 @@ export const PRODUCT_LIBRARY: ProductLibrary = {
         code: "FPP",
         products: [
           product("produce:half-fried-french-fries", "Pre-fried Frozen French Fries", "frozen", "frozen-potato-products", "frozen-fpp"),
-        ],
-      },
-    ],
-  },
-  dried: {
-    label: "Dried produce",
-    families: [
-      {
-        id: "dried-fruits",
-        name: "Dried Fruits",
-        code: "DRF",
-        products: [
-          product("produce:dried-lemon", "Dried Lemon", "dried", "dried-fruits", "dried-drf"),
-          product("produce:raisin", "Raisins", "dried", "dried-fruits", "dried-drf"),
-        ],
-      },
-      {
-        id: "dried-vegetables",
-        name: "Dried Vegetables",
-        code: "DRV",
-        products: [
-          product("produce:sun-dried-tomato", "Sun-Dried Tomatoes", "dried", "dried-vegetables", "dried-drv"),
-          product("produce:dehydrated-onion", "Dehydrated Onion", "dried", "dried-vegetables", "dried-drv"),
-          product("produce:dehydrated-garlic", "Dehydrated Garlic", "dried", "dried-vegetables", "dried-drv"),
-          product("produce:dried-molokhia", "Dried Molokhia", "dried", "dried-vegetables", "dried-drv"),
         ],
       },
     ],
@@ -146,12 +124,11 @@ export function countProductsInWorld(world: WorldId): number {
 }
 
 /**
- * Total catalogue count across all three worlds.
+ * Total catalogue count across produce worlds.
  */
 export function totalCatalogueCount(): number {
   return (
     countProductsInWorld("fresh") +
-    countProductsInWorld("frozen") +
-    countProductsInWorld("dried")
+    countProductsInWorld("frozen")
   );
 }

@@ -10,7 +10,7 @@ export interface ProductCatalogueFilter {
 
 export function buildProductAtlasItems(dictionary?: ProductsDictionary): ProductAtlasItem[] {
   const items: ProductAtlasItem[] = [];
-  const worldIds: readonly WorldId[] = ["fresh", "frozen", "dried"];
+  const worldIds: readonly WorldId[] = ["fresh", "frozen"];
 
   for (const worldId of worldIds) {
     const world = PRODUCT_LIBRARY[worldId];

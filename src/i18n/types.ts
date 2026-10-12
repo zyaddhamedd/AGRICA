@@ -37,7 +37,7 @@ export interface StandardDictionary {
 export interface HomeDictionary {
   readonly hero: { readonly mobileLead: string; readonly mobileVerb: string; readonly mobileClose: string; readonly desktopLead: string; readonly desktopVerb: string; readonly desktopEmphasis: string; readonly mobileLabel: string; readonly desktopLabel: string; readonly ribbonsLabel: string };
   readonly worlds: { readonly eyebrow: string; readonly rangeLabel: string; readonly heading: string; readonly emphasis: string; readonly wheelLabel: string; readonly items: Readonly<Record<WorldId, { readonly label: string; readonly title: string; readonly action: string; readonly imageAlt: string; readonly lines: readonly [string, string] }>> };
-  readonly season: { readonly rhythm: string; readonly calendar: string; readonly heading: string; readonly emphasis: string; readonly availability: string; readonly selectMonth: string; readonly selectMonthLabel: string; readonly monthsLabel: string; readonly productAvailability: string; readonly illustrativeIndex: string; readonly illustrativeProducts: string; readonly notice: string; readonly cropNames: Readonly<Record<string, string>>; readonly categories: { readonly Fresh: string; readonly Frozen: string; readonly Dried: string }; readonly statuses: { readonly peak: string; readonly available: string }; readonly months: readonly string[] };
+  readonly season: { readonly rhythm: string; readonly calendar: string; readonly heading: string; readonly emphasis: string; readonly availability: string; readonly selectMonth: string; readonly selectMonthLabel: string; readonly monthsLabel: string; readonly productAvailability: string; readonly illustrativeIndex: string; readonly illustrativeProducts: string; readonly notice: string; readonly cropNames: Readonly<Record<string, string>>; readonly categories: { readonly Fresh: string; readonly Frozen: string }; readonly statuses: { readonly peak: string; readonly available: string }; readonly months: readonly string[] };
   readonly company: {
     readonly eyebrow: string;
     readonly headline: string;
@@ -58,7 +58,7 @@ export interface ProductsDictionary {
   readonly families: Readonly<Record<ProduceFamilyId, string>>;
   readonly products: Readonly<Record<ProduceProductId, { readonly name: string; readonly aliases: readonly string[]; readonly imageAlt: string }>>;
   readonly specifications: Readonly<Record<"origin" | "condition" | "varieties" | "harvestWindow" | "sizeCalibre" | "brix" | "acidity" | "averageWeight" | "seedStatus" | "grade" | "packaging" | "temperature" | "shelfLife", string>>;
-  readonly ui: { readonly productSpecifications: string; readonly specsFor: string; readonly noMatches: string; readonly refineSearch: string; readonly searchHint: string; readonly showFront: string; readonly showSpecifications: string; readonly produceSuffix: string; readonly egypt: string; readonly add: string; readonly added: string; readonly removeFromEnquiry: string };
+  readonly ui: { readonly productSpecifications: string; readonly specsFor: string; readonly noMatches: string; readonly refineSearch: string; readonly searchHint: string; readonly showFront: string; readonly showSpecifications: string; readonly produceSuffix: string; readonly egypt: string; readonly add: string; readonly added: string; readonly removeFromEnquiry: string; readonly productProfile: string; readonly commercialSpecification: string; readonly handlingSupply: string };
 }
 
 export interface HerbsSpicesDictionary {
@@ -100,7 +100,7 @@ export interface CommonDictionary {
   };
   readonly footer: {
     readonly navigationLabel: string;
-    readonly oneOriginThreeWorlds: string;
+    readonly oneOriginTwoWorlds: string;
     readonly nextExportProgramme: string;
     readonly controlledFromOrigin: string;
     readonly originGlobalReadiness: string;

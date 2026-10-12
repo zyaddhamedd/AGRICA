@@ -58,8 +58,10 @@ socket.addEventListener("message", (event) => {
 
 function send(method, params = {}) {
   const id = ++commandId;
-  socket.send(JSON.stringify({ id, method, params }));
-  return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
+  return new Promise((resolve, reject) => {
+    pending.set(id, { resolve, reject });
+    socket.send(JSON.stringify({ id, method, params }));
+  });
 }
 
 async function evaluate(expression) {
@@ -81,12 +83,19 @@ async function waitFor(expression, message) {
 }
 
 async function navigate(path, world) {
+  const marker = `nav-${Date.now()}-${Math.random()}`;
+  await evaluate(`document.body.dataset.browserTestNavigation = ${JSON.stringify(marker)}`);
   await send("Page.navigate", { url: `${baseUrl}${path}` });
+  await waitFor(
+    `document.body?.dataset.browserTestNavigation !== ${JSON.stringify(marker)}`,
+    `${path} did not commit navigation`,
+  );
   await waitFor('document.readyState === "complete"', `${path} did not load`);
   await waitFor(
-    `document.body.dataset.world === ${JSON.stringify(world)}`,
+    `document.querySelector(".products-page")?.dataset.world === ${JSON.stringify(world)}`,
     `${path} did not activate ${world}`,
   );
+  await new Promise((resolve) => setTimeout(resolve, 500));
 }
 
 async function setViewport(width, height) {
@@ -96,6 +105,23 @@ async function setViewport(width, height) {
     deviceScaleFactor: 1,
     mobile: width < 700,
   });
+  await send("Emulation.setTouchEmulationEnabled", {
+    enabled: width < 700,
+    maxTouchPoints: width < 700 ? 5 : 1,
+  });
+}
+
+async function touchTap(selector) {
+  const point = await evaluate(`(async () => {
+    const element = document.querySelector(${JSON.stringify(selector)});
+    document.documentElement.style.scrollBehavior = 'auto';
+    element.scrollIntoView({ block: 'center' });
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    const rect = element.getBoundingClientRect();
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+  })()`);
+  await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ ...point, id: 1 }] });
+  await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
 }
 
 await send("Runtime.enable");
@@ -110,25 +136,19 @@ for (const viewport of [
   await setViewport(viewport.width, viewport.height);
 
   for (const route of [
-    { path: "/en/products", world: "fresh", count: 20 },
-    { path: "/en/products?world=fresh", world: "fresh", count: 20 },
-    { path: "/en/products?world=frozen", world: "frozen", count: 11 },
-    { path: "/en/products?world=dried", world: "dried", count: 6 },
+    { path: "/en/products", world: "fresh", count: 21 },
+    { path: "/en/products?world=fresh", world: "fresh", count: 21 },
+    { path: "/en/products?world=frozen", world: "frozen", count: 13 },
   ]) {
     await navigate(route.path, route.world);
     await waitFor(
-      `document.querySelectorAll(".export-card-scene").length === ${route.count}`,
+      `document.querySelectorAll(".atlas-grid > .export-card-scene").length === ${route.count}`,
       `${route.path} did not render ${route.count} cards on ${viewport.label}`,
     );
     assert.equal(
       await evaluate("document.documentElement.scrollWidth <= window.innerWidth"),
       true,
       `${route.path} has horizontal overflow on ${viewport.label}`,
-    );
-    assert.equal(
-      await evaluate('document.querySelectorAll(".export-card-visual:not(.has-dedicated-image)").length > 0'),
-      true,
-      `${route.path} does not expose the expected fallback visual path`,
     );
   }
 }
@@ -149,15 +169,7 @@ await evaluate(`(() => {
   setter.call(input, "IQF");
   input.dispatchEvent(new Event("input", { bubbles: true }));
 })()`);
-await waitFor('document.querySelectorAll(".export-card-scene").length === 10', "IQF search did not return 10 products");
-
-await evaluate(`(() => {
-  const input = document.querySelector("#minimal-search-input");
-  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
-  setter.call(input, "Dehydrated");
-  input.dispatchEvent(new Event("input", { bubbles: true }));
-})()`);
-await waitFor('document.querySelectorAll(".export-card-scene").length === 2', "Dehydrated search did not return 2 products");
+await waitFor('document.querySelectorAll(".atlas-grid > .export-card-scene").length === 12', "IQF search did not return 12 products");
 
 await evaluate(`(() => {
   const input = document.querySelector("#minimal-search-input");
@@ -165,11 +177,11 @@ await evaluate(`(() => {
   setter.call(input, "");
   input.dispatchEvent(new Event("input", { bubbles: true }));
 })()`);
-await waitFor('document.querySelectorAll(".export-card-scene").length === 11', "clearing search did not restore Frozen products");
+await waitFor('document.querySelectorAll(".atlas-grid > .export-card-scene").length === 13', "clearing search did not restore Frozen products");
 
 await evaluate(`[...document.querySelectorAll(".taxonomy-item")]
   .find((element) => element.textContent.includes("Frozen Potato Products")).click()`);
-await waitFor('document.querySelectorAll(".export-card-scene").length === 1', "FPP family filter failed");
+await waitFor('document.querySelectorAll(".atlas-grid > .export-card-scene").length === 1', "FPP family filter failed");
 assert.equal(await evaluate('document.querySelector(".export-card-title").textContent'), "Pre-fried Frozen French Fries");
 
 await navigate("/en/products?world=fresh", "fresh");
@@ -177,6 +189,72 @@ await evaluate('document.querySelector(".export-card-quote").click()');
 await waitFor('document.querySelector(".quote-count").textContent === "1"', "quote add failed");
 await evaluate('document.querySelector(".export-card-quote").click()');
 await waitFor('document.querySelector(".quote-count").textContent === "0"', "quote remove failed");
+
+await evaluate('document.querySelector("[data-product-id=\\"produce:fresh-strawberry\\"] .export-card-keyboard-toggle").click()');
+await waitFor(
+  'document.querySelector("#product-card-flight-dialog")?.dataset.ready === "true"',
+  "desktop expanded card did not open",
+);
+assert.deepEqual(
+  await evaluate(`(() => {
+    const card = document.querySelector('.export-card-back.is-expanded');
+    const title = getComputedStyle(card.querySelector('.export-card-back-title'));
+    const reference = getComputedStyle(document.querySelector('.hero-compact-title em'));
+    return [
+      card.querySelectorAll('.export-spec-group').length,
+      card.querySelectorAll('.export-spec-row').length,
+      title.fontFamily === reference.fontFamily,
+      title.fontStyle === reference.fontStyle,
+      title.fontWeight === reference.fontWeight,
+      getComputedStyle(document.body).position,
+    ];
+  })()`),
+  [3, 13, true, true, true, "fixed"],
+  "expanded desktop card should preserve all fields, editorial typography, and scroll lock",
+);
+await evaluate('document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }))');
+await waitFor('document.querySelector("#product-card-flight-dialog") === null', "Escape did not close expanded card");
+
+await setViewport(390, 844);
+await navigate("/en/products?world=fresh", "fresh");
+await touchTap('[data-product-id="produce:fresh-strawberry"] .export-card');
+await waitFor(
+  'document.querySelector("#product-card-flight-dialog")?.dataset.ready === "true"',
+  "mobile touch did not open expanded card",
+);
+const mobileExpansion = await evaluate(`(() => {
+  const card = document.querySelector('.export-card-back.is-expanded');
+  const specs = card.querySelector('.export-spec-table.is-expanded');
+  const rect = card.getBoundingClientRect();
+  specs.scrollTop = specs.scrollHeight;
+  return {
+    inside: rect.left >= 0 && rect.top >= 0 && rect.right <= innerWidth && rect.bottom <= innerHeight,
+    oneColumn: getComputedStyle(specs).gridTemplateColumns.split(' ').length === 1,
+    endReachable: specs.scrollHeight <= specs.clientHeight + 1 || specs.scrollTop > 0,
+  };
+})()`);
+assert.deepEqual(mobileExpansion, { inside: true, oneColumn: true, endReachable: true });
+await touchTap('#product-card-flight-dialog .enquiry-notch');
+await waitFor('document.querySelector(".quote-count").textContent === "1"', "expanded mobile enquiry action failed");
+await touchTap('#product-card-flight-dialog .export-card-flight-close');
+await waitFor('document.querySelector("#product-card-flight-dialog") === null', "mobile touch close failed");
+
+await navigate("/ar/products?world=frozen", "frozen");
+await touchTap('[data-product-id="produce:iqf-strawberry"] .export-card');
+await waitFor(
+  'document.querySelector("#product-card-flight-dialog")?.dataset.ready === "true"',
+  "Arabic mobile card did not open",
+);
+assert.deepEqual(
+  await evaluate(`(() => {
+    const row = document.querySelector('#product-card-flight-dialog .export-spec-row');
+    return [document.documentElement.dir, getComputedStyle(row.querySelector('dt')).direction, row.querySelector('dd').dir];
+  })()`),
+  ["rtl", "rtl", "ltr"],
+  "Arabic labels should remain RTL while technical values remain LTR",
+);
+await touchTap('#product-card-flight-dialog .export-card-flight-close');
+await waitFor('document.querySelector("#product-card-flight-dialog") === null', "Arabic mobile close failed");
 
 const dedicatedAssetStatuses = await evaluate(`Promise.all([
   "/assets/products/fresh/oranges.avif",

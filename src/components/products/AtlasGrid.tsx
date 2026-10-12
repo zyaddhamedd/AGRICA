@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import type { ProductAtlasItem, QuoteItem } from "@/types/agrica";
 import { ProductFlipCard } from "./ProductFlipCard";
+import { ProductCardFlightOverlay } from "./ProductCardFlightOverlay";
 import { useProductsDictionary } from "@/i18n/locale-context";
+
+interface ActiveProductFlight {
+  readonly item: ProductAtlasItem;
+  readonly originElement: HTMLElement;
+  readonly triggerElement: HTMLButtonElement;
+  readonly originRect: DOMRect;
+}
 
 export interface AtlasGridProps {
   readonly items: readonly ProductAtlasItem[];
@@ -15,13 +23,27 @@ export function AtlasGrid({
   onToggleQuote,
 }: AtlasGridProps): React.JSX.Element {
   const dictionary = useProductsDictionary();
-  const [flippedKey, setFlippedKey] = useState<string | null>(null);
+  const [activeFlight, setActiveFlight] = useState<ActiveProductFlight | null>(null);
 
   useEffect(() => {
-    if (flippedKey && !items.some((item) => item.id === flippedKey)) {
-      setFlippedKey(null);
+    if (activeFlight && !items.some((item) => item.id === activeFlight.item.id)) {
+      setActiveFlight(null);
     }
-  }, [flippedKey, items]);
+  }, [activeFlight, items]);
+
+  const closeFlight = useCallback(() => setActiveFlight(null), []);
+
+  const handleOpen = useCallback(
+    (selected: ProductAtlasItem, originElement: HTMLElement, triggerElement: HTMLButtonElement) => {
+      setActiveFlight({
+        item: selected,
+        originElement,
+        triggerElement,
+        originRect: originElement.getBoundingClientRect(),
+      });
+    },
+    [],
+  );
 
   if (items.length === 0) {
     return (
@@ -44,15 +66,24 @@ export function AtlasGrid({
           <ProductFlipCard
             key={item.id}
             item={item}
-            isFlipped={flippedKey === item.id}
+            isExpanded={activeFlight?.item.id === item.id}
             isAddedToQuote={isAddedToQuote}
-            onFlip={(selected) => {
-              setFlippedKey((current) => current === selected.id ? null : selected.id);
-            }}
+            onOpen={handleOpen}
             onToggleQuote={onToggleQuote}
           />
         );
       })}
+      {activeFlight && (
+        <ProductCardFlightOverlay
+          item={activeFlight.item}
+          originElement={activeFlight.originElement}
+          triggerElement={activeFlight.triggerElement}
+          originRect={activeFlight.originRect}
+          isAddedToQuote={quoteItems.some((item) => item.id === activeFlight.item.id)}
+          onToggleQuote={onToggleQuote}
+          onClose={closeFlight}
+        />
+      )}
     </div>
   );
 }

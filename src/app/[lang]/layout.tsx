@@ -13,11 +13,11 @@ import { LocaleProvider } from "@/i18n/locale-context";
 
 export const metadata: Metadata = {
   title: {
-    default: "AGRICA — One Origin. Three Worlds.",
+    default: "AGRICA — One Origin. Two Worlds.",
     template: "%s — AGRICA",
   },
   description:
-    "AGRICA supplies Egyptian produce to global markets across fresh, frozen and dried categories.",
+    "AGRICA supplies Egyptian produce to global markets across fresh and frozen categories.",
 };
 
 export const viewport: Viewport = {

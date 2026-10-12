@@ -321,7 +321,7 @@ export function CompanyPageContent(): React.JSX.Element {
           <div className={styles.sectionContainer}>
             {/* Desktop 2-Column Layout */}
             <div className={styles.workflowDesktopLayout}>
-              {/* Left Column: Eyebrow, Headline, Supporting copy, Navigation, Active stage details */}
+              {/* Left Column: Eyebrow, Headline, Navigation */}
               <div className={styles.workflowLeftCol}>
                 <span className={`${styles.eyebrow} ${styles.eyebrowLight}`}>
                   03 / EXPORT CHAIN
@@ -332,9 +332,6 @@ export function CompanyPageContent(): React.JSX.Element {
                 >
                   A controlled physical progression.
                 </h2>
-                <p className={styles.workflowSubtitle}>
-                  Follow fresh produce handling from harvest aggregation through washing, sorting, carton packing, and refrigerated transport dispatch.
-                </p>
 
                 {/* Step Navigation Rail / Tabs */}
                 <div
@@ -359,10 +356,11 @@ export function CompanyPageContent(): React.JSX.Element {
                       >
                         <div className={styles.stepCardHead}>
                           <span className={styles.stepCardNumber}>STAGE {step.number}</span>
-                          <span className={styles.stepCardSummary}>{step.summary}</span>
                         </div>
                         <h3 className={styles.stepCardTitle}>{step.title}</h3>
-                        <p className={styles.stepCardDesc}>{step.description}</p>
+                        {isActive && (
+                          <p className={styles.stepCardDesc}>{step.description}</p>
+                        )}
                       </button>
                     );
                   })}
@@ -400,26 +398,18 @@ export function CompanyPageContent(): React.JSX.Element {
                         sizes="(max-width: 992px) 100vw, 55vw"
                       />
                     )}
-                    <div className={styles.workflowMediaShade} aria-hidden="true" />
                   </div>
 
                   <div className={styles.workflowViewportOverlay}>
-                    <div className={styles.workflowTagList}>
-                      {activeStep.tags.map((t) => (
-                        <span className={styles.workflowTag} key={t}>
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <h4 className={styles.workflowStageName}>
-                      STAGE {activeStep.number} · {activeStep.title}
-                    </h4>
+                    <span className={styles.stageIndexPill}>
+                      STAGE {activeStep.number} / 04
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Mobile Vertical 4-Step Journey (No heavy pinning, no horizontal overflow) */}
+            {/* Mobile Vertical 4-Step Journey */}
             <div
               className={styles.workflowMobileJourney}
               aria-label="Export chain stages"
@@ -433,18 +423,14 @@ export function CompanyPageContent(): React.JSX.Element {
                 >
                   A controlled physical progression.
                 </h2>
-                <p className={styles.workflowSubtitle}>
-                  Follow fresh produce handling from harvest aggregation through washing, sorting, carton packing, and refrigerated transport dispatch.
-                </p>
               </div>
 
               {COMPANY_WORKFLOW_STEPS.map((step) => (
                 <article key={step.id} className={styles.workflowMobileStepCard}>
                   <div className={styles.workflowMobileCardHead}>
-                    <span className={styles.stepCardNumber}>STAGE {step.number} / 04</span>
-                    <span className={styles.stepCardSummary}>{step.summary}</span>
+                    <span className={styles.stepCardNumber}>STAGE {step.number}</span>
+                    <h3 className={styles.stepCardTitle}>{step.title}</h3>
                   </div>
-                  <h3 className={styles.stepCardTitle}>{step.title}</h3>
                   <div className={styles.workflowMobileMediaFrame}>
                     {step.mediaType === "video" ? (
                       <video
@@ -469,13 +455,6 @@ export function CompanyPageContent(): React.JSX.Element {
                     )}
                   </div>
                   <p className={styles.stepCardDesc}>{step.description}</p>
-                  <div className={styles.workflowTagList}>
-                    {step.tags.map((t) => (
-                      <span className={styles.workflowTag} key={t}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
                 </article>
               ))}
             </div>

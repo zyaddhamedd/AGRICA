@@ -7,15 +7,15 @@ const common = {
     menu: "Menu", close: "Fermer", openMenu: "Ouvrir le menu de navigation", closeMenu: "Fermer le menu de navigation",
     agricaHome: "Accueil AGRICA", cairoEgypt: "Le Caire, Égypte", agricultureCairo: "Agriculture du Caire",
     exportStatement: "Produits agricoles égyptiens, préparés pour les marchés internationaux.", b2bExport: "Export agricole B2B",
-    produceWorlds: "Frais / Surgelés / Séchés",
+    produceWorlds: "Frais / Surgelés",
   },
   footer: {
-    navigationLabel: "Navigation de pied de page", oneOriginThreeWorlds: "Une origine · Trois univers",
+    navigationLabel: "Navigation de pied de page", oneOriginTwoWorlds: "Une origine · Deux univers",
     nextExportProgramme: "Votre prochain programme d’exportation", controlledFromOrigin: "Maîtrisé dès l’origine",
     originGlobalReadiness: "Origine égyptienne · Prêt pour l’international", exploreProduce: "Découvrir nos produits",
     buildQuotation: "Préparer votre demande", discoverProducts: "Découvrir nos produits",
     originHeadline: "Origine égyptienne.", worldHeadline: "Prêt pour le monde.",
-    description: "Produits frais, surgelés et séchés, préparés pour l’approvisionnement international.", beginHere: "Commencer ici",
+    description: "Produits frais et surgelés, préparés pour l’approvisionnement international.", beginHere: "Commencer ici",
     tradeDesk: "Service export", exportConversation: "Démarrer un échange export", backToTop: "Retour en haut",
   },
   languageSwitcher: {

@@ -7,15 +7,15 @@ const common = {
     menu: "القائمة", close: "إغلاق", openMenu: "فتح قائمة التنقل", closeMenu: "إغلاق قائمة التنقل",
     agricaHome: "الصفحة الرئيسية لأجريكا", cairoEgypt: "القاهرة، مصر", agricultureCairo: "الزراعة من القاهرة",
     exportStatement: "محاصيل مصرية مُهيّأة للأسواق العالمية.", b2bExport: "تصدير زراعي للشركات",
-    produceWorlds: "طازج / مجمّد / مجفف",
+    produceWorlds: "طازج / مجمّد",
   },
   footer: {
-    navigationLabel: "روابط التذييل", oneOriginThreeWorlds: "منشأ واحد · ثلاثة عوالم",
+    navigationLabel: "روابط التذييل", oneOriginTwoWorlds: "منشأ واحد · عالمان",
     nextExportProgramme: "برنامج التصدير القادم", controlledFromOrigin: "رقابة تبدأ من المنشأ",
     originGlobalReadiness: "منشأ مصري · جاهزية عالمية", exploreProduce: "استكشف منتجاتنا الزراعية",
     buildQuotation: "أنشئ طلب تسعير", discoverProducts: "اكتشف منتجاتنا",
     originHeadline: "منشأ مصري.", worldHeadline: "جاهز للعالم.",
-    description: "منتجات زراعية طازجة ومجمّدة ومجففة، مُهيّأة للتوريد العالمي.", beginHere: "ابدأ من هنا",
+    description: "منتجات زراعية طازجة ومجمّدة، مُهيّأة للتوريد العالمي.", beginHere: "ابدأ من هنا",
     tradeDesk: "مكتب التجارة", exportConversation: "ابدأ محادثة تصدير", backToTop: "العودة إلى الأعلى",
   },
   languageSwitcher: {

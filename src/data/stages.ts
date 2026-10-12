@@ -46,7 +46,7 @@ export const JOURNEY_STAGES: readonly JourneyStage[] = [
     code: "LOT / PRP",
     coordinate: "PROCESS / CONTROLLED",
     headline: "Prepared to destination specification.",
-    copy: "Formatted precisely for fresh, frozen, or dried export briefs around agreed buyer tolerances.",
+    copy: "Formatted precisely for fresh or frozen export briefs around agreed buyer tolerances.",
     proofOutput: "Format and brief aligned.",
     imageSrc: "/assets/standard_stage_03_prepare.jpg",
     facts: [

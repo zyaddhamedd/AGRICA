@@ -18,13 +18,6 @@
   --world-surface-header: rgba(242, 245, 247, 0.92);
 }
 
-.products-page[data-world="dried"] {
-  --world-hero-bg: #f7f4ee;
-  --world-surface: #efe5d5;
-  --world-accent: #ad6c34;
-  --world-ink: #302116;
-  --world-surface-header: rgba(247, 244, 238, 0.92);
-}
 
 /* ==========================================
    UNIFIED HERO SURFACE CANVAS
@@ -388,22 +381,55 @@
    ATLAS MAIN CONTENT & ASYMMETRIC GRID (Correction #4 & #5)
    ========================================== */
 .atlas-content {
-  max-width: 1440px;
+  max-width: 1220px;
   margin: 0 auto;
-  padding: clamp(2.5rem, 5vw, 5rem) var(--gutter);
+  padding: clamp(2.25rem, 4vw, 3.75rem) clamp(4.5rem, 6vw, 6.25rem);
   min-height: 50vh;
 }
 
 .atlas-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(1.5rem, 3vw, 3rem);
+  gap: 28px;
   align-items: stretch;
 }
 
+/* Scoped card sizing & typography exclusively for Products Atlas Grid (desktop) */
+.atlas-grid .export-card-scene {
+  height: clamp(420px, 29vw, 440px);
+  --card-pad: clamp(0.75rem, 1.1vw, 0.95rem);
+}
+
+@media (min-width: 641px) {
+  .atlas-grid .export-card-title {
+    font-size: clamp(1.52rem, 2.25vw, 2.15rem);
+  }
+
+  .atlas-grid .export-card-title[data-title-size="medium"] {
+    font-size: clamp(1.38rem, 2.05vw, 1.92rem);
+  }
+
+  .atlas-grid .export-card-title[data-title-size="long"] {
+    font-size: clamp(1.2rem, 1.75vw, 1.65rem);
+  }
+
+  .atlas-grid .export-card-title[data-title-size="very-long"] {
+    font-size: clamp(1.05rem, 1.5vw, 1.42rem);
+  }
+}
+
 @media (max-width: 1024px) {
+  .atlas-content {
+    padding-inline: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
   .atlas-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .atlas-grid .export-card-scene {
+    height: clamp(460px, 56vw, 510px);
   }
 }
 
@@ -471,15 +497,6 @@
   --card-visual-filter: saturate(0.78) contrast(1.12) brightness(0.9);
 }
 
-.export-card-scene[data-world="dried"] {
-  --card-surface: #10213d;
-  --card-surface-deep: #090f1c;
-  --card-secondary-accent: #c7a36b;
-  --card-border: rgba(199, 163, 107, 0.27);
-  --card-shadow: rgba(91, 55, 22, 0.24);
-  --card-rim-light: rgba(199, 163, 107, 0.14);
-  --card-visual-filter: saturate(0.88) sepia(0.12) contrast(1.08) brightness(0.88);
-}
 
 .export-card {
   position: relative;
@@ -579,19 +596,6 @@
     radial-gradient(ellipse at 4% 2%, rgba(225, 243, 250, 0.15), transparent 24%);
 }
 
-.export-card-scene[data-world="dried"] .export-card-face {
-  background:
-    radial-gradient(circle at 85% 15%, rgba(186, 126, 61, 0.17), transparent 32%),
-    radial-gradient(ellipse at 12% 86%, rgba(98, 61, 31, 0.16), transparent 38%),
-    linear-gradient(148deg, var(--card-surface) 0%, var(--card-surface-deep) 100%);
-}
-
-.export-card-scene[data-world="dried"] .export-card-face::before {
-  opacity: 0.22;
-  background:
-    radial-gradient(ellipse at 100% 30%, rgba(199, 150, 83, 0.25), transparent 33%),
-    radial-gradient(ellipse at 4% 2%, rgba(244, 220, 180, 0.12), transparent 23%);
-}
 
 .export-card-front {
   display: grid;
@@ -605,8 +609,119 @@
   display: flex;
   flex-direction: column;
   padding: var(--card-pad);
+  font-family: var(--font-serif);
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
+}
+
+.export-card-back *,
+.export-card-back button {
+  font-family: inherit;
+}
+
+/* Product catalogue flight card: AGRICA editorial export-card reverse. */
+.export-card-back.is-expanded {
+  --card-pad: clamp(1.4rem, 2.8vw, 2.15rem);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  padding: var(--card-pad);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 102% -4%, rgba(80, 160, 16, 0.2), transparent 30%),
+    radial-gradient(circle at -8% 108%, rgba(101, 143, 73, 0.1), transparent 32%),
+    linear-gradient(137deg, #06264a 0%, var(--card-surface) 42%, var(--card-surface-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    inset 1px 0 0 rgba(145, 189, 113, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 28px 72px rgba(0, 15, 38, 0.34);
+}
+
+.export-card-back.is-expanded::before {
+  opacity: 0.32;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.045), transparent 22%),
+    radial-gradient(circle at 91% 12%, rgba(80, 160, 16, 0.22), transparent 25%);
+}
+
+.export-card-back.is-expanded::after {
+  inset: 12px;
+  border-color: rgba(247, 242, 231, 0.08);
+  border-radius: 18px;
+}
+
+.export-card-back.is-expanded .export-card-back-head {
+  min-height: 32px;
+  padding-inline-end: 0.15rem;
+}
+
+.export-card-back.is-expanded .export-card-back-head::before {
+  top: -0.2rem;
+  width: 42px;
+  background: var(--card-accent);
+  box-shadow: 48px 0 0 -0.25px color-mix(in srgb, var(--card-accent) 30%, transparent);
+}
+
+.export-card-back.is-expanded .export-card-code {
+  color: color-mix(in srgb, var(--card-accent) 76%, #f7f2e7);
+  font-family: var(--font-sans);
+  font-size: clamp(0.61rem, 0.7vw, 0.69rem);
+  font-weight: 650;
+  letter-spacing: 0.21em;
+}
+
+.export-card-back-identity {
+  position: relative;
+  z-index: 2;
+}
+
+.export-card-back.is-expanded .export-card-back-identity {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 2rem;
+  padding: clamp(0.65rem, 1.4vh, 0.95rem) 0 clamp(1rem, 2.1vh, 1.4rem);
+}
+
+.export-card-back.is-expanded .export-card-back-title {
+  max-width: 17ch;
+  margin: 0;
+  color: #f7f2e7;
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 4.1vw, 3.55rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: none;
+}
+
+.export-card-back.is-expanded .export-card-spec-kicker {
+  margin: 0 0 0.18rem;
+  padding: 0 0 0 0.72rem;
+  border-color: var(--card-accent);
+  color: color-mix(in srgb, var(--card-accent) 78%, #f7f2e7);
+  font-family: var(--font-serif);
+  font-size: clamp(0.78rem, 1vw, 0.92rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.export-card-back.is-expanded .export-card-flight-close {
+  width: 34px;
+  height: 34px;
+  border-color: rgba(145, 189, 113, 0.3);
+  background: transparent;
+  color: rgba(247, 242, 231, 0.76);
+}
+
+.export-card-back.is-expanded .export-card-flight-close:hover {
+  background: rgba(80, 160, 16, 0.12);
+  transform: none;
 }
 
 /* Compact presentation mode for Seasonal Calendar */
@@ -878,8 +993,7 @@
   background-position: 50% 50%;
 }
 
-.export-card-visual[data-visual="potato"],
-.export-card-visual[data-visual^="dried-"] {
+.export-card-visual[data-visual="potato"] {
   background-position: 100% 50%;
 }
 
@@ -940,15 +1054,29 @@
   flex-direction: column;
   min-height: 0;
   margin: 0;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-inline-end: 0.25rem;
+  scrollbar-color: color-mix(in srgb, var(--card-accent) 70%, transparent) transparent;
+  scrollbar-width: thin;
   border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.export-spec-table::-webkit-scrollbar {
+  width: 4px;
+}
+
+.export-spec-table::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card-accent) 70%, transparent);
 }
 
 .export-spec-row {
   display: grid;
-  flex: 1 1 0;
+  flex: 0 0 auto;
   grid-template-columns: minmax(100px, 40%) minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   gap: clamp(0.52rem, 1vw, 0.72rem);
   padding: clamp(0.3rem, 0.4vw, 0.4rem) 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -976,8 +1104,146 @@
   line-height: 1.24;
 }
 
+html[dir="rtl"] .export-card-spec-kicker {
+  padding-right: 0.55rem;
+  padding-left: 0;
+  border-right: 1px solid var(--card-accent);
+  border-left: 0;
+}
+
 .export-spec-table[data-field-count="7"] .export-spec-row {
   padding-block: clamp(0.27rem, 0.35vw, 0.34rem);
+}
+
+.export-spec-table.is-expanded {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 0.92fr 1.18fr 1fr;
+  grid-auto-rows: min-content;
+  align-content: start;
+  column-gap: 0;
+  min-height: 0;
+  padding: clamp(0.25rem, 0.7vh, 0.45rem) clamp(0.15rem, 0.5vw, 0.45rem) 0.25rem 0;
+  border-top-color: rgba(246, 242, 233, 0.11);
+  scrollbar-color: color-mix(in srgb, var(--card-accent) 34%, transparent) transparent;
+}
+
+.export-spec-table.is-expanded::-webkit-scrollbar {
+  width: 3px;
+}
+
+.export-spec-table.is-expanded::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--card-accent) 34%, transparent);
+}
+
+.export-spec-group {
+  min-width: 0;
+  padding: clamp(0.55rem, 1.1vw, 0.85rem) clamp(1rem, 2vw, 1.6rem);
+}
+
+.export-spec-group:first-child {
+  padding-inline-start: 0;
+}
+
+.export-spec-group + .export-spec-group {
+  border-inline-start: 1px solid rgba(246, 242, 233, 0.09);
+}
+
+.export-spec-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin-bottom: clamp(0.4rem, 0.8vh, 0.65rem);
+}
+
+.export-spec-group-head span {
+  color: color-mix(in srgb, var(--card-accent) 70%, #f7f2e7);
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 650;
+  letter-spacing: 0.15em;
+}
+
+.export-spec-group-head h4 {
+  margin: 0;
+  color: color-mix(in srgb, var(--card-accent) 83%, #f7f2e7);
+  font-family: var(--font-serif);
+  font-size: clamp(0.92rem, 1.18vw, 1.08rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.export-spec-group dl {
+  margin: 0;
+}
+
+.export-spec-table.is-expanded .export-spec-row,
+.export-spec-table.is-expanded[data-field-count="7"] .export-spec-row {
+  display: block;
+  padding: clamp(0.42rem, 0.78vh, 0.62rem) 0;
+  border: 0;
+}
+
+.export-spec-table.is-expanded .export-spec-row dt {
+  margin-bottom: 0.2rem;
+  color: rgba(215, 226, 235, 0.56);
+  font-family: var(--font-sans);
+  font-size: clamp(0.59rem, 0.64vw, 0.66rem);
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  line-height: 1.25;
+  text-transform: none;
+}
+
+.export-spec-table.is-expanded .export-spec-row dd {
+  max-width: 54ch;
+  color: rgba(247, 242, 231, 0.94);
+  font-family: var(--font-sans);
+  font-size: clamp(0.78rem, 0.85vw, 0.9rem);
+  font-weight: 430;
+  line-height: 1.42;
+  overflow-wrap: break-word;
+}
+
+.export-card-back.is-expanded .enquiry-notch {
+  align-self: end;
+  min-width: 0;
+  min-height: 34px;
+  margin: clamp(0.45rem, 0.9vh, 0.7rem) 0 0 auto;
+  padding: 0.25rem 0 0.2rem;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--card-accent) 54%, transparent);
+  background: transparent;
+  clip-path: none;
+  box-shadow: none;
+}
+
+.export-card-back.is-expanded .enquiry-notch::before {
+  display: none;
+}
+
+.export-card-back.is-expanded .enquiry-notch-label {
+  font-family: var(--font-serif);
+  font-size: 0.74rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.export-card-back.is-expanded .enquiry-notch-mark {
+  display: none;
+}
+
+html[dir="rtl"] .export-card-back.is-expanded .export-card-spec-kicker {
+  padding-right: 0.8rem;
+  padding-left: 0;
+}
+
+html[dir="rtl"] .export-card-back.is-expanded .enquiry-notch {
+  margin-right: auto;
+  margin-left: 0;
 }
 
 .enquiry-notch {
@@ -1190,6 +1456,89 @@
     width: 24px;
     height: 24px;
   }
+
+  .export-card-back.is-expanded {
+    --card-pad: 1.05rem;
+  }
+
+  .export-card-back.is-expanded::after {
+    inset: 8px;
+    border-radius: 14px;
+  }
+
+  .export-card-back.is-expanded .export-card-back-head {
+    padding-bottom: 0.55rem;
+  }
+
+  .export-card-back.is-expanded .export-card-back-identity {
+    display: block;
+    padding: 0.55rem 0 0.55rem;
+  }
+
+  .export-card-back.is-expanded .export-card-back-title {
+    max-width: 18ch;
+    margin: 0;
+    font-size: clamp(1.6rem, 7.4vw, 2rem);
+    line-height: 0.98;
+  }
+
+  .export-card-back.is-expanded .export-card-spec-kicker {
+    display: inline-block;
+    margin-top: 0.35rem;
+    padding-inline-start: 0.55rem;
+    font-size: 0.72rem;
+    white-space: normal;
+  }
+
+  .export-card-back.is-expanded .export-card-flight-close {
+    width: 36px;
+    height: 36px;
+  }
+
+  .export-spec-table.is-expanded {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+    padding: 0 0.2rem 0 0;
+  }
+
+  .export-spec-group,
+  .export-spec-group:first-child {
+    padding: 0.68rem 0 0.5rem;
+  }
+
+  .export-spec-group + .export-spec-group {
+    border-inline-start: 0;
+    border-top: 1px solid rgba(246, 242, 233, 0.09);
+  }
+
+  .export-spec-group-head {
+    margin-bottom: 0.25rem;
+  }
+
+  .export-spec-group-head h4 {
+    font-size: 0.98rem;
+  }
+
+  .export-spec-table.is-expanded .export-spec-row,
+  .export-spec-table.is-expanded[data-field-count="7"] .export-spec-row {
+    padding: 0.39rem 0;
+  }
+
+  .export-spec-table.is-expanded .export-spec-row dt {
+    margin-bottom: 0.15rem;
+    font-size: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .export-spec-table.is-expanded .export-spec-row dd {
+    font-size: 0.82rem;
+    line-height: 1.38;
+  }
+
+  .export-card-back.is-expanded .enquiry-notch {
+    min-height: 44px;
+    margin-top: 0.35rem;
+  }
 }
 
 /* ==========================================
@@ -1288,7 +1637,6 @@
 .sheet-media[data-visual="potato"] { background-position: 100% 50%; }
 .sheet-media[data-visual^="fresh-"] { background-image: url("/assets/three-worlds.png"); background-position: 0 50%; }
 .sheet-media[data-visual^="frozen-"] { background-image: url("/assets/three-worlds.png"); background-position: 50% 50%; }
-.sheet-media[data-visual^="dried-"] { background-image: url("/assets/three-worlds.png"); background-position: 100% 50%; }
 
 .sheet-tag {
   position: absolute;

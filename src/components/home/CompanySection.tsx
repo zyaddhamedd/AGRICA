@@ -10,14 +10,34 @@ type NavigatorWithConnection = Navigator & {
   connection?: { readonly saveData?: boolean };
 };
 
-const VIDEO_SOURCE = "/assets/company/agrica-company-strawberry-film.mp4";
-const POSTER_SOURCE = "/assets/company/agrica-company-strawberry-poster.webp";
+const VIDEO_SOURCE = "/assets/company/agrica-drone-tracking-film.mp4";
+const POSTER_SOURCE = "/assets/company/agrica-drone-tracking-poster.avif";
+
+function splitCompanyHeadline(headline: string, locale: string): { lead: string; emphasis: string } {
+  if (locale === "ar") {
+    const idx = headline.indexOf("إلى");
+    if (idx !== -1) return { lead: headline.slice(0, idx).trim(), emphasis: headline.slice(idx).trim() };
+  } else if (locale === "fr") {
+    const idx = headline.indexOf("aux");
+    if (idx !== -1) return { lead: headline.slice(0, idx).trim(), emphasis: headline.slice(idx).trim() };
+  } else if (locale === "de") {
+    const idx = headline.indexOf("in die");
+    if (idx !== -1) return { lead: headline.slice(0, idx).trim(), emphasis: headline.slice(idx).trim() };
+  } else if (locale === "ru") {
+    const idx = headline.indexOf("—");
+    if (idx !== -1) return { lead: headline.slice(0, idx).trim(), emphasis: headline.slice(idx + 1).trim() };
+  }
+  const idx = headline.indexOf("to global");
+  if (idx !== -1) return { lead: headline.slice(0, idx).trim(), emphasis: headline.slice(idx).trim() };
+  return { lead: headline, emphasis: "" };
+}
 
 export function CompanySection(): React.JSX.Element {
   const dictionary = useHomeDictionary().company;
   const locale = useLocale();
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { lead, emphasis } = splitCompanyHeadline(dictionary.headline, locale);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -152,9 +172,34 @@ export function CompanySection(): React.JSX.Element {
       </div>
 
       <div className="company-copy">
-        <p className="company-eyebrow">{dictionary.eyebrow}</p>
-        <h2 id="company-title">{dictionary.headline}</h2>
+        <div className="company-hud" aria-hidden="true">
+          <span className="hud-corner hud-tl" />
+          <span className="hud-corner hud-tr" />
+          <span className="hud-corner hud-bl" />
+          <span className="hud-corner hud-br" />
+        </div>
+
+        <div className="company-meta-strip">
+          <span className="company-coord-stamp">
+            <span className="company-coord-beacon" aria-hidden="true" />
+            30°28&apos;N 31°06&apos;E · DELTA ORIGIN
+          </span>
+          <span className="company-meta-divider" aria-hidden="true">/</span>
+          <p className="company-eyebrow">{dictionary.eyebrow}</p>
+        </div>
+
+        <h2 id="company-title" className="company-heading">
+          <span className="company-heading-lead">{lead}</span>
+          {emphasis ? (
+            <>
+              {" "}
+              <span className="company-heading-emphasis">{emphasis}</span>
+            </>
+          ) : null}
+        </h2>
+
         <p className="company-supporting">{dictionary.supporting}</p>
+
         <Link
           className="company-action"
           href={localePath(locale, "/company")}

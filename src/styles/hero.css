@@ -28,6 +28,11 @@
   overflow: hidden;
 }
 
+.hero-bg-canvas picture,
+.hero-botanical-decor picture {
+  display: contents;
+}
+
 .hero-citrus-art {
   position: absolute;
   top: 0;
@@ -176,9 +181,9 @@
 }
 
 .hero-navbar-logo {
-  height: clamp(34px, 4.2vh, 42px);
+  height: clamp(20px, 2.4vh, 25px);
   width: auto;
-  max-width: 175px;
+  max-width: 120px;
   object-fit: contain;
   display: block;
 }
@@ -508,6 +513,10 @@
   display: block;
 }
 
+.hero-card-media picture {
+  display: contents;
+}
+
 .hero-card-poster {
   position: absolute;
   inset: 0;
@@ -517,7 +526,9 @@
   transition: opacity 0.4s ease;
 }
 
-.hero-card-video.is-playing + .hero-card-poster {
+.hero-card-video.is-playing + .hero-card-poster,
+.hero-card-video.is-playing ~ .hero-card-poster,
+.hero-card-video.is-playing ~ picture .hero-card-poster {
   opacity: 0;
   pointer-events: none;
 }
@@ -799,9 +810,9 @@
   }
 
   .hero-navbar-logo {
-    height: clamp(26px, 3.4vh, 30px);
+    height: 18px;
     width: auto;
-    max-width: 130px;
+    max-width: 90px;
   }
 
   .hero-navbar-controls {

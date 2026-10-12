@@ -75,7 +75,7 @@
 
 .site-footer-v2__brand-logo {
   width: auto;
-  height: clamp(68px, 8vw, 112px);
+  height: clamp(32px, 3.8vw, 48px);
   object-fit: contain;
 }
 

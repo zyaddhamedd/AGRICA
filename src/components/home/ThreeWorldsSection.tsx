@@ -23,7 +23,7 @@ export function ThreeWorldsSection(): React.JSX.Element {
               <span className="tw-kicker-dot" aria-hidden="true" />
               <span className="tw-eyebrow">{dictionary.eyebrow}</span>
             </div>
-            <span className="tw-section-index" aria-label={dictionary.rangeLabel}>01 — 03</span>
+            <span className="tw-section-index" aria-label={dictionary.rangeLabel}>01 — 02</span>
           </div>
 
           <h2 id="tw-title" className="tw-title">
@@ -33,7 +33,7 @@ export function ThreeWorldsSection(): React.JSX.Element {
           </h2>
 
           <p className="tw-world-list">
-            {dictionary.items.fresh.label} <span aria-hidden="true">·</span> {dictionary.items.frozen.label} <span aria-hidden="true">·</span> {dictionary.items.dried.label}
+            {dictionary.items.fresh.label} <span aria-hidden="true">·</span> {dictionary.items.frozen.label}
           </p>
         </header>
 

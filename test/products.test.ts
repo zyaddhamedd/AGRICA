@@ -37,20 +37,11 @@ assert.deepEqual(
     "IQF Artichokes",
     "IQF Broccoli",
     "Mixed Vegetables",
+    "IQF Cauliflower",
+    "IQF Sweet Corn",
   ],
 );
-assert.deepEqual(search("Dried").map((item) => item.name), [
-  "Dried Lemon",
-  "Raisins",
-  "Sun-Dried Tomatoes",
-  "Dehydrated Onion",
-  "Dehydrated Garlic",
-  "Dried Molokhia",
-]);
-assert.deepEqual(search("Dehydrated").map((item) => item.name), [
-  "Dehydrated Onion",
-  "Dehydrated Garlic",
-]);
+assert.deepEqual(search("Dried").map((item) => item.name), []);
 
 for (const renamedProduct of [
   "IQF Strawberries",
@@ -62,23 +53,18 @@ for (const renamedProduct of [
   "IQF Molokhia",
   "IQF Artichokes",
   "IQF Broccoli",
-  "Dried Lemon",
-  "Sun-Dried Tomatoes",
-  "Dehydrated Onion",
-  "Dehydrated Garlic",
-  "Dried Molokhia",
+  "IQF Cauliflower",
+  "IQF Sweet Corn",
 ]) {
   assert.ok(search(renamedProduct).some((item) => item.name === renamedProduct));
 }
 
-assert.equal(family("fresh", "citrus").length, 4);
+assert.equal(family("fresh", "citrus").length, 5);
 assert.equal(family("fresh", "fresh-fruits").length, 8);
 assert.equal(family("fresh", "vegetables-tubers").length, 8);
 assert.equal(family("frozen", "iqf-fruits").length, 3);
-assert.equal(family("frozen", "iqf-vegetables").length, 7);
+assert.equal(family("frozen", "iqf-vegetables").length, 9);
 assert.deepEqual(family("frozen", "frozen-potato-products").map((item) => item.name), ["Pre-fried Frozen French Fries"]);
-assert.equal(family("dried", "dried-fruits").length, 2);
-assert.equal(family("dried", "dried-vegetables").length, 4);
 
 const oranges = items.find((item) => item.id === "produce:orange");
 const iqfMango = items.find((item) => item.id === "produce:iqf-mango");

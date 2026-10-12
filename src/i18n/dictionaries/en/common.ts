@@ -7,15 +7,15 @@ const common = {
     menu: "Menu", close: "Close", openMenu: "Open navigation menu", closeMenu: "Close navigation menu",
     agricaHome: "AGRICA home", cairoEgypt: "Cairo, Egypt", agricultureCairo: "Agriculture Cairo",
     exportStatement: "Egyptian produce. Prepared for global supply.", b2bExport: "B2B agricultural export",
-    produceWorlds: "Fresh / Frozen / Dried",
+    produceWorlds: "Fresh / Frozen",
   },
   footer: {
-    navigationLabel: "Footer navigation", oneOriginThreeWorlds: "One origin · Three worlds",
+    navigationLabel: "Footer navigation", oneOriginTwoWorlds: "One origin · Two worlds",
     nextExportProgramme: "Your next export programme", controlledFromOrigin: "Controlled from origin",
     originGlobalReadiness: "Egyptian origin · Global readiness", exploreProduce: "Explore our produce",
     buildQuotation: "Build your quotation", discoverProducts: "Discover our products",
     originHeadline: "Egyptian origin.", worldHeadline: "Ready for the world.",
-    description: "Fresh, frozen and dried produce prepared for global supply.", beginHere: "Begin here",
+    description: "Fresh and frozen produce prepared for global supply.", beginHere: "Begin here",
     tradeDesk: "Trade desk", exportConversation: "Start an export conversation", backToTop: "Back to top",
   },
   languageSwitcher: {

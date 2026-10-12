@@ -6,7 +6,7 @@ import { isWorldId } from "@/data/products";
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "Explore AGRICA's fresh, frozen and dried Egyptian produce and build an export enquiry.",
+    "Explore AGRICA's fresh and frozen Egyptian produce and build an export enquiry.",
 };
 
 export default async function ProductsPage({

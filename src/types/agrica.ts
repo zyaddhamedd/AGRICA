@@ -1,4 +1,4 @@
-export type WorldId = "fresh" | "frozen" | "dried";
+export type WorldId = "fresh" | "frozen";
 
 export type ProduceFamilyId =
   | "citrus"
@@ -6,9 +6,7 @@ export type ProduceFamilyId =
   | "vegetables-tubers"
   | "iqf-fruits"
   | "iqf-vegetables"
-  | "frozen-potato-products"
-  | "dried-fruits"
-  | "dried-vegetables";
+  | "frozen-potato-products";
 
 export type ProduceProductId = `produce:${string}`;
 

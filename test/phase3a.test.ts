@@ -18,16 +18,16 @@ for (const locale of locales) {
   const herbs = herbsSpicesDictionary(locale);
   const atlas = buildProductAtlasItems(produce);
 
-  assert.equal(atlas.length, 37, `${locale}: all Produce products are localized`);
-  assert.equal(Object.keys(produce.products).length, 37, `${locale}: Produce translation completeness`);
-  assert.equal(Object.keys(produce.families).length, 8, `${locale}: Produce family completeness`);
+  assert.equal(atlas.length, 34, `${locale}: all Produce products are localized`);
+  assert.equal(Object.keys(produce.products).length, 34, `${locale}: Produce translation completeness`);
+  assert.equal(Object.keys(produce.families).length, 6, `${locale}: Produce family completeness`);
   assert.equal(Object.keys(herbs.products).length, 27, `${locale}: Herbs translation completeness`);
   assert.equal(Object.keys(herbs.families).length, 6, `${locale}: Herbs family completeness`);
   assert.equal(home.season.months.length, 12, `${locale}: month completeness`);
   assert.ok(herbs.forms.Powder, `${locale}: source-cased product form is localized`);
   assertNoEmptyStrings(home, `${locale}.home`);
   assertNoEmptyStrings(herbs.homepage, `${locale}.herbsSpices.homepage`);
-  assert.deepEqual(Object.keys(produce.worlds), ["fresh", "frozen", "dried"], `${locale}: world query values remain canonical`);
+  assert.deepEqual(Object.keys(produce.worlds), ["fresh", "frozen"], `${locale}: world query values remain canonical`);
   assert.deepEqual(Object.keys(herbs.families), HERBS_SPICES_FAMILIES.map(({ id }) => id), `${locale}: Herbs family query values remain canonical`);
 
   for (const item of atlas) {
@@ -40,14 +40,14 @@ for (const locale of locales) {
   }
 
   const localizedOrange = produce.products["produce:orange"].name;
-  const localizedResults = filterProductAtlasItems(atlas, { activeWorld: "dried", activeFamilyId: null, searchQuery: localizedOrange });
-  const englishAliasResults = filterProductAtlasItems(atlas, { activeWorld: "dried", activeFamilyId: null, searchQuery: "Oranges" });
+  const localizedResults = filterProductAtlasItems(atlas, { activeWorld: "fresh", activeFamilyId: null, searchQuery: localizedOrange });
+  const englishAliasResults = filterProductAtlasItems(atlas, { activeWorld: "fresh", activeFamilyId: null, searchQuery: "Oranges" });
   assert.equal(localizedResults[0]?.id, "produce:orange", `${locale}: localized Produce search`);
   assert.equal(englishAliasResults[0]?.id, "produce:orange", `${locale}: English Produce alias search`);
 
   const quote = toggleQuoteItem([], atlas[0]);
   assert.equal(quote[0].id, atlas[0].id, `${locale}: quote identity uses canonical ID`);
-  assert.equal(productImageFor("produce:orange"), "/assets/products/fresh/oranges.avif");
+  assert.equal(productImageFor("produce:orange"), "/assets/products/fresh/oranges-profile.avif");
   const localizedHerb = herbs.products["herbs-spices:red-chilli-pepper"];
   assert.ok(localizedHerb.aliases.some((alias) => alias.toLocaleLowerCase().includes("red chilli pepper")), `${locale}: Herbs English alias search`);
 }

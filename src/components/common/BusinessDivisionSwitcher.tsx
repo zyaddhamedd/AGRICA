@@ -16,9 +16,21 @@ export interface BusinessDivisionSwitcherProps {
   readonly tone?: "light" | "dark";
 }
 
+/**
+ * Public release launch configuration:
+ * AGRICA initial public release is Produce-only.
+ * Herbs & Spices website switching is postponed to a future release and kept dormant.
+ * Set to true when Herbs & Spices is ready for public release.
+ */
+export const SHOW_BUSINESS_DIVISION_SWITCHER = false;
+
 export function BusinessDivisionSwitcher({
   tone = "dark",
-}: BusinessDivisionSwitcherProps): React.JSX.Element {
+}: BusinessDivisionSwitcherProps): React.JSX.Element | null {
+  if (!SHOW_BUSINESS_DIVISION_SWITCHER) {
+    return null;
+  }
+
   const pathname = usePathname();
   const common = useCommonDictionary();
   const activeDivisionId = resolveDivisionFromPathname(pathname);

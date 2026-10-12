@@ -15,7 +15,7 @@ assert.equal(
   "/ar/herbs-spices/products?family=spices#catalogue",
 );
 assert.equal(localePath("ru", "/en/standard"), "/ru/standard");
-assert.equal(localePath("fr", "/fr/products?world=dried"), "/fr/products?world=dried");
+assert.equal(localePath("fr", "/fr/products?world=fresh"), "/fr/products?world=fresh");
 assert.equal(localePath("de", "/"), "/de/");
 assert.equal(localePath("de", "#process"), "#process");
 assert.equal(localePath("de", "mailto:trade@example.com"), "mailto:trade@example.com");
@@ -25,7 +25,7 @@ assert.equal(stripLocaleFromPath("/ru/herbs-spices/products?family=roots"), "/he
 assert.equal(localeFromPathname("/fr/standard"), "fr");
 assert.equal(localeFromPathname("/es/standard"), null);
 assert.equal(languageSwitchPath("ar", "/en/products", "?world=frozen", ""), "/ar/products?world=frozen");
-assert.equal(languageSwitchPath("ru", "/ar/products", "?world=dried", ""), "/ru/products?world=dried");
+assert.equal(languageSwitchPath("ru", "/ar/products", "?world=dried", ""), "/ru/products");
 assert.equal(languageSwitchPath("fr", "/ru/standard", "", "#stage-04"), "/fr/standard#stage-04");
 assert.equal(
   languageSwitchPath("ar", "/fr/herbs-spices/products", "?family=spices", ""),

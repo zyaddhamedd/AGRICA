@@ -3,7 +3,7 @@ import type { ProductAtlasItem } from "@/types/agrica";
 import type { PublicProductCardField } from "@/types/product-card-content";
 import { ProductSpecTable } from "./ProductSpecTable";
 import { ExportActionRail } from "./ExportActionRail";
-import { useProductsDictionary } from "@/i18n/locale-context";
+import { useCommonDictionary, useProductsDictionary } from "@/i18n/locale-context";
 
 export interface ProductCardBackProps {
   readonly item: ProductAtlasItem;
@@ -13,6 +13,8 @@ export interface ProductCardBackProps {
   readonly isAddedToQuote: boolean;
   readonly onToggleQuote: (item: ProductAtlasItem) => void;
   readonly onClose?: () => void;
+  readonly expanded?: boolean;
+  readonly headingId?: string;
 }
 
 export function ProductCardBack({
@@ -23,10 +25,16 @@ export function ProductCardBack({
   isAddedToQuote,
   onToggleQuote,
   onClose,
+  expanded = false,
+  headingId,
 }: ProductCardBackProps): React.JSX.Element {
   const dictionary = useProductsDictionary();
+  const common = useCommonDictionary();
   return (
-    <section className="export-card-face export-card-back" aria-hidden={!isFlipped}>
+    <section
+      className={`export-card-face export-card-back${expanded ? " is-expanded" : ""}`}
+      aria-hidden={!isFlipped}
+    >
       <header className="export-card-back-head">
         <span className="export-card-code">{code}</span>
         {onClose ? (
@@ -37,7 +45,7 @@ export function ProductCardBack({
               event.stopPropagation();
               onClose();
             }}
-            aria-label="Close card"
+            aria-label={common.actions.close}
           >
             <svg
               width="12"
@@ -57,9 +65,11 @@ export function ProductCardBack({
           <span className="export-card-back-cue" aria-hidden="true">↺</span>
         )}
       </header>
-      <h3 className="export-card-back-title">{item.name}</h3>
-      <p className="export-card-spec-kicker">{dictionary.ui.productSpecifications}</p>
-      <ProductSpecTable item={item} fields={fields} />
+      <div className="export-card-back-identity">
+        <h3 id={headingId} className="export-card-back-title">{item.name}</h3>
+        <p className="export-card-spec-kicker">{dictionary.ui.productSpecifications}</p>
+      </div>
+      <ProductSpecTable item={item} fields={fields} expanded={expanded} />
       <ExportActionRail
         item={item}
         isAddedToQuote={isAddedToQuote}

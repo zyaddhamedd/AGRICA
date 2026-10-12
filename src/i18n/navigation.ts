@@ -52,7 +52,7 @@ export function replaceLocale(href: string, locale: Locale): string {
   return localePath(locale, href);
 }
 
-const produceWorlds = new Set(["fresh", "frozen", "dried"]);
+const produceWorlds = new Set(["fresh", "frozen"]);
 const herbsFamilies = new Set([
   "herbs", "flowers", "seeds", "spices", "roots", "dehydrated-vegetables",
 ]);

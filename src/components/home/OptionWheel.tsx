@@ -108,7 +108,7 @@ function playMechanicalTick(): void {
   }
 }
 
-const DEFAULT_ITEMS = ["Fresh", "Frozen", "Dried"];
+const DEFAULT_ITEMS = ["Fresh", "Frozen"];
 
 export function OptionWheel({
   items = DEFAULT_ITEMS,
@@ -476,8 +476,8 @@ export function OptionWheel({
           let targetIndex = Math.round(curTarget);
 
           // Horizontal swipe:
-          // Swiping left (negative totalDx / vx) advances to next (Fresh -> Frozen -> Dried)
-          // Swiping right (positive totalDx / vx) advances to previous (Dried -> Frozen -> Fresh)
+          // Swiping left (negative totalDx / vx) advances to next (Fresh -> Frozen)
+          // Swiping right (positive totalDx / vx) advances to previous (Frozen -> Fresh)
           if (vx < -0.22 || totalDx < -30) {
             targetIndex = Math.min(
               cfg.count - 1,
@@ -656,7 +656,7 @@ export function OptionWheel({
       ref={rootRef}
       role="listbox"
       tabIndex={0}
-      aria-label="AGRICA Three Worlds Option Wheel"
+      aria-label="AGRICA Export Divisions Option Wheel"
       className={`option-wheel${orientation === "horizontal" ? " option-wheel--horizontal" : ""}${
         side === "right" ? " option-wheel--right" : ""
       }${isDragging ? " option-wheel--dragging" : ""}${className ? ` ${className}` : ""}`}

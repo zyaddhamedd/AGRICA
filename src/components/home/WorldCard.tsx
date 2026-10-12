@@ -55,7 +55,7 @@ export function WorldCard({ world, isFlipped, onFlip }: WorldCardProps): React.J
                 src={world.imgSrc}
                 alt={world.imgAlt}
                 fill
-                sizes="(max-width: 699px) calc(100vw - 40px), (max-width: 1023px) 46vw, 31vw"
+                sizes="(max-width: 699px) calc(100vw - 40px), (max-width: 1023px) 48vw, 500px"
               />
               <span className="world-card-image-wash" aria-hidden="true" />
             </div>

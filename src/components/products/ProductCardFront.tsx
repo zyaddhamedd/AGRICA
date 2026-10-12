@@ -15,7 +15,7 @@ export interface ProductCardFrontProps {
   readonly isCompact?: boolean;
 }
 
-export function ProductCardFront({
+export const ProductCardFront = React.memo(function ProductCardFront({
   item,
   code,
   varietyLine,
@@ -33,8 +33,7 @@ export function ProductCardFront({
         : item.name.length > 8
           ? "medium"
           : "short";
-  const dedicatedImage = productImageFor(item.id) ??
-    (item.id === "produce:grape" ? "/assets/grapes_card.png" : undefined);
+  const dedicatedImage = productImageFor(item.id);
 
   return (
     <section
@@ -81,4 +80,4 @@ export function ProductCardFront({
 
     </section>
   );
-}
+});

@@ -327,13 +327,13 @@
 }
 
 .workflowStepCard {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  padding: 1.25rem 1.6rem;
   cursor: pointer;
   text-align: left;
-  transition: all 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 260ms cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -341,15 +341,15 @@
 }
 
 .workflowStepCard:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.18);
   transform: translateX(4px);
 }
 
 .workflowStepCardActive {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #72c524;
-  box-shadow: 0 10px 28px rgba(0, 16, 40, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(114, 197, 36, 0.6);
+  box-shadow: 0 16px 36px rgba(0, 14, 36, 0.45);
 }
 
 .workflowStepCardActive::before {
@@ -358,8 +358,9 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
+  width: 3px;
   background-color: #72c524;
+  box-shadow: 0 0 12px rgba(114, 197, 36, 0.5);
 }
 
 .stepCardHead {
@@ -370,43 +371,40 @@
 }
 
 .stepCardNumber {
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
   font-weight: 700;
   color: #72c524;
-}
-
-.stepCardSummary {
-  font-size: 0.8rem;
-  color: #94a3b8;
+  text-transform: uppercase;
 }
 
 .stepCardTitle {
   font-size: 1.15rem;
   font-weight: 600;
   color: var(--white);
-  margin: 0 0 0.35rem 0;
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .stepCardDesc {
   font-size: 0.88rem;
-  line-height: 1.5;
-  color: #cbd5e1;
-  margin: 0;
+  line-height: 1.55;
+  color: #94a3b8;
+  margin: 0.45rem 0 0 0;
 }
 
 .workflowStageViewport {
   position: sticky;
   top: clamp(5rem, 10vh, 7rem);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  background: #001837;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #00142e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   min-height: 520px;
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-end;
-  box-shadow: 0 24px 64px rgba(0, 12, 30, 0.5);
+  box-shadow: 0 32px 80px rgba(0, 10, 26, 0.55);
   aspect-ratio: 16 / 12;
   width: 100%;
 }
@@ -425,48 +423,30 @@
   display: block;
 }
 
-.workflowMediaShade {
+.workflowViewportOverlay {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 24, 55, 0.1) 0%,
-    rgba(0, 24, 55, 0.35) 60%,
-    rgba(0, 24, 55, 0.9) 100%
-  );
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 3;
   pointer-events: none;
 }
 
-.workflowViewportOverlay {
-  position: relative;
-  z-index: 2;
-  padding: 2rem clamp(1.5rem, 3vw, 2.5rem);
-}
-
-.workflowTagList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.workflowTag {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--white);
+.stageIndexPill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 18, 44, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #e2e8f0;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 0.3rem 0.65rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(4px);
-}
-
-.workflowStageName {
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--white);
-  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 /* Mobile Vertical Journey (Hidden on desktop) */
