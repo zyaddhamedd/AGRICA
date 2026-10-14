@@ -1,0 +1,22 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:AGRICA
+N:;AGRICA;;;
+ORG:AGRICA
+TITLE:Egyptian Agricultural Exports
+EMAIL;TYPE=INTERNET,WORK:info@agriculturecairo.com
+item1.TEL;TYPE=WORK,VOICE:+201061680854
+item1.X-ABLabel:Cairo
+item2.TEL;TYPE=WORK,VOICE:+15879174538
+item2.X-ABLabel:Calgary
+item3.TEL;TYPE=WORK,VOICE:+31647296978
+item3.X-ABLabel:Den Haag
+item4.ADR;TYPE=WORK:;;Building No. 41\, Heliopolis Gardens\, First Floor\, 
+ Sheraton - El Nozha;Cairo;;;Egypt
+item4.X-ABLabel:Cairo
+item5.ADR;TYPE=WORK:;;PO Box 381 Station M;Calgary;AB;T2P 2H9;Canada
+item5.X-ABLabel:Calgary
+item6.ADR;TYPE=WORK:;;Lange Beestenmarkt;Den Haag;;2512 EG;The Netherlands
+item6.X-ABLabel:Den Haag
+URL:https://www.agriculturecairo.com/en
+END:VCARD
