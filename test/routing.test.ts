@@ -69,4 +69,41 @@ async function verifyRedirects(): Promise<void> {
   console.log("✓ Six permanent English legacy redirects configured");
 }
 
-void verifyRedirects();
+async function verifyHeaders(): Promise<void> {
+  assert.ok(nextConfig.headers, "nextConfig.headers must be defined");
+  const headers = await nextConfig.headers();
+  assert.ok(Array.isArray(headers), "headers must return an array");
+
+  const staticSources = [
+    "/assets/:path*",
+    "/certificates/:path*",
+    "/herbs-background/:path*",
+    "/fonts/:path*",
+    "/_next/static/:path*",
+    "/agrica-logo.png",
+  ];
+
+  for (const src of staticSources) {
+    const entry = headers.find((h) => h.source === src);
+    assert.ok(entry, `Header rule for ${src} must exist`);
+    const cc = entry.headers.find((h) => h.key.toLowerCase() === "cache-control");
+    assert.ok(cc, `Cache-Control header for ${src} must exist`);
+    assert.equal(cc.value, "public, max-age=31536000, immutable");
+  }
+
+  const contactEntry = headers.find((h) => h.source === "/contact/:file(.+\\.(?:pdf|vcf))");
+  assert.ok(contactEntry, "Header rule for contact files must exist");
+  const contactCc = contactEntry?.headers.find((h) => h.key.toLowerCase() === "cache-control");
+  assert.ok(contactCc, "Cache-Control header for contact files must exist");
+  assert.equal(contactCc.value, "public, max-age=3600, must-revalidate");
+
+  console.log("✓ Public static asset cache headers verified");
+  console.log("✓ Mutable contact documents short cache-control verified");
+}
+
+async function main(): Promise<void> {
+  await verifyRedirects();
+  await verifyHeaders();
+}
+
+void main();

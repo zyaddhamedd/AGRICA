@@ -7,11 +7,7 @@ import {
   getHeroForMonth,
   getSeasonDisplayStatus,
   getSeasonalProductsForMonth,
-  HERO_BY_MONTH,
-  nextMonthNumber,
-  previousMonthNumber,
 } from "@/data/seasons";
-import { getActiveSeasonalHeroImagePaths, getSeasonalHeroAsset } from "@/data/seasonalHeroes";
 import { buildProductAtlasItems, toggleQuoteItem } from "@/data/productCatalogue";
 import { useProductsDictionary } from "@/i18n/locale-context";
 import { MonthOrbit } from "./MonthOrbit";
@@ -42,46 +38,11 @@ export function EditorialOrbitExplorer({
   const productsDictionary = useProductsDictionary();
 
   useEffect(() => {
-    setSelectedMonth(currentCairoMonth());
-  }, []);
-
-  // Preload adjacent and idle Seasonal Hero assets so month transitions are instantaneous
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const preloaded = new Set<string>();
-    const preloadImage = (src: string): void => {
-      if (!src || preloaded.has(src)) return;
-      preloaded.add(src);
-      const img = new window.Image();
-      img.src = src;
-    };
-
-    // 1. Immediate priority: Adjacent months (previous and next)
-    const prevMonth = previousMonthNumber(selectedMonth);
-    const nextMonth = nextMonthNumber(selectedMonth);
-    const prevHero = getSeasonalHeroAsset(HERO_BY_MONTH[prevMonth]);
-    const nextHero = getSeasonalHeroAsset(HERO_BY_MONTH[nextMonth]);
-
-    if (!prevHero.isPlaceholder && prevHero.imagePath) preloadImage(prevHero.imagePath);
-    if (!nextHero.isPlaceholder && nextHero.imagePath) preloadImage(nextHero.imagePath);
-
-    // 2. Idle priority: Preload remaining active heroes during browser idle periods
-    const activePaths = getActiveSeasonalHeroImagePaths();
-    const idleCallback =
-      window.requestIdleCallback ||
-      ((cb: () => void) => window.setTimeout(cb, 1200));
-
-    const idleHandle = idleCallback(() => {
-      activePaths.forEach((path) => preloadImage(path));
+    const handle = requestAnimationFrame(() => {
+      setSelectedMonth(currentCairoMonth());
     });
-
-    return () => {
-      if (window.cancelIdleCallback && typeof idleHandle === "number") {
-        window.cancelIdleCallback(idleHandle);
-      }
-    };
-  }, [selectedMonth]);
+    return () => cancelAnimationFrame(handle);
+  }, []);
 
   const hero = getHeroForMonth(selectedMonth);
   const heroName = productNames[hero.productId] ?? hero.productId;

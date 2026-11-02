@@ -18,6 +18,7 @@ import {
   type WorkflowStep,
 } from "@/data/company";
 import styles from "./CompanyPageContent.module.css";
+import { CompanyVideo } from "./CompanyVideo";
 
 // Register ScrollTrigger once on module load
 if (typeof window !== "undefined") {
@@ -209,15 +210,12 @@ export function CompanyPageContent(): React.JSX.Element {
           aria-labelledby="company-hero-title"
         >
           <div className={styles.heroMediaBackdrop} aria-hidden="true">
-            <video
+            <CompanyVideo
               className={styles.heroVideo}
               src={COMPANY_HERO.videoDesktop}
               poster={COMPANY_HERO.poster}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
+              sizes="max(100vw, 151vh)"
+              eager
             />
             <div className={styles.heroVignette} />
           </div>
@@ -271,7 +269,6 @@ export function CompanyPageContent(): React.JSX.Element {
                     fill
                     className={styles.originMainImage}
                     sizes="(max-width: 860px) 100vw, 45vw"
-                    priority
                   />
                 </div>
                 <div className={styles.originCutinImageFrame}>
@@ -377,17 +374,14 @@ export function CompanyPageContent(): React.JSX.Element {
                 >
                   <div className={styles.workflowViewportMedia}>
                     {activeStep.mediaType === "video" ? (
-                      <video
+                      <CompanyVideo
                         key={activeStep.mediaSrc}
                         src={activeStep.mediaSrc}
                         poster={activeStep.posterSrc}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
                         className={styles.workflowMediaElement}
-                        aria-label={activeStep.alt}
+                        label={activeStep.alt}
+                        sizes="60vw"
+                        displayMedia="(min-width: 861px)"
                       />
                     ) : (
                       <Image
@@ -433,16 +427,13 @@ export function CompanyPageContent(): React.JSX.Element {
                   </div>
                   <div className={styles.workflowMobileMediaFrame}>
                     {step.mediaType === "video" ? (
-                      <video
+                      <CompanyVideo
                         src={step.mediaSrc}
                         poster={step.posterSrc}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
                         className={styles.workflowMobileMedia}
-                        aria-label={step.alt}
+                        label={step.alt}
+                        sizes="100vw"
+                        displayMedia="(max-width: 860px)"
                       />
                     ) : (
                       <Image
@@ -472,16 +463,12 @@ export function CompanyPageContent(): React.JSX.Element {
           <div className={styles.sectionContainer}>
             <div className={styles.qualityGrid}>
               <div className={styles.qualityMediaWrapper}>
-                <video
+                <CompanyVideo
                   src={COMPANY_QUALITY.videoSrc}
                   poster={COMPANY_QUALITY.videoPoster}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
                   className={styles.qualityVideo}
-                  aria-label={COMPANY_QUALITY.videoAlt}
+                  label={COMPANY_QUALITY.videoAlt}
+                  sizes="(max-width: 860px) 100vw, 50vw"
                 />
               </div>
 
@@ -596,16 +583,12 @@ export function CompanyPageContent(): React.JSX.Element {
 
               <div className={styles.logisticsMediaCol}>
                 <div className={styles.logisticsMediaWrapper}>
-                  <video
+                  <CompanyVideo
                     src={COMPANY_LOGISTICS.videoSrc}
                     poster={COMPANY_LOGISTICS.videoPoster}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
                     className={styles.logisticsVideo}
-                    aria-label={COMPANY_LOGISTICS.videoAlt}
+                    label={COMPANY_LOGISTICS.videoAlt}
+                    sizes="(max-width: 860px) 100vw, 50vw"
                   />
                 </div>
               </div>

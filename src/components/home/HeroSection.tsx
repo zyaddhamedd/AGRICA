@@ -7,7 +7,7 @@ import { GlobalMenu } from "@/components/common/GlobalMenu";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { BusinessDivisionSwitcher } from "@/components/common/BusinessDivisionSwitcher";
 import { useNavbarScrollVisibility } from "@/components/common/useNavbarScrollVisibility";
-import { useCommonDictionary, useHomeDictionary, useLocale } from "@/i18n/locale-context";
+import { useCommonDictionary, useLocale } from "@/i18n/locale-context";
 
 interface HeroMediaItem {
   readonly id: string;
@@ -64,7 +64,7 @@ const HERO_MEDIA_ITEMS: readonly HeroMediaItem[] = [
     title: "Harvest",
     poster: "/assets/hero/hero-01-origin-poster.avif",
     posterWebp: "/assets/hero/hero-01-origin-poster.webp",
-    posterFallback: "/assets/hero/hero_keyframe_01_origin.png",
+    posterFallback: "/assets/hero/hero-01-origin-poster.webp",
     video: "/assets/hero/hero-01-origin.mp4",
   },
   {
@@ -72,7 +72,7 @@ const HERO_MEDIA_ITEMS: readonly HeroMediaItem[] = [
     title: "Processing",
     poster: "/assets/hero/hero_02_processing_poster.avif",
     posterWebp: "/assets/hero/hero_02_processing_poster.webp",
-    posterFallback: "/assets/hero/hero_02_processing_poster.png",
+    posterFallback: "/assets/hero/hero_02_processing_poster.webp",
     video: "/assets/hero/hero_02_processing_final.mp4",
   },
   {
@@ -80,7 +80,7 @@ const HERO_MEDIA_ITEMS: readonly HeroMediaItem[] = [
     title: "Packing",
     poster: "/assets/hero/hero_03_packing_poster.avif",
     posterWebp: "/assets/hero/hero_03_packing_poster.webp",
-    posterFallback: "/assets/hero/hero_03_packing_poster.png",
+    posterFallback: "/assets/hero/hero_03_packing_poster.webp",
     video: "/assets/hero/hero_03_packing_final.mp4",
   },
   {
@@ -88,7 +88,7 @@ const HERO_MEDIA_ITEMS: readonly HeroMediaItem[] = [
     title: "Shipping",
     poster: "/assets/hero/hero_04_shipping_poster.avif",
     posterWebp: "/assets/hero/hero_04_shipping_poster.webp",
-    posterFallback: "/assets/REF_HERO/Agrica Loading Dock Operations (1).png",
+    posterFallback: "/assets/hero/hero_04_shipping_poster.webp",
     video: "/assets/hero/hero_04_shipping_final.mp4",
   },
 ];
@@ -112,7 +112,6 @@ const HERO_CTA_LABELS: Record<string, string> = {
 export function HeroSection(): React.JSX.Element {
   const locale = useLocale();
   const common = useCommonDictionary();
-  const dictionary = useHomeDictionary().hero;
 
   const [activeIndex, setActiveIndex] = useState(0); // Begin the four-film journey with Harvest
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -125,6 +124,26 @@ export function HeroSection(): React.JSX.Element {
   });
   const [isHovered, setIsHovered] = useState(false);
   const [playingMap, setPlayingMap] = useState<Record<number, boolean>>({});
+
+  // Deferred video source attachment & visibility gating
+  const [attachedSet, setAttachedSet] = useState<Set<number>>(() => new Set([0]));
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
+  const [isDocumentVisible, setIsDocumentVisible] = useState(true);
+
+  const attachVideo = useCallback((index: number) => {
+    setAttachedSet((prev) => {
+      if (prev.has(index)) return prev;
+      const next = new Set(prev);
+      next.add(index);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      attachVideo(activeIndex);
+    });
+  }, [activeIndex, attachVideo]);
 
   const heroRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -185,80 +204,139 @@ export function HeroSection(): React.JSX.Element {
   const itemCount = HERO_MEDIA_ITEMS.length;
 
   const goToPrev = useCallback(() => {
-    setActiveIndex((prev) => (prev - 1 + itemCount) % itemCount);
-  }, [itemCount]);
+    setActiveIndex((prev) => {
+      const nextIndex = (prev - 1 + itemCount) % itemCount;
+      attachVideo(nextIndex);
+      return nextIndex;
+    });
+  }, [itemCount, attachVideo]);
 
   const goToNext = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % itemCount);
-  }, [itemCount]);
+    setActiveIndex((prev) => {
+      const nextIndex = (prev + 1) % itemCount;
+      attachVideo(nextIndex);
+      return nextIndex;
+    });
+  }, [itemCount, attachVideo]);
 
-  // Video playback management: play active video when hero is visible
+  // 1. Unified IntersectionObserver & visibilitychange listener
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
 
-    let isHeroVisible = true;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const syncVideos = () => {
-      videoRefs.current.forEach((video, idx) => {
-        if (!video) return;
-        video.defaultMuted = true;
-        video.muted = true;
-
-        if (idx === activeIndex && isHeroVisible && !document.hidden && !reducedMotion) {
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                setPlayingMap((prev) => ({ ...prev, [idx]: true }));
-              })
-              .catch(() => {
-                // Autoplay blocked or interrupted; poster remains gracefully visible
-              });
-          }
-        } else {
-          video.pause();
-          video.currentTime = 0;
-          setPlayingMap((prev) => ({ ...prev, [idx]: false }));
-        }
-      });
-    };
-
     const observer = new IntersectionObserver(
       ([entry]) => {
-        isHeroVisible = entry.isIntersecting;
-        syncVideos();
+        setIsHeroVisible(entry.isIntersecting);
       },
       { threshold: 0.05 }
     );
-
     observer.observe(hero);
 
-    const handleVisibility = () => syncVideos();
+    const handleVisibility = () => {
+      setIsDocumentVisible(!document.hidden);
+    };
     document.addEventListener("visibilitychange", handleVisibility);
-
-    syncVideos();
 
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", handleVisibility);
-      videoRefs.current.forEach((v) => v?.pause());
     };
-  }, [activeIndex]);
+  }, []);
 
-  // Restrained auto-advance timer for film reel (every 7s when idle)
+  // 2. Video Playback & Lifecycle
   useEffect(() => {
-    if (isHovered) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const connection = (navigator as Navigator & {
+      connection?: { readonly saveData?: boolean };
+    }).connection;
+
+    videoRefs.current.forEach((video, idx) => {
+      if (!video) return;
+      const isActive = idx === activeIndex;
+      const isAttached = attachedSet.has(idx) || isActive;
+
+      if (isActive && isAttached && isHeroVisible && isDocumentVisible && !reducedMotion && !connection?.saveData) {
+        video.defaultMuted = true;
+        video.muted = true;
+        if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) {
+          video.load();
+        }
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Autoplay blocked or interrupted; poster remains gracefully visible
+          });
+        }
+      } else {
+        if (!video.paused) {
+          video.pause();
+        }
+        if (!isActive) {
+          video.currentTime = 0;
+        }
+      }
+    });
+  }, [activeIndex, attachedSet, isHeroVisible, isDocumentVisible]);
+
+  // 3. Event listeners for zero-black-frame cross-fading
+  useEffect(() => {
+    const unbinds: (() => void)[] = [];
+
+    videoRefs.current.forEach((video, idx) => {
+      if (!video) return;
+
+      const onPlaying = () => {
+        setPlayingMap((prev) => (prev[idx] ? prev : { ...prev, [idx]: true }));
+      };
+      const onPausedOrWaiting = () => {
+        setPlayingMap((prev) => (!prev[idx] ? prev : { ...prev, [idx]: false }));
+      };
+
+      video.addEventListener("playing", onPlaying);
+      video.addEventListener("pause", onPausedOrWaiting);
+      video.addEventListener("waiting", onPausedOrWaiting);
+      video.addEventListener("emptied", onPausedOrWaiting);
+
+      unbinds.push(() => {
+        video.removeEventListener("playing", onPlaying);
+        video.removeEventListener("pause", onPausedOrWaiting);
+        video.removeEventListener("waiting", onPausedOrWaiting);
+        video.removeEventListener("emptied", onPausedOrWaiting);
+      });
+    });
+
+    return () => {
+      unbinds.forEach((fn) => fn());
+    };
+  }, [attachedSet]);
+
+  // 4. Restrained auto-advance timer for film reel (every 7s when idle)
+  // Suspends when offscreen, backgrounded, hovered, menu open, or reduced motion
+  useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reducedMotion) return;
+    if (isHovered || isMenuOpen || !isHeroVisible || !isDocumentVisible) return;
 
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % itemCount);
+    // Lead warming: attach next video at 5.5s (1.5s prior to transition)
+    const warmTimer = setTimeout(() => {
+      const nextIndex = (activeIndex + 1) % itemCount;
+      attachVideo(nextIndex);
+    }, 5500);
+
+    // Auto-advance transition at 7.0s
+    const advanceTimer = setTimeout(() => {
+      setActiveIndex((prev) => {
+        const nextIndex = (prev + 1) % itemCount;
+        attachVideo(nextIndex);
+        return nextIndex;
+      });
     }, 7000);
 
-    return () => clearInterval(timer);
-  }, [isHovered, itemCount]);
+    return () => {
+      clearTimeout(warmTimer);
+      clearTimeout(advanceTimer);
+    };
+  }, [activeIndex, isHovered, isMenuOpen, isHeroVisible, isDocumentVisible, itemCount, attachVideo]);
 
   // Touch swipe support for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -442,6 +520,7 @@ export function HeroSection(): React.JSX.Element {
               type="button"
               className="hero-carousel-nav-btn hero-carousel-nav-btn--prev"
               onClick={goToPrev}
+              onMouseEnter={() => attachVideo((activeIndex - 1 + itemCount) % itemCount)}
               aria-label="Previous clip"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -453,6 +532,7 @@ export function HeroSection(): React.JSX.Element {
             <div className="hero-cards-row">
               {HERO_MEDIA_ITEMS.map((item, index) => {
                 const isActive = index === activeIndex;
+                const isAttached = attachedSet.has(index) || isActive;
                 const distance = Math.min(
                   Math.abs(index - activeIndex),
                   itemCount - Math.abs(index - activeIndex)
@@ -475,7 +555,12 @@ export function HeroSection(): React.JSX.Element {
                     className={`hero-card-item${
                       isActive ? " hero-card-item--active" : ""
                     }${isOuter ? " hero-card-item--outer" : ""}${positionClass}`}
-                    onClick={() => setActiveIndex(index)}
+                    onClick={() => {
+                      attachVideo(index);
+                      setActiveIndex(index);
+                    }}
+                    onMouseEnter={() => attachVideo(index)}
+                    onFocus={() => attachVideo(index)}
                     aria-current={isActive ? "true" : undefined}
                     aria-label={item.title}
                   >
@@ -487,13 +572,12 @@ export function HeroSection(): React.JSX.Element {
                         className={`hero-card-video${
                           isPlaying ? " is-playing" : ""
                         }`}
-                        poster={item.poster}
                         loop
                         muted
                         playsInline
-                        preload="metadata"
+                        preload={isAttached ? "metadata" : "none"}
                       >
-                        <source src={item.video} type="video/mp4" />
+                        {isAttached && <source src={item.video} type="video/mp4" />}
                       </video>
                       <picture className="hero-card-poster" aria-hidden="true">
                         <source srcSet={item.poster} type="image/avif" />
@@ -507,6 +591,7 @@ export function HeroSection(): React.JSX.Element {
                           aria-hidden="true"
                           decoding="async"
                           fetchPriority={index === 0 ? "high" : "auto"}
+                          loading={index === 0 ? "eager" : "lazy"}
                         />
                       </picture>
                       <span className="hero-card-label" aria-hidden="true">
@@ -524,6 +609,7 @@ export function HeroSection(): React.JSX.Element {
               type="button"
               className="hero-carousel-nav-btn hero-carousel-nav-btn--next"
               onClick={goToNext}
+              onMouseEnter={() => attachVideo((activeIndex + 1) % itemCount)}
               aria-label="Next clip"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -550,7 +636,11 @@ export function HeroSection(): React.JSX.Element {
                   className={`hero-page-pill ${
                     isActive ? "hero-page-pill--active" : "hero-page-pill--idle"
                   }`}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => {
+                    attachVideo(index);
+                    setActiveIndex(index);
+                  }}
+                  onMouseEnter={() => attachVideo(index)}
                 />
               );
             })}

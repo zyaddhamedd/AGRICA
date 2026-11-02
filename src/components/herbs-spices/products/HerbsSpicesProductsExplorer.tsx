@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import type { HerbsSpicesCatalogueItem, HerbsSpicesFamily } from "@/types/herbs-spices";
+import { isHerbsSpicesFamilyId } from "@/data/herbs-spices/catalogue";
 import { DIVISION_REGISTRY } from "@/divisions/registry";
 import { useCommonDictionary, useHerbsSpicesDictionary, useLocale } from "@/i18n/locale-context";
 import { localePath } from "@/i18n/navigation";
@@ -38,7 +38,6 @@ export function HerbsSpicesProductsExplorer({
   families,
   initialFamily,
 }: HerbsSpicesProductsExplorerProps): React.JSX.Element {
-  const router = useRouter();
   const locale = useLocale();
   const common = useCommonDictionary();
   const dictionary = useHerbsSpicesDictionary();
@@ -61,6 +60,13 @@ export function HerbsSpicesProductsExplorer({
   );
 
   const [activeFamily, setActiveFamily] = useState<FamilySelection>(initialFamily);
+  const [prevInitialFamily, setPrevInitialFamily] = useState<FamilySelection>(initialFamily);
+
+  if (initialFamily !== prevInitialFamily) {
+    setPrevInitialFamily(initialFamily);
+    setActiveFamily(initialFamily);
+  }
+
   const [query, setQuery] = useState("");
   const [expandedId, setExpandedId] = useState<HerbsSpicesCatalogueItem["id"] | null>(null);
   const [selectedIds, setSelectedIds] = useState<readonly HerbsSpicesCatalogueItem["id"][]>([]);
@@ -68,9 +74,17 @@ export function HerbsSpicesProductsExplorer({
   const dockRef = useRef<HTMLButtonElement>(null);
   const activeTriggerRef = useRef<string | null>(null);
 
+  // Synchronize browser back/forward history navigation without server RSC roundtrips
   useEffect(() => {
-    setActiveFamily(initialFamily);
-  }, [initialFamily]);
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const familyParam = params.get("family");
+      const targetFamily = isHerbsSpicesFamilyId(familyParam) ? familyParam : "all";
+      setActiveFamily(targetFamily);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   const visibleItems = useMemo(() => {
     return localizedCatalogue.filter((item) => itemMatchesView(item, activeFamily, query));
@@ -110,11 +124,15 @@ export function HerbsSpicesProductsExplorer({
   }, []);
 
   const changeFamily = (family: FamilySelection) => {
+    if (family === activeFamily) return;
     setActiveFamily(family);
     const productsPath = DIVISION_REGISTRY["herbs-spices"].routes.products;
     const semanticPath =
       family === "all" ? productsPath : `${productsPath}?family=${encodeURIComponent(family)}`;
-    router.push(localePath(locale, semanticPath), { scroll: false });
+    const targetUrl = localePath(locale, semanticPath);
+    if (typeof window !== "undefined") {
+      window.history.pushState({ family }, "", targetUrl);
+    }
   };
 
   const changeQuery = (value: string) => {

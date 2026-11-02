@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src next.config.ts",
     "typecheck": "tsc --noEmit",
     "test:catalogue": "tsx test/catalogue.test.ts",
     "test:products": "tsx test/products.test.ts",
@@ -27,7 +27,13 @@
     "test:phase3b-browser": "node test/phase3b-browser.test.mjs",
     "test:products-browser": "node test/products-browser.test.mjs",
     "test:herbs-spices": "tsx test/herbs-spices-catalogue.test.ts",
-    "test:herbs-spices-process": "tsx test/herbs-spices-process.test.ts"
+    "test:herbs-spices-process": "tsx test/herbs-spices-process.test.ts",
+    "test:e2e": "node test/run-e2e.mjs --all",
+    "test:e2e:tier1": "node test/run-e2e.mjs --tier 1",
+    "test:e2e:tier2": "node test/run-e2e.mjs --tier 2",
+    "test:e2e:tier3": "node test/run-e2e.mjs --tier 3",
+    "test:e2e:tier4": "node test/run-e2e.mjs --tier 4",
+    "test:browser-qa": "node test/browser-qa-m5-verification.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",
@@ -41,6 +47,8 @@
     "@types/node": "^22.13.9",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.4",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }

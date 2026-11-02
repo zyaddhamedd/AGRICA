@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { JourneyStage } from "@/types/agrica";
 import { useCommonDictionary, useStandardDictionary } from "@/i18n/locale-context";
+import { getStageMedia } from "./standardStageMedia";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -112,6 +113,7 @@ export function StandardFinalStageBlock({
   }, []);
 
   const journeySteps = standard.produce.ui.completionSteps.map((label, stepIndex) => ({ label, isFinal:stepIndex === 5 }));
+  const media = getStageMedia(stage.id, stage.imageSrc);
 
   return (
     <section
@@ -193,12 +195,25 @@ export function StandardFinalStageBlock({
         {/* Stage Dominant Visual Column */}
         <div className="stage-visual-col final-visual-col">
           <div ref={mediaRef} className="stage-visual-wrap final-visual-wrap">
-            <img
-              src={stage.imageSrc ?? "/assets/season_crop_4.png"}
-              alt={standard.produce.stages[stage.id].imageAlt}
-              className="stage-visual-img"
-              loading="lazy"
-            />
+            <picture style={{ display: "contents" }}>
+              {media.srcSet ? (
+                <source
+                  type="image/webp"
+                  srcSet={media.srcSet}
+                  sizes={media.sizes}
+                />
+              ) : null}
+              <img
+                src={stage.imageSrc ?? media.fallbackSrc}
+                alt={standard.produce.stages[stage.id]?.imageAlt ?? stage.name}
+                className="stage-visual-img"
+                loading="lazy"
+                decoding="async"
+                fetchPriority="auto"
+                width={media.width}
+                height={media.height}
+              />
+            </picture>
             <span className="stage-status-tag final-status-tag">{standard.produce.ui.exportCleared}</span>
           </div>
         </div>

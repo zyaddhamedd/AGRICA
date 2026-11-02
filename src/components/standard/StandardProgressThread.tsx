@@ -1,37 +1,118 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import type { JourneyStage } from "@/types/agrica";
 import { useStandardDictionary } from "@/i18n/locale-context";
 
 export function StandardProgressThread({ stages }: { readonly stages: readonly JourneyStage[] }): React.JSX.Element {
   const ui = useStandardDictionary().produce.ui;
   const [activeStageIndex, setActiveStageIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+  const rafIdRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || stages.length === 0) return;
 
-    const handleScroll = () => {
-      const stageElements = stages.map((s, idx) => {
+    // In-memory cache of document vertical offsets (top coordinates) and viewport height
+    let cachedTops: number[] = new Array(stages.length).fill(0);
+    let cachedViewportHeight = window.innerHeight;
+
+    const measureGeometries = () => {
+      cachedViewportHeight = window.innerHeight;
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+      cachedTops = stages.map((s, idx) => {
         const num = idx < 9 ? `0${idx + 1}` : `${idx + 1}`;
-        return document.getElementById(`stage-${s.id}`) || document.getElementById(`stage-${num}`);
+        const el = document.getElementById(`stage-${s.id}`) || document.getElementById(`stage-${num}`);
+        if (!el) return 0;
+        const rect = el.getBoundingClientRect();
+        return rect.top + scrollY;
       });
-
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      const triggerPoint = scrollY + viewportHeight * 0.4;
-
-      let currentIndex = 0;
-      stageElements.forEach((el, idx) => {
-        if (el && el.offsetTop <= triggerPoint) {
-          currentIndex = idx;
-        }
-      });
-
-      setActiveStageIndex(currentIndex);
     };
 
+    const updateActiveStage = () => {
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      const triggerPoint = scrollY + cachedViewportHeight * 0.4;
+
+      let currentIndex = 0;
+      for (let i = 0; i < cachedTops.length; i++) {
+        const top = cachedTops[i];
+        if (top > 0 && top <= triggerPoint) {
+          currentIndex = i;
+        }
+      }
+
+      if (currentIndex !== activeIndexRef.current) {
+        activeIndexRef.current = currentIndex;
+        setActiveStageIndex(currentIndex);
+      }
+    };
+
+    const handleScroll = () => {
+      if (rafIdRef.current === null) {
+        rafIdRef.current = window.requestAnimationFrame(() => {
+          rafIdRef.current = null;
+          updateActiveStage();
+        });
+      }
+    };
+
+    let resizeRafId: number | null = null;
+    const handleResize = () => {
+      if (resizeRafId === null) {
+        resizeRafId = window.requestAnimationFrame(() => {
+          resizeRafId = null;
+          measureGeometries();
+          updateActiveStage();
+        });
+      }
+    };
+
+    // Initial measurement scheduled in animation frame to avoid synchronous layout reads during mount
+    const initialRaf = window.requestAnimationFrame(() => {
+      measureGeometries();
+      updateActiveStage();
+    });
+
+    // Observe stage element geometry updates (e.g. image loads, responsive reflows)
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => {
+        handleResize();
+      });
+
+      stages.forEach((s, idx) => {
+        const num = idx < 9 ? `0${idx + 1}` : `${idx + 1}`;
+        const el = document.getElementById(`stage-${s.id}`) || document.getElementById(`stage-${num}`);
+        if (el) ro?.observe(el);
+      });
+    }
+
+    // Font loading safeguard: measure again if web fonts shift line heights or block sizes
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        measureGeometries();
+        updateActiveStage();
+      }).catch(() => {
+        // Fallback gracefully if fonts.ready rejects
+      });
+    }
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    return () => {
+      if (rafIdRef.current !== null) {
+        window.cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+      if (resizeRafId !== null) {
+        window.cancelAnimationFrame(resizeRafId);
+        resizeRafId = null;
+      }
+      window.cancelAnimationFrame(initialRaf);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+      ro?.disconnect();
+    };
   }, [stages]);
 
   const activeStage = stages[activeStageIndex] ?? stages[0];

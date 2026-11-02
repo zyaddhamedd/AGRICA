@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import React from "react";
+import React, { Suspense } from "react";
 import { HerbsSpicesProductsExplorer } from "@/components/herbs-spices/products/HerbsSpicesProductsExplorer";
 import { HERBS_SPICES_CATALOGUE, HERBS_SPICES_FAMILIES, isHerbsSpicesFamilyId } from "@/data/herbs-spices/catalogue";
 import styles from "@/app/herbs-spices/products/page.module.css";
@@ -12,6 +12,23 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+async function HerbsSpicesCatalogueBridge({
+  searchParams,
+}: {
+  readonly searchParams: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<React.JSX.Element> {
+  const requestedFamily = (await searchParams).family;
+  const initialFamily = isHerbsSpicesFamilyId(requestedFamily) ? requestedFamily : "all";
+  return (
+    <HerbsSpicesProductsExplorer
+      key={initialFamily}
+      catalogue={HERBS_SPICES_CATALOGUE}
+      families={HERBS_SPICES_FAMILIES}
+      initialFamily={initialFamily}
+    />
+  );
+}
+
 export default async function HerbsSpicesProductsPage({
   params,
   searchParams,
@@ -19,9 +36,8 @@ export default async function HerbsSpicesProductsPage({
   readonly params: Promise<{ lang: Locale }>;
   readonly searchParams: Promise<Record<string, string | string[] | undefined>>;
 }): Promise<React.JSX.Element> {
-  const requestedFamily = (await searchParams).family;
-  const initialFamily = isHerbsSpicesFamilyId(requestedFamily) ? requestedFamily : "all";
-  const dictionary = (await getDictionary((await params).lang)).herbsSpices.catalogue;
+  const { lang } = await params;
+  const dictionary = (await getDictionary(lang)).herbsSpices.catalogue;
 
   return (
     <main className={styles.page}>
@@ -61,11 +77,17 @@ export default async function HerbsSpicesProductsPage({
       </header>
 
       <div className={styles.catalogueWrapper}>
-        <HerbsSpicesProductsExplorer
-          catalogue={HERBS_SPICES_CATALOGUE}
-          families={HERBS_SPICES_FAMILIES}
-          initialFamily={initialFamily}
-        />
+        <Suspense
+          fallback={
+            <HerbsSpicesProductsExplorer
+              catalogue={HERBS_SPICES_CATALOGUE}
+              families={HERBS_SPICES_FAMILIES}
+              initialFamily="all"
+            />
+          }
+        >
+          <HerbsSpicesCatalogueBridge searchParams={searchParams} />
+        </Suspense>
       </div>
     </main>
   );

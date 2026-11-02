@@ -5,6 +5,7 @@
 .yarn/install-state.gz
 
 # Next.js build output
+/.vercel/
 /.next/
 /out/
 
@@ -31,6 +32,8 @@ debug.log
 scratch/
 scratch_*.js
 *chrome*profile*
+.agents/
+.tmp/
 assets/AGRICA company profile images/
 assets/drone_tracking.mp4
 
@@ -43,3 +46,5 @@ Thumbs.db
 # IDE metadata
 .vscode/
 .idea/
+.vercel
+.env*

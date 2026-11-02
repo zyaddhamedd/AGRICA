@@ -954,6 +954,10 @@
   overflow: hidden;
   border-radius: 0 0 21px 21px;
   background-image: url("/assets/three-worlds.png");
+  background-image: image-set(
+    url("/assets/three-worlds.webp") type("image/webp"),
+    url("/assets/three-worlds.png") type("image/png")
+  );
   background-position: 0 70%;
   background-repeat: no-repeat;
   background-size: 300% auto;
@@ -985,6 +989,10 @@
 .export-card-visual[data-visual="lemon"],
 .export-card-visual[data-visual="potato"] {
   background-image: url("/assets/product-atlas.png");
+  background-image: image-set(
+    url("/assets/product-atlas.webp") type("image/webp"),
+    url("/assets/product-atlas.png") type("image/png")
+  );
   background-position-y: 56%;
 }
 
@@ -1626,6 +1634,10 @@ html[dir="rtl"] .export-card-back.is-expanded .enquiry-notch {
   height: 240px;
   background-color: var(--world-surface);
   background-image: url("/assets/product-atlas.png");
+  background-image: image-set(
+    url("/assets/product-atlas.webp") type("image/webp"),
+    url("/assets/product-atlas.png") type("image/png")
+  );
   background-size: 300% 100%;
   background-position: 0 50%;
   background-repeat: no-repeat;
@@ -1635,8 +1647,22 @@ html[dir="rtl"] .export-card-back.is-expanded .enquiry-notch {
 
 .sheet-media[data-visual="lemon"] { background-position: 50% 50%; }
 .sheet-media[data-visual="potato"] { background-position: 100% 50%; }
-.sheet-media[data-visual^="fresh-"] { background-image: url("/assets/three-worlds.png"); background-position: 0 50%; }
-.sheet-media[data-visual^="frozen-"] { background-image: url("/assets/three-worlds.png"); background-position: 50% 50%; }
+.sheet-media[data-visual^="fresh-"] {
+  background-image: url("/assets/three-worlds.png");
+  background-image: image-set(
+    url("/assets/three-worlds.webp") type("image/webp"),
+    url("/assets/three-worlds.png") type("image/png")
+  );
+  background-position: 0 50%;
+}
+.sheet-media[data-visual^="frozen-"] {
+  background-image: url("/assets/three-worlds.png");
+  background-image: image-set(
+    url("/assets/three-worlds.webp") type("image/webp"),
+    url("/assets/three-worlds.png") type("image/png")
+  );
+  background-position: 50% 50%;
+}
 
 .sheet-tag {
   position: absolute;

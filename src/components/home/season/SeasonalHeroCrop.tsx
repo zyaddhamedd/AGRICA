@@ -188,7 +188,7 @@ export function SeasonalHeroCrop({
               fill
               sizes="(max-width: 640px) 260px, (max-width: 1024px) 340px, 400px"
               className={styles.heroImageCutout}
-              priority={true}
+              loading="lazy"
             />
           </div>
         ) : (

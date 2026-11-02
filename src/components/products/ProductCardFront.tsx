@@ -13,6 +13,7 @@ export interface ProductCardFrontProps {
   readonly isFlipped: boolean;
   readonly onToggleQuote: (item: ProductAtlasItem) => void;
   readonly isCompact?: boolean;
+  readonly loading?: "lazy" | "eager";
 }
 
 export const ProductCardFront = React.memo(function ProductCardFront({
@@ -23,6 +24,7 @@ export const ProductCardFront = React.memo(function ProductCardFront({
   isFlipped,
   onToggleQuote,
   isCompact = false,
+  loading = "lazy",
 }: ProductCardFrontProps): React.JSX.Element {
   const dictionary = useProductsDictionary();
   const titleSize =
@@ -68,7 +70,7 @@ export const ProductCardFront = React.memo(function ProductCardFront({
             src={dedicatedImage}
             alt={dictionary.products[item.id]?.imageAlt ?? item.name}
             fill
-            loading={isCompact ? "eager" : undefined}
+            loading={loading}
             sizes={
               isCompact
                 ? "(max-width: 640px) 25vw, (max-width: 1024px) 22vw, 15vw"

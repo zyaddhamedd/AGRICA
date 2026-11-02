@@ -72,6 +72,7 @@ const useImageLoader = (
 
 const useAnimationLoop = (
   trackRef: React.RefObject<HTMLDivElement | null>,
+  containerRef: React.RefObject<HTMLDivElement | null>,
   targetVelocity: number,
   seqWidth: number,
   seqHeight: number,
@@ -86,6 +87,7 @@ const useAnimationLoop = (
 
   useEffect(() => {
     const track = trackRef.current;
+    const container = containerRef.current;
     if (!track) return;
 
     const seqSize = isVertical ? seqHeight : seqWidth;
@@ -98,7 +100,23 @@ const useAnimationLoop = (
       track.style.transform = transformValue;
     }
 
+    let isIntersecting = true;
+    let isDocumentVisible = typeof document !== "undefined" ? !document.hidden : true;
+    let isReducedMotion = false;
+
+    if (typeof window !== "undefined" && window.matchMedia) {
+      isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    const isRunning = () => isIntersecting && isDocumentVisible && !isReducedMotion && seqSize > 0;
+
     const animate = (timestamp: number) => {
+      if (!isRunning()) {
+        rafRef.current = null;
+        lastTimestampRef.current = null;
+        return;
+      }
+
       if (lastTimestampRef.current === null) {
         lastTimestampRef.current = timestamp;
       }
@@ -125,16 +143,78 @@ const useAnimationLoop = (
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    rafRef.current = requestAnimationFrame(animate);
+    const start = () => {
+      if (rafRef.current !== null) return;
+      if (!isRunning()) return;
+      lastTimestampRef.current = null;
+      rafRef.current = requestAnimationFrame(animate);
+    };
 
-    return () => {
+    const stop = () => {
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef]);
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof window !== "undefined" && "IntersectionObserver" in window && container) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry) return;
+          isIntersecting = entry.isIntersecting;
+          if (entry.isIntersecting) {
+            start();
+          } else {
+            stop();
+          }
+        },
+        { rootMargin: "100px 0px" }
+      );
+      observer.observe(container);
+    } else {
+      start();
+    }
+
+    const handleVisibilityChange = () => {
+      isDocumentVisible = typeof document !== "undefined" ? !document.hidden : true;
+      if (isDocumentVisible) {
+        start();
+      } else {
+        stop();
+      }
+    };
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+    }
+
+    let motionQuery: MediaQueryList | null = null;
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      isReducedMotion = e.matches;
+      if (e.matches) {
+        stop();
+      } else {
+        start();
+      }
+    };
+    if (typeof window !== "undefined" && window.matchMedia) {
+      motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      motionQuery.addEventListener("change", handleMotionChange);
+    }
+
+    return () => {
+      stop();
+      if (observer) observer.disconnect();
+      if (typeof document !== "undefined") {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+      }
+      if (motionQuery) {
+        motionQuery.removeEventListener("change", handleMotionChange);
+      }
+    };
+  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef, containerRef]);
 };
 
 export interface LogoItem {
@@ -245,7 +325,7 @@ export const LogoLoop: React.FC<LogoLoopProps> = memo(
 
     useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight, isVertical]);
 
-    useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical);
+    useAnimationLoop(trackRef, containerRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical);
 
     const cssVariables = useMemo(
       () =>

@@ -11,6 +11,8 @@ export interface AccordionGalleryItem {
   alt?: string;
   sublabel?: string;
   index?: string;
+  sizes?: string;
+  srcSet?: string;
   [key: string]: unknown;
 }
 
@@ -35,6 +37,9 @@ export interface AccordionGalleryProps {
   grayscale?: boolean;
   className?: string;
   onSelect?: (index: number) => void;
+  loading?: "lazy" | "eager";
+  sizes?: string;
+  mediaQuery?: string;
 }
 
 const DEFAULT_ITEMS: AccordionGalleryItem[] = [
@@ -86,6 +91,9 @@ export default function AccordionGallery({
   grayscale = true,
   className = "",
   onSelect,
+  loading = "lazy",
+  sizes = "(max-width: 768px) 1px, (max-width: 1200px) 50vw, 33vw",
+  mediaQuery = "(max-width: 768px)",
 }: AccordionGalleryProps): React.JSX.Element {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const panelRefs = useRef<(HTMLElement | null)[]>([]);
@@ -315,12 +323,26 @@ export default function AccordionGallery({
                   mediaRefs.current[i] = el;
                 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.image}
-                  alt={item.alt || item.label || ""}
-                  draggable={false}
-                />
+                <picture className="ag-panel__picture" style={{ display: "contents" }}>
+                  {mediaQuery && (
+                    <source
+                      media={mediaQuery}
+                      srcSet="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E"
+                    />
+                  )}
+                  {item.srcSet && (
+                    <source srcSet={item.srcSet} sizes={item.sizes || sizes} />
+                  )}
+                  <img
+                    src={item.image}
+                    alt={item.alt || item.label || ""}
+                    loading={loading}
+                    decoding="async"
+                    sizes={item.sizes || sizes}
+                    draggable={false}
+                    className="ag-panel__image"
+                  />
+                </picture>
               </span>
               <span className="ag-panel__overlay" aria-hidden="true" />
             </span>

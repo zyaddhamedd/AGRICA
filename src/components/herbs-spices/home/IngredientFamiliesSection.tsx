@@ -70,6 +70,9 @@ export function IngredientFamiliesSection(): React.JSX.Element {
             textColor="#ffffff"
             grayscale={true}
             showLabels={true}
+            loading="lazy"
+            mediaQuery="(max-width: 768px)"
+            sizes="(max-width: 768px) 1px, (max-width: 1200px) 50vw, 33vw"
             onSelect={(idx) => setActiveFamilyIndex(idx)}
           />
 
@@ -131,6 +134,7 @@ export function IngredientFamiliesSection(): React.JSX.Element {
                     entry={mediaEntry}
                     alt={`${family.name} botanical family`}
                     fallback={emptyFallback}
+                    sizes="(max-width: 768px) calc(100vw - 2.5rem), 0px"
                   />
                   <div className={styles.mobileMediaOverlay} />
                   <div className={styles.mobileBadge}>

@@ -11,6 +11,11 @@ export function IngredientFormsSection(): React.JSX.Element {
   const staticIntro = HERBS_SPICES_HOMEPAGE.formsIntro;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isDocumentVisible, setIsDocumentVisible] = useState(true);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const touchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const formItems = forms.map((form) => {
     const media =
@@ -37,16 +42,58 @@ export function IngredientFormsSection(): React.JSX.Element {
     powder: styles.specimenImagePowder,
   } as const;
 
-  // Auto-switch processes every 2 seconds (2000ms)
-  useEffect(() => {
-    if (isPaused || formItems.length <= 1) return;
+  const prefersReduced =
+    typeof window !== "undefined" && window.matchMedia
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false;
 
-    const interval = setInterval(() => {
+  // Viewport intersection and document visibility listener
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (!entry) return;
+          setIsVisible(entry.isIntersecting);
+        },
+        { rootMargin: "100px 0px" }
+      );
+      observer.observe(section);
+    }
+
+    const handleVisibilityChange = () => {
+      setIsDocumentVisible(typeof document !== "undefined" ? !document.hidden : true);
+    };
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+    }
+
+    return () => {
+      if (observer) observer.disconnect();
+      if (typeof document !== "undefined") {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+      }
+    };
+  }, []);
+
+  // Auto-switch processes every 2 seconds (2000ms)
+  // Suspended when offscreen, document hidden, user paused, or reduced motion active
+  // Uses setTimeout driven by activeIndex to guarantee full 2000ms interval and avoid catchup ticks
+  useEffect(() => {
+    if (isPaused || !isVisible || !isDocumentVisible || prefersReduced || formItems.length <= 1) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
       setActiveIndex((prev) => (prev + 1) % formItems.length);
     }, 2000);
 
-    return () => clearInterval(interval);
-  }, [isPaused, formItems.length]);
+    return () => clearTimeout(timer);
+  }, [activeIndex, isPaused, isVisible, isDocumentVisible, prefersReduced, formItems.length]);
 
   // Touch Swipe for mobile without scroll-jacking
   const touchStartXRef = useRef<number | null>(null);
@@ -54,6 +101,10 @@ export function IngredientFormsSection(): React.JSX.Element {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsPaused(true);
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+      touchTimeoutRef.current = null;
+    }
     touchStartXRef.current = e.touches[0].clientX;
     touchStartYRef.current = e.touches[0].clientY;
   };
@@ -73,10 +124,22 @@ export function IngredientFormsSection(): React.JSX.Element {
     touchStartXRef.current = null;
     touchStartYRef.current = null;
     // Resume auto-cycling after swipe
-    setTimeout(() => setIsPaused(false), 2500);
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+    }
+    touchTimeoutRef.current = setTimeout(() => setIsPaused(false), 2500);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
+  // Clean up any pending touch resume timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (touchTimeoutRef.current) {
+        clearTimeout(touchTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown" || e.key === "ArrowRight") {
       e.preventDefault();
       setActiveIndex((prev) => (prev + 1) % formItems.length);
@@ -92,6 +155,7 @@ export function IngredientFormsSection(): React.JSX.Element {
 
   return (
     <section
+      ref={sectionRef}
       className={styles.section}
       id="ingredient-forms"
       aria-label={displayEyebrow}
@@ -123,7 +187,7 @@ export function IngredientFormsSection(): React.JSX.Element {
                     type="button"
                     className={`${styles.formatNavItem} ${isActive ? styles.formatNavItemActive : ""}`}
                     onClick={() => setActiveIndex(idx)}
-                    onKeyDown={(e) => handleKeyDown(e, idx)}
+                    onKeyDown={handleKeyDown}
                     aria-selected={isActive}
                     role="tab"
                   >
@@ -151,6 +215,7 @@ export function IngredientFormsSection(): React.JSX.Element {
                     className={`${styles.imageLayer} ${isActive ? styles.imageLayerActive : ""}`}
                     aria-hidden={!isActive}
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={item.image}
                       alt={item.alt}

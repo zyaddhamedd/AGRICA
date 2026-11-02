@@ -33,6 +33,8 @@ const PRODUCT_IMAGE_BY_ID: Readonly<Partial<Record<ProduceProductId, string>>> =
   "produce:iqf-broccoli": "/assets/products/frozen/broccoli-profile.avif",
   "produce:mixed-vegetables": "/assets/products/frozen/mixed-vegetables-profile.avif",
   "produce:half-fried-french-fries": "/assets/products/frozen/french-fries-profile.avif",
+  "produce:iqf-cauliflower": "/assets/products/frozen/iqf-vegetables-fallback.webp",
+  "produce:iqf-sweet-corn": "/assets/products/frozen/iqf-vegetables-fallback.webp",
 };
 
 export function productImageFor(productId: ProduceProductId): string | undefined {

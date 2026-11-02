@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { JourneyStage } from "@/types/agrica";
 import { useCommonDictionary, useStandardDictionary } from "@/i18n/locale-context";
+import { getStageMedia } from "./standardStageMedia";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -101,7 +102,8 @@ export function StandardStageBlock({
   }, []);
 
   const themeClass = isCulmination ? " bg-navy" : index % 2 === 1 ? " bg-tint" : " bg-paper";
-  const stageIdentity = `${numStr} / ${index === 5 ? standard.produce.ui.exportHandover : stage.name}`;
+  const media = getStageMedia(stage.id, stage.imageSrc);
+  const isFirst = index === 0;
 
   return (
     <section
@@ -164,12 +166,25 @@ export function StandardStageBlock({
         {/* Stage Visual Column */}
         <div className="stage-visual-col">
           <div ref={mediaRef} className="stage-visual-wrap">
-            <img
-              src={stage.imageSrc ?? "/assets/product-atlas.png"}
-              alt={standard.produce.stages[stage.id].imageAlt}
-              className="stage-visual-img"
-              loading="lazy"
-            />
+            <picture style={{ display: "contents" }}>
+              {media.srcSet ? (
+                <source
+                  type="image/webp"
+                  srcSet={media.srcSet}
+                  sizes={media.sizes}
+                />
+              ) : null}
+              <img
+                src={stage.imageSrc ?? media.fallbackSrc}
+                alt={standard.produce.stages[stage.id]?.imageAlt ?? stage.name}
+                className="stage-visual-img"
+                loading={isFirst ? "eager" : "lazy"}
+                decoding="async"
+                {...(isFirst ? { fetchPriority: "high" as const } : { fetchPriority: "auto" as const })}
+                width={media.width}
+                height={media.height}
+              />
+            </picture>
             <span className="stage-status-tag">{stage.status}</span>
           </div>
         </div>
