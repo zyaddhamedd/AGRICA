@@ -1,0 +1,952 @@
+{
+  "layouts": [
+    {
+      "path": "/en/products/oranges",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/en/products/fresh-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-broccoli",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/oranges",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/fresh-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-broccoli",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/oranges",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/fresh-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-broccoli",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/de/products/oranges",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/de/products/fresh-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-broccoli",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/oranges",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/fresh-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-strawberries",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-broccoli",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "path": "/en/products/oranges",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/en/products/fresh-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-broccoli",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/oranges",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/fresh-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-broccoli",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/oranges",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/fresh-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-broccoli",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/de/products/oranges",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/de/products/fresh-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-broccoli",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/oranges",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/fresh-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-strawberries",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-broccoli",
+      "width": 1024,
+      "passed": true
+    },
+    {
+      "path": "/en/products/oranges",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/en/products/fresh-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-broccoli",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/oranges",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/fresh-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-broccoli",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/oranges",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/fresh-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-broccoli",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/de/products/oranges",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/de/products/fresh-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-broccoli",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/oranges",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/fresh-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-strawberries",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-broccoli",
+      "width": 768,
+      "passed": true
+    },
+    {
+      "path": "/en/products/oranges",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/en/products/fresh-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-broccoli",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/oranges",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/fresh-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-broccoli",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/oranges",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/fresh-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-broccoli",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/de/products/oranges",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/de/products/fresh-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-broccoli",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/oranges",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/fresh-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-strawberries",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-broccoli",
+      "width": 390,
+      "passed": true
+    },
+    {
+      "path": "/en/products/oranges",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/en/products/fresh-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/en/products/iqf-broccoli",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/oranges",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/fresh-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ar/products/iqf-broccoli",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/oranges",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/fresh-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/ru/products/iqf-broccoli",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/de/products/oranges",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/de/products/fresh-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/de/products/iqf-broccoli",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/oranges",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/fresh-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-strawberries",
+      "width": 320,
+      "passed": true
+    },
+    {
+      "path": "/fr/products/iqf-broccoli",
+      "width": 320,
+      "passed": true
+    }
+  ],
+  "flows": [
+    {
+      "width": 1440,
+      "locale": "en",
+      "product": "oranges",
+      "activation": "keyboard",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "en",
+      "product": "fresh-strawberries",
+      "activation": "keyboard",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "en",
+      "product": "iqf-strawberries",
+      "activation": "keyboard",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "en",
+      "product": "iqf-broccoli",
+      "activation": "keyboard",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ar",
+      "product": "oranges",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ar",
+      "product": "fresh-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ar",
+      "product": "iqf-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ar",
+      "product": "iqf-broccoli",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ru",
+      "product": "oranges",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ru",
+      "product": "fresh-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ru",
+      "product": "iqf-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "ru",
+      "product": "iqf-broccoli",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "de",
+      "product": "oranges",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "de",
+      "product": "fresh-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "de",
+      "product": "iqf-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "de",
+      "product": "iqf-broccoli",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "fr",
+      "product": "oranges",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "fr",
+      "product": "fresh-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "fr",
+      "product": "iqf-strawberries",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 1440,
+      "locale": "fr",
+      "product": "iqf-broccoli",
+      "activation": "mouse",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "en",
+      "product": "oranges",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "en",
+      "product": "fresh-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "en",
+      "product": "iqf-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "en",
+      "product": "iqf-broccoli",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ar",
+      "product": "oranges",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ar",
+      "product": "fresh-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ar",
+      "product": "iqf-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ar",
+      "product": "iqf-broccoli",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ru",
+      "product": "oranges",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ru",
+      "product": "fresh-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ru",
+      "product": "iqf-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "ru",
+      "product": "iqf-broccoli",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "de",
+      "product": "oranges",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "de",
+      "product": "fresh-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "de",
+      "product": "iqf-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "de",
+      "product": "iqf-broccoli",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "fr",
+      "product": "oranges",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "fr",
+      "product": "fresh-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "fr",
+      "product": "iqf-strawberries",
+      "activation": "touch",
+      "backRestored": true
+    },
+    {
+      "width": 390,
+      "locale": "fr",
+      "product": "iqf-broccoli",
+      "activation": "touch",
+      "backRestored": true
+    }
+  ],
+  "catalogueReturns": [
+    {
+      "locale": "en",
+      "product": "oranges",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "product": "fresh-strawberries",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "product": "iqf-strawberries",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "product": "iqf-broccoli",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "oranges",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "fresh-strawberries",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "iqf-strawberries",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "iqf-broccoli",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "ru",
+      "product": "oranges",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "ru",
+      "product": "fresh-strawberries",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "ru",
+      "product": "iqf-strawberries",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "ru",
+      "product": "iqf-broccoli",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "product": "oranges",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "product": "fresh-strawberries",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "product": "iqf-strawberries",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "product": "iqf-broccoli",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "fr",
+      "product": "oranges",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "fr",
+      "product": "fresh-strawberries",
+      "world": "fresh",
+      "passed": true
+    },
+    {
+      "locale": "fr",
+      "product": "iqf-strawberries",
+      "world": "frozen",
+      "passed": true
+    },
+    {
+      "locale": "fr",
+      "product": "iqf-broccoli",
+      "world": "frozen",
+      "passed": true
+    }
+  ],
+  "noJS": [
+    {
+      "locale": "en",
+      "product": "oranges",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "product": "fresh-strawberries",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "product": "iqf-strawberries",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "product": "iqf-broccoli",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "oranges",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "fresh-strawberries",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "iqf-strawberries",
+      "passed": true
+    },
+    {
+      "locale": "ar",
+      "product": "iqf-broccoli",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

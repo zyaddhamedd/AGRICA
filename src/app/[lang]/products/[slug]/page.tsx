@@ -66,9 +66,14 @@ export default async function ProductPage({ params }: { params: Params }): Promi
     <>
       <SiteHeader variant="internal" theme="navy" />
       <main className={styles.page} id="main" data-product-profile={product.id}>
-        <nav className={styles.breadcrumbs} aria-label={common.navigation.sitePagesLabel}>
-          <ol>{breadcrumbs.map((crumb) => <li key={crumb.path}><Link prefetch={false} href={localePath(lang, crumb.path)} aria-current={crumb.path.endsWith(product.slug) ? "page" : undefined}>{crumb.name}</Link></li>)}</ol>
-        </nav>
+        <div className={styles.profileNavigation}>
+          <nav className={styles.breadcrumbs} aria-label={common.navigation.sitePagesLabel}>
+            <ol>{breadcrumbs.map((crumb) => <li key={crumb.path}><Link prefetch={false} href={localePath(lang, crumb.path)} aria-current={crumb.path.endsWith(product.slug) ? "page" : undefined}>{crumb.name}</Link></li>)}</ol>
+          </nav>
+          <Link prefetch={false} className={styles.backToCatalogue} data-back-to-catalogue href={localePath(lang, `/products?world=${product.world}`)}>
+            <span aria-hidden="true">←</span> {products.ui.backToCatalogue}
+          </Link>
+        </div>
         <div className={styles.hero}>
           <div className={styles.copy}>
             <p className={styles.eyebrow}>{products.worlds[product.world].label} · {products.ui.egypt}</p>
