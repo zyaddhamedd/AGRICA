@@ -1,0 +1,196 @@
+{
+  "passed": true,
+  "method": "Same eight routes/order and viewports, fresh isolated Chrome; 700ms local proxy, not field CWV/FPS or Lighthouse.",
+  "baseline": [
+    {
+      "width": 1440,
+      "route": "/en",
+      "cls": 0,
+      "lcpProxy": 72,
+      "overflow": false,
+      "resources": 45,
+      "transfer": 1517760,
+      "js": 247046
+    },
+    {
+      "width": 1440,
+      "route": "/en/products",
+      "cls": 0,
+      "lcpProxy": 76,
+      "overflow": false,
+      "resources": 44,
+      "transfer": 516945,
+      "js": 8823
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "lcpProxy": 72,
+      "overflow": false,
+      "resources": 37,
+      "transfer": 1114287,
+      "js": 29177
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "lcpProxy": 68,
+      "overflow": false,
+      "resources": 34,
+      "transfer": 59592,
+      "js": 10018
+    },
+    {
+      "width": 390,
+      "route": "/en",
+      "cls": 0,
+      "lcpProxy": 56,
+      "overflow": false,
+      "resources": 50,
+      "transfer": 18202,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/products",
+      "cls": 0,
+      "lcpProxy": 72,
+      "overflow": false,
+      "resources": 44,
+      "transfer": 17702,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "lcpProxy": 52,
+      "overflow": false,
+      "resources": 45,
+      "transfer": 92594,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "lcpProxy": 44,
+      "overflow": false,
+      "resources": 34,
+      "transfer": 12246,
+      "js": 0
+    }
+  ],
+  "rows": [
+    {
+      "width": 1440,
+      "route": "/en",
+      "cls": 0,
+      "overflow": false,
+      "resources": 46,
+      "media": 15,
+      "js": 247436,
+      "transfer": 1520239
+    },
+    {
+      "width": 1440,
+      "route": "/en/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 44,
+      "media": 14,
+      "js": 9460,
+      "transfer": 516735
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "overflow": false,
+      "resources": 37,
+      "media": 10,
+      "js": 29177,
+      "transfer": 1114287
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 34,
+      "media": 9,
+      "js": 10018,
+      "transfer": 59592
+    },
+    {
+      "width": 390,
+      "route": "/en",
+      "cls": 0,
+      "overflow": false,
+      "resources": 51,
+      "media": 21,
+      "js": 0,
+      "transfer": 18253
+    },
+    {
+      "width": 390,
+      "route": "/en/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 38,
+      "media": 8,
+      "js": 0,
+      "transfer": 52451
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "overflow": false,
+      "resources": 45,
+      "media": 15,
+      "js": 0,
+      "transfer": 92589
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 34,
+      "media": 9,
+      "js": 0,
+      "transfer": 12246
+    }
+  ],
+  "profiles": [
+    {
+      "slug": "oranges",
+      "cls": 0,
+      "media": 1,
+      "overflow": false
+    },
+    {
+      "slug": "fresh-strawberries",
+      "cls": 0,
+      "media": 1,
+      "overflow": false
+    },
+    {
+      "slug": "iqf-strawberries",
+      "cls": 0,
+      "media": 1,
+      "overflow": false
+    },
+    {
+      "slug": "iqf-broccoli",
+      "cls": 0,
+      "media": 1,
+      "overflow": false
+    }
+  ],
+  "homepageJSDelta": 390,
+  "catalogueJSDelta": 637
+}

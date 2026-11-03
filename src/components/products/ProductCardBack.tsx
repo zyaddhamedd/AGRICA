@@ -1,9 +1,12 @@
+import { localePath } from "@/i18n/navigation";
+import { seoProductById } from "@/seo/products";
+import styles from "./ProductCardBack.module.css";
 import React from "react";
 import type { ProductAtlasItem } from "@/types/agrica";
 import type { PublicProductCardField } from "@/types/product-card-content";
 import { ProductSpecTable } from "./ProductSpecTable";
 import { ExportActionRail } from "./ExportActionRail";
-import { useCommonDictionary, useProductsDictionary } from "@/i18n/locale-context";
+import { useCommonDictionary, useProductsDictionary, useLocale } from "@/i18n/locale-context";
 
 export interface ProductCardBackProps {
   readonly item: ProductAtlasItem;
@@ -13,6 +16,7 @@ export interface ProductCardBackProps {
   readonly isAddedToQuote: boolean;
   readonly onToggleQuote: (item: ProductAtlasItem) => void;
   readonly onClose?: () => void;
+  readonly onExplore?: React.MouseEventHandler<HTMLAnchorElement>;
   readonly expanded?: boolean;
   readonly headingId?: string;
 }
@@ -25,11 +29,14 @@ export function ProductCardBack({
   isAddedToQuote,
   onToggleQuote,
   onClose,
+  onExplore,
   expanded = false,
   headingId,
 }: ProductCardBackProps): React.JSX.Element {
+  const locale = useLocale();
   const dictionary = useProductsDictionary();
   const common = useCommonDictionary();
+  const detailPage = expanded ? seoProductById(item.id) : undefined;
   return (
     <section
       className={`export-card-face export-card-back${expanded ? " is-expanded" : ""}`}
@@ -70,12 +77,32 @@ export function ProductCardBack({
         <p className="export-card-spec-kicker">{dictionary.ui.productSpecifications}</p>
       </div>
       <ProductSpecTable item={item} fields={fields} expanded={expanded} />
-      <ExportActionRail
-        item={item}
-        isAddedToQuote={isAddedToQuote}
-        isCardFlipped={isFlipped}
-        onToggleQuote={onToggleQuote}
-      />
+      {detailPage ? (
+        <div className={styles.actions}>
+          <a
+            className={styles.explore}
+            data-explore-product
+            href={localePath(locale, `/products/${detailPage.slug}`)}
+            onClick={(event) => { event.stopPropagation(); onExplore?.(event); }}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
+            {dictionary.ui.exploreProduct} <span aria-hidden="true">↗</span>
+          </a>
+          <ExportActionRail
+            item={item}
+            isAddedToQuote={isAddedToQuote}
+            isCardFlipped={isFlipped}
+            onToggleQuote={onToggleQuote}
+          />
+        </div>
+      ) : (
+        <ExportActionRail
+          item={item}
+          isAddedToQuote={isAddedToQuote}
+          isCardFlipped={isFlipped}
+          onToggleQuote={onToggleQuote}
+        />
+      )}
     </section>
   );
 }

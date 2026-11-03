@@ -16,6 +16,7 @@ import { LiveSearchInput } from "./LiveSearchInput";
 import { AtlasGrid } from "./AtlasGrid";
 import { FloatingEnquiryDock } from "./FloatingEnquiryDock";
 import { SeasonSection } from "@/components/home/SeasonSection";
+import { restoreExploreReturn } from "./exploreReturn";
 import { QuoteDrawer } from "./QuoteDrawer";
 import { useProductsDictionary } from "@/i18n/locale-context";
 
@@ -37,6 +38,8 @@ export function ProductsExplorer({
   useEffect(() => {
     setActiveWorld(initialWorld);
   }, [initialWorld]);
+
+  useEffect(() => restoreExploreReturn(), [initialWorld]);
 
   // Sync body dataset for CSS theme styling
   useEffect(() => {

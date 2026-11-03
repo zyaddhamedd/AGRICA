@@ -18,3 +18,7 @@ export const SEO_PRODUCTS = PILOT.filter((product) => hasApprovedProductContent(
 export function seoProductBySlug(slug: string) {
   return SEO_PRODUCTS.find((product) => product.slug === slug);
 }
+
+export function seoProductById(id: ProduceProductId) {
+  return SEO_PRODUCTS.find((product) => product.id === id);
+}

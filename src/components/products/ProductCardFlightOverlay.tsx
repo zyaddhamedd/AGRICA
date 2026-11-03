@@ -8,6 +8,7 @@ import { getPublicProductCardContent } from "@/data/productCardContent";
 import { useProductsDictionary } from "@/i18n/locale-context";
 import { ProductCardFront } from "./ProductCardFront";
 import { ProductCardBack } from "./ProductCardBack";
+import { rememberExploreReturn } from "./exploreReturn";
 import styles from "./ProductCardFlightOverlay.module.css";
 
 interface ProductCardFlightOverlayProps {
@@ -71,6 +72,7 @@ export function ProductCardFlightOverlay({
   const openTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const closeTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const closingRef = useRef(false);
+  const exploreHrefRef = useRef<string | null>(null);
   const originOpacityRef = useRef(originElement.style.opacity);
   const originPointerEventsRef = useRef(originElement.style.pointerEvents);
   const [ready, setReady] = useState(false);
@@ -84,13 +86,21 @@ export function ProductCardFlightOverlay({
     originElement.style.pointerEvents = originPointerEventsRef.current;
   }, [originElement]);
 
+  // The existing flight animation deliberately restores its external origin DOM node.
+  // eslint-disable-next-line react-hooks/immutability
   const completeClose = useCallback(() => {
     restoreOrigin();
     onClose();
     window.requestAnimationFrame(() => {
       if (triggerElement.isConnected) triggerElement.focus({ preventScroll: true });
+      // Let the existing close cleanup restore the document before native navigation.
+      // This keeps browser Back scroll/focus restoration independent of router caches.
+      if (exploreHrefRef.current) {
+        rememberExploreReturn(item.id);
+        window.location.assign(exploreHrefRef.current);
+      }
     });
-  }, [onClose, restoreOrigin, triggerElement]);
+  }, [item.id, onClose, restoreOrigin, triggerElement]);
 
   const handleClose = useCallback(() => {
     if (closingRef.current) return;
@@ -355,6 +365,14 @@ export function ProductCardFlightOverlay({
     };
   }, [handleClose, originElement, originRect, restoreOrigin]);
 
+  const handleExplore = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    // Preserve normal modified-click/new-tab behavior of the actual anchor.
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    exploreHrefRef.current = event.currentTarget.href;
+    handleClose();
+  };
+
   if (typeof document === "undefined") return null;
 
   return createPortal(
@@ -402,6 +420,11 @@ export function ProductCardFlightOverlay({
             isAddedToQuote={isAddedToQuote}
             onToggleQuote={onToggleQuote}
             onClose={handleClose}
+            onExplore={
+              // Existing close animation restores its external origin DOM node imperatively.
+              // eslint-disable-next-line react-hooks/immutability
+              handleExplore
+            }
             expanded
             headingId="product-card-flight-title"
           />

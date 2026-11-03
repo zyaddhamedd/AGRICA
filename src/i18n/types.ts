@@ -58,7 +58,7 @@ export interface ProductsDictionary {
   readonly families: Readonly<Record<ProduceFamilyId, string>>;
   readonly products: Readonly<Record<ProduceProductId, { readonly name: string; readonly aliases: readonly string[]; readonly imageAlt: string }>>;
   readonly specifications: Readonly<Record<"origin" | "condition" | "varieties" | "harvestWindow" | "sizeCalibre" | "brix" | "acidity" | "averageWeight" | "seedStatus" | "grade" | "packaging" | "temperature" | "shelfLife", string>>;
-  readonly ui: { readonly productSpecifications: string; readonly specsFor: string; readonly noMatches: string; readonly refineSearch: string; readonly searchHint: string; readonly showFront: string; readonly showSpecifications: string; readonly produceSuffix: string; readonly egypt: string; readonly add: string; readonly added: string; readonly removeFromEnquiry: string; readonly productProfile: string; readonly commercialSpecification: string; readonly handlingSupply: string };
+  readonly ui: { readonly productSpecifications: string; readonly specsFor: string; readonly noMatches: string; readonly refineSearch: string; readonly searchHint: string; readonly showFront: string; readonly showSpecifications: string; readonly produceSuffix: string; readonly egypt: string; readonly add: string; readonly added: string; readonly removeFromEnquiry: string; readonly exploreProduct: string; readonly productProfile: string; readonly commercialSpecification: string; readonly handlingSupply: string };
 }
 
 export interface HerbsSpicesDictionary {

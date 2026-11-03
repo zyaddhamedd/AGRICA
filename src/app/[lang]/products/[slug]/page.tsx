@@ -14,7 +14,19 @@ import { localePath } from "@/i18n/navigation";
 import { pageMetadata } from "@/seo/metadata";
 import { seoProductBySlug, SEO_PRODUCTS } from "@/seo/products";
 import { localizedUrl } from "@/seo/site";
+import type { PublicProductCardField } from "@/types/product-card-content";
 import styles from "./page.module.css";
+
+// Presentation only: stable keys partition the approved values without rewriting them.
+const profileKeys = new Set(["product", "origin", "mainVarieties", "varieties", "availableForms", "ingredients", "season"]);
+const handlingKeys = new Set(["storage", "shelfLife", "availability", "shipment", "applications"]);
+function groupSpecifications(fields: readonly PublicProductCardField[]) {
+  return [
+    { key: "profile", label: "productProfile", fields: fields.filter((field) => profileKeys.has(field.labelKey)) },
+    { key: "commercial", label: "commercialSpecification", fields: fields.filter((field) => !profileKeys.has(field.labelKey) && !handlingKeys.has(field.labelKey)) },
+    { key: "handling", label: "handlingSupply", fields: fields.filter((field) => handlingKeys.has(field.labelKey)) },
+  ] as const;
+}
 
 type Params = Promise<{ lang: string; slug: string }>;
 async function context(params: Params) {
@@ -44,6 +56,7 @@ export default async function ProductPage({ params }: { params: Params }): Promi
   const name = products.products[product.id].name;
   const image = productImageFor(product.id);
   const fields = getPublicProductCardContent(product.id).fields;
+  const groups = groupSpecifications(fields).filter((group) => group.fields.length > 0);
   const breadcrumbs = [
     { name: common.navigation.home, path: "/" },
     { name: common.navigation.products, path: "/products" },
@@ -57,20 +70,29 @@ export default async function ProductPage({ params }: { params: Params }): Promi
           <ol>{breadcrumbs.map((crumb) => <li key={crumb.path}><Link prefetch={false} href={localePath(lang, crumb.path)} aria-current={crumb.path.endsWith(product.slug) ? "page" : undefined}>{crumb.name}</Link></li>)}</ol>
         </nav>
         <div className={styles.hero}>
-          <div>
+          <div className={styles.copy}>
             <p className={styles.eyebrow}>{products.worlds[product.world].label} · {products.ui.egypt}</p>
             <h1>{name}</h1>
             <p className={styles.description}>{common.navigation.exportStatement}</p>
             <div className={styles.actions}>
               <a href={`mailto:info@agriculturecairo.com?subject=${encodeURIComponent(`AGRICA — ${name}`)}`}>{common.footer.exportConversation}</a>
-              <Link prefetch={false} href="/contact">{common.actions.contact} ↗</Link>
+              <a className={styles.specificationLink} href="#profile-specifications">{products.ui.productSpecifications} <span aria-hidden="true">↓</span></a>
             </div>
           </div>
-          {image && <div className={styles.visual}><Image src={image} alt={products.products[product.id].imageAlt} fill sizes="(max-width: 720px) calc(100vw - 2.5rem), 36vw" /></div>}
+          {image && <figure className={`${styles.visual}${product.slug === "iqf-broccoli" ? ` ${styles.landscape}` : ""}`}><Image src={image} alt={products.products[product.id].imageAlt} fill sizes="(max-width: 720px) calc(100vw - 2.5rem), (max-width: 1024px) 40vw, 440px" /></figure>}
         </div>
         <section className={styles.specifications} aria-labelledby="profile-specifications">
           <h2 id="profile-specifications">{products.ui.productSpecifications}</h2>
-          <dl>{fields.map((field) => <div key={field.labelKey}><dt>{productCardFieldLabel(lang, field.labelKey)}</dt><dd lang="en" dir="ltr">{field.value}</dd></div>)}</dl>
+          {groups.map((group, index) => (
+            <section className={styles.group} key={group.key} data-specification-group={group.key} aria-labelledby={`specification-${group.key}`}>
+              <header className={styles.groupHeading}>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <h3 id={`specification-${group.key}`}>{products.ui[group.label]}</h3>
+              </header>
+              <dl>{group.fields.map((field) => <div key={field.labelKey} data-specification-field={field.labelKey}><dt>{productCardFieldLabel(lang, field.labelKey)}</dt><dd lang="en" dir="ltr">{field.value}</dd></div>)}</dl>
+            </section>
+          ))}
+          <p className={styles.contactLink}><Link prefetch={false} href="/contact">{common.actions.contact} <span aria-hidden="true">↗</span></Link></p>
         </section>
         <nav className={styles.related} aria-label={common.footer.discoverProducts}>
           <h2>{common.footer.discoverProducts}</h2>

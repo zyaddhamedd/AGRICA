@@ -1,4 +1,4 @@
-import { SEO_PRODUCTS, hasApprovedProductContent, seoProductBySlug } from "../src/seo/products";
+import { SEO_PRODUCTS, hasApprovedProductContent, seoProductBySlug, seoProductById } from "../src/seo/products";
 import { PUBLIC_PRODUCT_CARD_CONTENT } from "../src/data/productCardContent";
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -56,3 +56,6 @@ for (const product of SEO_PRODUCTS) for (const locale of locales) {
   assert.ok(entry.images?.every((image) => fs.existsSync(`public${new URL(image).pathname}`)));
 }
 console.log('✓ Four approved product profiles × five locales, governed facts, real images and no unapproved fries fields');
+
+for (const product of SEO_PRODUCTS) assert.equal(seoProductById(product.id), product, "expanded links share the approved route registry");
+assert.equal(seoProductById("produce:lemon"), undefined);
