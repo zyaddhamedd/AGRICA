@@ -1,3 +1,4 @@
+import { getDictionary } from "@/i18n/get-dictionary";
 import { divisionPageMetadata } from "@/divisions/metadata";
 import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
@@ -7,12 +8,11 @@ import { isWorldId } from "@/data/products";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await params;
-  return {
-    ...divisionPageMetadata(lang, "produce", "products"),
-    title: "Products",
-    description:
-      "Explore AGRICA's fresh and frozen Egyptian produce and build an export enquiry.",
-  };
+  const dictionary = await getDictionary(lang);
+  return divisionPageMetadata(lang, "produce", "products", {
+    title: `${dictionary.products.heroLead} ${dictionary.products.heroEmphasis}`,
+    description: `${dictionary.products.worlds.fresh.label} · ${dictionary.products.worlds.frozen.label}. ${dictionary.common.navigation.exportStatement}`,
+  });
 }
 
 async function ProductsQueryBridge({

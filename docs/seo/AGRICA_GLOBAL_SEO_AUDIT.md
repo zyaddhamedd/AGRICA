@@ -1,0 +1,49 @@
+# AGRICA global SEO audit
+
+Date: 2026-11-03. Scope: Phase 1 checkpoint `eb27e03` on `codex/phase1-herbs-launch`, `/private/tmp/agrica-phase1`; historical performance baseline `043dc5d`. Native read-only technical, international and product agents contributed. Findings below distinguish repository verification, public observation, inference and account/business blockers. No search-volume, ranking, traffic or indexing guarantees.
+
+## Baseline and methodology
+
+Read route/layout/navigation/catalogue/content-governance sources, installed Next.js 16.3.4 metadata/robots/sitemap guides and Phase 1 build/browser/performance evidence. Public Google documentation and three exporters were inspected. A bounded curl sample succeeded where the web fetch tool could not: `evidence/live-baseline.json` records eight live URLs. Live `/robots.txt` and `/sitemap.xml` returned 404; live homepage/catalogue/company lacked canonicals/hreflang; Herbs remained noindex. This is the older deployed release, not evidence that the un-deployed Phase 1 fixes failed. `/` currently takes two redirects through `/en/` to `/en`.
+
+Local Phase 1: 35 localized page URLs (seven roles × five languages), plus standalone English contact. Thirty division routes have Phase 1 canonicals, including homepage canonicals ending in `/` even though Next normalizes these to slashless URLs. Twenty-five division pages are indexable; five provisional Herbs standard pages are restricted. Company has five English-body copies. Contact already has canonical/social metadata. No P0 security/build failure established.
+
+## Findings and prioritized corrections
+
+| ID / priority | Evidence and affected surfaces | Business impact | Recommended correction | Confidence |
+| --- | --- | --- | --- | --- |
+| T01 P1 | No app/public robots or sitemap; live endpoints 404 | Missing explicit discovery endpoint, especially for international/catalogue content; not itself a crawl ban | Native metadata routes; allow crawl; advertise only canonical indexable URLs; never disallow provisional pages needed to read noindex | Verified local + live sample |
+| T02 P1 | `src/divisions/metadata.ts`, home canonical `/en/` and peers redirect to slashless; root redirect uses `/en/` | Avoidable canonical/redirect inconsistency and double root hop | Normalize absolute canonical builder; direct root redirect to `/en`; catalogue queries canonical to base | Verified source + live redirects |
+| I01 P1 | No hreflang in source or sampled live pages | No explicit equivalent-language network | Reciprocal absolute EN/AR/RU/DE/FR+self, x-default direct English equivalent; omit restricted/untranslated clusters | Verified absence; benefit inferred |
+| I02 P1 | Produce metadata English; `HerbsSpicesHero.tsx` ignores existing translated hero dictionary | Poor language coherence for importers | Existing localized hero/title/summary text and route-specific social metadata; bind Herbs hero and trade heading to approved dictionaries | Verified |
+| I03 P1 | `CompanyPageContent.tsx` English data in all five locales; Company lacks canonical | Duplicate main content and false impression of fully translated company pages | Consolidate English-body company copies to `/en/company` canonical; only English company in sitemap, no invented hreflang; request reviewed full translations | Verified body; consolidation is editorial inference |
+| D01 P1 | 34 Produce items (21 fresh/13 frozen), 27 Herbs identities; no product detail routes; default Produce SSR fresh; filter tabs/buttons/history | Weak distinct product/frozen discovery | Bounded four-page Produce pilot (oranges, fresh strawberries, IQF strawberries, IQF broccoli) × five locales, approved distinct specifications; server-rendered directory and real links, retain catalogue interactions | Inventory verified; selection/search demand hypothesis |
+| D02 P1 | `productCardContent.ts` projection exposes assumed/review-required fries fields; `productSpecs.ts` deprecated despite VERIFIED name | Public factual trust risk | Filter unapproved fields from public projection, retain product identity/enquiry; deny new pages unless record/fields approved; never use legacy specs | Verified governance flags |
+| C01 P1 | Produce and Herbs enquiry handlers are local previews; Phase 1 Herbs home truthful, Produce home/quote success strings may imply delivery | Lost/misunderstood buyer enquiries | Truthful existing preview notice and real mailto/contact paths; no backend invented; real delivery/consent tracking requires separate integration | Verified handlers; conversion loss unmeasured |
+| S01 P2 | No JSON-LD in common/app; no real prices/ratings/offers | Entity/navigation semantics absent; merchant eligibility unsupported | Minimal Organization/WebSite and visible BreadcrumbList/ItemList; no Product/Offer/ratings/FAQ tricks to manufacture rich results | Verified; rich-result eligibility constrained |
+| S02 P2 | Generic social metadata absent except contact | Weak share previews | Accurate localized title/description/canonical URL/OG locale and existing brand logo; no new media dependencies | Verified |
+| L01 P2 | Semantic/global links are real anchors, but product/frozen discovery mostly interactive | Crawl depth and buyer orientation opportunity | Visible server-rendered related product/world directory, descriptive localized anchors and clear contact links | Verified architecture |
+| M01 P2 | Dedicated product images use localized alts; CSS sprites decorative; some Herbs labels English | Preserve good image behavior, improve contextual discovery | Reuse real per-product assets on pilot pages and sitemap; no generic illustration identity claims; translate available labels, defer absent technical translations | Verified |
+| Q01 P2 | Existing process stages all placeholder/unverified; Herbs standard noindex,nofollow | Indexing would publish unapproved process claims | Preserve restriction and omit sitemap/hreflang; business verification required | Verified, intentionally retained |
+| Q02 P2 | Some decorative/company/spec text English; company translation source absent; technical values source-approved in English | Native buyer comprehension incomplete | Honest language boundaries; retain source specification values with lang=en, translated names/labels; content requirements before expansion | Verified |
+| P01 P2 | Phase 1 CLS 0 samples; cinematic media and optimized filtering are sensitive; 20 unrelated lint errors/24 warnings | SEO changes must not regress experience | Server components, no SEO client framework/dependency, lazy images, targeted+browser/performance checks | Verified local evidence, no new field CWV data |
+| A01 P2 | No Search Console/analytics access | Cannot establish indexed pages, queries, qualified leads or field CWV | Document owner tasks; no speculative scores/volume/rankings | Blocked by credentials/data |
+| A02 P2 | AI-search discovery has no special verified implementation requirement | Avoid speculative SEO tooling/spam | Crawlable factual content, sound links and standard structured data; no special schema or llms.txt promise | Official guidance + inference |
+
+## Content, trust and enquiry boundaries
+
+`PRODUCT_CARD_CONTENT` cites client-approved Fresh/Frozen specifications dated 2026-10-09. Thirty-three records have approved fields; pre-fried fries remains pending. Herbs PDF-backed identity/family does not verify every form, specification or certificate. No business certification, price, shipping service, MOQ, rating or availability may be inferred from competitors, generic homepage claims or historical compatibility data. Approved product fields retain conditional/programme-dependent wording. Organization identity/email/domain/logo are already public. Do not introduce LocalBusiness locations, reviews or certification schema without evidence.
+
+## Competitor and commercial research
+
+Observed architecture only (not measured performance): [AGROEGYPT](https://agroegypt.com/brands/) exposes citrus/orange/variety navigation; [Alliance Foods](https://alliance-foods.co/en/products/fresh-produce) presents product sections with packaging/calibre and quote paths; [Fiora](https://fiora-eg.com/) exposes named Herbs product links. Useful comparison: descriptive product access plus relevant specifications and contact. Do not copy their claims, content, certifications or implied capabilities. Candidate intents and full inventory mapping are in the keyword/content strategy; volume and competitive difficulty remain unknown.
+
+## Research basis
+
+- [Google localized versions](https://developers.google.com/search/docs/specialty/international/localized-versions): reciprocal/self alternate sets and x-default.
+- [Google multilingual sites](https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites): visible content determines language.
+- [Sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap) and [crawlable links](https://developers.google.com/search/docs/crawling-indexing/links-crawlable).
+- [Organization](https://developers.google.com/search/docs/appearance/structured-data/organization), [breadcrumbs](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb), [Product snippets](https://developers.google.com/search/docs/appearance/structured-data/product-snippet), [merchant listings](https://developers.google.com/search/docs/appearance/structured-data/merchant-listing).
+- [AI features](https://developers.google.com/search/docs/appearance/ai-features): standard technical/content foundations; no guaranteed inclusion.
+
+Robots absence is not a deindexing order. H1 counts in raw streaming HTML can include Suspense fallback markup, so raw duplicate counts are not accepted as a production heading defect without rendered evidence. No audit claims live indexing or ranking outcomes.

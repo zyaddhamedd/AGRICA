@@ -1,0 +1,126 @@
+[
+  {
+    "path": "/",
+    "status": "200",
+    "url": "https://www.agriculturecairo.com/en",
+    "exit": 0,
+    "title": [
+      "AGRICA \u2014 One Origin. Two Worlds."
+    ],
+    "robots": [],
+    "canonical": [],
+    "hreflang_count": 0,
+    "h1_count": 1,
+    "error": ""
+  },
+  {
+    "path": "/robots.txt",
+    "status": "404",
+    "url": "https://www.agriculturecairo.com/robots.txt",
+    "exit": 0,
+    "title": [
+      "AGRICA \u2014 One Origin. Two Worlds."
+    ],
+    "robots": [
+      "noindex"
+    ],
+    "canonical": [],
+    "hreflang_count": 0,
+    "h1_count": 0,
+    "error": ""
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": "404",
+    "url": "https://www.agriculturecairo.com/sitemap.xml",
+    "exit": 0,
+    "title": [
+      "AGRICA \u2014 One Origin. Two Worlds."
+    ],
+    "robots": [
+      "noindex"
+    ],
+    "canonical": [],
+    "hreflang_count": 0,
+    "h1_count": 0,
+    "error": ""
+  },
+  {
+    "path": "/en/products",
+    "status": "200",
+    "url": "https://www.agriculturecairo.com/en/products",
+    "exit": 0,
+    "title": [
+      "Products \u2014 AGRICA"
+    ],
+    "robots": [],
+    "canonical": [],
+    "hreflang_count": 0,
+    "h1_count": 2,
+    "error": ""
+  },
+  {
+    "path": "/en/herbs-spices",
+    "status": "200",
+    "url": "https://www.agriculturecairo.com/en/herbs-spices",
+    "exit": 0,
+    "title": [
+      "Herbs &amp; Spices \u2014 AGRICA"
+    ],
+    "robots": [
+      "noindex, nofollow"
+    ],
+    "canonical": [],
+    "hreflang_count": 0,
+    "h1_count": 1,
+    "error": ""
+  },
+  {
+    "path": "/en/company",
+    "status": "200",
+    "url": "https://www.agriculturecairo.com/en/company",
+    "exit": 0,
+    "title": [
+      "The Company \u2014 Egyptian Origin &amp; International Discipline \u2014 AGRICA"
+    ],
+    "robots": [],
+    "canonical": [],
+    "hreflang_count": 0,
+    "h1_count": 1,
+    "error": ""
+  },
+  {
+    "path": "/contact",
+    "status": "200",
+    "url": "https://www.agriculturecairo.com/contact",
+    "exit": 0,
+    "title": [
+      "AGRICA Connect | Egyptian Agricultural Exports"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "canonical": [
+      "https://www.agriculturecairo.com/contact"
+    ],
+    "hreflang_count": 0,
+    "h1_count": 0,
+    "error": ""
+  },
+  {
+    "path": "/ar/herbs-spices",
+    "status": "200",
+    "url": "https://www.agriculturecairo.com/ar/herbs-spices",
+    "exit": 0,
+    "title": [
+      "Herbs &amp; Spices \u2014 AGRICA"
+    ],
+    "robots": [
+      "noindex, nofollow"
+    ],
+    "canonical": [],
+    "hreflang_count": 0,
+    "h1_count": 1,
+    "error": ""
+  }
+]

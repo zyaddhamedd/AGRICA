@@ -14,11 +14,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
   const { lang } = await params;
   const dictionary = await getDictionary(lang);
   const copy = dictionary.standard.herbs.hero;
-  return {
-    ...divisionPageMetadata(lang, "herbs-spices", "standard"),
+  return divisionPageMetadata(lang, "herbs-spices", "standard", {
     title: `${copy.titleLead} ${copy.titleEmphasis}`,
     description: copy.description,
-  };
+  });
 }
 
 export default async function HerbsSpicesStandardPage({

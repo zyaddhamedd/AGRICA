@@ -29,8 +29,8 @@ export function HerbsSpicesTradeSection(): React.JSX.Element {
         {/* Centered Luxury Trade Card */}
         <div className={styles.cardContainer}>
           <div className={styles.cardHeader}>
-            <h3 className={styles.cardHeading}>Export Trade Enquiry</h3>
-            <p className={styles.cardSubheading}>Direct sourcing from verified Egyptian harvest origins</p>
+            <h3 className={styles.cardHeading}>{trade.title}</h3>
+            <p className={styles.cardSubheading}>{trade.description}</p>
           </div>
 
           <p className={styles.statusText}>{common.enquiry.previewNotice} <a href="mailto:info@agriculturecairo.com">{common.actions.contact}</a></p>

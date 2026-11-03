@@ -33,7 +33,7 @@ for (const route of ["/es", "/it/products", "/xx/herbs-spices"]) {
 }
 
 const redirectCases = [
-  ["/", "/en/"],
+  ["/", "/en"],
   ["/products", "/en/products"],
   ["/standard", "/en/standard"],
   ["/herbs-spices", "/en/herbs-spices"],

@@ -16,11 +16,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
   const { lang } = await params;
   const dictionary = await getDictionary(lang);
   const copy = dictionary.herbsSpices.homepage.hero;
-  return {
-    ...divisionPageMetadata(lang, "herbs-spices", "home"),
+  return divisionPageMetadata(lang, "herbs-spices", "home", {
     title: `${copy.titleLead} ${copy.titleEmphasis}`,
     description: copy.introduction,
-  };
+  });
 }
 
 export default function HerbsSpicesHomePage(): React.JSX.Element {

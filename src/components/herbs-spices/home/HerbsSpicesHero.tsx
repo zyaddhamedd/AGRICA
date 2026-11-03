@@ -1,11 +1,14 @@
 "use client";
 
+import { useHerbsSpicesDictionary } from "@/i18n/locale-context";
+
 import Image from "next/image";
 import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import React from "react";
 import styles from "./HerbsSpicesHero.module.css";
 
 export function HerbsSpicesHero(): React.JSX.Element {
+  const { hero } = useHerbsSpicesDictionary().homepage;
   return (
     <section className={styles.hero} aria-labelledby="herbs-spices-home-title">
       {/* Precision Lab Grid Canvas */}
@@ -35,14 +38,13 @@ export function HerbsSpicesHero(): React.JSX.Element {
           <div className={styles.copyBlock}>
             <div className={styles.headlineWrapper}>
               <h1 className={styles.title} id="herbs-spices-home-title">
-                <span className={styles.titleLead}>FROM ORIGIN</span>
-                <span className={styles.titleEmphasis}>to ingredient.</span>
+                <span className={styles.titleLead}>{hero.titleLead}</span>
+                <span className={styles.titleEmphasis}>{hero.titleEmphasis}</span>
               </h1>
             </div>
 
             <p className={styles.introduction}>
-              An AGRICA world shaped around dried agricultural ingredients and
-              international supply.
+              {hero.introduction}
             </p>
 
             <div className={styles.actions}>
@@ -50,13 +52,13 @@ export function HerbsSpicesHero(): React.JSX.Element {
                 className={styles.primaryAction}
                 href="/herbs-spices/products"
               >
-                <span>EXPLORE INGREDIENTS</span>
+                <span>{hero.primaryAction}</span>
                 <span className={styles.arrow} aria-hidden="true">
                   ↗
                 </span>
               </Link>
               <a className={styles.secondaryAction} href="#start-a-trade">
-                <span>START A TRADE</span>
+                <span>{hero.secondaryAction}</span>
               </a>
             </div>
           </div>

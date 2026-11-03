@@ -1,3 +1,6 @@
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationGraph } from "@/seo/organization";
+import { SITE_ORIGIN } from "@/seo/site";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -12,6 +15,8 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { LocaleProvider } from "@/i18n/locale-context";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_ORIGIN),
+  icons: { icon: "/assets/agrica-leaf.svg" },
   title: {
     default: "AGRICA — One Origin. Two Worlds.",
     template: "%s — AGRICA",
@@ -45,6 +50,7 @@ export default async function RootLayout({
   return (
     <html lang={lang} dir={directionForLocale(lang)}>
       <body>
+        <JsonLd data={organizationGraph} />
         <LocaleProvider locale={lang} dictionary={dictionary}>
           <SkipLink />
           {children}

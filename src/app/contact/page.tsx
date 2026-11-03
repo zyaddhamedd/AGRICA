@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 
 const phones = [
@@ -107,10 +108,10 @@ export default function AgricaConnectPage() {
   return (
     <main className="connect-page">
       <header className="connect-header">
-        <a className="connect-brand" href="/en" aria-label="AGRICA English homepage">
+        <Link className="connect-brand" href="/en" aria-label="AGRICA English homepage">
           <Image src="/assets/agrica-logo-brand.png" alt="AGRICA" width={800} height={206} priority />
-        </a>
-        <p>Egyptian Agricultural Exports</p>
+        </Link>
+        <h1 className="connect-heading">Egyptian Agricultural Exports</h1>
         <span aria-hidden="true" />
       </header>
 

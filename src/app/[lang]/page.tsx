@@ -1,3 +1,4 @@
+import { getDictionary } from "@/i18n/get-dictionary";
 import { divisionPageMetadata } from "@/divisions/metadata";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
@@ -12,9 +13,11 @@ import { TradeSection } from "@/components/home/TradeSection";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
   const { lang } = await params;
-  return {
-    ...divisionPageMetadata(lang, "produce", "home"),
-  };
+  const dictionary = await getDictionary(lang);
+  return divisionPageMetadata(lang, "produce", "home", {
+    title: `${dictionary.common.navigation.b2bExport} | ${dictionary.common.navigation.produceWorlds}`,
+    description: dictionary.common.navigation.exportStatement,
+  });
 }
 
 export default function HomePage(): React.JSX.Element {

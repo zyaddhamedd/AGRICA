@@ -58,7 +58,7 @@ html {
   height: auto;
 }
 
-.connect-header p,
+.connect-header .connect-heading,
 .division-number,
 .phone-options > p,
 .connect-footer {
@@ -66,7 +66,7 @@ html {
   letter-spacing: 0.18em;
 }
 
-.connect-header p {
+.connect-header .connect-heading {
   margin: 0.55rem 0 0;
   color: var(--agrica-muted);
   font-size: 0.58rem;
@@ -379,7 +379,7 @@ html {
     width: clamp(7.9rem, 36vw, 9.6rem);
   }
 
-  .connect-header p {
+  .connect-header .connect-heading {
     margin-top: 0.35rem;
     font-size: clamp(0.45rem, 2vw, 0.53rem);
     letter-spacing: 0.19em;
@@ -529,3 +529,5 @@ html {
     transition: none !important;
   }
 }
+
+.connect-heading { font: inherit; margin: 0; }

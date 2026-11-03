@@ -54,7 +54,7 @@ async function verifyRedirects(): Promise<void> {
   assert.deepEqual(
     redirects.map(({ source, destination, permanent }) => ({ source, destination, permanent })),
     [
-      { source: "/", destination: "/en/", permanent: true },
+      { source: "/", destination: "/en", permanent: true },
       { source: "/products", destination: "/en/products", permanent: true },
       { source: "/standard", destination: "/en/standard", permanent: true },
       { source: "/company", destination: "/en/company", permanent: true },

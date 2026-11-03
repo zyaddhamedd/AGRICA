@@ -1,0 +1,145 @@
+{
+  "passed": true,
+  "sitemapUrls": 27,
+  "results": [
+    {
+      "path": "/en",
+      "canonical": "https://www.agriculturecairo.com/en",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar",
+      "canonical": "https://www.agriculturecairo.com/ar",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru",
+      "canonical": "https://www.agriculturecairo.com/ru",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de",
+      "canonical": "https://www.agriculturecairo.com/de",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr",
+      "canonical": "https://www.agriculturecairo.com/fr",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/products",
+      "canonical": "https://www.agriculturecairo.com/en/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/products",
+      "canonical": "https://www.agriculturecairo.com/ar/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/products",
+      "canonical": "https://www.agriculturecairo.com/ru/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/products",
+      "canonical": "https://www.agriculturecairo.com/de/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/products",
+      "canonical": "https://www.agriculturecairo.com/fr/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/standard",
+      "canonical": "https://www.agriculturecairo.com/en/standard",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/standard",
+      "canonical": "https://www.agriculturecairo.com/ar/standard",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/standard",
+      "canonical": "https://www.agriculturecairo.com/ru/standard",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/standard",
+      "canonical": "https://www.agriculturecairo.com/de/standard",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/standard",
+      "canonical": "https://www.agriculturecairo.com/fr/standard",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/herbs-spices",
+      "canonical": "https://www.agriculturecairo.com/en/herbs-spices",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/herbs-spices",
+      "canonical": "https://www.agriculturecairo.com/ar/herbs-spices",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/herbs-spices",
+      "canonical": "https://www.agriculturecairo.com/ru/herbs-spices",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/herbs-spices",
+      "canonical": "https://www.agriculturecairo.com/de/herbs-spices",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/herbs-spices",
+      "canonical": "https://www.agriculturecairo.com/fr/herbs-spices",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/herbs-spices/products",
+      "canonical": "https://www.agriculturecairo.com/en/herbs-spices/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/herbs-spices/products",
+      "canonical": "https://www.agriculturecairo.com/ar/herbs-spices/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/herbs-spices/products",
+      "canonical": "https://www.agriculturecairo.com/ru/herbs-spices/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/herbs-spices/products",
+      "canonical": "https://www.agriculturecairo.com/de/herbs-spices/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/herbs-spices/products",
+      "canonical": "https://www.agriculturecairo.com/fr/herbs-spices/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/company",
+      "canonical": "https://www.agriculturecairo.com/en/company",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/contact",
+      "canonical": "https://www.agriculturecairo.com/contact",
+      "normalAndGooglebot": true
+    }
+  ],
+  "restrictedRoutes": 5,
+  "companyCopies": 5,
+  "filterVariants": 10,
+  "invalidRoutes": 5
+}

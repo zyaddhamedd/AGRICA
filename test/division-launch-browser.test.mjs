@@ -17,7 +17,7 @@ for (const locale of locales) {
     const html = await response.text();
     assert.equal(response.status, 200, route);
     assert.ok(!response.headers.get('x-robots-tag')?.includes('noindex'), `${route}: no conflicting HTTP robots`);
-    const canonical = `https://www.agriculturecairo.com/${locale}${suffix || '/'}`;
+    const canonical = `https://www.agriculturecairo.com/${locale}${suffix}`;
     assert.ok(html.includes(`rel="canonical" href="${canonical}"`), `${route}: self canonical`);
     if (suffix.startsWith('/herbs-spices')) assertHerbsIndexing(html, route);
     else assert.ok(html.includes('name="robots" content="index, follow"'), `${route}: Produce indexing preserved`);

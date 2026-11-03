@@ -11,11 +11,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
   const { lang } = await params;
   const dictionary = await getDictionary(lang);
   const copy = dictionary.herbsSpices.catalogue;
-  return {
-    ...divisionPageMetadata(lang, "herbs-spices", "products"),
+  return divisionPageMetadata(lang, "herbs-spices", "products", {
     title: `${copy.titleLead} ${copy.titleEmphasis}`,
     description: copy.description,
-  };
+  });
 }
 
 async function HerbsSpicesCatalogueBridge({
