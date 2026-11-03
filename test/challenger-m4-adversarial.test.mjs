@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { assertHerbsIndexing } from "./division-launch-policy.mjs";
 
 /**
  * AGRICA Milestone M4 Whole-Codebase Adversarial Stress Test Suite
@@ -959,19 +960,11 @@ async function main() {
       }
       console.log("        ✓ Dynamic routes safely insulated from immutable year-long cache.");
 
-      // 6.4 Launch Guardrails: SHOW_BUSINESS_DIVISION_SWITCHER === false
-      console.log("  [6.4] Launch Guardrails: SHOW_BUSINESS_DIVISION_SWITCHER constant check...");
-      const switcherFile = path.join(rootDir, "src/components/common/BusinessDivisionSwitcher.tsx");
-      const switcherSource = fs.readFileSync(switcherFile, "utf-8");
-      assert.match(
-        switcherSource,
-        /export\s+const\s+SHOW_BUSINESS_DIVISION_SWITCHER\s*=\s*false/,
-        "SHOW_BUSINESS_DIVISION_SWITCHER MUST be exported as false"
-      );
-      console.log("        ✓ SHOW_BUSINESS_DIVISION_SWITCHER is strictly false in source.");
+      // 6.4 Public division navigation
+      const switcherSource = fs.readFileSync(path.join(rootDir, "src/components/common/BusinessDivisionSwitcher.tsx"), "utf8");
+      assert.ok(switcherSource.includes("data-division-switcher"));
 
-      // 6.5 Robots Metadata: noindex, nofollow across all 15 herbs routes
-      console.log("  [6.5] Robots Metadata: noindex, nofollow across all 15 herbs routes...");
+      // 6.5 Selective indexing policy across all 15 Herbs routes
       const locales = ["en", "ar", "ru", "de", "fr"];
       const herbsRouteSuffixes = ["herbs-spices", "herbs-spices/products", "herbs-spices/standard"];
 
@@ -981,14 +974,10 @@ async function main() {
           const res = await fetch(`${BASE_URL}${route}`);
           assert.equal(res.status, 200, `Expected HTTP 200 for ${route}`);
           const html = await res.text();
-          assert.match(
-            html,
-            /<meta[^>]+name="robots"[^>]+content="[^"]*noindex[^"]*no-follow|noindex,\s*nofollow[^"]*"|<meta[^>]+content="[^"]*noindex,\s*nofollow[^"]*"[^>]+name="robots"/i,
-            `Herbs route ${route} MUST contain robots noindex, nofollow`
-          );
+          assertHerbsIndexing(html, route);
         }
       }
-      console.log("        ✓ All 15 Herbs & Spices localized routes contain noindex, nofollow.");
+      console.log("        ✓ All 15 Herbs & Spices localized routes respect selective indexing.");
 
       // 6.6 Produce routes must be indexable (no noindex tags)
       console.log("  [6.6] Produce Routes Indexability...");

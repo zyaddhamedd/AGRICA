@@ -1,113 +1,80 @@
 .switcher {
-  position: relative;
+  --division-ink: #002050;
+  --division-border: rgba(0, 32, 80, 0.16);
+  --division-surface: rgba(0, 32, 80, 0.035);
+  --division-active: #002050;
+  --division-active-ink: #fff;
   display: inline-flex;
-  align-items: center;
-  gap: clamp(14px, 1.8vw, 22px);
-  padding: 4px 0 6px 0;
-  border: none;
-  background: transparent;
-  white-space: nowrap;
-  box-sizing: border-box;
+  flex-shrink: 0;
+  align-items: stretch;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--division-border);
+  border-radius: 8px;
+  background: var(--division-surface);
+}
+
+.switcher[data-tone="dark"] {
+  --division-ink: #fff;
+  --division-border: rgba(255, 255, 255, 0.24);
+  --division-surface: rgba(255, 255, 255, 0.04);
+  --division-active: #f6f4ee;
+  --division-active-ink: #002050;
 }
 
 .divisionLink {
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 0;
-  color: rgba(0, 32, 80, 0.45);
-  font-size: 0.62rem;
+  min-height: 32px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  color: var(--division-ink);
+  font-size: 0.6875rem;
   font-weight: 550;
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+  line-height: 1.25;
+  text-align: center;
   text-decoration: none;
-  transition: color 180ms ease, opacity 180ms ease;
-  user-select: none;
-}
-
-.switcher[data-tone="dark"] .divisionLink {
-  color: rgba(255, 255, 255, 0.45);
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
 .divisionLink:hover {
-  color: rgba(0, 32, 80, 0.85);
-}
-
-.switcher[data-tone="dark"] .divisionLink:hover {
-  color: rgba(255, 255, 255, 0.88);
+  background: var(--division-border);
 }
 
 .divisionLink[aria-current="page"] {
-  color: #002050;
-  font-weight: 700;
-  background: transparent;
-  box-shadow: none;
-}
-
-.switcher[data-tone="dark"] .divisionLink[aria-current="page"] {
-  color: #ffffff;
-  background: transparent;
-  box-shadow: none;
+  color: var(--division-active-ink);
+  background: var(--division-active);
+  box-shadow: 0 1px 3px rgba(0, 20, 40, 0.12);
 }
 
 .divisionLink:focus-visible {
-  outline: 2px solid #50a010;
+  outline: 2px solid #63ad27;
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
-.indicator {
-  position: absolute;
-  bottom: 0;
-  height: 1.5px;
-  background-color: #002050;
-  border-radius: 1px;
-  pointer-events: none;
-  transition: left 200ms cubic-bezier(0.4, 0, 0.2, 1),
-              width 200ms cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 150ms ease;
-  will-change: left, width;
-}
-
-.switcher[data-tone="dark"] .indicator {
-  background-color: #ffffff;
-}
-
-.compactLabel {
-  display: none;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .switcher {
-    gap: 12px;
-    padding: 3px 0 5px 0;
+    padding: 2px;
+    border-radius: 7px;
   }
-
   .divisionLink {
-    font-size: 0.60rem;
-    letter-spacing: 0.06em;
+    min-height: 32px;
+    max-width: 94px;
+    padding: 3px 7px;
+    font-size: 0.625rem;
+    overflow-wrap: anywhere;
   }
+}
 
-  .fullLabel {
-    display: none;
-  }
-
-  .compactLabel {
-    display: inline;
+@media (max-width: 440px) {
+  .divisionLink {
+    max-width: 78px;
+    padding-inline: 5px;
+    font-size: 0.59375rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .indicator {
-    transition: none;
-  }
-
-  .divisionLink {
-    transition: none;
-  }
+  .divisionLink { transition: none; }
 }

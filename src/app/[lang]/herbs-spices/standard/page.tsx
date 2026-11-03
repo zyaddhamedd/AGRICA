@@ -1,3 +1,4 @@
+import { divisionPageMetadata } from "@/divisions/metadata";
 import type { Metadata } from "next";
 import React from "react";
 import { ProcessIntro } from "@/components/herbs-spices/standard/ProcessIntro";
@@ -9,10 +10,16 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/config";
 import { localizeHerbsProcessStages } from "@/content/standard/localize";
 
-export const metadata: Metadata = {
-  title: "Process Journey | AGRICA Herbs & Spices",
-  description: "Six structured stages connecting raw Egyptian botanical material to commercial export format.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const dictionary = await getDictionary(lang);
+  const copy = dictionary.standard.herbs.hero;
+  return {
+    ...divisionPageMetadata(lang, "herbs-spices", "standard"),
+    title: `${copy.titleLead} ${copy.titleEmphasis}`,
+    description: copy.description,
+  };
+}
 
 export default async function HerbsSpicesStandardPage({
   params,

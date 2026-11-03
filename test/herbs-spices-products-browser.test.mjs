@@ -95,7 +95,7 @@ await setViewport(1440, 1000);
 await navigate("/en/herbs-spices/products");
 
 assert.equal(await evaluate('document.querySelectorAll("h1").length'), 1, "catalogue has one H1");
-assert.equal(await evaluate('document.querySelector("meta[name=robots]")?.content'), "noindex, nofollow", "catalogue remains noindex");
+assert.equal(await evaluate('document.querySelector("meta[name=robots]")?.content'), "index, follow", "catalogue is indexable");
 assert.equal(await evaluate('document.querySelectorAll("[data-material-grid]").length'), 1, "one semantic material grid renders");
 assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen]").length'), 27, "all 27 source-backed products render");
 assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] [data-media-status=fallback]").length'), 15, "pending product media use intentional fallbacks");

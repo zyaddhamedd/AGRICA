@@ -1,3 +1,4 @@
+import { assertHerbsIndexing } from "./division-launch-policy.mjs";
 import assert from "node:assert/strict";
 
 const baseUrl = process.env.PHASE1_BASE_URL ?? "http://localhost:3107";
@@ -21,7 +22,7 @@ for (const locale of locales) {
     assert.match(html, new RegExp(`<html[^>]+lang="${locale}"`), `${route} exposes its locale`);
     assert.match(html, new RegExp(`<html[^>]+dir="${locale === "ar" ? "rtl" : "ltr"}"`), `${route} exposes its direction`);
     if (suffix.startsWith("/herbs-spices")) {
-      assert.match(html, /<meta name="robots" content="noindex, nofollow"\/>/, `${route} remains noindex, nofollow`);
+      assertHerbsIndexing(html, route);
     }
   }
 }

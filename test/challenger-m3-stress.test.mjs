@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { assertHerbsIndexing } from "./division-launch-policy.mjs";
 
 /**
  * Challenger M3 Empirical Stress Test Harness
@@ -8,7 +9,7 @@
  * - F10: ProductCardFlightOverlay open/close across Desktop (1440px), Tablet (768px), and Mobile (390px):
  *        CLS <= 0.001, GPU compositing / 60fps frame rate, pointer-events lock/unlock
  * - F15: Dead code elimination (Stack.tsx / Stack.css)
- * - Launch Guardrails: SHOW_BUSINESS_DIVISION_SWITCHER === false, Herbs robots { index: false, follow: false } across all 15 routes
+ * - Public switcher and selective Herbs indexing across all 15 routes
  */
 
 import assert from "node:assert/strict";
@@ -195,12 +196,8 @@ try {
   // 2.1 File static check
   const switcherPath = path.join(rootDir, "src/components/common/BusinessDivisionSwitcher.tsx");
   const switcherContent = fs.readFileSync(switcherPath, "utf8");
-  assert.match(
-    switcherContent,
-    /export\s+const\s+SHOW_BUSINESS_DIVISION_SWITCHER\s*=\s*false;/,
-    "SHOW_BUSINESS_DIVISION_SWITCHER must be explicitly false",
-  );
-  console.log("✓ SHOW_BUSINESS_DIVISION_SWITCHER constant is strictly false in source");
+  assert.ok(switcherContent.includes("data-division-switcher"), "public division switcher exists");
+  assert.ok(!switcherContent.includes("SHOW_BUSINESS_DIVISION_SWITCHER"), "obsolete launch gate removed");
 
   // 2.2 Robots metadata across ALL 15 Herbs & Spices routes (5 locales x 3 routes)
   const locales = ["en", "ar", "ru", "de", "fr"];
@@ -214,17 +211,11 @@ try {
       assert.equal(res.status, 200, `Route ${route} must return 200`);
       const html = await res.text();
 
-      // Check robots meta tag
-      const hasRobotsNoIndex = /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex[^"']*nofollow[^"']*["']/i.test(html) ||
-                               /<meta\s+content=["'][^"']*noindex[^"']*nofollow[^"']*["']\s+name=["']robots["']/i.test(html);
-      assert.ok(
-        hasRobotsNoIndex,
-        `FATAL SEO LEAK: Route ${route} MUST output <meta name="robots" content="noindex, nofollow"/>`,
-      );
+      assertHerbsIndexing(html, route);
       totalHerbsRoutesChecked++;
     }
   }
-  console.log(`✓ All ${totalHerbsRoutesChecked} Herbs & Spices localized routes contain <meta name="robots" content="noindex, nofollow"/>`);
+  console.log(`✓ All ${totalHerbsRoutesChecked} Herbs & Spices localized routes respect the selective indexing policy`);
 
   // Verify Produce routes do NOT have noindex
   for (const locale of locales) {
@@ -331,13 +322,13 @@ try {
     // Wait 1000ms for React hydration and event listener attachment
     await new Promise((r) => setTimeout(r, 1000));
 
-    // Verify business division switcher is NOT in the DOM
+    // Verify public division navigation is present
     const switcherInDom = await session.evaluate(`
       document.querySelector('nav[aria-label="AGRICA business divisions"]') !== null ||
       document.querySelector('[class*="BusinessDivisionSwitcher"]') !== null ||
       document.querySelector('a[href*="/herbs-spices"][aria-label*="business division"]') !== null
     `);
-    assert.equal(switcherInDom, false, `Business division switcher must NOT be in DOM on ${vp.label}`);
+    assert.equal(switcherInDom, true, `Business division switcher must be in DOM on ${vp.label}`);
 
     // Setup CLS tracking
     await initCLSObserver();

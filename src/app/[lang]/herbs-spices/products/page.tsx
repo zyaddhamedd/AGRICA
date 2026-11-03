@@ -1,3 +1,4 @@
+import { divisionPageMetadata } from "@/divisions/metadata";
 import type { Metadata } from "next";
 import React, { Suspense } from "react";
 import { HerbsSpicesProductsExplorer } from "@/components/herbs-spices/products/HerbsSpicesProductsExplorer";
@@ -6,11 +7,16 @@ import styles from "@/app/herbs-spices/products/page.module.css";
 import { getDictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Ingredient catalogue | Herbs & Spices",
-  description: "Explore AGRICA Herbs & Spices ingredient families and materials.",
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: Locale }> }): Promise<Metadata> {
+  const { lang } = await params;
+  const dictionary = await getDictionary(lang);
+  const copy = dictionary.herbsSpices.catalogue;
+  return {
+    ...divisionPageMetadata(lang, "herbs-spices", "products"),
+    title: `${copy.titleLead} ${copy.titleEmphasis}`,
+    description: copy.description,
+  };
+}
 
 async function HerbsSpicesCatalogueBridge({
   searchParams,

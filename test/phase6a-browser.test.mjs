@@ -61,7 +61,7 @@ assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen]
 assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] [data-media-status=fallback]").length'), 15, "pending product fallbacks render intentionally");
 assert.equal(await evaluate('document.querySelectorAll("[data-material-specimen] img").length'), 12, "approved product media render without changing pending fallbacks");
 assert.equal(await evaluate('[...document.querySelectorAll("[data-material-specimen] [data-media-status=fallback]")].every(slot => slot.getBoundingClientRect().height > 0)'), true, "fallback slots reserve layout space");
-assert.equal(await evaluate('document.querySelector("meta[name=robots]")?.content'), "noindex, nofollow");
+assert.equal(await evaluate('document.querySelector("meta[name=robots]")?.content'), "index, follow", "catalogue is indexable");
 assert.equal(await evaluate('document.querySelector("a[aria-label*=Produce]")?.getAttribute("href")'), "/en/products", "switch maps to Produce Products");
 
 await evaluate('[...document.querySelectorAll("button")].find((button) => button.textContent.trim() === "Herbs").click()');

@@ -159,7 +159,7 @@ for (const locale of locales) {
     assert.ok(html.includes('content="noindex, nofollow"'), `${locale}: Herbs standard has noindex, nofollow`);
     assert.ok(html.includes(dict.herbs.hero.titleLead), `${locale}: Herbs hero rendered`);
     assert.ok(html.includes(dict.herbs.interlude.title), `${locale}: Herbs interlude rendered`);
-    assert.ok(html.includes('id="stage-01"') && html.includes('id="stage-04"') && html.includes('id="stage-06"'), `${locale}: Herbs stable stage anchors rendered`);
+    assert.ok(html.includes('id="stage-tab-01"') && html.includes('id="stage-tab-04"') && html.includes('id="stage-tab-06"') && html.includes('id="stage-panel-01"'), `${locale}: Herbs atlas tabs and initial panel rendered`);
     assert.ok(!html.includes("herbs.hero"), `${locale}: Herbs has no raw keys`);
   }
 }

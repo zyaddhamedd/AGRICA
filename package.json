@@ -33,7 +33,9 @@
     "test:e2e:tier2": "node test/run-e2e.mjs --tier 2",
     "test:e2e:tier3": "node test/run-e2e.mjs --tier 3",
     "test:e2e:tier4": "node test/run-e2e.mjs --tier 4",
-    "test:browser-qa": "node test/browser-qa-m5-verification.mjs"
+    "test:browser-qa": "node test/browser-qa-m5-verification.mjs",
+    "test:launch": "tsx test/launch-gates.test.ts",
+    "test:division-launch-browser": "node test/division-launch-browser.test.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

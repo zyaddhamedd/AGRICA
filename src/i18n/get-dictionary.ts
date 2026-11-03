@@ -1,6 +1,7 @@
 import "server-only";
 
-import type { Locale } from "./config";
+import { isLocale, type Locale } from "./config";
+import { notFound } from "next/navigation";
 import type { Dictionary } from "./types";
 
 const dictionaryLoaders = {
@@ -13,5 +14,6 @@ const dictionaryLoaders = {
 
 /** Server-only loader: imports exactly one locale dictionary per call. */
 export function getDictionary(locale: Locale): Promise<Dictionary> {
+  if (!isLocale(locale)) notFound();
   return dictionaryLoaders[locale]();
 }

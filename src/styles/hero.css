@@ -192,54 +192,6 @@
   gap: clamp(8px, 1.1vw, 14px);
 }
 
-/* Minimal Editorial Site Switcher (Produce / Herbs & Spices) */
-.hero-navbar-controls [class*="switcher"] {
-  position: relative;
-  height: auto;
-  border-radius: 0;
-  border: none !important;
-  background: transparent !important;
-  padding: 4px 0 6px 0;
-  display: inline-flex;
-  align-items: center;
-  box-shadow: none !important;
-  gap: clamp(14px, 1.8vw, 22px);
-}
-
-.hero-navbar-controls [class*="divisionLink"] {
-  min-height: auto;
-  height: auto;
-  padding: 2px 0;
-  font-size: 0.62rem;
-  font-weight: 550;
-  letter-spacing: 0.08em;
-  border-radius: 0;
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  color: rgba(0, 32, 80, 0.45);
-  transition: color 180ms ease, opacity 180ms ease;
-  display: inline-flex;
-  align-items: center;
-  text-transform: uppercase;
-}
-
-.hero-navbar-controls [class*="divisionLink"]::after {
-  display: none !important;
-}
-
-.hero-navbar-controls [class*="divisionLink"]:hover {
-  color: rgba(0, 32, 80, 0.85);
-  background: transparent !important;
-}
-
-.hero-navbar-controls [class*="divisionLink"][aria-current="page"] {
-  background: transparent !important;
-  color: #002050;
-  font-weight: 700;
-  box-shadow: none !important;
-}
-
 /* Refined Icon-Only Language Switcher */
 .hero-navbar-controls [data-language-switcher] [data-language-trigger] {
   min-height: 28px;
@@ -817,23 +769,11 @@
     gap: 6px;
   }
 
-  .hero-navbar-controls [class*="switcher"] {
-    height: auto;
-    padding: 3px 0 5px 0;
-    gap: 12px;
-  }
 
-  .hero-navbar-controls [class*="divisionLink"] {
-    min-height: auto;
-    height: auto;
-    padding: 2px 0;
-    font-size: 0.60rem;
-    font-weight: 550;
-  }
 
-  .hero-navbar-controls [class*="divisionLink"][aria-current="page"] {
-    font-weight: 700;
-  }
+
+
+
 
   .hero-navbar-controls [data-language-switcher] [data-language-trigger] {
     min-height: 26px;

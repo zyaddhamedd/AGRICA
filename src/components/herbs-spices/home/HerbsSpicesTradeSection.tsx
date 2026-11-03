@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { useHerbsSpicesDictionary } from "@/i18n/locale-context";
+import { useHerbsSpicesDictionary, useCommonDictionary } from "@/i18n/locale-context";
 import { HERBS_SPICES_HOMEPAGE } from "@/data/herbs-spices/homepage";
 import styles from "./HerbsSpicesTradeSection.module.css";
 
 export function HerbsSpicesTradeSection(): React.JSX.Element {
   const { trade, families, forms } = useHerbsSpicesDictionary().homepage;
+  const common = useCommonDictionary();
   const staticTrade = HERBS_SPICES_HOMEPAGE.trade;
   const [submitted, setSubmitted] = useState(false);
 
@@ -31,6 +32,8 @@ export function HerbsSpicesTradeSection(): React.JSX.Element {
             <h3 className={styles.cardHeading}>Export Trade Enquiry</h3>
             <p className={styles.cardSubheading}>Direct sourcing from verified Egyptian harvest origins</p>
           </div>
+
+          <p className={styles.statusText}>{common.enquiry.previewNotice} <a href="mailto:info@agriculturecairo.com">{common.actions.contact}</a></p>
 
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.fieldGrid}>
@@ -105,7 +108,7 @@ export function HerbsSpicesTradeSection(): React.JSX.Element {
 
             <div className={styles.formFooter}>
               <button type="submit" className={styles.submitBtn}>
-                <span>{trade.submitLabel || staticTrade.submitLabel}</span>
+                <span>{common.actions.previewEnquiry}</span>
                 <span className={styles.submitArrow} aria-hidden="true">→</span>
               </button>
 
@@ -113,7 +116,7 @@ export function HerbsSpicesTradeSection(): React.JSX.Element {
                 <div className={styles.statusBox} role="status" aria-live="polite">
                   <span className={styles.statusIcon} aria-hidden="true">✓</span>
                   <p className={styles.statusText}>
-                    {trade.previewMessage || staticTrade.previewMessage}
+                    {common.enquiry.previewNotice}
                   </p>
                 </div>
               )}

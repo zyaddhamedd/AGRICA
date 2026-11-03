@@ -1,0 +1,52 @@
+{
+  "baseline": "043dc5d",
+  "branch": "codex/phase1-herbs-launch",
+  "browser_matrix": {
+    "locales": [
+      "en",
+      "ar",
+      "ru",
+      "de",
+      "fr"
+    ],
+    "widths": [
+      1440,
+      390,
+      320
+    ],
+    "layouts": 90,
+    "passed": true
+  },
+  "supplemental_layouts_and_menus": 20,
+  "preview_form_locales": 5,
+  "metadata_routes": 30,
+  "filter_canonicals": 10,
+  "unsupported_locale_routes": 4,
+  "production_build": "pass",
+  "typecheck": "pass",
+  "functional_phase3b": "pass",
+  "launch_policy": "pass",
+  "tier1_suites": 8,
+  "independent_review": "no remaining blockers",
+  "lint": {
+    "baseline_errors": 26,
+    "final_errors": 20,
+    "warnings": 24,
+    "changed_production_ts_files": "pass"
+  },
+  "performance": {
+    "cold_home_js_baseline": 246342,
+    "cold_home_js_final": 246855,
+    "sampled_cls": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "limitation": "Short local samples with cache/timing variation; no new Lighthouse or field CWV audit."
+  }
+}

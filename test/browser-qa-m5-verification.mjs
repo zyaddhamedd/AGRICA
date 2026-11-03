@@ -9,7 +9,7 @@
  * 1. Viewports: Desktop (1440px), Tablet (768px), Mobile (390px), Compact Mobile (320px)
  * 2. Locales: 5 supported languages (en, ar [RTL], ru, de, fr)
  * 3. Visual Fidelity & Typography: Branding, Typography, Responsive Integrity, RTL Mirroring, Zero CLS
- * 4. Navigation & Menus: Localized links, mobile hamburger drawer, division gates (UI switcher absent)
+ * 4. Navigation & Menus: Localized links, mobile hamburger drawer, public division switching
  * 5. Forms & Interactive Modals: Contact Hub & downloads (vCard, PDFs), Trade form, Quote/Enquiry, 3D card flight overlay
  * 6. Product Catalogues & Filters: Fresh (21) & Frozen (13), Herbs & Spices (27 across 6 families), pushState client history, zero broken images
  * 7. Animations & Media: Hero video lifecycle, seasonal orbit, LogoLoop marquee, GSAP 3D card flight, standard journey, herbs gallery accordion
@@ -338,15 +338,15 @@ async function runBrowserQASuite() {
       await sleep(100);
 
       const switcherInUI = await evaluate(`(() => {
-        // BusinessDivisionSwitcher returns null when SHOW_BUSINESS_DIVISION_SWITCHER is false
-        const switcher = document.querySelector(".division-switcher, .business-division-switcher");
+        // Stable selector shared by both division headers
+        const switcher = document.querySelector("[data-division-switcher]");
         return !!switcher;
       })()`);
 
       assert.strictEqual(
         switcherInUI,
-        false,
-        `Division switcher unexpectedly visible in UI on ${route}`
+        route !== "/contact",
+        `Division navigation presence on ${route}`
       );
     }
 
@@ -354,7 +354,7 @@ async function runBrowserQASuite() {
       "Area 4: Navigation",
       "Division Gates UI Verification",
       true,
-      "SHOW_BUSINESS_DIVISION_SWITCHER = false confirmed: switcher absent from UI across all routes"
+      "Public switcher present on division routes; standalone contact unchanged"
     );
 
     // =========================================================================
