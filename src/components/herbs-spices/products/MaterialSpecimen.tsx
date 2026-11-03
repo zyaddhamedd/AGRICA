@@ -4,7 +4,7 @@ import { getHerbsSpicesMedia } from "@/data/herbs-spices/media";
 import { BOTANICAL_LATIN_NAMES } from "@/data/herbs-spices/catalogue";
 import type { HerbsSpicesCatalogueItem } from "@/types/herbs-spices";
 import styles from "./MaterialSpecimen.module.css";
-import { useCommonDictionary } from "@/i18n/locale-context";
+import { useCommonDictionary, useHerbsSpicesDictionary } from "@/i18n/locale-context";
 import { formatMessage } from "@/i18n/format";
 
 export interface MaterialSpecimenProps {
@@ -22,6 +22,7 @@ export function MaterialSpecimen({
   onToggleDetails,
   onToggleSelection,
 }: MaterialSpecimenProps): React.JSX.Element {
+  const dictionary = useHerbsSpicesDictionary();
   const common = useCommonDictionary();
   const media = getHerbsSpicesMedia(item.mediaKey);
   const latinName = BOTANICAL_LATIN_NAMES[item.slug];
@@ -46,18 +47,18 @@ export function MaterialSpecimen({
         role="button"
         aria-expanded={expanded}
         aria-haspopup="dialog"
-        aria-label={`${item.name} · ${item.familyName} - Click to inspect`}
+        aria-label={`${item.name} · ${common.actions.viewMaterial}`}
       >
         {/* Image Frame */}
         <div className={styles.mediaWrap}>
           <HerbsSpicesMedia
             className={styles.media}
             entry={media}
-            alt={`${item.name} botanical specimen`}
+            alt={dictionary.products[item.id]?.imageAlt ?? item.name}
             fallback={<span className={styles.fallback} />}
           />
           <span className={styles.inspectHint} aria-hidden="true">
-            Inspect ↗
+            {common.actions.explore} ↗
           </span>
         </div>
 
@@ -80,7 +81,7 @@ export function MaterialSpecimen({
             </p>
           ) : (
             <p className={styles.formsQuiet}>
-              Formats confirmed on request
+              {dictionary.catalogue.formConfirmation}
             </p>
           )}
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { productCardFieldLabel } from "@/content/produce/product-card-labels";
-import { useLocale, useProductsDictionary } from "@/i18n/locale-context";
+import { useLocale, useProductsDictionary, useCommonDictionary } from "@/i18n/locale-context";
 import type { ProductAtlasItem } from "@/types/agrica";
 import type { PublicProductCardField } from "@/types/product-card-content";
 
@@ -37,9 +37,14 @@ const handlingFields = new Set<PublicProductCardField["labelKey"]>([
 ]);
 
 export function ProductSpecTable({ item, fields, expanded = false }: ProductSpecTableProps): React.JSX.Element {
+  const common = useCommonDictionary();
   const dictionary = useProductsDictionary();
   const locale = useLocale();
   const rows = buildProductSpecRows(fields, (field) => productCardFieldLabel(locale, field.labelKey));
+
+  if (rows.length === 0) {
+    return <p className="export-spec-notice">{common.enquiry.specificationsPending} <a href="mailto:info@agriculturecairo.com">{common.actions.contact}</a></p>;
+  }
 
   if (expanded) {
     const groups = [

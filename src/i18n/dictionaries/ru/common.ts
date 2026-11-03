@@ -53,6 +53,7 @@ const common = {
     reviewItems: "Проверить позиции экспортного запроса: {count}", addItem: "Добавить {name} в запрос",
     removeItemFromEnquiry: "Удалить {name} из запроса", localPreview: "Предпросмотр запроса",
     selectedMaterials: "Выбранные материалы", closeEnquiry: "Закрыть запрос",
+    specificationsPending: "Характеристики требуют подтверждения.",
     selectedMaterialsLabel: "Выбранные материалы", previewNotice: "Предпросмотр запроса — отправка будет подключена позднее.",
     enquiryList: "Список запроса",
   },

@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "locale": "en",
+      "homePreview": true,
+      "unapprovedSpecsHidden": true,
+      "identityAndQuoteRetained": true,
+      "quotePreview": true
+    },
+    {
+      "locale": "ar",
+      "homePreview": true,
+      "unapprovedSpecsHidden": true,
+      "identityAndQuoteRetained": true,
+      "quotePreview": true
+    },
+    {
+      "locale": "ru",
+      "homePreview": true,
+      "unapprovedSpecsHidden": true,
+      "identityAndQuoteRetained": true,
+      "quotePreview": true
+    },
+    {
+      "locale": "de",
+      "homePreview": true,
+      "unapprovedSpecsHidden": true,
+      "identityAndQuoteRetained": true,
+      "quotePreview": true
+    },
+    {
+      "locale": "fr",
+      "homePreview": true,
+      "unapprovedSpecsHidden": true,
+      "identityAndQuoteRetained": true,
+      "quotePreview": true
+    }
+  ],
+  "companyLanguageScope": true
+}

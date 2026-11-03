@@ -51,6 +51,7 @@ export function EnquiryDrawer({ items, onClose, onRemove, triggerRef }: EnquiryD
       <header><div><p>{common.enquiry.localPreview}</p><h2 id="enquiry-title">{common.enquiry.selectedMaterials}</h2></div><button ref={closeRef} className={styles.close} type="button" onClick={onClose}>{common.actions.close} <span aria-hidden="true">&times;</span></button></header>
       <div className={styles.content}>
         <ul className={styles.selection} aria-label={common.enquiry.selectedMaterialsLabel}>{items.map((item) => <li key={item.id}><div><span>{item.familyName}</span><strong>{item.name}</strong></div><button type="button" onClick={() => onRemove(item.id)} aria-label={formatMessage(common.enquiry.removeItemFromEnquiry, { name: item.name })}>{common.actions.remove}</button></li>)}</ul>
+        <p className={styles.notice}>{common.enquiry.previewNotice} <a href="mailto:info@agriculturecairo.com">{common.actions.contact}</a></p>
         <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}>
           <label>{common.enquiry.destination}<input name="destination" autoComplete="country-name" required /></label>
           <label>{common.enquiry.estimatedVolume}<input name="volume" required /></label>

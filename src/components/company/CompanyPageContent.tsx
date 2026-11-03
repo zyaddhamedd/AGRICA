@@ -200,7 +200,7 @@ export function CompanyPageContent(): React.JSX.Element {
     <div className={styles.page} ref={containerRef}>
       <SiteHeader variant="internal" />
 
-      <main className={styles.main} id="main-content">
+      <main lang="en" dir="ltr" className={styles.main} id="main-content">
         {/* =================================================================
             01 / HERO — ORIGIN & DISCIPLINE
             ================================================================= */}

@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "sitemapUrls": 27,
+  "sitemapUrls": 47,
   "results": [
     {
       "path": "/en",
@@ -125,6 +125,106 @@
     {
       "path": "/fr/herbs-spices/products",
       "canonical": "https://www.agriculturecairo.com/fr/herbs-spices/products",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/products/oranges",
+      "canonical": "https://www.agriculturecairo.com/en/products/oranges",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/products/oranges",
+      "canonical": "https://www.agriculturecairo.com/ar/products/oranges",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/products/oranges",
+      "canonical": "https://www.agriculturecairo.com/ru/products/oranges",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/products/oranges",
+      "canonical": "https://www.agriculturecairo.com/de/products/oranges",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/products/oranges",
+      "canonical": "https://www.agriculturecairo.com/fr/products/oranges",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/products/fresh-strawberries",
+      "canonical": "https://www.agriculturecairo.com/en/products/fresh-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/products/fresh-strawberries",
+      "canonical": "https://www.agriculturecairo.com/ar/products/fresh-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/products/fresh-strawberries",
+      "canonical": "https://www.agriculturecairo.com/ru/products/fresh-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/products/fresh-strawberries",
+      "canonical": "https://www.agriculturecairo.com/de/products/fresh-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/products/fresh-strawberries",
+      "canonical": "https://www.agriculturecairo.com/fr/products/fresh-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/products/iqf-strawberries",
+      "canonical": "https://www.agriculturecairo.com/en/products/iqf-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/products/iqf-strawberries",
+      "canonical": "https://www.agriculturecairo.com/ar/products/iqf-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/products/iqf-strawberries",
+      "canonical": "https://www.agriculturecairo.com/ru/products/iqf-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/products/iqf-strawberries",
+      "canonical": "https://www.agriculturecairo.com/de/products/iqf-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/products/iqf-strawberries",
+      "canonical": "https://www.agriculturecairo.com/fr/products/iqf-strawberries",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/en/products/iqf-broccoli",
+      "canonical": "https://www.agriculturecairo.com/en/products/iqf-broccoli",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ar/products/iqf-broccoli",
+      "canonical": "https://www.agriculturecairo.com/ar/products/iqf-broccoli",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/ru/products/iqf-broccoli",
+      "canonical": "https://www.agriculturecairo.com/ru/products/iqf-broccoli",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/de/products/iqf-broccoli",
+      "canonical": "https://www.agriculturecairo.com/de/products/iqf-broccoli",
+      "normalAndGooglebot": true
+    },
+    {
+      "path": "/fr/products/iqf-broccoli",
+      "canonical": "https://www.agriculturecairo.com/fr/products/iqf-broccoli",
       "normalAndGooglebot": true
     },
     {

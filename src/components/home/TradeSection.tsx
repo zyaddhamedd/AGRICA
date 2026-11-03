@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./TradeSection.css";
-import { useHomeDictionary, useLocale } from "@/i18n/locale-context";
+import { useHomeDictionary, useLocale, useCommonDictionary } from "@/i18n/locale-context";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -19,6 +19,7 @@ export interface TradeFormData {
 }
 
 export function TradeSection(): React.JSX.Element {
+  const common = useCommonDictionary();
   const dictionary = useHomeDictionary().trade;
   const locale = useLocale();
   const [formData, setFormData] = useState<TradeFormData>({
@@ -219,17 +220,19 @@ export function TradeSection(): React.JSX.Element {
             </div>
           </div>
 
+          <p>{common.enquiry.previewNotice} <a href="mailto:info@agriculturecairo.com">{common.actions.contact}</a></p>
+
           {/* Submit Action */}
           <div className="trade-submit-wrapper">
             <button type="submit" className={`trade-submit-btn ${submitted ? "is-submitted" : ""}`}>
-              <span>{submitted ? dictionary.sent : dictionary.send}</span>
+              <span>{common.actions.previewEnquiry}</span>
               <svg className="trade-submit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
             {submitted && (
-              <p className="trade-success-note">
-                {dictionary.success}
+              <p className="trade-success-note" role="status" aria-live="polite">
+                {common.enquiry.previewNotice}
               </p>
             )}
           </div>

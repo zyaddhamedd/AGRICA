@@ -71,7 +71,7 @@ export interface HerbsSpicesDictionary {
     readonly trust: { readonly eyebrow: string; readonly title: string; readonly description: string; readonly pillars: readonly { readonly index: string; readonly title: string; readonly description: string }[]; readonly parentLabel: string };
     readonly trade: { readonly eyebrow: string; readonly title: string; readonly description: string; readonly categoryLabel: string; readonly formatLabel: string; readonly volumeLabel: string; readonly destinationLabel: string; readonly companyLabel: string; readonly emailLabel: string; readonly selectPrompt: string; readonly submitLabel: string; readonly previewMessage: string };
   };
-  readonly catalogue: { readonly eyebrow: string; readonly titleLead: string; readonly titleEmphasis: string; readonly description: string; readonly availableForms: string; readonly technicalNote: string; readonly detailsLabel: string; readonly exploreFamily: string; readonly currentForm: string; readonly reelControls: string; readonly previousForm: string; readonly nextForm: string; readonly formsLabel: string; readonly illustrativeStudy: string };
+  readonly catalogue: { readonly eyebrow: string; readonly titleLead: string; readonly titleEmphasis: string; readonly description: string; readonly availableForms: string; readonly technicalNote: string; readonly formConfirmation: string; readonly detailsLabel: string; readonly exploreFamily: string; readonly currentForm: string; readonly reelControls: string; readonly previousForm: string; readonly nextForm: string; readonly formsLabel: string; readonly illustrativeStudy: string };
   readonly families: Readonly<Record<HerbsSpicesFamilyId, string>>;
   readonly products: Readonly<Record<`herbs-spices:${string}`, { readonly name: string; readonly aliases: readonly string[]; readonly imageAlt: string }>>;
   readonly forms: Readonly<Record<string, string>>;
@@ -192,6 +192,7 @@ export interface CommonDictionary {
     readonly closeEnquiry: string;
     readonly selectedMaterialsLabel: string;
     readonly previewNotice: string;
+    readonly specificationsPending: string;
     readonly enquiryList: string;
   };
   readonly catalogue: {

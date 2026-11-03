@@ -1,0 +1,48 @@
+{
+  "build": "PASS",
+  "typecheck": "PASS",
+  "seo_unit": "PASS",
+  "approved_product_content": "PASS",
+  "phase3b_functional": "PASS",
+  "launch_policy": "PASS",
+  "rendered_http": {
+    "status": "PASS",
+    "eligibleUrls": 47,
+    "userAgents": [
+      "ordinary",
+      "Googlebot"
+    ]
+  },
+  "division_browser": {
+    "status": "PASS",
+    "layouts": 90
+  },
+  "independent_product_browser": {
+    "status": "PASS",
+    "layouts": 64,
+    "noJS": 4
+  },
+  "tier1": {
+    "status": "PASS",
+    "groups": 8
+  },
+  "tier4": "PASS",
+  "conversion_browser": {
+    "status": "PASS",
+    "locales": 5,
+    "unapprovedSpecsSuppressed": true,
+    "companyLanguageScope": true
+  },
+  "targeted_lint": {
+    "errors": 0,
+    "preexistingWarnings": 1
+  },
+  "full_lint": {
+    "phase1Errors": 20,
+    "finalErrors": 19,
+    "warnings": 24
+  },
+  "diff_check": "PASS",
+  "dependencies": "No version changes or new dependencies",
+  "originalMain": "043dc5d; only preexisting next-env.d.ts change"
+}

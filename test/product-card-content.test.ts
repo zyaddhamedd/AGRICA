@@ -35,6 +35,7 @@ for (const product of catalogueProducts) {
   if (product.id === unmatchedId) {
     assert.equal(internal.clientReview.required, true);
     assert.ok(internal.fields.every(({ assumed, reviewRequired }) => assumed && reviewRequired));
+    assert.deepEqual(publicContent.fields, [], "unapproved fries specifications must not be published");
     continue;
   }
 

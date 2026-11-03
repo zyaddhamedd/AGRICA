@@ -1,3 +1,5 @@
+import { SEO_PRODUCTS, hasApprovedProductContent, seoProductBySlug } from "../src/seo/products";
+import { PUBLIC_PRODUCT_CARD_CONTENT } from "../src/data/productCardContent";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import sitemap from "../src/app/sitemap";
@@ -39,3 +41,18 @@ for (const locale of locales) {
 assert.deepEqual(robots().rules, { userAgent: '*', allow: '/' });
 assert.equal(robots().sitemap, `${SITE_ORIGIN}/sitemap.xml`);
 console.log('✓ Canonical normalization, sitemap eligibility, reciprocal language policy, image existence and restricted-route policy');
+
+assert.equal(SEO_PRODUCTS.length, 4);
+assert.equal(entries.length, 47);
+assert.ok(SEO_PRODUCTS.every((product) => hasApprovedProductContent(product.id)));
+assert.equal(hasApprovedProductContent("produce:half-fried-french-fries"), false);
+assert.deepEqual(PUBLIC_PRODUCT_CARD_CONTENT["produce:half-fried-french-fries"].fields, []);
+assert.equal(seoProductBySlug("not-a-product"), undefined);
+for (const product of SEO_PRODUCTS) for (const locale of locales) {
+  const entry = entries.find((entry) => entry.url === localizedUrl(locale, `/products/${product.slug}`));
+  assert.ok(entry);
+  assert.deepEqual(entry.alternates?.languages, languageAlternates(`/products/${product.slug}`));
+  assert.ok(entry.images?.length);
+  assert.ok(entry.images?.every((image) => fs.existsSync(`public${new URL(image).pathname}`)));
+}
+console.log('✓ Four approved product profiles × five locales, governed facts, real images and no unapproved fries fields');

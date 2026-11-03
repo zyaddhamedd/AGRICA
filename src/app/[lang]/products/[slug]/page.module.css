@@ -1,0 +1,22 @@
+.page { width: min(100% - 2 * var(--gutter), 1200px); margin: 0 auto; padding-block: 100px 4rem; color: var(--navy); }
+.breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0 0 2rem; list-style: none; font-size: 0.8rem; }
+.breadcrumbs li:not(:last-child)::after { content: "/"; margin-inline-start: 0.5rem; color: var(--muted); }
+.page a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.page a:focus-visible { outline: 2px solid #50a010; outline-offset: 4px; }
+.hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.eyebrow { margin: 0 0 1rem; font-size: 0.75rem; letter-spacing: 0.1em; }
+.hero h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 500; line-height: 1.05; overflow-wrap: anywhere; }
+.description { max-width: 38rem; margin-block: 1.5rem; line-height: 1.65; }
+.actions { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.actions a:first-child { padding: 0.9rem 1.1rem; border-radius: 8px; background: var(--navy); color: var(--paper); text-decoration: none; }
+.visual { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: #edf0e8; }
+.visual img { object-fit: contain; }
+.specifications { margin-top: clamp(2.5rem, 6vw, 5rem); }
+.specifications h2, .related h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 500; margin: 0 0 1.5rem; }
+.specifications dl { margin: 0; }
+.specifications dl > div { display: grid; grid-template-columns: minmax(140px, 0.4fr) 1fr; gap: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--line); }
+.specifications dt { font-size: 0.85rem; font-weight: 600; }
+.specifications dd { margin: 0; line-height: 1.6; overflow-wrap: anywhere; }
+.related { display: flex; flex-wrap: wrap; gap: 1rem 2rem; border-top: 1px solid var(--line); margin-top: 3rem; padding-top: 2rem; }
+.related h2 { flex-basis: 100%; margin-bottom: 0.5rem; }
+@media (max-width: 720px) { .hero { grid-template-columns: 1fr; } .visual { max-width: 480px; } .specifications dl > div { grid-template-columns: 1fr; gap: 0.5rem; } }

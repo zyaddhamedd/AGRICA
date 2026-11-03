@@ -53,6 +53,7 @@ const common = {
     reviewItems: "مراجعة {count} عناصر في استفسار التصدير", addItem: "إضافة {name} إلى الاستفسار",
     removeItemFromEnquiry: "إزالة {name} من الاستفسار", localPreview: "معاينة الاستفسار محلياً",
     selectedMaterials: "المواد المختارة", closeEnquiry: "إغلاق الاستفسار",
+    specificationsPending: "المواصفات بانتظار التأكيد.",
     selectedMaterialsLabel: "المواد المختارة", previewNotice: "معاينة الاستفسار — سيتم ربط الإرسال لاحقاً.",
     enquiryList: "قائمة الاستفسار",
   },

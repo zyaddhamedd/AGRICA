@@ -136,7 +136,7 @@ export const PRODUCT_CARD_CONTENT: Readonly<Record<string, ProductCardContent>> 
 export const PUBLIC_PRODUCT_CARD_CONTENT: Readonly<Record<string, PublicProductCardContent>> = Object.fromEntries(
   Object.values(PRODUCT_CARD_CONTENT).map((content) => [content.productId, {
     productId:content.productId, ...(content.publicName ? { publicName:content.publicName } : {}), category:content.category,
-    fields:content.fields.map(({ labelKey, value, displayOrder }) => ({ labelKey, value, displayOrder })),
+    fields:content.clientReview.required ? [] : content.fields.filter((field) => !field.assumed && !field.reviewRequired).map(({ labelKey, value, displayOrder }) => ({ labelKey, value, displayOrder })),
   }]),
 );
 

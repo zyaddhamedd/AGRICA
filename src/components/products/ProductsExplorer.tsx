@@ -21,8 +21,10 @@ import { useProductsDictionary } from "@/i18n/locale-context";
 
 export function ProductsExplorer({
   initialWorld,
+  discovery,
 }: {
   readonly initialWorld: WorldId;
+  readonly discovery?: React.ReactNode;
 }): React.JSX.Element {
   const dictionary = useProductsDictionary();
   const [activeWorld, setActiveWorld] = useState<WorldId>(initialWorld);
@@ -146,6 +148,8 @@ export function ProductsExplorer({
             onToggleQuote={handleToggleQuote}
           />
         </section>
+
+        {discovery}
 
         {/* Homepage Season Section (Copied / Reused Directly) */}
         <SeasonSection />

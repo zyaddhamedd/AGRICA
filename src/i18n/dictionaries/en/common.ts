@@ -53,6 +53,7 @@ const common = {
     reviewItems: "Review {count} items in your export enquiry", addItem: "Add {name} to enquiry",
     removeItemFromEnquiry: "Remove {name} from enquiry", localPreview: "Local enquiry preview",
     selectedMaterials: "Selected materials", closeEnquiry: "Close enquiry",
+    specificationsPending: "Specifications await confirmation.",
     selectedMaterialsLabel: "Selected materials", previewNotice: "Enquiry preview — submission integration coming next.",
     enquiryList: "Enquiry list",
   },

@@ -27,6 +27,7 @@ for(const url of urls) {
     const {response,html}=await read(path,bot);
     assert.equal(response.status,200,`${path}: direct status`);
     assert.ok(!response.headers.get('x-robots-tag')?.includes('noindex'));
+    assert.match(html, /<title>[^<]*AGRICA[^<]*<\/title>/, `${path}: branded title`);
     const links=elements(html,'link');const meta=elements(html,'meta');
     assert.deepEqual(links.filter(l=>l.rel==='canonical').map(l=>l.href),[url],`${path}: single canonical`);
     assert.ok(meta.some(m=>m.name==='robots'&&m.content==='index, follow'),`${path}: indexable`);
@@ -45,6 +46,14 @@ for(const url of urls) {
     const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
     if(path!=='/contact') assert.ok(schemas.some(s=>s['@graph']?.some(n=>n['@type']==='Organization')));
     assert.ok(!schemas.some(s=>JSON.stringify(s).match(/"@type":"(?:Offer|AggregateRating|Review|Product)"/)), 'no unsupported shopping markup');
+    if (/^\/(en|ar|ru|de|fr)\/products$/.test(path)) {
+      assert.ok(html.includes('data-product-discovery'), `${path}: server-rendered discovery directory`);
+      const list = schemas.find(s=>s['@type']==='ItemList');
+      assert.equal(list?.itemListElement.length, 4);
+      const anchors = elements(html, 'a').map(a=>a.href);
+      for (const item of list.itemListElement) assert.ok(anchors.includes(new URL(item.url).pathname), `${path}: ItemList URL is a visible link`);
+      assert.ok(anchors.includes(`${path}?world=fresh`) && anchors.includes(`${path}?world=frozen`));
+    }
     if(/\/products\/[^/]+$/.test(path)) {
       assert.equal((html.match(/<h1\b/g)||[]).length,1,`${path}: one product heading`);
       assert.ok(html.includes('data-product-profile')&&html.includes('mailto:info@agriculturecairo.com'));

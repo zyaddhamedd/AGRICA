@@ -1,0 +1,200 @@
+{
+  "passed": true,
+  "method": "Same eight-route order and 1440/390 viewports as Phase1, fresh isolated Chrome profile, 700ms observation after navigation. Cold first route JS comparable; later routes warm cached, transfer/LCP vary. Not field CWV or Lighthouse.",
+  "phase1": [
+    {
+      "width": 1440,
+      "route": "/en",
+      "cls": 0,
+      "overflow": false,
+      "resources": 45,
+      "transfer": 1517536,
+      "js": 246855
+    },
+    {
+      "width": 1440,
+      "route": "/en/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 43,
+      "transfer": 514431,
+      "js": 8789
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "overflow": false,
+      "resources": 37,
+      "transfer": 1113398,
+      "js": 29276
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 36,
+      "transfer": 67489,
+      "js": 9957
+    },
+    {
+      "width": 390,
+      "route": "/en",
+      "cls": 0,
+      "overflow": false,
+      "resources": 51,
+      "transfer": 20389,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 44,
+      "transfer": 16117,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "overflow": false,
+      "resources": 46,
+      "transfer": 102431,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "overflow": false,
+      "resources": 36,
+      "transfer": 11648,
+      "js": 0
+    }
+  ],
+  "final": [
+    {
+      "width": 1440,
+      "route": "/en",
+      "cls": 0,
+      "lcpProxy": 72,
+      "overflow": false,
+      "resources": 45,
+      "transfer": 1517760,
+      "js": 247046
+    },
+    {
+      "width": 1440,
+      "route": "/en/products",
+      "cls": 0,
+      "lcpProxy": 76,
+      "overflow": false,
+      "resources": 44,
+      "transfer": 516945,
+      "js": 8823
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "lcpProxy": 72,
+      "overflow": false,
+      "resources": 37,
+      "transfer": 1114287,
+      "js": 29177
+    },
+    {
+      "width": 1440,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "lcpProxy": 68,
+      "overflow": false,
+      "resources": 34,
+      "transfer": 59592,
+      "js": 10018
+    },
+    {
+      "width": 390,
+      "route": "/en",
+      "cls": 0,
+      "lcpProxy": 56,
+      "overflow": false,
+      "resources": 50,
+      "transfer": 18202,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/products",
+      "cls": 0,
+      "lcpProxy": 72,
+      "overflow": false,
+      "resources": 44,
+      "transfer": 17702,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices",
+      "cls": 0,
+      "lcpProxy": 52,
+      "overflow": false,
+      "resources": 45,
+      "transfer": 92594,
+      "js": 0
+    },
+    {
+      "width": 390,
+      "route": "/en/herbs-spices/products",
+      "cls": 0,
+      "lcpProxy": 44,
+      "overflow": false,
+      "resources": 34,
+      "transfer": 12246,
+      "js": 0
+    }
+  ],
+  "profiles": [
+    {
+      "slug": "oranges",
+      "cls": 0,
+      "lcpProxy": 40,
+      "overflow": false,
+      "resources": 31,
+      "transfer": 21992
+    },
+    {
+      "slug": "fresh-strawberries",
+      "cls": 0,
+      "lcpProxy": 36,
+      "overflow": false,
+      "resources": 31,
+      "transfer": 18202
+    },
+    {
+      "slug": "iqf-strawberries",
+      "cls": 0,
+      "lcpProxy": 56,
+      "overflow": false,
+      "resources": 31,
+      "transfer": 36084
+    },
+    {
+      "slug": "iqf-broccoli",
+      "cls": 0,
+      "lcpProxy": 56,
+      "overflow": false,
+      "resources": 32,
+      "transfer": 40196
+    }
+  ],
+  "coldHomepageJS": {
+    "baseline": 246855,
+    "final": 247046,
+    "delta": 191,
+    "percent": 0.07737335682890766
+  }
+}

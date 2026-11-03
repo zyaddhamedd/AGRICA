@@ -57,7 +57,7 @@ export function QuoteDrawer({
       return;
     }
     setSuccessMessage(
-      common.enquiry.prepared
+      common.enquiry.previewNotice
     );
   };
 
@@ -116,6 +116,7 @@ export function QuoteDrawer({
           {common.enquiry.empty}
         </p>
 
+        <p>{common.enquiry.previewNotice} <a href="mailto:info@agriculturecairo.com">{common.actions.contact}</a></p>
         <form className="quote-form" id="quote-form" onSubmit={handleSubmit}>
           <label>
             {common.enquiry.destinationMarket}
@@ -159,7 +160,7 @@ export function QuoteDrawer({
             />
           </label>
           <button type="submit">
-            {common.actions.prepareEnquiry} <span aria-hidden="true">↗</span>
+            {common.actions.previewEnquiry} <span aria-hidden="true">↗</span>
           </button>
         </form>
 

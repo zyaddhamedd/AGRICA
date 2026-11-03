@@ -1,3 +1,4 @@
+import { ProductDiscovery } from "@/components/seo/ProductDiscovery";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { divisionPageMetadata } from "@/divisions/metadata";
 import type { Locale } from "@/i18n/config";
@@ -17,22 +18,28 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
 
 async function ProductsQueryBridge({
   searchParams,
+  discovery,
 }: {
   readonly searchParams: Promise<Record<string, string | string[] | undefined>>;
+  readonly discovery?: React.ReactNode;
 }): Promise<React.JSX.Element> {
   const requestedWorld = (await searchParams).world;
   const initialWorld = isWorldId(requestedWorld) ? requestedWorld : "fresh";
-  return <ProductsExplorer key={initialWorld} initialWorld={initialWorld} />;
+  return <ProductsExplorer key={initialWorld} initialWorld={initialWorld} discovery={discovery} />;
 }
 
-export default function ProductsPage({
+export default async function ProductsPage({
   searchParams,
+  params,
 }: {
+  readonly params: Promise<{ lang: Locale }>;
   readonly searchParams: Promise<Record<string, string | string[] | undefined>>;
-}): React.JSX.Element {
+}): Promise<React.JSX.Element> {
+  const { lang } = await params;
+  const dictionary = await getDictionary(lang);
   return (
     <Suspense fallback={<ProductsExplorer initialWorld="fresh" />}>
-      <ProductsQueryBridge searchParams={searchParams} />
+      <ProductsQueryBridge searchParams={searchParams} discovery={<ProductDiscovery locale={lang} dictionary={dictionary} />} />
     </Suspense>
   );
 }

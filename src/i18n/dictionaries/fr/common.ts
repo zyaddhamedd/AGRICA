@@ -53,6 +53,7 @@ const common = {
     reviewItems: "Vérifier les {count} éléments de votre demande export", addItem: "Ajouter {name} à la demande",
     removeItemFromEnquiry: "Retirer {name} de la demande", localPreview: "Aperçu local de la demande",
     selectedMaterials: "Matières sélectionnées", closeEnquiry: "Fermer la demande",
+    specificationsPending: "Les spécifications restent à confirmer.",
     selectedMaterialsLabel: "Matières sélectionnées", previewNotice: "Aperçu de la demande — l’envoi sera intégré ultérieurement.",
     enquiryList: "Liste de demande",
   },

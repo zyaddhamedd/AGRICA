@@ -14,5 +14,5 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: Loc
 }
 
 export default function CompanyPage(): React.JSX.Element {
-  return <div lang="en"><CompanyPageContent /></div>;
+  return <CompanyPageContent />;
 }
