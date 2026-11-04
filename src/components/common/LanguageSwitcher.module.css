@@ -58,6 +58,7 @@
 }
 
 .popover {
+  /* Stay anchored to .root; animated/filtered navbars capture fixed positioning. */
   position: absolute;
   z-index: 160;
   inset-block-start: calc(100% + 8px);
@@ -147,13 +148,6 @@
   .globeIcon {
     width: 14px;
     height: 14px;
-  }
-  .popover {
-    position: fixed;
-    inset-inline: 1rem;
-    inset-block-start: auto;
-    inset-block-end: 1rem;
-    width: auto;
   }
 }
 
