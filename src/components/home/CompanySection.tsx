@@ -10,7 +10,8 @@ type NavigatorWithConnection = Navigator & {
   connection?: { readonly saveData?: boolean };
 };
 
-const VIDEO_SOURCE = "/assets/company/agrica-drone-tracking-film.mp4";
+const VIDEO_SOURCE_DESKTOP = "/assets/company/agrica-drone-tracking-film.mp4";
+const VIDEO_SOURCE_MOBILE = "/assets/company/agrica-drone-tracking-film-mobile.mp4";
 const POSTER_SOURCE = "/assets/company/agrica-drone-tracking-poster.avif";
 
 function splitCompanyHeadline(headline: string, locale: string): { lead: string; emphasis: string } {
@@ -45,15 +46,32 @@ export function CompanySection(): React.JSX.Element {
     if (!section || !video) return;
 
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
     const saveData = Boolean((navigator as NavigatorWithConnection).connection?.saveData);
     let mediaAttached = false;
     let sectionVisible = false;
 
     const shouldUsePoster = () => reducedMotionQuery.matches || saveData;
 
+    const ensureMobileVideoAttributes = () => {
+      video.defaultMuted = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.autoplay = true;
+      video.loop = true;
+      video.preload = "auto";
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+    };
+
     const attachMedia = () => {
       if (mediaAttached || shouldUsePoster()) return;
-      video.src = video.dataset.src ?? "";
+      ensureMobileVideoAttributes();
+      const targetSrc = mobileQuery.matches
+        ? (video.dataset.srcMobile ?? VIDEO_SOURCE_MOBILE)
+        : (video.dataset.src ?? VIDEO_SOURCE_DESKTOP);
+      video.src = targetSrc;
       video.load();
       mediaAttached = true;
       section.dataset.mediaMode = "video";
@@ -62,10 +80,22 @@ export function CompanySection(): React.JSX.Element {
     const playIfVisible = () => {
       if (!sectionVisible || shouldUsePoster() || document.hidden) return;
       attachMedia();
-      video.muted = true;
-      void video.play().catch(() => {
-        section.dataset.mediaMode = "poster";
-      });
+      ensureMobileVideoAttributes();
+      if (!video.paused) {
+        section.dataset.videoReady = "true";
+        return;
+      }
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            section.dataset.mediaMode = "video";
+            section.dataset.videoReady = "true";
+          })
+          .catch(() => {
+            // Keep video mode active so canplay / scroll / touch gesture can resume playback
+          });
+      }
     };
 
     const pause = () => {
@@ -79,21 +109,41 @@ export function CompanySection(): React.JSX.Element {
           mediaObserver.disconnect();
         }
       },
-      { rootMargin: "320px 0px" },
+      { rootMargin: "1200px 0px" },
     );
 
     const playbackObserver = new IntersectionObserver(
       ([entry]) => {
-        sectionVisible = entry.isIntersecting && entry.intersectionRatio >= 0.16;
+        sectionVisible = entry.isIntersecting;
         if (sectionVisible) playIfVisible();
         else pause();
       },
-      { threshold: [0, 0.16, 0.5] },
+      { rootMargin: "160px 0px", threshold: [0, 0.01, 0.15] },
     );
 
-    const onLoadedData = () => {
-      section.dataset.videoReady = "true";
+    const onReadyToPlay = () => {
       playIfVisible();
+      if (!video.paused) {
+        section.dataset.videoReady = "true";
+      }
+    };
+
+    const onPlaying = () => {
+      section.dataset.mediaMode = "video";
+      section.dataset.videoReady = "true";
+    };
+
+    const onTimeUpdate = () => {
+      if (video.currentTime > 0) {
+        section.dataset.mediaMode = "video";
+        section.dataset.videoReady = "true";
+      }
+    };
+
+    const onUserGesture = () => {
+      if (sectionVisible && video.paused && !shouldUsePoster()) {
+        playIfVisible();
+      }
     };
 
     const onError = () => {
@@ -122,18 +172,41 @@ export function CompanySection(): React.JSX.Element {
 
     mediaObserver.observe(section);
     playbackObserver.observe(section);
-    video.addEventListener("loadeddata", onLoadedData);
+    video.addEventListener("loadeddata", onReadyToPlay);
+    video.addEventListener("canplay", onReadyToPlay);
+    video.addEventListener("canplaythrough", onReadyToPlay);
+    video.addEventListener("playing", onPlaying);
+    video.addEventListener("timeupdate", onTimeUpdate);
     video.addEventListener("error", onError);
     document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("touchstart", onUserGesture, { passive: true });
+    window.addEventListener("scroll", onUserGesture, { passive: true });
     reducedMotionQuery.addEventListener("change", onMotionPreferenceChange);
+
+    // Immediate viewport check if page loads already scrolled near or inside #company
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.top < vh + 1200 && rect.bottom > -1200) {
+      attachMedia();
+    }
+    if (rect.top < vh + 160 && rect.bottom > -160) {
+      sectionVisible = true;
+      playIfVisible();
+    }
 
     return () => {
       mediaObserver.disconnect();
       playbackObserver.disconnect();
       pause();
-      video.removeEventListener("loadeddata", onLoadedData);
+      video.removeEventListener("loadeddata", onReadyToPlay);
+      video.removeEventListener("canplay", onReadyToPlay);
+      video.removeEventListener("canplaythrough", onReadyToPlay);
+      video.removeEventListener("playing", onPlaying);
+      video.removeEventListener("timeupdate", onTimeUpdate);
       video.removeEventListener("error", onError);
       document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("touchstart", onUserGesture);
+      window.removeEventListener("scroll", onUserGesture);
       reducedMotionQuery.removeEventListener("change", onMotionPreferenceChange);
     };
   }, []);
@@ -159,10 +232,12 @@ export function CompanySection(): React.JSX.Element {
         <video
           ref={videoRef}
           className="company-film-video"
-          data-src={VIDEO_SOURCE}
+          data-src={VIDEO_SOURCE_DESKTOP}
+          data-src-mobile={VIDEO_SOURCE_MOBILE}
           poster={POSTER_SOURCE}
-          preload="metadata"
+          preload="auto"
           muted
+          autoPlay
           playsInline
           loop
           disablePictureInPicture

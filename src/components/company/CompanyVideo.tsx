@@ -53,15 +53,32 @@ export function CompanyVideo({
         return;
       }
       if (!video.hasAttribute("src")) {
+        video.defaultMuted = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = "auto";
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
         video.src = src;
         video.load();
       }
-      if (visible) void video.play().catch(() => { /* The same-frame poster stays visible. */ });
-      else video.pause();
+      if (visible) {
+        video.defaultMuted = true;
+        video.muted = true;
+        void video.play().catch(() => { /* The same-frame poster stays visible. */ });
+      } else {
+        video.pause();
+      }
     };
     const onMetadata = () => {
       if (resumeTime > 0 && Number.isFinite(video.duration)) {
         video.currentTime = Math.min(resumeTime, video.duration);
+      }
+    };
+    const onCanPlay = () => {
+      if (visible && video.paused) {
+        void video.play().catch(() => {});
       }
     };
     const onPlaying = () => { video.dataset.playing = "true"; };
@@ -69,13 +86,14 @@ export function CompanyVideo({
     const nearObserver = new IntersectionObserver(([entry]) => {
       near = entry.isIntersecting;
       sync();
-    }, { rootMargin: "300px 0px" });
+    }, { rootMargin: "600px 0px" });
     const playbackObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting && entry.intersectionRatio > 0;
       sync();
-    }, { threshold: [0, 0.01] });
+    }, { rootMargin: "120px 0px", threshold: [0, 0.01] });
 
     video.addEventListener("loadedmetadata", onMetadata);
+    video.addEventListener("canplay", onCanPlay);
     video.addEventListener("playing", onPlaying);
     video.addEventListener("error", onError);
     breakpoint.addEventListener("change", sync);
@@ -94,6 +112,7 @@ export function CompanyVideo({
       connection?.removeEventListener("change", sync);
       document.removeEventListener("visibilitychange", sync);
       video.removeEventListener("loadedmetadata", onMetadata);
+      video.removeEventListener("canplay", onCanPlay);
       video.removeEventListener("playing", onPlaying);
       video.removeEventListener("error", onError);
       detach();
