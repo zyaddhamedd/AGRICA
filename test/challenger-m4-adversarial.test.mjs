@@ -960,9 +960,9 @@ async function main() {
       }
       console.log("        ✓ Dynamic routes safely insulated from immutable year-long cache.");
 
-      // 6.4 Public division navigation
+      // 6.4 Division switcher separation
       const switcherSource = fs.readFileSync(path.join(rootDir, "src/components/common/BusinessDivisionSwitcher.tsx"), "utf8");
-      assert.ok(switcherSource.includes("data-division-switcher"));
+      assert.ok(switcherSource.includes("SHOW_BUSINESS_DIVISION_SWITCHER = false"));
 
       // 6.5 Selective indexing policy across all 15 Herbs routes
       const locales = ["en", "ar", "ru", "de", "fr"];

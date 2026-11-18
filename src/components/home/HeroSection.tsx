@@ -5,7 +5,6 @@ import { gsap } from "gsap";
 import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { GlobalMenu } from "@/components/common/GlobalMenu";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
-import { BusinessDivisionSwitcher } from "@/components/common/BusinessDivisionSwitcher";
 import { useNavbarScrollVisibility } from "@/components/common/useNavbarScrollVisibility";
 import { useCommonDictionary, useLocale } from "@/i18n/locale-context";
 
@@ -441,9 +440,6 @@ export function HeroSection(): React.JSX.Element {
         </div>
 
         <div className="hero-navbar-controls">
-          {/* Subtle division switcher (Produce / Herbs & Spices) */}
-          <BusinessDivisionSwitcher tone="light" />
-
           {/* Subtle compact language switcher */}
           <LanguageSwitcher tone="light" onOpenChange={setIsLanguageOpen} />
 

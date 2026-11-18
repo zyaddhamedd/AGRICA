@@ -196,8 +196,7 @@ try {
   // 2.1 File static check
   const switcherPath = path.join(rootDir, "src/components/common/BusinessDivisionSwitcher.tsx");
   const switcherContent = fs.readFileSync(switcherPath, "utf8");
-  assert.ok(switcherContent.includes("data-division-switcher"), "public division switcher exists");
-  assert.ok(!switcherContent.includes("SHOW_BUSINESS_DIVISION_SWITCHER"), "obsolete launch gate removed");
+  assert.ok(switcherContent.includes("SHOW_BUSINESS_DIVISION_SWITCHER = false"), "division switcher is disabled");
 
   // 2.2 Robots metadata across ALL 15 Herbs & Spices routes (5 locales x 3 routes)
   const locales = ["en", "ar", "ru", "de", "fr"];

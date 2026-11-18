@@ -12,10 +12,16 @@ export interface BusinessDivisionSwitcherProps {
   readonly tone?: "light" | "dark";
 }
 
-export function BusinessDivisionSwitcher({ tone = "dark" }: BusinessDivisionSwitcherProps): React.JSX.Element {
+export const SHOW_BUSINESS_DIVISION_SWITCHER = false;
+
+export function BusinessDivisionSwitcher({ tone = "dark" }: BusinessDivisionSwitcherProps): React.JSX.Element | null {
   const pathname = usePathname();
   const common = useCommonDictionary();
   const activeDivisionId = resolveDivisionFromPathname(pathname);
+
+  if (!SHOW_BUSINESS_DIVISION_SWITCHER) {
+    return null;
+  }
 
   return (
     <nav className={styles.switcher} data-division-switcher data-tone={tone} aria-label={common.divisions.navigationLabel}>

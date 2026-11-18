@@ -345,8 +345,8 @@ async function runBrowserQASuite() {
 
       assert.strictEqual(
         switcherInUI,
-        route !== "/contact",
-        `Division navigation presence on ${route}`
+        false,
+        `Division navigation hidden on ${route}`
       );
     }
 
@@ -354,7 +354,7 @@ async function runBrowserQASuite() {
       "Area 4: Navigation",
       "Division Gates UI Verification",
       true,
-      "Public switcher present on division routes; standalone contact unchanged"
+      "Division switcher removed from navbar across all routes"
     );
 
     // =========================================================================

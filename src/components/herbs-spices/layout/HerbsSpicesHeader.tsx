@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
-import { BusinessDivisionSwitcher } from "@/components/common/BusinessDivisionSwitcher";
 import { LocaleLink as Link } from "@/components/common/LocaleLink";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
 import { useCommonDictionary } from "@/i18n/locale-context";
@@ -40,7 +39,6 @@ export function HerbsSpicesHeader(): React.JSX.Element {
         </Link>
 
         <div className={styles.actions}>
-          <BusinessDivisionSwitcher tone="light" />
           <LanguageSwitcher
             className={styles.language}
             tone="light"

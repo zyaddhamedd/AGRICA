@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { BusinessDivisionSwitcher } from "./BusinessDivisionSwitcher";
 import { GlobalMenu } from "./GlobalMenu";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { LocaleLink as Link } from "./LocaleLink";
@@ -111,8 +110,6 @@ export function SiteHeader({
 
           {/* Right Action Cluster */}
           <div className="global-navbar-actions">
-            <BusinessDivisionSwitcher tone={isWhiteLogo ? "dark" : "light"} />
-
             {/* Hidden Quote Counter for Accessibility/State Parity */}
             <span className="visually-hidden quote-count">{quoteCount}</span>
 

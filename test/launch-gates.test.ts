@@ -5,8 +5,7 @@ import { locales } from "../src/i18n/config";
 import { HERBS_SPICES_PROCESS_STAGES } from "../src/data/herbs-spices/process";
 
 const source = fs.readFileSync("src/components/common/BusinessDivisionSwitcher.tsx", "utf8");
-assert.ok(source.includes("data-division-switcher"), "shared division navigation is mounted");
-assert.ok(!source.includes("SHOW_BUSINESS_DIVISION_SWITCHER"), "obsolete hidden-release gate is removed");
+assert.ok(source.includes("SHOW_BUSINESS_DIVISION_SWITCHER = false"), "division switcher is disabled in navbar");
 for (const locale of locales) {
   for (const page of ["home", "products", "standard"] as const) {
     const meta = divisionPageMetadata(locale, "herbs-spices", page);
